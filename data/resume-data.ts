@@ -19,7 +19,7 @@ export const about = {
 export const experiences = [
     {
         company: "Sales Prime",
-        role: "Tech Lead / Web Designer Sênior",
+        role: "Especialista em Tecnologia & IA | Desenvolvedor Front-end & UX | Criação de Produtos Digitais Escaláveis",
         period: "Ago/2024 – Atual",
         location: "São Paulo – SP",
         responsibilities: [

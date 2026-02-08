@@ -41,9 +41,9 @@ export const translations = {
                 {
                     id: "exp-1",
                     company: "Sales Prime",
-                    role: "Tech Lead / Web Designer Sênior",
+                    role: "Especialista em Tecnologia & IA Desenvolvedor Front-end & UX",
                     period: "Ago/2024 – Atual",
-                    duration: "6 meses",
+                    duration: "1 ano e 6 meses",
                     location: "São Paulo – SP",
                     description: [
                         "Liderança técnica no desenvolvimento de produtos digitais web",
@@ -194,7 +194,7 @@ export const translations = {
             tools: "Tecnologias",
             items: [
                 {
-                    name: "Sales Prime - Dashboard",
+                    name: "Sales Prime - Tecnologia - IA - Front-end",
                     tools: ["React", "TypeScript", "Tailwind CSS"],
                     description: "Liderança técnica no desenvolvimento de produtos digitais web com atuação estratégica entre design, tecnologia e negócio. Colaboração com squads ágeis (sprints, dailies, plannings, reviews) e implementação de interfaces escaláveis, responsivas e performáticas.",
                     myRole: "Tech Lead",
@@ -294,9 +294,9 @@ export const translations = {
                 {
                     id: "exp-1",
                     company: "Sales Prime",
-                    role: "Tech Lead / Senior Web Designer",
+                    role: "Technology & AI Specialist | Front-end & UX Developer",
                     period: "Aug/2024 – Current",
-                    duration: "6 months",
+                    duration: "1 year and 6 months",
                     location: "São Paulo – SP",
                     description: [
                         "Technical leadership in web digital product development",
@@ -447,7 +447,7 @@ export const translations = {
             tools: "Technologies",
             items: [
                 {
-                    name: "Sales Prime - Dashboard",
+                    name: "Sales Prime - Tecnologia - IA - Front-end",
                     tools: ["React", "TypeScript", "Tailwind CSS"],
                     description: "Technical leadership in web digital product development with strategic action between design, technology, and business. Collaboration with agile squads (sprints, dailies, plannings, reviews) and implementation of scalable, responsive, and performant interfaces.",
                     myRole: "Tech Lead",
