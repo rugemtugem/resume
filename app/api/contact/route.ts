@@ -23,6 +23,9 @@ export async function POST(request: Request) {
                 user: process.env.SMTP_USER || 'contato@rugemtugem.dev',
                 pass: process.env.SMTP_PASS || '',
             },
+            tls: {
+                rejectUnauthorized: false,
+            },
         });
 
         // Send email
@@ -56,9 +59,10 @@ export async function POST(request: Request) {
             message: 'Message sent successfully',
         });
     } catch (error) {
-        console.error('Error sending email:', error);
+        const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+        console.error('Error sending email:', errorMessage);
         return NextResponse.json(
-            { success: false, message: 'Error sending message' },
+            { success: false, message: `Error sending message: ${errorMessage}` },
             { status: 500 }
         );
     }
