@@ -78,11 +78,11 @@ export function ExperienceSection() {
                     {/* Timeline Container */}
                     <div className="max-w-6xl mx-auto relative">
                         {/* Vertical Timeline Line */}
-                        <div className="absolute left-8 md:left-1/2 top-0 bottom-0 w-0.5 bg-gradient-to-b from-[var(--primary-color)]/20 via-[var(--primary-color)]/50 to-[var(--primary-color)]/20 -translate-x-1/2 hidden md:block" />
+                        <div className="absolute left-8 md:left-1/2 top-0 bottom-0 w-0.5 bg-gradient-to-b from-[var(--primary-color)]/20 via-[var(--primary-color)]/50 to-[var(--primary-color)]/20 -translate-x-1/2" />
 
                         {/* Animated Progress Line */}
                         <motion.div
-                            className="absolute left-8 md:left-1/2 top-0 w-0.5 bg-gradient-to-b from-[var(--primary-color)] to-[var(--secondary-color)] -translate-x-1/2 origin-top hidden md:block"
+                            className="absolute left-8 md:left-1/2 top-0 w-0.5 bg-gradient-to-b from-[var(--primary-color)] to-[var(--secondary-color)] -translate-x-1/2 origin-top"
                             style={{
                                 scaleY: scrollYProgress,
                                 height: '100%',

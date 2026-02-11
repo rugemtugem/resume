@@ -72,10 +72,10 @@ export function AnimatedTabs({
 
     return (
         <div className={className}>
-            {/* Tab headers — centered, scrollable on mobile */}
+            {/* Tab headers — grid on mobile, inline on desktop */}
             <div className="flex justify-center w-full">
                 <div className={cn(
-                    'inline-flex overflow-x-auto scrollbar-hide max-w-full',
+                    'flex flex-wrap gap-2 w-full md:inline-flex md:flex-nowrap md:w-auto',
                     currentVariant.container
                 )}>
                     {tabs.map((tab) => {
@@ -87,7 +87,7 @@ export function AnimatedTabs({
                                 onClick={() => setActiveTab(tab.id)}
                                 className={cn(
                                     currentVariant.tab,
-                                    'transition-colors whitespace-nowrap min-w-fit',
+                                    'transition-colors whitespace-nowrap flex-1 min-w-[calc(50%-0.25rem)] md:flex-none md:min-w-0',
                                     isActive
                                         ? variant === 'pills'
                                             ? 'text-white'
@@ -105,7 +105,7 @@ export function AnimatedTabs({
                                 )}
 
                                 {/* Tab label + icon */}
-                                <span className="relative z-10 flex items-center gap-2">
+                                <span className="relative z-10 flex items-center justify-center gap-2">
                                     {tab.icon}
                                     {tab.label}
                                 </span>
