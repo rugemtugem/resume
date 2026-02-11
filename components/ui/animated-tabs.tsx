@@ -72,9 +72,12 @@ export function AnimatedTabs({
 
     return (
         <div className={className}>
-            {/* Tab headers — centered, auto-width */}
-            <div className="flex justify-center">
-                <div className={cn('inline-flex', currentVariant.container)}>
+            {/* Tab headers — centered, scrollable on mobile */}
+            <div className="flex justify-center w-full">
+                <div className={cn(
+                    'inline-flex overflow-x-auto scrollbar-hide max-w-full',
+                    currentVariant.container
+                )}>
                     {tabs.map((tab) => {
                         const isActive = activeTab === tab.id;
 
@@ -84,7 +87,7 @@ export function AnimatedTabs({
                                 onClick={() => setActiveTab(tab.id)}
                                 className={cn(
                                     currentVariant.tab,
-                                    'transition-colors',
+                                    'transition-colors whitespace-nowrap min-w-fit',
                                     isActive
                                         ? variant === 'pills'
                                             ? 'text-white'
