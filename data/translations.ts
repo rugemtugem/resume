@@ -12,7 +12,7 @@ export const translations = {
         personal: {
             name: "Fábio Soares",
             nickname: "Ferrugem",
-            title: "Tech Lead em Front-end & Produtos Digitais",
+            title: "Especialista em Tecnologia & IA, Desenvolvedor Front-end",
             subtitle: "Especialista em Tecnologia & IA Aplicada",
             location: "São Paulo – SP",
             phone: "+55 11 9 8651-4401",
@@ -197,7 +197,13 @@ export const translations = {
                     name: "Sales Prime - Tecnologia - IA - Front-end",
                     tools: ["React", "TypeScript", "Tailwind CSS"],
                     description: "Liderança técnica no desenvolvimento de produtos digitais web com atuação estratégica entre design, tecnologia e negócio. Colaboração com squads ágeis (sprints, dailies, plannings, reviews) e implementação de interfaces escaláveis, responsivas e performáticas.",
-                    myRole: "Tech Lead",
+                    myRole: "Especialista em Tecnologia & IA, Desenvolvedor Front-end",
+                },
+                {
+                    name: "Prosperus Club — Diagnóstico de Mentoria High-Ticket",
+                    tools: ["React 19", "TypeScript", "Tailwind CSS", "Framer Motion", "Express.js", "SQLite", "Google Gemini AI"],
+                    description: "Sistema de diagnóstico interativo com IA integrada (Google Gemini) que guia mentores através de 4 módulos estruturados para empacotar conhecimento em oferta high-ticket. Inclui autenticação via HubSpot CRM, painel administrativo em tempo real e plano de ação gerado por IA.",
+                    myRole: "Full-stack Developer & AI Integrator",
                 },
                 {
                     name: "Tecsa Group - Portal Corporativo",
@@ -265,7 +271,7 @@ export const translations = {
         personal: {
             name: "Fábio Soares",
             nickname: "Ferrugem",
-            title: "Tech Lead in Front-end & Digital Products",
+            title: "Technology & AI Specialist, Front-end Developer",
             subtitle: "Technology & Applied AI Specialist",
             location: "São Paulo – SP",
             phone: "+55 11 9 8651-4401",
@@ -450,7 +456,13 @@ export const translations = {
                     name: "Sales Prime - Tecnologia - IA - Front-end",
                     tools: ["React", "TypeScript", "Tailwind CSS"],
                     description: "Technical leadership in web digital product development with strategic action between design, technology, and business. Collaboration with agile squads (sprints, dailies, plannings, reviews) and implementation of scalable, responsive, and performant interfaces.",
-                    myRole: "Tech Lead",
+                    myRole: "Technology & AI Specialist, Front-end Developer",
+                },
+                {
+                    name: "Prosperus Club — High-Ticket Mentorship Diagnosis",
+                    tools: ["React 19", "TypeScript", "Tailwind CSS", "Framer Motion", "Express.js", "SQLite", "Google Gemini AI"],
+                    description: "Interactive AI-powered diagnostic system (Google Gemini) that guides mentors through 4 structured modules to package their expertise into a high-ticket mentorship offer. Features HubSpot CRM authentication, real-time admin dashboard, and AI-generated strategic action plans.",
+                    myRole: "Full-stack Developer & AI Integrator",
                 },
                 {
                     name: "Tecsa Group - Corporate Portal",

@@ -1,7 +1,7 @@
 export const personalInfo = {
     name: "Fábio Soares",
     nickname: "Ferrugem",
-    title: "Tech Lead em Front-end & Produtos Digitais",
+    title: "Especialista em Tecnologia & IA, Desenvolvedor Front-end",
     subtitle: "Especialista em Tecnologia & IA Aplicada",
     location: "São Paulo – SP",
     phone: "+55 11 9 8651-4401",
@@ -153,7 +153,7 @@ export const projects = [
     {
         name: "Sales Prime - Dashboard",
         tools: ["React", "TypeScript", "Tailwind CSS"],
-        myRole: "Tech Lead",
+        myRole: "Especialista em Tecnologia & IA, Desenvolvedor Front-end",
         description:
             "Liderança técnica no desenvolvimento de produtos digitais web com atuação estratégica entre design, tecnologia e negócio. Colaboração com squads ágeis (sprints, dailies, plannings, reviews) e implementação de interfaces escaláveis, responsivas e performáticas.",
     },

@@ -13,11 +13,12 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://rugemtugem.dev"),
-  title: "Fábio Soares (Ferrugem) - Tech Lead & Especialista em IA | Portfolio",
+  title: "Fábio Soares (Ferrugem) - Especialista em Tecnologia & IA, Desenvolvedor Front-end | Portfolio",
   description:
-    "Tech Lead em Front-end & Produtos Digitais | Especialista em Tecnologia & IA Aplicada. Experiência em React, Next.js, UX/UI Design e desenvolvimento de produtos digitais escaláveis.",
+    "Especialista em Tecnologia & IA, Desenvolvedor Front-end | Experiência em React, Next.js, UX/UI Design e desenvolvimento de produtos digitais escaláveis.",
   keywords: [
-    "Tech Lead",
+    "Especialista em Tecnologia",
+    "IA Aplicada",
     "Front-end Developer",
     "UX/UI Designer",
     "React",
@@ -32,9 +33,9 @@ export const metadata: Metadata = {
     apple: "/images/favicon.png",
   },
   openGraph: {
-    title: "Fábio Soares (Ferrugem) - Tech Lead & Especialista em IA",
+    title: "Fábio Soares (Ferrugem) - Especialista em Tecnologia & IA, Desenvolvedor Front-end",
     description:
-      "Tech Lead em Front-end & Produtos Digitais | Especialista em Tecnologia & IA Aplicada",
+      "Especialista em Tecnologia & IA, Desenvolvedor Front-end | Produtos Digitais Escaláveis",
     url: "https://rugemtugem.dev",
     siteName: "Fábio Soares Portfolio",
     locale: "pt_BR",
@@ -44,7 +45,7 @@ export const metadata: Metadata = {
         url: "/images/logo-nova.png",
         width: 1200,
         height: 630,
-        alt: "Fábio Soares - Tech Lead & Especialista em IA",
+        alt: "Fábio Soares - Especialista em Tecnologia & IA, Desenvolvedor Front-end",
       },
     ],
   },
