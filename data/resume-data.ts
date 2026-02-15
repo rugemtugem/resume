@@ -12,8 +12,8 @@ export const personalInfo = {
 };
 
 export const about = {
-    summary: `Profissional de tecnologia com sólida experiência em desenvolvimento front-end, UX/UI e liderança técnica, atuando na criação de produtos digitais escaláveis e orientados à performance. Possuo forte capacidade de traduzir desafios de negócio em soluções técnicas eficientes, combinando design, código e aplicações práticas de Inteligência Artificial e automação.`,
-    description: `Experiência em ambientes ágeis, trabalho colaborativo com squads multidisciplinares e participação ativa em decisões de produto, arquitetura de interfaces e evolução tecnológica.`,
+    summary: `Nos últimos 25 anos, ajudei empresas a transformar desafios de negócio em produtos digitais que geram resultado. Combino front-end de alta performance, design centrado no usuário e IA aplicada para criar soluções que não apenas funcionam — elas convertem.`,
+    description: `Minha abordagem é simples: entender o seu problema antes de escrever uma linha de código. Trabalho de ponta a ponta — do Figma ao deploy — e integro inteligência artificial onde ela realmente faz diferença.`,
 };
 
 export const experiences = [
