@@ -46,7 +46,7 @@ export function HeroPartnership() {
           transition={{ delay: 0.1 }}
           className="text-5xl md:text-7xl font-bold mb-6 leading-tight"
         >
-          {t.title.split('Resultados')[0]}
+          {t.title.split(language === 'pt' ? 'Resultados' : 'business results')[0]}
           <span className="text-gradient-neon">{language === 'pt' ? 'Resultados de Negócio' : 'Business Results'}</span>
         </motion.h1>
 
