@@ -169,7 +169,7 @@ export const translations = {
                     industry: "E-commerce",
                     challenge: "Pedidos do WhatsApp sem integração com o sistema de vendas, gerando retrabalho.",
                     solution: "Integração automatizada bidirecional Suri (WhatsApp) + Bling (ERP).",
-                    logo: null,
+                    logo: "/images/projects/ses.png",
                     deliverables: [
                         { title: "Integração Suri+Bling", desc: "Sincronização via Webhooks", impact: "100% automação de pedidos" }
                     ],
@@ -589,7 +589,7 @@ export const translations = {
                     industry: "E-commerce",
                     challenge: "WhatsApp orders without CRM integration, causing manual rework.",
                     solution: "Automated bidirectional integration Suri (WhatsApp) + Bling (ERP).",
-                    logo: null,
+                    logo: "/images/projects/ses.png",
                     deliverables: [
                         { title: "Suri+Bling Integration", desc: "Sync via Webhooks", impact: "100% order automation" }
                     ],
