@@ -2,7 +2,7 @@
 
 import { motion, useScroll } from 'framer-motion';
 import { useRef } from 'react';
-import { useLanguage } from '@/components/language-provider';
+import { useLanguage } from "@/contexts/language-provider";
 import { translations } from '@/data/translations';
 import { InteractiveCard } from '@/components/ui/interactive-card';
 import { Briefcase, Calendar, MapPin, ArrowRight, TrendingUp } from 'lucide-react';
@@ -20,7 +20,7 @@ interface ExperienceItem {
     type: 'current' | 'past';
 }
 
-export function ExperienceSection() {
+export function ExperiencePartnership() {
     const { language } = useLanguage();
     const t = translations[language];
     const sectionRef = useRef<HTMLElement>(null);

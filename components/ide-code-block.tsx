@@ -49,25 +49,50 @@ export function IDECodeBlock({ fileName, code, className, showLineNumbers = true
     );
 }
 
-// Enhanced syntax highlighting
+// Simple syntax highlighting that avoids self-highlighting
 function highlightCode(code: string): string {
-    return code
-        // Keywords
-        .replace(/(const|let|var|function|return|if|else|for|while|class|new|this|import|export|from|default)\b/g,
-            '<span class="token keyword">$1</span>')
-        // Strings
-        .replace(/(['"`])((?:\\.|(?!\1).)*?)\1/g,
-            '<span class="token string">$1$2$1</span>')
-        // Numbers
-        .replace(/\b(\d+)\b/g,
-            '<span class="token number">$1</span>')
-        // Booleans
-        .replace(/\b(true|false|null|undefined)\b/g,
-            '<span class="token boolean">$1</span>')
-        // Comments
-        .replace(/\/\/(.*?)$/gm,
-            '<span class="token comment">//$1</span>')
-        // Properties (before colon)
-        .replace(/([a-zA-Z_$][a-zA-Z0-9_$]*)(?=\s*:)/g,
-            '<span class="token property">$1</span>');
+    // Escape HTML first
+    let highlighted = code
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+
+    // We use a temporary token approach to avoid highlighting our own tags
+    const tokens: { [key: string]: string } = {};
+    let tokenCount = 0;
+
+    const addToken = (content: string, className: string) => {
+        const id = `___TOKEN_${tokenCount++}___`;
+        tokens[id] = `<span class="token ${className}">${content}</span>`;
+        return id;
+    };
+
+    // 1. Comments
+    highlighted = highlighted.replace(/\/\/(.*?)$/gm, (match) => addToken(match, "comment"));
+
+    // 2. Strings
+    highlighted = highlighted.replace(/(&quot;|&#039;|`)(.*?)\1/g, (match) => addToken(match, "string"));
+
+    // 3. Keywords
+    const keywords = ["const", "let", "var", "function", "return", "if", "else", "for", "while", "class", "new", "this", "import", "export", "from", "default"];
+    const keywordRegex = new RegExp(`\\b(${keywords.join("|")})\\b`, "g");
+    highlighted = highlighted.replace(keywordRegex, (match) => addToken(match, "keyword"));
+
+    // 4. Booleans & Null
+    highlighted = highlighted.replace(/\b(true|false|null|undefined)\b/g, (match) => addToken(match, "boolean"));
+
+    // 5. Numbers
+    highlighted = highlighted.replace(/\b(\d+)\b/g, (match) => addToken(match, "number"));
+
+    // 6. Properties
+    highlighted = highlighted.replace(/([a-zA-Z_$][a-zA-Z0-9_$]*)(?=\s*:)/g, (match) => addToken(match, "property"));
+
+    // Final step: replace tokens with actual HTML
+    Object.keys(tokens).forEach(id => {
+        highlighted = highlighted.replace(id, tokens[id]);
+    });
+
+    return highlighted;
 }

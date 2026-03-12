@@ -3,7 +3,8 @@ import { Inter } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
-import { LanguageProvider } from "@/components/language-provider";
+import { LanguageProvider } from "@/contexts/language-provider";
+import { PageModeProvider } from "@/contexts/page-mode-provider";
 import { ToastProvider } from "@/components/ui/toast";
 
 const inter = Inter({
@@ -172,9 +173,11 @@ export default function RootLayout({
       </Script>
       <body className={`${inter.variable} antialiased`}>
         <ThemeProvider>
-          <LanguageProvider>
-            <ToastProvider>{children}</ToastProvider>
-          </LanguageProvider>
+          <PageModeProvider>
+            <LanguageProvider>
+              <ToastProvider>{children}</ToastProvider>
+            </LanguageProvider>
+          </PageModeProvider>
         </ThemeProvider>
 
         {/* Console Easter Egg */}

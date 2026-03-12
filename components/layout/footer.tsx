@@ -1,7 +1,8 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { useLanguage } from '@/components/language-provider';
+import { useLanguage } from "@/contexts/language-provider";
+import { usePageMode } from "@/contexts/page-mode-provider";
 import { translations } from '@/data/translations';
 import { IconButton } from '@/components/ui/buttons/icon-button';
 import { personalInfo } from '@/data/resume-data';
@@ -16,6 +17,7 @@ import {
     Coffee,
     MapPin,
     ExternalLink,
+    Instagram
 } from 'lucide-react';
 import Link from 'next/link';
 
@@ -27,6 +29,7 @@ import Link from 'next/link';
  */
 export function Footer() {
     const { language } = useLanguage();
+    const { isResume } = usePageMode();
     const t = translations[language];
     const currentYear = new Date().getFullYear();
 
@@ -39,7 +42,7 @@ export function Footer() {
         { href: '#about', label: t.nav?.about || 'Sobre' },
         { href: '#experience', label: t.nav?.experience || 'Experiência' },
         { href: '#skills', label: t.nav?.skills || 'Habilidades' },
-        { href: '#projects', label: t.nav?.projects || 'Projetos' },
+        { href: isResume ? '#projects' : '#cases', label: t.nav?.projects || 'Projetos' },
         { href: '#education', label: t.nav?.education || 'Educação' },
         { href: '#contact', label: t.nav?.contact || 'Contato' },
     ];
@@ -56,6 +59,12 @@ export function Footer() {
             label: 'LinkedIn',
             href: personalInfo.linkedin,
             color: 'hover:text-blue-500',
+        },
+        {
+            icon: Instagram,
+            label: 'Instagram',
+            href: t.contact.instagram,
+            color: 'hover:text-pink-500',
         },
         {
             icon: Mail,

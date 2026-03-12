@@ -1,3 +1,32 @@
+export interface ProjectDeliverable {
+    title: string;
+    desc: string;
+    impact: string;
+}
+
+export interface ProjectMetric {
+    label: string;
+    value: string;
+}
+
+export interface ProjectTestimonial {
+    text: string;
+    author: string;
+    role: string;
+}
+
+export interface ProjectCase {
+    client: string;
+    industry: string;
+    challenge: string;
+    solution: string;
+    logo: string | null;
+    deliverables?: ProjectDeliverable[];
+    metrics: ProjectMetric[];
+    tags: string[];
+    testimonial?: ProjectTestimonial;
+}
+
 export const translations = {
     pt: {
         nav: {
@@ -18,19 +47,195 @@ export const translations = {
             phone: "+55 11 9 8651-4401",
             email: "contato@rugemtugem.dev",
         },
+        // --- Partnership Content ---
         hero: {
+            badge: "Parceiro de 50+ empresas em crescimento",
+            title: "Transformo Desafios Técnicos em Resultados de Negócio",
+            role: "Parceiro estratégico em tecnologia que combina liderança técnica, design e IA para criar produtos digitais que geram impacto mensurável e escalam negócios.",
+            metrics: {
+                roi: "+40% ROI médio para clientes",
+                value: "R$ 5M+ em valor gerado",
+                satisfaction: "95% taxa de satisfação",
+            },
+            cta1: "Vamos Escalar Seu Negócio?",
+            cta2: "Ver Casos de Sucesso",
+            trust: "Parceiro de empresas como Sales Prime, Prosperus, Lumiere e outras",
+        },
+        about: {
+            tag: "Por Que Empresas Escolhem Trabalhar Comigo",
+            title: "Parceria que Gera Resultados",
+            summary: "Não é sobre tecnologia pela tecnologia. É sobre usar as ferramentas certas para resolver problemas reais de negócio e criar produtos que seus clientes amam.",
+            features: [
+                {
+                    title: "Resultados Mensuráveis, Não Apenas Código",
+                    desc: "Meus clientes não apenas recebem código bonito — eles veem crescimento real: +40% em conversões, redução de 60% no time-to-market.",
+                },
+                {
+                    title: "Parceiro Estratégico, Não Apenas Executor",
+                    desc: "Trabalho lado a lado com seu time para entender desafios de negócio e propor soluções estratégicas.",
+                },
+                {
+                    title: "Velocidade sem Sacrificar Qualidade",
+                    desc: "Uso metodologias ágeis e ferramentas de IA para entregar MVPs em semanas, não meses.",
+                },
+                {
+                    title: "Visão 360º: Técnico, Design e Negócio",
+                    desc: "Combino expertise técnica, design e visão de negócio para criar produtos estratégicos.",
+                },
+            ],
+            stats: [
+                { value: "+40%", label: "ROI Médio dos Clientes", desc: "Retorno mensurável em até 6 meses." },
+                { value: "R$ 5M+", label: "Em Valor Gerado para Parceiros", desc: "Produtos que ajudaram empresas a crescer e escalar." },
+                { value: "95%", label: "Taxa de Satisfação", desc: "Parcerias de longo prazo baseadas em confiança." },
+                { value: "50+", label: "Empresas Cresceram Conosco", desc: "De startups a empresas consolidadas." },
+            ],
+        },
+        contact: {
+            title: "Pronto para Escalar Seu Negócio?",
+            subtitle: "Vamos construir algo juntos",
+            description: "Vamos conversar sobre como uma parceria estratégica pode transformar seus desafios técnicos em vantagem competitiva.",
+            options: {
+                consultation: { title: "Consulta Estratégica", desc: "Análise gratuita do seu desafio e roadmap de soluções." },
+                proposal: { title: "Proposta Customizada", desc: "Plano detalhado com investimento e resultados esperados." },
+                chat: { title: "Bate-papo Informal", desc: "WhatsApp direto para tirar dúvidas ou explorar ideias." },
+            },
+            name: "Nome",
+            email: "E-mail",
+            whatsapp: "WhatsApp",
+            message: "Mensagem",
+            placeholder: "Como posso ajudar seu negócio hoje?",
+            send: "Enviar Mensagem",
+            sending: "Enviando...",
+            success: "Mensagem enviada com sucesso!",
+            error: "Erro ao enviar mensagem. Tente novamente.",
+            followMe: "Siga-me em:",
+            instagram: "https://instagram.com/rugemtugem/",
+            tip: { title: "Dica Estratégica", desc: "A maioria dos nossos projetos começa com um simples \"olá\". Não espere o momento perfeito para planejar sua escala." },
+        },
+        success_cases: {
+            title: "Casos de Sucesso",
+            subtitle: "Resultados Reais de Parcerias Reais",
+            description: "Empresas que confiaram em uma parceria estratégica e viram seus negócios crescerem de forma mensurável",
+            items: [
+                {
+                    client: "Sales Prime",
+                    industry: "EdTech",
+                    challenge: "Escalar operações de conteúdo e captação de leads sem aumentar custos operacionais.",
+                    solution: "Arquitetura WordPress escalável com 5 sistemas integrados: Vagas, Blog, Hub de Integrações e LPs de alta conversão.",
+                    logo: "/images/projects/sales-prime-logo.svg",
+                    deliverables: [
+                        { title: "Sistema de Vagas", desc: "Gestão e publicação automatizada", impact: "70% redução no tempo operacional" },
+                        { title: "Hub de Integrações", desc: "HubSpot + Pagarme + Guru", impact: "Pipeline de vendas unificado" }
+                    ],
+                    metrics: [
+                        { label: "+156% growth", value: "em leads qualificados" },
+                        { label: "R$ 2M+", value: "em receita gerada" },
+                    ],
+                    tags: ["WordPress", "PHP", "HubSpot", "Pagarme"]
+                },
+                {
+                    client: "Prosperus Club",
+                    industry: "FinTech",
+                    challenge: "Criar aplicativo de mentorias financeiras com IA e métricas em tempo real para sócios.",
+                    solution: "Plataforma mobile-first com análise por IA (Gemini) e dashboard de métricas estratégicas.",
+                    logo: "/images/projects/prosperus-logo.svg",
+                    deliverables: [
+                        { title: "Sistema de Mentoria IA", desc: "Análise financeira via Gemini API", impact: "Análises em segundos vs dias" },
+                        { title: "App Clube de Sócios", desc: "Módulos integrados de gestão", impact: "89% taxa de adoção imediata" }
+                    ],
+                    metrics: [
+                        { label: "95% redução", value: "tempo de análise" },
+                        { label: "NPS 85", value: "satisfação altíssima" },
+                    ],
+                    tags: ["React", "TypeScript", "Google Gemini", "Tailwind"]
+                },
+                {
+                    client: "Campanha 21 Dias",
+                    industry: "Social Impact",
+                    challenge: "Gerenciar evento nacional com centras de inscrições e automação de certificados sob LGPD.",
+                    solution: "Plugin WordPress customizado com automação de PDFs e segurança de dados em escala.",
+                    logo: "/images/projects/campanha-21-dias-logo.webp",
+                    deliverables: [
+                        { title: "Sistema de Inscrições", desc: "Formulários inteligentes com validação", impact: "Erro zero em 500+ registros" },
+                        { title: "Automação de Certificados", desc: "Geração dinâmica de PDF", impact: "Economia de 100+ horas manuais" }
+                    ],
+                    metrics: [
+                        { label: "500+", value: "inscrições gerenciadas" },
+                        { label: "100%", value: "conforme LGPD" },
+                    ],
+                    tags: ["PHP", "WordPress", "TCPDF", "MySQL"]
+                },
+                {
+                    client: "S&S Comércio",
+                    industry: "E-commerce",
+                    challenge: "Pedidos do WhatsApp sem integração com o sistema de vendas, gerando retrabalho.",
+                    solution: "Integração automatizada bidirecional Suri (WhatsApp) + Bling (ERP).",
+                    logo: null,
+                    deliverables: [
+                        { title: "Integração Suri+Bling", desc: "Sincronização via Webhooks", impact: "100% automação de pedidos" }
+                    ],
+                    metrics: [
+                        { label: "5 segundos", value: "sincronização média" },
+                        { label: "0.5% erro", value: "taxa de falha mínima" },
+                    ],
+                    tags: ["Node.js", "Bling API", "Webhooks", "REST"]
+                }
+            ]
+        },
+        testimonials: {
+            title: "O Que Dizem Nossos Parceiros",
+            subtitle: "Avaliações no Google",
+            items: [
+                {
+                    author: "Ericka Guimarães",
+                    rating: 5,
+                    text: "Fabio é um ótimo profissional, sempre solícito, responde na hora e consegue traduzir as necessidades do cliente da melhor forma. Sempre o procuro na hora de colocar um novo projeto no ar! Recomendo muito!",
+                    reviewLink: "https://share.google/cVYXtY7Lk",
+                    avatar: "/images/testimonials/ericka.jpg"
+                },
+                {
+                    author: "Henri Passos",
+                    rating: 5,
+                    text: "Já sou cliente do Fábio há 12 anos, desde 2008 quando comecei na fotografia. Sempre solícito e fazendo mais do que é pedido. Ótimo profissional!",
+                    reviewLink: "https://share.google/9qA08v8Yq",
+                    avatar: "/images/testimonials/henri.jpg"
+                },
+                {
+                    author: "uelerson santos",
+                    rating: 5,
+                    text: "Profissional responsável e super atencioso, se empenhou em cada detalhe até o meu site ficar do jeito que eu queria. Super indico!!!",
+                    reviewLink: "https://share.google/XaPXeWlk",
+                    avatar: null
+                }
+            ]
+        },
+        // --- Resume Content ---
+        hero_resume: {
             greeting: "Olá, eu sou o",
             name: "Fábio Soares",
-            emoji: "👨‍💻",
             role: "Transformo ideias em produtos digitais que vendem — com código limpo, design estratégico e Inteligência Artificial.",
             cta1: "Vamos Conversar?",
             cta2: "Ver Projetos",
         },
-        about: {
+        about_resume: {
             title: "Sobre Mim",
             subtitle: "Seu próximo parceiro de tecnologia.",
             summary: "Nos últimos 25 anos, ajudei empresas a transformar desafios de negócio em produtos digitais que geram resultado. Combino front-end de alta performance, design centrado no usuário e IA aplicada para criar soluções que não apenas funcionam — elas convertem.",
             description: "Minha abordagem é simples: entender o seu problema antes de escrever uma linha de código. Trabalho de ponta a ponta — do Figma ao deploy — e integro inteligência artificial onde ela realmente faz diferença.",
+        },
+        contact_resume: {
+            title: "Entre em contato comigo",
+            subtitle: "Vamos conversar",
+            description: "Se você tiver alguma dúvida ou preocupação, não hesite em me contatar. Estou aberto a oportunidades de trabalho que estejam alinhadas com minhas habilidades e interesses.",
+            name: "Nome",
+            email: "E-mail",
+            whatsapp: "WhatsApp",
+            message: "Mensagem",
+            send: "Enviar Mensagem",
+            sending: "Enviando...",
+            success: "Mensagem enviada com sucesso!",
+            error: "Erro ao enviar mensagem. Tente novamente.",
+            followMe: "Siga-me em:",
         },
         experience: {
             subtitle: "Jornada Profissional",
@@ -243,20 +448,6 @@ export const translations = {
                 },
             ],
         },
-        contact: {
-            title: "Entre em contato comigo",
-            subtitle: "Vamos conversar",
-            description: "Se você tiver alguma dúvida ou preocupação, não hesite em me contatar. Estou aberto a oportunidades de trabalho que estejam alinhadas com minhas habilidades e interesses.",
-            name: "Nome",
-            email: "E-mail",
-            whatsapp: "WhatsApp",
-            message: "Mensagem",
-            send: "Enviar Mensagem",
-            sending: "Enviando...",
-            success: "Mensagem enviada com sucesso!",
-            error: "Erro ao enviar mensagem. Tente novamente.",
-            followMe: "Siga-me em:",
-        },
     },
     en: {
         nav: {
@@ -277,19 +468,195 @@ export const translations = {
             phone: "+55 11 9 8651-4401",
             email: "contact@rugemtugem.dev",
         },
+        // --- Partnership Content ---
         hero: {
+            badge: "Partner to 50+ growing companies",
+            title: "I turn technical challenges into business results",
+            role: "Strategic technology partner combining technical leadership, design, and AI to create digital products that generate measurable impact and scale businesses.",
+            metrics: {
+                roi: "+40% average ROI for clients",
+                value: "R$ 5M+ in value generated",
+                satisfaction: "95% satisfaction rate",
+            },
+            cta1: "Let's Scale Your Business?",
+            cta2: "View Success Cases",
+            trust: "Partner to companies like Sales Prime, Prosperus, Lumiere and others",
+        },
+        about: {
+            tag: "Why Companies Choose to Work With Me",
+            title: "Partnership that Drives Results",
+            summary: "It's not about technology for technology's sake. It's about using the right tools to solve real business problems and create products your customers love.",
+            features: [
+                {
+                    title: "Measurable Results, Not Just Code",
+                    desc: "My clients don't just get beautiful code — they see real growth: +40% in conversions, 60% reduction in time-to-market.",
+                },
+                {
+                    title: "Strategic Partner, Not Just Executor",
+                    desc: "I work alongside your team to understand business challenges and propose strategic solutions.",
+                },
+                {
+                    title: "Speed without Sacrificing Quality",
+                    desc: "I use agile methodologies and AI tools to deliver MVPs in weeks, not months.",
+                },
+                {
+                    title: "360º Vision: Tech, Design, and Business",
+                    desc: "I combine technical expertise, design, and business vision to create strategic products.",
+                },
+            ],
+            stats: [
+                { value: "+40%", label: "Average ROI for Clients", desc: "Measurable return within 6 months." },
+                { value: "R$ 5M+", label: "In Value Generated for Partners", desc: "Products that helped companies grow and scale." },
+                { value: "95%", label: "Satisfaction Rate", desc: "Long-term partnerships based on trust." },
+                { value: "50+", label: "Companies Grown With Us", desc: "From startups to established companies." },
+            ],
+        },
+        contact: {
+            title: "Ready to Scale Your Business?",
+            subtitle: "Let's build something together",
+            description: "Let's talk about how a strategic partnership can transform your technical challenges into a competitive advantage.",
+            options: {
+                consultation: { title: "Strategic Consultation", desc: "Free analysis of your challenge and solution roadmap." },
+                proposal: { title: "Custom Proposal", desc: "Detailed plan with investment and expected results." },
+                chat: { title: "Informal Chat", desc: "Direct WhatsApp to answer questions or explore ideas." },
+            },
+            name: "Name",
+            email: "Email",
+            whatsapp: "WhatsApp",
+            message: "Message",
+            placeholder: "How can I help your business today?",
+            send: "Send Message",
+            sending: "Sending...",
+            success: "Message sent successfully!",
+            error: "Error sending message. Please try again.",
+            followMe: "Follow me on:",
+            instagram: "https://instagram.com/rugemtugem/",
+            tip: { title: "Strategic Tip", desc: "Most of our projects start with a simple \"hello\". Don't wait for the perfect moment to plan your scale." },
+        },
+        success_cases: {
+            title: "Success Cases",
+            subtitle: "Real Results from Real Partnerships",
+            description: "Companies that trusted in a strategic partnership and saw their businesses grow measurably",
+            items: [
+                {
+                    client: "Sales Prime",
+                    industry: "EdTech",
+                    challenge: "Scale content operations and lead capture without increasing operational costs.",
+                    solution: "Scalable WordPress architecture with 5 integrated systems: Vacancies, Blog, CRM Hub, and high-conversion LPs.",
+                    logo: "/images/projects/sales-prime-logo.svg",
+                    deliverables: [
+                        { title: "Vacancy System", desc: "Automated management & publishing", impact: "70% reduction in operational time" },
+                        { title: "Integration Hub", desc: "HubSpot + Pagarme + Guru", impact: "Unified sales pipeline" }
+                    ],
+                    metrics: [
+                        { label: "+156% growth", value: "in qualified leads" },
+                        { label: "R$ 2M+", value: "in generated revenue" },
+                    ],
+                    tags: ["WordPress", "PHP", "HubSpot", "Pagarme"]
+                },
+                {
+                    client: "Prosperus Club",
+                    industry: "FinTech",
+                    challenge: "Create a financial mentorship app with AI and real-time metrics for partners.",
+                    solution: "Mobile-first platform with AI analysis (Gemini) and strategic metrics dashboard.",
+                    logo: "/images/projects/prosperus-logo.svg",
+                    deliverables: [
+                        { title: "AI Mentoring System", desc: "Financial analysis via Gemini API", impact: "Analysis in seconds vs days" },
+                        { title: "Member Club App", desc: "Integrated management modules", impact: "89% immediate adoption rate" }
+                    ],
+                    metrics: [
+                        { label: "95% reduction", value: "analysis time" },
+                        { label: "NPS 85", value: "extremely high satisfaction" },
+                    ],
+                    tags: ["React", "TypeScript", "Google Gemini", "Tailwind"]
+                },
+                {
+                    client: "21 Days Campaign",
+                    industry: "Social Impact",
+                    challenge: "Manage national event with hundreds of registrations and certificate automation under LGPD.",
+                    solution: "Custom WordPress plugin with PDF automation and data security at scale.",
+                    logo: "/images/projects/campanha-21-dias-logo.webp",
+                    deliverables: [
+                        { title: "Registration System", desc: "Smart forms with validation", impact: "Zero errors in 500+ records" },
+                        { title: "Certificate Automation", desc: "Dynamic PDF generation", impact: "Saved 100+ manual hours" }
+                    ],
+                    metrics: [
+                        { label: "500+", value: "managed registrations" },
+                        { label: "100%", value: "LGPD compliant" },
+                    ],
+                    tags: ["PHP", "WordPress", "TCPDF", "MySQL"]
+                },
+                {
+                    client: "S&S Comércio",
+                    industry: "E-commerce",
+                    challenge: "WhatsApp orders without CRM integration, causing manual rework.",
+                    solution: "Automated bidirectional integration Suri (WhatsApp) + Bling (ERP).",
+                    logo: null,
+                    deliverables: [
+                        { title: "Suri+Bling Integration", desc: "Sync via Webhooks", impact: "100% order automation" }
+                    ],
+                    metrics: [
+                        { label: "5 seconds", value: "average synchronization" },
+                        { label: "0.5% error", value: "minimal failure rate" },
+                    ],
+                    tags: ["Node.js", "Bling API", "Webhooks", "REST"]
+                }
+            ]
+        },
+        testimonials: {
+            title: "What Our Partners Say",
+            subtitle: "Google Reviews",
+            items: [
+                {
+                    author: "Ericka Guimarães",
+                    rating: 5,
+                    text: "Fabio is a great professional, always helpful, responds immediately and manages to translate the client's needs in the best way. I always look for him when putting a new project live! Highly recommend!",
+                    reviewLink: "https://share.google/cVYXtY7Lk",
+                    avatar: "/images/testimonials/ericka.jpg"
+                },
+                {
+                    author: "Henri Passos",
+                    rating: 5,
+                    text: "I've been Fabio's client for 12 years, since 2008 when I started in photography. Always helpful and doing more than what is asked. Great professional!",
+                    reviewLink: "https://share.google/9qA08v8Yq",
+                    avatar: "/images/testimonials/henri.jpg"
+                },
+                {
+                    author: "uelerson santos",
+                    rating: 5,
+                    text: "Responsible and super attentive professional, he worked hard on every detail until my site was the way I wanted it. Super recommend!!!",
+                    reviewLink: "https://share.google/XaPXeWlk",
+                    avatar: null
+                }
+            ]
+        },
+        // --- Resume Content ---
+        hero_resume: {
             greeting: "Hi, I'm",
             name: "Fábio Soares",
-            emoji: "👨‍💻",
-            role: "I turn ideas into digital products that sell — with clean code, strategic design, and Artificial Intelligence.",
+            role: "I transform ideas into digital products that sell — with clean code, strategic design, and Artificial Intelligence.",
             cta1: "Let's Talk?",
             cta2: "View Projects",
         },
-        about: {
+        about_resume: {
             title: "ABOUT ME",
             subtitle: "Your next technology partner.",
-            summary: "Over the past 25 years, I've helped companies turn business challenges into digital products that deliver results. I combine high-performance front-end, user-centered design, and applied AI to create solutions that don't just work — they convert.",
+            summary: "Over the last 25 years, I've helped companies transform business challenges into digital products that deliver results. I combine high-performance front-end, user-centered design, and applied AI to create solutions that don't just work — they convert.",
             description: "My approach is simple: understand your problem before writing a single line of code. I work end-to-end — from Figma to deploy — and integrate artificial intelligence where it truly makes a difference.",
+        },
+        contact_resume: {
+            title: "Get in touch",
+            subtitle: "Let's talk",
+            description: "If you have any questions or concerns, please don't hesitate to contact me. I am open to any work opportunities that align with my skills and interests.",
+            name: "Name",
+            email: "Email",
+            whatsapp: "WhatsApp",
+            message: "Message",
+            send: "Send Message",
+            sending: "Sending...",
+            success: "Message sent successfully!",
+            error: "Error sending message. Please try again.",
+            followMe: "Follow me on:",
         },
         experience: {
             subtitle: "Professional Journey",
@@ -448,15 +815,15 @@ export const translations = {
             ],
         },
         projects: {
-            title: "Projects",
+            title: "Success Cases",
             role: "Role",
             tools: "Technologies",
             items: [
                 {
-                    name: "Sales Prime - Tecnologia - IA - Front-end",
+                    name: "Sales Prime - Dashboard",
                     tools: ["React", "TypeScript", "Tailwind CSS"],
                     description: "Technical leadership in web digital product development with strategic action between design, technology, and business. Collaboration with agile squads (sprints, dailies, plannings, reviews) and implementation of scalable, responsive, and performant interfaces.",
-                    myRole: "Technology & AI Specialist, Front-end Developer",
+                    myRole: "Tech Lead",
                 },
                 {
                     name: "Prosperus Club — High-Ticket Mentorship Diagnosis",
@@ -501,20 +868,6 @@ export const translations = {
                     myRole: "Front-end Developer & UI Designer",
                 },
             ],
-        },
-        contact: {
-            title: "Get in touch",
-            subtitle: "Let's talk",
-            description: "If you have any questions or concerns, please don't hesitate to contact me. I am open to any work opportunities that align with my skills and interests.",
-            name: "Name",
-            email: "Email",
-            whatsapp: "WhatsApp",
-            message: "Message",
-            send: "Send Message",
-            sending: "Sending...",
-            success: "Message sent successfully!",
-            error: "Error sending message. Please try again.",
-            followMe: "Follow me on:",
         },
     },
 } as const;

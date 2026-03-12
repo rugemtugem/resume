@@ -29,7 +29,7 @@ import { translations } from "@/data/translations";
  * <AboutSection />
  * ```
  */
-export function AboutSection() {
+export function AboutResume() {
     const { language } = useLanguage();
     const t = translations[language];
     const imageRef = useRef(null);
@@ -49,9 +49,9 @@ export function AboutSection() {
                     viewport={{ once: true }}
                 >
                     <div className="mb-12 text-center md:text-left max-w-6xl mx-auto">
-                        <p className="text-[var(--color-accent-pink)] uppercase text-sm font-semibold mb-2">{t.about.title}</p>
+                        <p className="text-[var(--color-accent-pink)] uppercase text-sm font-semibold mb-2">{t.about_resume.title}</p>
                         <h2 className="text-4xl md:text-5xl font-bold">
-                            {t.about.subtitle}
+                            {t.about_resume.subtitle}
                         </h2>
                     </div>
 
@@ -65,8 +65,8 @@ export function AboutSection() {
                             className="space-y-6"
                         >
                             <div className="text-lg text-[var(--color-text-secondary)] leading-relaxed space-y-4">
-                                <p>{t.about.summary}</p>
-                                <p>{t.about.description}</p>
+                                <p>{t.about_resume.summary}</p>
+                                <p>{t.about_resume.description}</p>
                             </div>
 
                             {/* Core competency progress bars */}

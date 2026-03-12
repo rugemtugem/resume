@@ -2,7 +2,7 @@
 
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { useRef, useState } from 'react';
-import { useLanguage } from '@/components/language-provider';
+import { useLanguage } from '@/contexts/language-provider';
 import { translations } from '@/data/translations';
 import { InteractiveCard } from '@/components/ui/interactive-card';
 import {
@@ -31,7 +31,7 @@ interface EducationItem {
     link?: string;
 }
 
-export function EducationSection() {
+export function EducationPartnership() {
     const { language } = useLanguage();
     const t = translations[language];
     const sectionRef = useRef<HTMLElement>(null);

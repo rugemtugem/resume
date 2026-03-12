@@ -27,7 +27,7 @@ import { translations } from "@/data/translations";
  * <ProjectsSection />
  * ```
  */
-export function ProjectsSection() {
+export function ProjectsResume() {
     const { language } = useLanguage();
     const t = translations[language];
     const { particles, createParticles } = useClickParticles();

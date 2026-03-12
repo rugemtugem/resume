@@ -23,6 +23,8 @@ import {
 } from "react-icons/si";
 import { VscCode } from "react-icons/vsc";
 import { Code, Palette, Brain, Wrench } from "lucide-react";
+import { useLanguage } from "@/contexts/language-provider";
+import { translations } from "@/data/translations";
 
 /** Map skill names to their corresponding react-icons component */
 const skillIcons: Record<string, React.ComponentType<{ className?: string }>> = {
@@ -106,7 +108,10 @@ const skillLevels: Record<string, number> = {
  * <SkillsSection />
  * ```
  */
-export function SkillsSection() {
+export function SkillsResume() {
+    const { language } = useLanguage();
+    const t = translations[language];
+
     /** Memoized flattened skills array - combines all skill categories */
     const allSkills = useMemo(() => [
         ...skills.technology,
@@ -136,29 +141,29 @@ export function SkillsSection() {
     const tabs = useMemo(() => [
         {
             id: 'technology',
-            label: 'Tecnologia',
+            label: t.skills.technology,
             icon: <Code className="w-4 h-4" />,
             content: renderSkillGrid(skills.technology),
         },
         {
             id: 'ux',
-            label: 'UX/UI',
+            label: t.skills.ux,
             icon: <Palette className="w-4 h-4" />,
             content: renderSkillGrid(skills.ux),
         },
         {
             id: 'ai',
-            label: 'IA & Automação',
+            label: t.skills.ai,
             icon: <Brain className="w-4 h-4" />,
             content: renderSkillGrid(skills.ai),
         },
         {
             id: 'tools',
-            label: 'Ferramentas',
+            label: t.skills.tools,
             icon: <Wrench className="w-4 h-4" />,
             content: renderSkillGrid(skills.tools),
         },
-    ], []);
+    ], [t.skills]);
 
     return (
         <section id="skills" className="relative py-20 overflow-hidden">
@@ -179,19 +184,19 @@ export function SkillsSection() {
                             <span className="text-3xl md:text-4xl font-bold text-[var(--primary-color)]">
                                 <AnimatedCounter value={allSkills.length} suffix="+" />
                             </span>
-                            <p className="text-sm text-[var(--text-secondary)] mt-1">Tecnologias</p>
+                            <p className="text-sm text-[var(--text-secondary)] mt-1">{t.skills.technology}</p>
                         </div>
                         <div className="text-center">
                             <span className="text-3xl md:text-4xl font-bold text-[var(--primary-color)]">
                                 <AnimatedCounter value={25} suffix="+" />
                             </span>
-                            <p className="text-sm text-[var(--text-secondary)] mt-1">Anos XP</p>
+                            <p className="text-sm text-[var(--text-secondary)] mt-1">{language === 'pt' ? 'Anos XP' : 'Years XP'}</p>
                         </div>
                         <div className="text-center">
                             <span className="text-3xl md:text-4xl font-bold text-[var(--primary-color)]">
                                 <AnimatedCounter value={4} />
                             </span>
-                            <p className="text-sm text-[var(--text-secondary)] mt-1">Categorias</p>
+                            <p className="text-sm text-[var(--text-secondary)] mt-1">{language === 'pt' ? 'Categorias' : 'Categories'}</p>
                         </div>
                     </div>
 

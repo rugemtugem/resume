@@ -43,7 +43,7 @@ type ContactFormData = z.infer<typeof formSchema>;
  * Contact form with real-time Zod validation, glassmorphism design,
  * gradient contact cards, animated feedback icons, and confetti celebration.
  */
-export function ContactSection() {
+export function ContactResume() {
     const { language } = useLanguage();
     const t = translations[language];
     const { showToast } = useToast();
@@ -81,7 +81,7 @@ export function ContactSection() {
 
             showToast({
                 type: 'success',
-                title: `✅ ${t.contact.success}`,
+                title: `✅ ${t.contact_resume.success}`,
                 duration: 5000,
             });
 
@@ -95,7 +95,7 @@ export function ContactSection() {
             console.error('Error sending message:', error);
             showToast({
                 type: 'error',
-                title: `❌ ${t.contact.error}`,
+                title: `❌ ${t.contact_resume.error}`,
             });
         } finally {
             setIsSubmitting(false);
@@ -180,16 +180,16 @@ export function ContactSection() {
                             >
                                 <MessageSquare className="w-4 h-4 text-[var(--primary-color)]" />
                                 <span className="text-sm font-medium text-[var(--primary-color)]">
-                                    {t.contact.subtitle}
+                                    {t.contact_resume.subtitle}
                                 </span>
                             </motion.div>
 
                             <h2 className="text-4xl md:text-5xl font-bold mb-4 text-gradient-neon">
-                                {t.contact.title}
+                                {t.contact_resume.title}
                             </h2>
 
                             <p className="text-lg text-[var(--text-secondary)] max-w-2xl mx-auto">
-                                {t.contact.description}
+                                {t.contact_resume.description}
                             </p>
                         </div>
 
@@ -210,7 +210,7 @@ export function ContactSection() {
                                         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 relative z-10">
                                             {/* Name Input */}
                                             <div>
-                                                <label className="block text-sm font-medium text-[var(--text-primary)] mb-2 flex items-center gap-2">
+                                                <label className="text-sm font-medium text-[var(--text-primary)] mb-2 flex items-center gap-2">
                                                     <User className="w-4 h-4 text-[var(--primary-color)]" />
                                                     {t.contact.name}
                                                 </label>
@@ -261,7 +261,7 @@ export function ContactSection() {
                                             <div className="grid sm:grid-cols-2 gap-4">
                                                 {/* Email */}
                                                 <div>
-                                                    <label className="block text-sm font-medium text-[var(--text-primary)] mb-2 flex items-center gap-2">
+                                                    <label className="text-sm font-medium text-[var(--text-primary)] mb-2 flex items-center gap-2">
                                                         <AtSign className="w-4 h-4 text-[var(--primary-color)]" />
                                                         {t.contact.email}
                                                     </label>
@@ -310,7 +310,7 @@ export function ContactSection() {
 
                                                 {/* WhatsApp */}
                                                 <div>
-                                                    <label className="block text-sm font-medium text-[var(--text-primary)] mb-2 flex items-center gap-2">
+                                                    <label className="text-sm font-medium text-[var(--text-primary)] mb-2 flex items-center gap-2">
                                                         <Phone className="w-4 h-4 text-[var(--primary-color)]" />
                                                         {t.contact.whatsapp}
                                                     </label>
@@ -360,7 +360,7 @@ export function ContactSection() {
 
                                             {/* Message Textarea */}
                                             <div>
-                                                <label className="block text-sm font-medium text-[var(--text-primary)] mb-2 flex items-center gap-2">
+                                                <label className="text-sm font-medium text-[var(--text-primary)] mb-2 flex items-center gap-2">
                                                     <MessageSquare className="w-4 h-4 text-[var(--primary-color)]" />
                                                     {t.contact.message}
                                                 </label>
