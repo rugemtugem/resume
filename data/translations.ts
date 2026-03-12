@@ -59,7 +59,6 @@ export const translations = {
             },
             cta1: "Vamos Escalar Seu Negócio?",
             cta2: "Ver Casos de Sucesso",
-            trust: "Parceiro de empresas como Sales Prime, Prosperus, Lumiere e outras",
         },
         about: {
             tag: "Por Que Empresas Escolhem Trabalhar Comigo",
@@ -480,7 +479,6 @@ export const translations = {
             },
             cta1: "Let's Scale Your Business?",
             cta2: "View Success Cases",
-            trust: "Partner to companies like Sales Prime, Prosperus, Lumiere and others",
         },
         about: {
             tag: "Why Companies Choose to Work With Me",

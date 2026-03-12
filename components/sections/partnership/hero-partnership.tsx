@@ -122,15 +122,6 @@ export function HeroPartnership() {
           </SecondaryButton>
         </motion.div>
 
-        {/* Trust Badges */}
-        <motion.p
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.5 }}
-          className="text-sm text-[var(--text-tertiary)] mt-8"
-        >
-          {t.trust}
-        </motion.p>
       </div>
     </section>
   );
