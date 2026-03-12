@@ -470,7 +470,7 @@ export const translations = {
         // --- Partnership Content ---
         hero: {
             badge: "Partner to 50+ growing companies",
-            title: "I turn technical challenges into business results",
+            title: "I turn technical challenges into ",
             role: "Strategic technology partner combining technical leadership, design, and AI to create digital products that generate measurable impact and scale businesses.",
             metrics: {
                 roi: "+40% average ROI for clients",
@@ -482,7 +482,7 @@ export const translations = {
         },
         about: {
             tag: "Why Companies Choose to Work With Me",
-            title: "Partnership that Drives Results",
+            title: "Partnership that ",
             summary: "It's not about technology for technology's sake. It's about using the right tools to solve real business problems and create products your customers love.",
             features: [
                 {
