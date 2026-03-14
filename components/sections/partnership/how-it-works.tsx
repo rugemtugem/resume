@@ -135,13 +135,11 @@ export function HowItWorksSection() {
                 }}
                 className="grid grid-cols-[auto_1fr] md:grid-cols-[1fr_auto_1fr] gap-6 md:gap-8 items-center relative"
               >
-                {/* Left side card or spacer (Desktop only) */}
-                <div className={`${
+                <div className={`w-full ${
                   index % 2 === 0 
-                    ? 'col-start-2 md:col-start-1 md:text-right md:pr-8' 
-                    : 'hidden md:block md:col-start-1'
+                    ? 'md:col-start-1 md:text-right md:pr-8' 
+                    : 'md:col-start-3 md:pl-8'
                 }`}>
-                  {index % 2 === 0 && (
                   <motion.div
                     whileHover={{ scale: 1.02, y: -4 }}
                     transition={{ type: "spring", stiffness: 300 }}
@@ -156,7 +154,7 @@ export function HowItWorksSection() {
                                     transition-all duration-500">
                       
                       {/* Número Grande (Background) */}
-                      <span className={`absolute ${index % 2 === 0 ? 'top-4 left-4' : 'top-4 right-4'} text-8xl font-black 
+                      <span className={`absolute ${index % 2 === 0 ? 'top-4 right-4 md:auto md:left-4' : 'top-4 right-4'} text-8xl font-black 
                                        text-[var(--text-primary)] opacity-5 select-none pointer-events-none
                                        group-hover:opacity-10 transition-opacity duration-500`}>
                         {step.number}
@@ -199,7 +197,6 @@ export function HowItWorksSection() {
                       </div>
                     </div>
                   </motion.div>
-                  )}
                 </div>
 
                 {/* Icon (Center on Desktop, Left on Mobile) */}
@@ -247,12 +244,11 @@ export function HowItWorksSection() {
                 </div>
 
                 {/* Right side card or spacer (Desktop only) */}
-                <div className={`${
+                <div className={`w-full ${
                   index % 2 !== 0 
-                    ? 'col-start-2 md:col-start-3 md:pl-8' 
-                    : 'hidden md:block md:col-start-3'
+                    ? 'md:col-start-3 md:pl-8' 
+                    : 'md:col-start-1'
                 }`}>
-                  {index % 2 !== 0 && (
                   <motion.div
                     whileHover={{ scale: 1.02, y: -4 }}
                     transition={{ type: "spring", stiffness: 300 }}
@@ -310,7 +306,6 @@ export function HowItWorksSection() {
                       </div>
                     </div>
                   </motion.div>
-                  )}
                 </div>
               </motion.div>
             )})}
