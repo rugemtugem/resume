@@ -156,7 +156,7 @@ export function HowItWorksSection() {
                                     transition-all duration-500">
                       
                       {/* Número Grande (Background) */}
-                      <span className={`absolute ${index % 2 === 0 ? 'top-4 left-4 md:left-auto md:right-4' : 'top-4 right-4'} text-8xl font-black 
+                      <span className={`absolute ${index % 2 === 0 ? 'top-4 left-4' : 'top-4 right-4'} text-8xl font-black 
                                        text-[var(--text-primary)] opacity-5 select-none pointer-events-none
                                        group-hover:opacity-10 transition-opacity duration-500`}>
                         {step.number}
