@@ -124,9 +124,9 @@ export function HowItWorksSection() {
 
               return (
               <motion.div
-                key={step.number}
-                initial={{ opacity: 0, x: index % 2 === 0 ? -100 : 100 }}
-                whileInView={{ opacity: 1, x: 0 }}
+                key={index}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-100px" }}
                 transition={{
                   duration: 0.6,
@@ -135,9 +135,46 @@ export function HowItWorksSection() {
                 }}
                 className="grid grid-cols-[auto_1fr] md:grid-cols-[1fr_auto_1fr] gap-6 md:gap-8 items-center relative"
               >
-                <div className={`w-full ${
+                {/* Desktop Left Spacer (for right-aligned cards) */}
+                {index % 2 !== 0 && (
+                  <div className="hidden md:block col-start-1" />
+                )}
+
+                {/* Icon Column (Center Desktop / Left Mobile) */}
+                <div className="flex justify-center flex-col items-center col-start-1 md:col-start-2 relative z-20 mx-2 md:mx-0">
+                  <motion.div
+                    whileHover={{ scale: 1.15, rotate: 360 }}
+                    transition={{ type: "spring", stiffness: 200, duration: 0.6 }}
+                    className="relative group cursor-pointer"
+                  >
+                    {/* Glow Ring */}
+                    <div className="absolute inset-0 rounded-2xl blur-xl opacity-0 
+                                    group-hover:opacity-100 transition-opacity duration-500"
+                         style={{
+                           background: `radial-gradient(circle, ${style.glowColor}, transparent)`
+                         }} />
+                    
+                    {/* Icon Container */}
+                    <div className="w-12 h-12 md:w-16 md:h-16 rounded-2xl flex items-center justify-center 
+                                    relative z-10 shadow-lg border border-white/10 backdrop-blur-sm"
+                         style={{ background: style.gradient }}>
+                      {IconComponent && <IconComponent className="w-6 h-6 md:w-8 md:h-8 text-white relative z-10" />}
+                      
+                      {/* Step Number Badge */}
+                      <div className="absolute -top-3 -right-3 w-6 h-6 md:w-7 md:h-7 rounded-full 
+                                    bg-[var(--bg-primary)] border border-[var(--border-color)]
+                                    flex items-center justify-center text-xs font-bold text-[var(--text-primary)]
+                                    shadow-sm z-20">
+                        {step.number}
+                      </div>
+                    </div>
+                  </motion.div>
+                </div>
+
+                {/* Card Column (Right Mobile / Alternating Desktop) */}
+                <div className={`w-full col-start-2 ${
                   index % 2 === 0 
-                    ? 'md:col-start-1 md:text-right md:pr-8' 
+                    ? 'md:col-start-1 md:row-start-1 md:text-right md:pr-8' 
                     : 'md:col-start-3 md:pl-8'
                 }`}>
                   <motion.div
@@ -154,7 +191,7 @@ export function HowItWorksSection() {
                                     transition-all duration-500">
                       
                       {/* Número Grande (Background) */}
-                      <span className={`absolute ${index % 2 === 0 ? 'top-4 right-4 md:auto md:left-4' : 'top-4 right-4'} text-8xl font-black 
+                      <span className={`absolute ${index % 2 === 0 ? 'top-4 left-4' : 'top-4 right-4'} text-8xl font-black 
                                        text-[var(--text-primary)] opacity-5 select-none pointer-events-none
                                        group-hover:opacity-10 transition-opacity duration-500`}>
                         {step.number}
@@ -198,115 +235,11 @@ export function HowItWorksSection() {
                     </div>
                   </motion.div>
                 </div>
-
-                {/* Icon (Center on Desktop, Left on Mobile) */}
-                <div className="flex justify-center flex-col items-center col-start-1 md:col-start-2 relative z-20 mx-2 md:mx-0">
-                  <motion.div
-                    whileHover={{ scale: 1.15, rotate: 360 }}
-                    transition={{ type: "spring", stiffness: 200, duration: 0.6 }}
-                    className="relative group cursor-pointer"
-                  >
-                    {/* Glow Ring */}
-                    <div className="absolute inset-0 rounded-2xl blur-xl opacity-0 
-                                    group-hover:opacity-100 transition-opacity duration-500"
-                         style={{
-                           background: `radial-gradient(circle, ${style.glowColor}, transparent)`
-                         }} />
-
-                    {/* Icon Container */}
-                    <div className={`relative w-12 h-12 md:w-16 md:h-16 lg:w-20 lg:h-20 rounded-xl md:rounded-2xl 
-                                    bg-gradient-to-br ${style.gradient}
-                                    flex items-center justify-center
-                                    border-4 border-[var(--bg-secondary)]
-                                    transition-all duration-500`}
-                         style={{
-                           boxShadow: '0 10px 30px rgba(0, 0, 0, 0.15)'
-                         }}
-                         onMouseEnter={(e) => {
-                           e.currentTarget.style.boxShadow = `0 0 30px ${style.glowColor}`;
-                         }}
-                         onMouseLeave={(e) => {
-                           e.currentTarget.style.boxShadow = '0 10px 30px rgba(0, 0, 0, 0.15)';
-                         }}>
-                      {IconComponent && <IconComponent className="w-5 h-5 md:w-8 md:h-8 lg:w-10 lg:h-10 text-white" strokeWidth={2.5} />}
-                    </div>
-
-                    {/* Badge Número */}
-                    <div className="absolute -top-2 -right-2 w-6 h-6 md:w-8 md:h-8 rounded-full
-                                    bg-[var(--bg-secondary)] border-2 border-[var(--primary-color)]
-                                    flex items-center justify-center
-                                    shadow-lg">
-                      <span className="text-[10px] md:text-xs font-bold text-[var(--primary-color)]">
-                        {step.number}
-                      </span>
-                    </div>
-                  </motion.div>
-                </div>
-
-                {/* Right side card or spacer (Desktop only) */}
-                <div className={`w-full ${
-                  index % 2 !== 0 
-                    ? 'md:col-start-3 md:pl-8' 
-                    : 'md:col-start-1'
-                }`}>
-                  <motion.div
-                    whileHover={{ scale: 1.02, y: -4 }}
-                    transition={{ type: "spring", stiffness: 300 }}
-                    className="group relative"
-                  >
-                    {/* Glassmorphism Card */}
-                    <div className="relative p-6 md:p-8 rounded-2xl overflow-hidden
-                                    bg-[var(--bg-primary)]/60 backdrop-blur-xl
-                                    border border-[var(--border-color)]/50
-                                    shadow-[0_8px_32px_rgba(0,0,0,0.1)] dark:shadow-[0_8px_32px_rgba(0,0,0,0.3)]
-                                    hover:bg-[var(--bg-primary)]/80 hover:border-[var(--primary-color)]/30
-                                    transition-all duration-500">
-                      
-                      {/* Número Grande (Background) */}
-                      <span className={`absolute top-4 right-4 text-8xl font-black 
-                                       text-[var(--text-primary)] opacity-5 select-none pointer-events-none
-                                       group-hover:opacity-10 transition-opacity duration-500`}>
-                        {step.number}
-                      </span>
-
-                      {/* Conteúdo */}
-                      <div className="relative z-10">
-                        {/* Título + Duração */}
-                        <div className="mb-4">
-                          <h3 className="text-xl md:text-2xl font-bold text-[var(--text-primary)] mb-2
-                                       group-hover:bg-gradient-to-r 
-                                       group-hover:from-[var(--primary-color)] 
-                                       group-hover:to-[var(--secondary-color)]
-                                       group-hover:bg-clip-text 
-                                       group-hover:text-transparent
-                                       transition-all duration-300 inline-block">
-                            {step.title}
-                          </h3>
-                          <div className={`flex items-center gap-2 text-sm text-[var(--text-secondary)]
-                                        ${index % 2 === 0 ? 'md:justify-end' : ''}`}>
-                            <Clock className="w-4 h-4" />
-                            <span>{step.duration}</span>
-                          </div>
-                        </div>
-
-                        {/* Descrição */}
-                        <p className="text-[var(--text-secondary)] leading-relaxed mb-4 text-sm md:text-base">
-                          {step.description}
-                        </p>
-
-                        {/* Deliverable Badge */}
-                        <div className={`inline-flex items-center gap-2 px-3 py-1.5 md:px-4 md:py-2 rounded-lg
-                                      bg-[var(--primary-color)]/10 border border-[var(--primary-color)]/20
-                                      ${index % 2 === 0 ? 'md:ml-auto md:float-right' : ''}`}>
-                          <Package className="w-4 h-4 text-[var(--primary-color)] shrink-0" />
-                          <span className="text-sm font-medium text-[var(--primary-color)]">
-                            {step.deliverable}
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                  </motion.div>
-                </div>
+                
+                {/* Desktop Right Spacer (for left-aligned cards) */}
+                {index % 2 === 0 && (
+                  <div className="hidden md:block col-start-3" />
+                )}
               </motion.div>
             )})}
           </div>
