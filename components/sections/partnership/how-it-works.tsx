@@ -69,7 +69,7 @@ export function HowItWorksSection() {
             </span>
           </div>
 
-          <h2 className="text-4xl md:text-5xl md:text-6xl font-bold mb-6 bg-clip-text text-transparent 
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 bg-clip-text text-transparent 
                          bg-gradient-to-r from-[var(--text-primary)] to-[var(--text-secondary)]">
             {t.title}{" "}
             <span className="bg-gradient-to-r from-[var(--primary-color)] 
@@ -85,16 +85,35 @@ export function HowItWorksSection() {
 
         {/* Timeline Container */}
         <div className="relative">
-          {/* Animated Timeline Line */}
-          <div className="absolute left-8 md:left-1/2 top-0 bottom-0 w-1 
-                          bg-gradient-to-b from-transparent via-[var(--border-color)] 
-                          to-transparent md:transform md:-translate-x-1/2" />
+          {/* Timeline Line (Base) */}
+          <div className="hidden md:block absolute left-1/2 top-0 bottom-0 w-0.5 
+                          -translate-x-1/2 z-0">
+            <div className="absolute inset-0 bg-gradient-to-b 
+                            from-[var(--border-color)]/30 via-[var(--border-color)]/50 to-[var(--border-color)]/30" />
+          </div>
           
+          {/* Timeline Line (Animated Progress) */}
           <motion.div
-            className="absolute left-8 md:left-1/2 top-0 w-1 
-                       bg-gradient-to-b from-[var(--primary-color)] to-[var(--secondary-color)]
-                       md:transform md:-translate-x-1/2 origin-top"
-            style={{ scaleY: timelineHeight }}
+            className="hidden md:block absolute left-1/2 top-0 w-1 
+                       -translate-x-1/2 z-0 origin-top"
+            style={{ 
+              scaleY: timelineHeight,
+              background: 'linear-gradient(to bottom, var(--primary-color), var(--secondary-color))',
+              boxShadow: '0 0 20px var(--primary-color)'
+            }}
+          />
+
+          {/* Lines for mobile devices */}
+          <div className="md:hidden absolute left-8 top-0 bottom-0 w-0.5 
+                          bg-[var(--border-color)]/30 z-0" />
+          <motion.div
+            className="md:hidden absolute left-8 top-0 w-1 
+                       z-0 origin-top"
+            style={{ 
+              scaleY: timelineHeight,
+              background: 'linear-gradient(to bottom, var(--primary-color), var(--secondary-color))',
+              boxShadow: '0 0 20px var(--primary-color)'
+            }}
           />
 
           {/* Steps */}
@@ -106,118 +125,192 @@ export function HowItWorksSection() {
               return (
               <motion.div
                 key={step.number}
-                initial={{ opacity: 0, x: index % 2 === 0 ? -50 : 50 }}
+                initial={{ opacity: 0, x: index % 2 === 0 ? -100 : 100 }}
                 whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.1 }}
-                onHoverStart={() => setActiveStep(index)}
-                onHoverEnd={() => setActiveStep(null)}
-                className={`flex flex-col md:grid md:grid-cols-2 gap-8 items-center relative ${
-                  index % 2 === 0 ? "" : "md:grid-flow-dense"
-                }`}
+                viewport={{ once: true, margin: "-100px" }}
+                transition={{
+                  duration: 0.6,
+                  delay: index * 0.15,
+                  ease: [0.25, 0.1, 0.25, 1]
+                }}
+                className="grid grid-cols-[auto_1fr] md:grid-cols-[1fr_auto_1fr] gap-6 md:gap-8 items-center relative"
               >
-                {/* Content Card */}
-                <div className={`${index % 2 === 0 ? "md:pr-12" : "md:pl-12 md:text-right"} w-full ml-16 md:ml-0`}>
+                {/* Left side card or spacer (Desktop only) */}
+                <div className={`${
+                  index % 2 === 0 
+                    ? 'col-start-2 md:col-start-1 md:text-right md:pr-8' 
+                    : 'hidden md:block md:col-start-1'
+                }`}>
+                  {index % 2 === 0 && (
                   <motion.div
-                    className="group relative w-full"
-                    whileHover={{ scale: 1.02 }}
+                    whileHover={{ scale: 1.02, y: -4 }}
                     transition={{ type: "spring", stiffness: 300 }}
+                    className="group relative"
                   >
                     {/* Glassmorphism Card */}
-                    <div className="relative p-6 md:p-8 rounded-2xl 
-                                    bg-[var(--bg-primary)]/80 backdrop-blur-xl
-                                    border border-[var(--border-color)]
-                                    shadow-xl hover:shadow-2xl transition-all duration-500
-                                    overflow-hidden">
-                      {/* Glow Effect on Hover */}
-                      <motion.div
-                        className="absolute inset-0 opacity-0 group-hover:opacity-100 
-                                   transition-opacity duration-500 blur-2xl pointer-events-none"
-                        style={{
-                          background: `radial-gradient(circle at ${index % 2 === 0 ? 'right' : 'left'}, ${style.glowColor}, transparent)`
-                        }}
-                      />
+                    <div className="relative p-6 md:p-8 rounded-2xl overflow-hidden
+                                    bg-[var(--bg-primary)]/60 backdrop-blur-xl
+                                    border border-[var(--border-color)]/50
+                                    shadow-[0_8px_32px_rgba(0,0,0,0.1)] dark:shadow-[0_8px_32px_rgba(0,0,0,0.3)]
+                                    hover:bg-[var(--bg-primary)]/80 hover:border-[var(--primary-color)]/30
+                                    transition-all duration-500">
+                      
+                      {/* Número Grande (Background) */}
+                      <span className={`absolute ${index % 2 === 0 ? 'top-4 left-4 md:auto md:right-4' : 'top-4 right-4'} text-8xl font-black 
+                                       text-[var(--text-primary)] opacity-5 select-none pointer-events-none
+                                       group-hover:opacity-10 transition-opacity duration-500`}>
+                        {step.number}
+                      </span>
 
-                      {/* Content */}
+                      {/* Conteúdo */}
                       <div className="relative z-10">
-                        {/* Step Number + Title */}
-                        <div className={`flex items-start md:items-center gap-4 mb-4 flex-col md:flex-row ${index % 2 === 0 ? "" : "md:flex-row-reverse"}`}>
-                          <span className={`text-4xl md:text-6xl font-black bg-gradient-to-r ${style.gradient} 
-                                          bg-clip-text text-transparent opacity-20 
-                                          group-hover:opacity-40 transition-opacity leading-none hidden md:block`}>
-                            {step.number}
-                          </span>
-                          <div className={`w-full ${index % 2 === 0 ? "" : "md:text-right"}`}>
-                            <h3 className="text-xl md:text-2xl font-bold text-[var(--text-primary)] 
-                                         group-hover:text-[var(--primary-color)] transition-colors mb-2">
-                              {step.title}
-                            </h3>
-                            <div className={`flex items-center gap-2 text-xs md:text-sm text-[var(--text-secondary)] ${index % 2 === 0 ? "" : "md:justify-end"}`}>
-                              <Clock className="w-4 h-4" />
-                              <span>{step.duration}</span>
-                            </div>
+                        {/* Título + Duração */}
+                        <div className="mb-4">
+                          <h3 className="text-xl md:text-2xl font-bold text-[var(--text-primary)] mb-2
+                                       group-hover:bg-gradient-to-r 
+                                       group-hover:from-[var(--primary-color)] 
+                                       group-hover:to-[var(--secondary-color)]
+                                       group-hover:bg-clip-text 
+                                       group-hover:text-transparent
+                                       transition-all duration-300 inline-block">
+                            {step.title}
+                          </h3>
+                          <div className={`flex items-center gap-2 text-sm text-[var(--text-secondary)]
+                                        ${index % 2 === 0 ? 'md:justify-end' : ''}`}>
+                            <Clock className="w-4 h-4" />
+                            <span>{step.duration}</span>
                           </div>
                         </div>
 
-                        {/* Description */}
-                        <p className={`text-sm md:text-base text-[var(--text-secondary)] leading-relaxed mb-4 ${index % 2 === 0 ? "" : "md:text-right"}`}>
+                        {/* Descrição */}
+                        <p className="text-[var(--text-secondary)] leading-relaxed mb-4 text-sm md:text-base">
                           {step.description}
                         </p>
 
                         {/* Deliverable Badge */}
                         <div className={`inline-flex items-center gap-2 px-3 py-1.5 md:px-4 md:py-2 rounded-lg
                                       bg-[var(--primary-color)]/10 border border-[var(--primary-color)]/20
-                                      ${index % 2 === 0 ? "" : "md:ml-auto md:float-right"} max-w-full`}>
-                          <Package className="w-3 h-3 md:w-4 md:h-4 text-[var(--primary-color)] shrink-0" />
-                          <span className="text-xs md:text-sm font-medium text-[var(--primary-color)] truncate whitespace-normal sm:whitespace-nowrap">
+                                      ${index % 2 === 0 ? 'md:ml-auto md:float-right' : ''}`}>
+                          <Package className="w-4 h-4 text-[var(--primary-color)] shrink-0" />
+                          <span className="text-sm font-medium text-[var(--primary-color)]">
                             {step.deliverable}
                           </span>
                         </div>
                       </div>
                     </div>
                   </motion.div>
+                  )}
                 </div>
 
-                {/* Icon */}
-                <div className={`flex justify-center absolute left-2 top-6 md:top-auto md:relative lg:static ${
-                  index % 2 === 0 ? "md:order-2" : "md:order-1"
-                } md:left-auto md:mx-auto z-20`}>
+                {/* Icon (Center on Desktop, Left on Mobile) */}
+                <div className="flex justify-center flex-col items-center col-start-1 md:col-start-2 relative z-20 mx-2 md:mx-0">
                   <motion.div
-                    className="relative"
                     whileHover={{ scale: 1.15, rotate: 360 }}
-                    transition={{ type: "spring", stiffness: 200 }}
+                    transition={{ type: "spring", stiffness: 200, duration: 0.6 }}
+                    className="relative group cursor-pointer"
                   >
                     {/* Glow Ring */}
-                    <motion.div
-                      className="absolute inset-0 rounded-2xl blur-xl"
-                      style={{
-                        background: `linear-gradient(135deg, ${style.glowColor}, transparent)`
-                      }}
-                      animate={{
-                        scale: activeStep === index ? [1, 1.2, 1] : 1,
-                        opacity: activeStep === index ? [0.5, 1, 0.5] : 0.3
-                      }}
-                      transition={{ duration: 2, repeat: Infinity }}
-                    />
+                    <div className="absolute inset-0 rounded-2xl blur-xl opacity-0 
+                                    group-hover:opacity-100 transition-opacity duration-500"
+                         style={{
+                           background: `radial-gradient(circle, ${style.glowColor}, transparent)`
+                         }} />
 
                     {/* Icon Container */}
                     <div className={`relative w-12 h-12 md:w-16 md:h-16 lg:w-20 lg:h-20 rounded-xl md:rounded-2xl 
                                     bg-gradient-to-br ${style.gradient}
-                                    flex items-center justify-center shadow-2xl
-                                    border-4 border-[var(--bg-primary)]`}>
-                      {IconComponent && <IconComponent className="w-5 h-5 md:w-8 md:h-8 lg:w-10 lg:h-10 text-white" 
-                                 strokeWidth={2.5} />}
+                                    flex items-center justify-center
+                                    border-4 border-[var(--bg-secondary)]
+                                    transition-all duration-500`}
+                         style={{
+                           boxShadow: '0 10px 30px rgba(0, 0, 0, 0.15)'
+                         }}
+                         onMouseEnter={(e) => {
+                           e.currentTarget.style.boxShadow = `0 0 30px ${style.glowColor}`;
+                         }}
+                         onMouseLeave={(e) => {
+                           e.currentTarget.style.boxShadow = '0 10px 30px rgba(0, 0, 0, 0.15)';
+                         }}>
+                      {IconComponent && <IconComponent className="w-5 h-5 md:w-8 md:h-8 lg:w-10 lg:h-10 text-white" strokeWidth={2.5} />}
                     </div>
 
-                    {/* Step Number Badge */}
-                    <div className="absolute -top-1 -right-1 md:-top-2 md:-right-2 w-5 h-5 md:w-8 md:h-8 rounded-full 
-                                    bg-[var(--bg-primary)] border-2 border-[var(--primary-color)]
-                                    flex items-center justify-center">
-                      <span className="text-[9px] md:text-xs font-bold text-[var(--primary-color)]">
+                    {/* Badge Número */}
+                    <div className="absolute -top-2 -right-2 w-6 h-6 md:w-8 md:h-8 rounded-full
+                                    bg-[var(--bg-secondary)] border-2 border-[var(--primary-color)]
+                                    flex items-center justify-center
+                                    shadow-lg">
+                      <span className="text-[10px] md:text-xs font-bold text-[var(--primary-color)]">
                         {step.number}
                       </span>
                     </div>
                   </motion.div>
+                </div>
+
+                {/* Right side card or spacer (Desktop only) */}
+                <div className={`${
+                  index % 2 !== 0 
+                    ? 'col-start-2 md:col-start-3 md:pl-8' 
+                    : 'hidden md:block md:col-start-3'
+                }`}>
+                  {index % 2 !== 0 && (
+                  <motion.div
+                    whileHover={{ scale: 1.02, y: -4 }}
+                    transition={{ type: "spring", stiffness: 300 }}
+                    className="group relative"
+                  >
+                    {/* Glassmorphism Card */}
+                    <div className="relative p-6 md:p-8 rounded-2xl overflow-hidden
+                                    bg-[var(--bg-primary)]/60 backdrop-blur-xl
+                                    border border-[var(--border-color)]/50
+                                    shadow-[0_8px_32px_rgba(0,0,0,0.1)] dark:shadow-[0_8px_32px_rgba(0,0,0,0.3)]
+                                    hover:bg-[var(--bg-primary)]/80 hover:border-[var(--primary-color)]/30
+                                    transition-all duration-500">
+                      
+                      {/* Número Grande (Background) */}
+                      <span className={`absolute top-4 right-4 text-8xl font-black 
+                                       text-[var(--text-primary)] opacity-5 select-none pointer-events-none
+                                       group-hover:opacity-10 transition-opacity duration-500`}>
+                        {step.number}
+                      </span>
+
+                      {/* Conteúdo */}
+                      <div className="relative z-10">
+                        {/* Título + Duração */}
+                        <div className="mb-4">
+                          <h3 className="text-xl md:text-2xl font-bold text-[var(--text-primary)] mb-2
+                                       group-hover:bg-gradient-to-r 
+                                       group-hover:from-[var(--primary-color)] 
+                                       group-hover:to-[var(--secondary-color)]
+                                       group-hover:bg-clip-text 
+                                       group-hover:text-transparent
+                                       transition-all duration-300 inline-block">
+                            {step.title}
+                          </h3>
+                          <div className={`flex items-center gap-2 text-sm text-[var(--text-secondary)]
+                                        ${index % 2 === 0 ? 'md:justify-end' : ''}`}>
+                            <Clock className="w-4 h-4" />
+                            <span>{step.duration}</span>
+                          </div>
+                        </div>
+
+                        {/* Descrição */}
+                        <p className="text-[var(--text-secondary)] leading-relaxed mb-4 text-sm md:text-base">
+                          {step.description}
+                        </p>
+
+                        {/* Deliverable Badge */}
+                        <div className={`inline-flex items-center gap-2 px-3 py-1.5 md:px-4 md:py-2 rounded-lg
+                                      bg-[var(--primary-color)]/10 border border-[var(--primary-color)]/20
+                                      ${index % 2 === 0 ? 'md:ml-auto md:float-right' : ''}`}>
+                          <Package className="w-4 h-4 text-[var(--primary-color)] shrink-0" />
+                          <span className="text-sm font-medium text-[var(--primary-color)]">
+                            {step.deliverable}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </motion.div>
+                  )}
                 </div>
               </motion.div>
             )})}
