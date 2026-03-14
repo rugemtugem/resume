@@ -103,7 +103,7 @@ console.log(coder.hireable()); // true`, []);
                                 <p className="text-[var(--text-secondary)] text-lg font-medium opacity-80">
                                     {t.hero_resume.greeting}
                                 </p>
-                                <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black tracking-tighter text-[var(--text-primary)] leading-[1] mb-2">
+                                <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black tracking-tighter text-[var(--text-primary)] leading-[1] mb-2 z-10">
                                     {personalInfo.name}
                                 </h1>
                             </div>

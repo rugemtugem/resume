@@ -5,6 +5,7 @@ import { TrendingUp, Users, DollarSign, Clock, Star } from "lucide-react";
 import Image from "next/image";
 import { useLanguage } from "@/contexts/language-provider";
 import { translations, ProjectCase } from "@/data/translations";
+import { TestimonialVideo } from "@/components/cases/testimonial-video";
 
 export function ProjectsCases() {
   const { language } = useLanguage();
@@ -139,12 +140,26 @@ export function ProjectsCases() {
 
                 {/* Project Testimonial - New Section */}
                 {caso.testimonial && (
-                  <blockquote className="border-l-4 border-[var(--primary-color)] pl-4 italic mb-8 py-1">
-                    <p className="text-[var(--text-primary)] mb-2 text-sm">"{caso.testimonial.text}"</p>
-                    <footer className="text-xs font-semibold not-italic text-[var(--text-secondary)]">
-                      — {caso.testimonial.author}, {caso.testimonial.role}
-                    </footer>
-                  </blockquote>
+                  <>
+                    {caso.testimonial.videoUrl && caso.testimonial.videoThumbnail ? (
+                      <div className="mt-8 mb-8">
+                        <TestimonialVideo
+                          videoUrl={caso.testimonial.videoUrl}
+                          thumbnail={caso.testimonial.videoThumbnail}
+                          author={caso.testimonial.author}
+                          role={caso.testimonial.role}
+                          quote={caso.testimonial.text}
+                        />
+                      </div>
+                    ) : (
+                      <blockquote className="border-l-4 border-[var(--primary-color)] pl-4 italic mb-8 py-1">
+                        <p className="text-[var(--text-primary)] mb-2 text-sm">"{caso.testimonial.text}"</p>
+                        <footer className="text-xs font-semibold not-italic text-[var(--text-secondary)]">
+                          — {caso.testimonial.author}, {caso.testimonial.role}
+                        </footer>
+                      </blockquote>
+                    )}
+                  </>
                 )}
 
                 {/* Tags */}

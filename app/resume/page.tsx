@@ -7,6 +7,8 @@ import { SkillsResume } from "@/components/sections/resume/skills-resume";
 import { ProjectsResume } from "@/components/sections/resume/projects-resume";
 import { EducationResume } from "@/components/sections/resume/education-resume";
 import { ContactResume } from "@/components/sections/resume/contact-resume";
+import { AvailabilityBadge } from "@/components/resume/availability-badge";
+import { WhyHireMeSection } from "@/components/sections/resume/why-hire-me";
 import { Footer } from "@/components/layout/footer";
 
 export const metadata = {
@@ -41,8 +43,12 @@ export default function ResumePage() {
     <>
       <Navbar />
       <main>
+        <div className="pt-24 mb-6 flex justify-center">
+          <AvailabilityBadge />
+        </div>
         <HeroResume />
         <AboutResume />
+        <WhyHireMeSection />
         <ExperienceResume />
         <SkillsResume />
         <ProjectsResume />

@@ -13,6 +13,8 @@ export interface ProjectTestimonial {
     text: string;
     author: string;
     role: string;
+    videoUrl?: string;
+    videoThumbnail?: string;
 }
 
 export interface ProjectCase {
@@ -110,6 +112,87 @@ export const translations = {
             followMe: "Siga-me em:",
             instagram: "https://instagram.com/rugemtugem/",
             tip: { title: "Dica Estratégica", desc: "A maioria dos nossos projetos começa com um simples \"olá\". Não espere o momento perfeito para planejar sua escala." },
+        },
+        how_it_works: {
+            tag: "Processo Transparente",
+            title: "Como ",
+            highlight: "Trabalhamos Juntos",
+            description: "Processo simples, ágil e sem burocracias. Do primeiro contato ao sistema no ar, você sabe exatamente o que esperar.",
+            cta: {
+                title: "Pronto para Começar?",
+                description: "Agende um diagnóstico gratuito de 30 minutos. Sem compromisso, sem pegadinhas.",
+                primary: "Agendar Diagnóstico Gratuito",
+                secondary: "Ver Casos de Sucesso"
+            },
+            steps: [
+                {
+                    number: "01",
+                    title: "Diagnóstico Gratuito (30min)",
+                    description: "Entendo sua dor, mapeio gargalos e apresento roadmap de soluções possíveis",
+                    duration: "30 minutos",
+                    deliverable: "Análise inicial + Proposta de valor",
+                    iconName: "Calendar"
+                },
+                {
+                    number: "02",
+                    title: "Proposta Técnica + Comercial",
+                    description: "Apresento solução detalhada com cronograma, investimento e ROI esperado",
+                    duration: "3-5 dias úteis",
+                    deliverable: "Documento técnico + Planilha de custos",
+                    iconName: "CheckCircle"
+                },
+                {
+                    number: "03",
+                    title: "Desenvolvimento Ágil",
+                    description: "Entregas semanais, validação contínua, ajustes em tempo real",
+                    duration: "4-12 semanas",
+                    deliverable: "Sprints semanais + Demos ao vivo",
+                    iconName: "Code"
+                },
+                {
+                    number: "04",
+                    title: "Lançamento + Treinamento",
+                    description: "Deploy profissional, treinamento do time e documentação completa",
+                    duration: "1-2 semanas",
+                    deliverable: "Sistema no ar + Time treinado",
+                    iconName: "Rocket"
+                },
+                {
+                    number: "05",
+                    title: "Suporte + Evolução",
+                    description: "Monitoramento contínuo, correções rápidas e novas features",
+                    duration: "Contínuo",
+                    deliverable: "SLA de resposta + Roadmap evolutivo",
+                    iconName: "TrendingUp"
+                }
+            ]
+        },
+        faq: {
+            tag: "Dúvidas Frequentes",
+            title: "Perguntas ",
+            highlight: "Frequentes",
+            items: [
+                {
+                    question: "Quanto tempo leva para ter resultados?",
+                    answer: "Primeiros resultados em 2-4 semanas. Sistema completo em 8-12 semanas. Trabalhamos com entregas semanais para você ver progresso constante."
+                },
+                {
+                    question: "Quanto custa um projeto?",
+                    answer: "Projetos variam dependendo do escopo. Após o diagnóstico gratuito, você recebe proposta detalhada com cronograma e ROI esperado. Sem surpresas."
+                },
+                {
+                    question: "Preciso ter equipe técnica?",
+                    answer: "Não. Eu cuido de tudo: desenvolvimento, testes, deploy e treinamento. Você só precisa validar as entregas semanais e dar feedback de negócio."
+                },
+                {
+                    question: "E depois que o sistema estiver pronto?",
+                    answer: "Você escolhe: (1) Suporte pontual quando precisar, (2) Retainer mensal para evoluções contínuas, ou (3) Treinamento para seu time assumir."
+                },
+                {
+                    question: "Como garantir que vai funcionar?",
+                    answer: "Trabalho com metodologia ágil: sprints semanais com demos ao vivo. Se algo não está funcionando, ajustamos imediatamente. Sem risco de 'surpresa' no final."
+                }
+            ]
         },
         success_cases: {
             title: "Casos de Sucesso",
@@ -219,8 +302,35 @@ export const translations = {
         about_resume: {
             title: "Sobre Mim",
             subtitle: "Seu próximo parceiro de tecnologia.",
-            summary: "Nos últimos 25 anos, ajudei empresas a transformar desafios de negócio em produtos digitais que geram resultado. Combino front-end de alta performance, design centrado no usuário e IA aplicada para criar soluções que não apenas funcionam — elas convertem.",
+            summary: "Nos últimos 25 anos, ajudei empresas a transform desafios de negócio em produtos digitais que geram resultado. Combino front-end de alta performance, design centrado no usuário e IA aplicada para criar soluções que não apenas funcionam — elas convertem.",
             description: "Minha abordagem é simples: entender o seu problema antes de escrever uma linha de código. Trabalho de ponta a ponta — do Figma ao deploy — e integro inteligência artificial onde ela realmente faz diferença.",
+        },
+        why_hire_me: {
+            title: "Por Que Me ",
+            highlight: "Contratar",
+            subtitle: "Diferenciais",
+            reasons: [
+                {
+                    iconName: "Zap",
+                    title: "Velocidade sem Sacrificar Qualidade",
+                    description: "Metodologias ágeis + automações = MVPs em semanas, não meses"
+                },
+                {
+                    iconName: "Users",
+                    title: "Liderança Técnica Comprovada",
+                    description: "Lideranças de times de 5-8 devs com entregas consistentes"
+                },
+                {
+                    iconName: "TrendingUp",
+                    title: "Visão de Negócio + Técnica",
+                    description: "Não apenas executo, proponho soluções estratégicas alinhadas ao roadmap"
+                },
+                {
+                    iconName: "Code",
+                    title: "Stack Moderna e Escalável",
+                    description: "Next.js 16, React 19, TypeScript, IA aplicada - tecnologias de ponta"
+                }
+            ]
         },
         contact_resume: {
             title: "Entre em contato comigo",
@@ -531,6 +641,87 @@ export const translations = {
             instagram: "https://instagram.com/rugemtugem/",
             tip: { title: "Strategic Tip", desc: "Most of our projects start with a simple \"hello\". Don't wait for the perfect moment to plan your scale." },
         },
+        how_it_works: {
+            tag: "Transparent Process",
+            title: "How We ",
+            highlight: "Work Together",
+            description: "A simple, agile, and bureaucracy-free process. From the first contact to the live system, you know exactly what to expect.",
+            cta: {
+                title: "Ready to Start?",
+                description: "Schedule a free 30-minute diagnosis. No commitment, no catch.",
+                primary: "Schedule Free Diagnosis",
+                secondary: "View Success Cases"
+            },
+            steps: [
+                {
+                    number: "01",
+                    title: "Free Diagnosis (30min)",
+                    description: "I understand your pain points, map bottlenecks, and present a roadmap of possible solutions",
+                    duration: "30 minutes",
+                    deliverable: "Initial Analysis + Value Proposition",
+                    iconName: "Calendar"
+                },
+                {
+                    number: "02",
+                    title: "Technical + Commercial Proposal",
+                    description: "I present a detailed solution with timeline, investment, and expected ROI",
+                    duration: "3-5 business days",
+                    deliverable: "Technical Document + Cost Spreadsheet",
+                    iconName: "CheckCircle"
+                },
+                {
+                    number: "03",
+                    title: "Agile Development",
+                    description: "Weekly deliveries, continuous validation, real-time adjustments",
+                    duration: "4-12 weeks",
+                    deliverable: "Weekly Sprints + Live Demos",
+                    iconName: "Code"
+                },
+                {
+                    number: "04",
+                    title: "Launch + Training",
+                    description: "Professional deployment, team training, and complete documentation",
+                    duration: "1-2 weeks",
+                    deliverable: "System Live + Trained Team",
+                    iconName: "Rocket"
+                },
+                {
+                    number: "05",
+                    title: "Support + Evolution",
+                    description: "Continuous monitoring, quick fixes, and new features",
+                    duration: "Continuous",
+                    deliverable: "Response SLA + Evolutionary Roadmap",
+                    iconName: "TrendingUp"
+                }
+            ]
+        },
+        faq: {
+            tag: "Frequently Asked Questions",
+            title: "Frequently ",
+            highlight: "Asked Questions",
+            items: [
+                {
+                    question: "How long does it take to see results?",
+                    answer: "Initial results in 2-4 weeks. Complete system in 8-12 weeks. We work with weekly deliveries so you can see constant progress."
+                },
+                {
+                    question: "How much does a project cost?",
+                    answer: "Projects vary depending on the scope. After the free diagnosis, you receive a detailed proposal with timeline and expected ROI. No surprises."
+                },
+                {
+                    question: "Do I need a technical team?",
+                    answer: "No. I handle everything: development, testing, deployment, and training. You only need to validate the weekly deliveries and provide business feedback."
+                },
+                {
+                    question: "And after the system is ready?",
+                    answer: "You choose: (1) On-demand support when needed, (2) Monthly retainer for continuous evolutions, or (3) Training for your team to take over."
+                },
+                {
+                    question: "How to guarantee it will work?",
+                    answer: "I work with an agile methodology: weekly sprints with live demos. If something isn't working, we adjust immediately. No risk of 'surprises' at the end."
+                }
+            ]
+        },
         success_cases: {
             title: "Success Cases",
             subtitle: "Real Results from Real Partnerships",
@@ -641,6 +832,33 @@ export const translations = {
             subtitle: "Your next technology partner.",
             summary: "Over the last 25 years, I've helped companies transform business challenges into digital products that deliver results. I combine high-performance front-end, user-centered design, and applied AI to create solutions that don't just work — they convert.",
             description: "My approach is simple: understand your problem before writing a single line of code. I work end-to-end — from Figma to deploy — and integrate artificial intelligence where it truly makes a difference.",
+        },
+        why_hire_me: {
+            title: "Why Hire ",
+            highlight: "Me",
+            subtitle: "Key Differentiators",
+            reasons: [
+                {
+                    iconName: "Zap",
+                    title: "Speed without Sacrificing Quality",
+                    description: "Agile methodologies + automation = MVPs in weeks, not months"
+                },
+                {
+                    iconName: "Users",
+                    title: "Proven Technical Leadership",
+                    description: "Led teams of 5-8 devs with consistent deliveries"
+                },
+                {
+                    iconName: "TrendingUp",
+                    title: "Business + Technical Vision",
+                    description: "I don't just execute, I propose strategic solutions aligned with the roadmap"
+                },
+                {
+                    iconName: "Code",
+                    title: "Modern and Scalable Stack",
+                    description: "Next.js 16, React 19, TypeScript, Applied AI - cutting edge tech"
+                }
+            ]
         },
         contact_resume: {
             title: "Get in touch",

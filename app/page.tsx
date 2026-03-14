@@ -6,6 +6,8 @@ import { ExperiencePartnership } from "@/components/sections/partnership/experie
 import { SkillsPartnership } from "@/components/sections/partnership/skills-partnership";
 import { ProjectsCases } from "@/components/sections/partnership/projects-cases";
 import { EducationPartnership } from "@/components/sections/partnership/education-partnership";
+import { HowItWorksSection } from "@/components/sections/partnership/how-it-works";
+import { FAQSection } from "@/components/sections/partnership/faq-section";
 import { ContactPartnership } from "@/components/sections/partnership/contact-partnership";
 import { Footer } from "@/components/layout/footer";
 
@@ -46,7 +48,9 @@ export default function HomePage() {
         <ExperiencePartnership />
         <SkillsPartnership />
         <ProjectsCases />
+        <HowItWorksSection />
         <EducationPartnership />
+        <FAQSection />
         <ContactPartnership />
       </main>
       <Footer />
