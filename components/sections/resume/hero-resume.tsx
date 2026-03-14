@@ -68,7 +68,7 @@ console.log(coder.hireable()); // true`, []);
     return (
         <section
             id="home"
-            className="relative min-h-screen flex items-center justify-center pt-24 pb-12 overflow-hidden bg-transparent"
+            className="relative min-h-screen flex items-center justify-center pb-24 overflow-hidden bg-transparent"
         >
             {/* Background Layers - Theme Aware */}
             <div className="absolute inset-0 bg-[var(--bg-primary)] -z-20 transition-colors duration-300" />
