@@ -18,8 +18,8 @@ const inter = Inter({
 
 const siteUrl = "https://rugemtugem.dev";
 const siteName = "Fábio Soares Portfolio";
-const siteTitle = "Fábio Soares - Parceiro Estratégico em Tecnologia";
-const siteDescription = "Transformo desafios técnicos em resultados de negócio. R$ 5M+ em valor gerado para 50+ empresas.";
+const siteTitle = "Fábio Soares - Seu Parceiro Estratégico em Tecnologia";
+const siteDescription = "Transformo desafios técnicos em resultados de negócio escaláveis. Descubra como ajudei mais de 50 empresas a gerar R$ 5M+ em valor real.";
 const ogImageUrl = "https://rugemtugem.dev/og-image.jpg";
 const twitterImageUrl = "https://rugemtugem.dev/twitter-image.jpg";
 
@@ -52,7 +52,7 @@ export const metadata: Metadata = {
   /* ---- Open Graph (Facebook & LinkedIn) ---- */
   openGraph: {
     title: siteTitle,
-    description: "Transformo desafios técnicos em resultados de negócio. R$ 5M+ gerado.",
+    description: siteDescription,
     url: siteUrl,
     siteName,
     locale: "pt_BR",
@@ -63,7 +63,7 @@ export const metadata: Metadata = {
         url: ogImageUrl,
         width: 1200,
         height: 630,
-        alt: "Fábio Soares - Tech Lead",
+        alt: siteTitle,
         type: "image/jpeg",
       },
     ],
@@ -72,8 +72,8 @@ export const metadata: Metadata = {
   /* ---- Twitter / X Card ---- */
   twitter: {
     card: "summary_large_image",
-    title: "Fábio Soares - Parceiro Estratégico",
-    description: "R$ 5M+ em valor gerado para 50+ empresas",
+    title: siteTitle,
+    description: siteDescription,
     images: [twitterImageUrl],
     creator: "@rugemtugem",
   },
