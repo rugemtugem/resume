@@ -24,7 +24,7 @@ export function HeroPartnership() {
                       to-[var(--secondary-color)]/5"
       />
 
-      <div className="max-w-5xl mx-auto text-center relative z-10">
+      <div className="max-w-5xl mx-auto text-center relative z-10 mt-20 md:mt-0">
         {/* Credibility Badge */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -44,7 +44,7 @@ export function HeroPartnership() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
-          className="text-5xl md:text-7xl font-bold mb-6 leading-tight"
+          className="text-[2rem] md:text-7xl font-bold mb-6 leading-tight"
         >
           {t.title.split(language === 'pt' ? 'Resultados' : 'business results')[0]}
           <span className="text-gradient-neon">{language === 'pt' ? 'Resultados de Negócio' : 'Business Results'}</span>
