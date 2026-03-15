@@ -170,7 +170,7 @@ export default function RootLayout({
           gtag('config', 'G-M2K9HY4EXN');
         `}
       </Script>
-      <body className={`${inter.variable} antialiased`}>
+      <body className={`${inter.variable} antialiased overflow-x-hidden`}>
         <ThemeProvider>
           <PageModeProvider>
             <LanguageProvider>
