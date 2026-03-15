@@ -20,8 +20,8 @@ const siteUrl = "https://rugemtugem.dev";
 const siteName = "Fábio Soares Portfolio";
 const siteTitle = "Fábio Soares - Seu Parceiro Estratégico em Tecnologia";
 const siteDescription = "Transformo desafios técnicos em resultados de negócio escaláveis. Descubra como ajudei mais de 50 empresas a gerar R$ 5M+ em valor real.";
-const ogImageUrl = "https://rugemtugem.dev/og-image.jpg";
-const twitterImageUrl = "https://rugemtugem.dev/twitter-image.jpg";
+const ogImageLandscape = "https://rugemtugem.dev/images/og_image_1.png";
+const ogImageSquare = "https://rugemtugem.dev/images/logo-nova.png";
 
 export const metadata: Metadata = {
   /* ---- Core ---- */
@@ -60,11 +60,18 @@ export const metadata: Metadata = {
     type: "website",
     images: [
       {
-        url: ogImageUrl,
+        url: ogImageLandscape,
         width: 1200,
         height: 630,
         alt: siteTitle,
-        type: "image/jpeg",
+        type: "image/png",
+      },
+      {
+        url: ogImageSquare,
+        width: 1080,
+        height: 1080,
+        alt: siteTitle,
+        type: "image/png",
       },
     ],
   },
@@ -74,7 +81,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: siteTitle,
     description: siteDescription,
-    images: [twitterImageUrl],
+    images: [ogImageLandscape],
     creator: "@rugemtugem",
   },
 
