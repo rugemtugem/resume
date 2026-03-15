@@ -1,8 +1,8 @@
 'use client';
 
-import { motion, useSpring, useTransform } from 'framer-motion';
-import { useEffect } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { cn } from '@/lib/utils';
+import { useInView } from 'framer-motion';
 
 /**
  * Props for AnimatedCounter component
@@ -23,13 +23,7 @@ interface AnimatedCounterProps {
 /**
  * AnimatedCounter Component
  *
- * Spring-animated number counter that smoothly counts up to the target value.
- *
- * @example
- * ```tsx
- * <AnimatedCounter value={1000} suffix="+" />
- * <AnimatedCounter value={99.9} suffix="%" decimals={1} />
- * ```
+ * Interval-animated number counter that smoothly counts up to the target value.
  */
 export function AnimatedCounter({
     value,
@@ -38,14 +32,36 @@ export function AnimatedCounter({
     decimals = 0,
     className,
 }: AnimatedCounterProps) {
-    const spring = useSpring(0, { stiffness: 100, damping: 30 });
-    const display = useTransform(spring, (current) =>
-        prefix + current.toFixed(decimals) + suffix
-    );
+    const [count, setCount] = useState(0);
+    const ref = useRef(null);
+    const isInView = useInView(ref, { once: true, margin: "0px" });
 
     useEffect(() => {
-        spring.set(value);
-    }, [spring, value]);
+        if (!isInView) return;
 
-    return <motion.span className={cn('tabular-nums', className)}>{display}</motion.span>;
+        let start = 0;
+        const duration = 2000;
+        const end = value;
+        const increment = end / (duration / 16);
+
+        const timer = setInterval(() => {
+            start += increment;
+            if (start >= end) {
+                setCount(end);
+                clearInterval(timer);
+            } else {
+                setCount(start);
+            }
+        }, 16);
+
+        return () => clearInterval(timer);
+    }, [value, isInView]);
+
+    const display = prefix + count.toFixed(decimals) + suffix;
+
+    return (
+        <span ref={ref} className={cn('tabular-nums inline-block', className)}>
+            {display}
+        </span>
+    );
 }

@@ -27,7 +27,7 @@ export function AboutPartnership() {
             {t.tag}
           </p>
           <h2 className="text-4xl md:text-5xl font-bold mb-6">
-            {t.title.split(language === 'pt' ? 'Resultados' : 'Drives Results')[0]}
+            {t.title.split(language === 'pt' ? 'Gera Resultados' : 'Drives Results')[0]}
             <span className="text-gradient-neon">{language === 'pt' ? 'Gera Resultados' : 'Drives Results'}</span>
           </h2>
           <p className="text-xl text-[var(--text-secondary)] max-w-3xl mx-auto">

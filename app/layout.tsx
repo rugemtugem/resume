@@ -17,34 +17,26 @@ const inter = Inter({
 /* ------------------------------------------------------------------ */
 
 const siteUrl = "https://rugemtugem.dev";
-const siteName = "Fábio Soares — Portfolio";
-const siteTitle =
-  "Fábio Soares (Ferrugem) — Especialista em Tecnologia & IA, Desenvolvedor Front-end";
-const siteDescription =
-  "Transformo ideias em produtos digitais que vendem — com código limpo, design estratégico e Inteligência Artificial. 25+ anos de experiência em React, Next.js, UX/UI e IA aplicada.";
-const ogImageUrl = "/images/logo-nova.png";
+const siteName = "Fábio Soares Portfolio";
+const siteTitle = "Fábio Soares - Parceiro Estratégico em Tecnologia";
+const siteDescription = "Transformo desafios técnicos em resultados de negócio. R$ 5M+ em valor gerado para 50+ empresas.";
+const ogImageUrl = "https://rugemtugem.dev/og-image.jpg";
+const twitterImageUrl = "https://rugemtugem.dev/twitter-image.jpg";
 
 export const metadata: Metadata = {
   /* ---- Core ---- */
   metadataBase: new URL(siteUrl),
-  title: `${siteTitle} | Portfolio`,
+  title: siteTitle,
   description: siteDescription,
   keywords: [
+    "Parceiro Estratégico",
     "Especialista em Tecnologia",
-    "IA Aplicada",
-    "Inteligência Artificial",
-    "Front-end Developer",
-    "Desenvolvedor Front-end",
-    "UX/UI Designer",
+    "Tech Lead",
     "React",
     "Next.js",
     "TypeScript",
-    "Tailwind CSS",
-    "Produtos Digitais",
-    "Tech Lead",
     "Fábio Soares",
     "Ferrugem",
-    "Portfolio",
   ],
   authors: [{ name: "Fábio Soares", url: siteUrl }],
   creator: "Fábio Soares",
@@ -60,7 +52,7 @@ export const metadata: Metadata = {
   /* ---- Open Graph (Facebook & LinkedIn) ---- */
   openGraph: {
     title: siteTitle,
-    description: siteDescription,
+    description: "Transformo desafios técnicos em resultados de negócio. R$ 5M+ gerado.",
     url: siteUrl,
     siteName,
     locale: "pt_BR",
@@ -71,8 +63,8 @@ export const metadata: Metadata = {
         url: ogImageUrl,
         width: 1200,
         height: 630,
-        alt: siteTitle,
-        type: "image/png",
+        alt: "Fábio Soares - Tech Lead",
+        type: "image/jpeg",
       },
     ],
   },
@@ -80,9 +72,9 @@ export const metadata: Metadata = {
   /* ---- Twitter / X Card ---- */
   twitter: {
     card: "summary_large_image",
-    title: siteTitle,
-    description: siteDescription,
-    images: [ogImageUrl],
+    title: "Fábio Soares - Parceiro Estratégico",
+    description: "R$ 5M+ em valor gerado para 50+ empresas",
+    images: [twitterImageUrl],
     creator: "@rugemtugem",
   },
 
