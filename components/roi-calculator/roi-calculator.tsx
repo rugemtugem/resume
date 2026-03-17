@@ -71,7 +71,7 @@ export function RoiCalculator() {
       const canvas = await html2canvas(element, {
         scale: 2, // Higher scale for better resolution
         useCORS: true,
-        backgroundColor: "#111827", // Dark theme background to match
+        // Remove backgroundColor so it correctly renders the white background of the hidden div
       });
 
       const imgData = canvas.toDataURL("image/png");
@@ -333,6 +333,88 @@ export function RoiCalculator() {
           </div>
 
         </motion.div>
+      )}
+
+      {/* Hidden PDF Report Template (Rendered off-screen for html2canvas) */}
+      {step === 3 && (
+        <div 
+          id="pdf-report-container" 
+          className="fixed top-[200vh] left-[200vw] w-[800px] bg-white text-gray-900 p-12 z-[-1]"
+        >
+          {/* Header */}
+          <div className="border-b-2 border-gray-200 pb-6 mb-8 flex justify-between items-center">
+            <div>
+              <h1 className="text-3xl font-black text-gray-900 tracking-tight">Relatório Estratégico de Automação</h1>
+              <p className="text-gray-500 mt-1">Diagnóstico preparado para <strong className="text-gray-900">{name.split(" ")[0]}</strong> ({email})</p>
+            </div>
+            <div className="text-right">
+              <p className="text-sm font-bold text-gray-400">FÁBIO SOARES</p>
+              <p className="text-xs text-gray-500">Parceiro Estratégico em Tecnologia</p>
+            </div>
+          </div>
+
+          {/* Intro */}
+          <div className="mb-10">
+            <h2 className="text-xl font-bold text-gray-800 mb-3">1. O Retrato Atual (A Dor)</h2>
+            <p className="text-gray-600 leading-relaxed text-lg">
+              Com base nos dados fornecidos, sua operação perde atualmente <b className="text-red-600">{hours} horas por semana</b> em processos manuais e repetitivos. Com o custo da sua equipe calculado em <b>{formatCurrency(hourlyCost)}/hora</b>, isso gera um desperdício direto mensal de <b>{formatCurrency(monthlyLostCost)}</b>.
+            </p>
+            <p className="text-gray-600 leading-relaxed mt-4 text-lg">
+              Além do custo direto, estimamos um Custo de Oportunidade (receita travada por falta de foco estratégico) de <b>{formatCurrency(opportunityCost)}</b> mensais sobre o seu faturamento de {formatCurrency(revenue)}.
+            </p>
+            <div className="mt-8 p-6 bg-red-50 border border-red-100 rounded-2xl text-center">
+              <p className="text-sm font-bold text-red-500 uppercase tracking-widest mb-2">Custo Invisível Total Estimado</p>
+              <h3 className="text-5xl font-black text-red-600 mb-2">{formatCurrency(totalMonthlyLoss)} <span className="text-2xl font-bold text-red-400">/ mês</span></h3>
+              <p className="text-sm text-red-400 font-medium">Equivale a {formatCurrency(totalMonthlyLoss * 12)} queimados por ano.</p>
+            </div>
+          </div>
+
+          {/* Solution */}
+          <div className="mb-10">
+            <h2 className="text-xl font-bold text-gray-800 mb-3">2. A Solução (O Potencial)</h2>
+            <p className="text-gray-600 leading-relaxed text-lg">
+              Através de Automação Inteligente e Integração de Sistemas, é possível eliminar até 80% do trabalho braçal mapeado. Isso devolveria tempo para sua equipe focar em vendas, relacionamento e crescimento do negócio.
+            </p>
+            <div className="mt-8 p-6 bg-green-50 border border-green-100 rounded-2xl text-center">
+              <p className="text-sm font-bold text-green-600 uppercase tracking-widest mb-2">Economia Mensal Projetada</p>
+              <h3 className="text-5xl font-black text-green-600 mb-2">{formatCurrency(savingsMonthly)} <span className="text-2xl font-bold text-green-400">/ mês</span></h3>
+            </div>
+          </div>
+
+          {/* ROI */}
+          <div className="mb-10">
+            <h2 className="text-xl font-bold text-gray-800 mb-6">3. Projeção de Retorno (ROI)</h2>
+            <div className="grid grid-cols-2 gap-6">
+              <div className="p-6 border border-gray-200 rounded-2xl">
+                <p className="text-sm text-gray-500 uppercase font-bold mb-2">Investimento Estimado*</p>
+                <p className="text-3xl font-bold text-gray-900">{formatCurrency(averageAutomationCost)}</p>
+                <p className="text-xs text-gray-400 mt-2">*Média conservadora de mercado</p>
+              </div>
+              <div className="p-6 border border-gray-200 rounded-2xl">
+                <p className="text-sm text-gray-500 uppercase font-bold mb-2">Economia Anual (12m)</p>
+                <p className="text-3xl font-bold text-green-600">{formatCurrency(annualSavings)}</p>
+              </div>
+              <div className="p-6 bg-gray-50 border border-gray-200 rounded-2xl">
+                <p className="text-sm text-gray-500 uppercase font-bold mb-2">Payback (Recuperação)</p>
+                <p className="text-3xl font-black text-gray-900">{paybackMonths < 1 ? "< 1 Mês" : `${Math.ceil(paybackMonths)} Meses`}</p>
+              </div>
+              <div className="p-6 bg-green-600 rounded-2xl text-white shadow-lg">
+                <p className="text-sm text-green-100 uppercase font-bold mb-2 tracking-wide">Retorno do Investimento (12m)</p>
+                <p className="text-4xl font-black text-white">+{roi.toFixed(0)}%</p>
+              </div>
+            </div>
+          </div>
+
+          {/* Footer Call to Action */}
+          <div className="mt-14 pt-8 border-t-2 border-gray-200 text-center">
+            <h4 className="font-black text-2xl text-gray-900 mb-3">Próximo Passo Estratégico</h4>
+            <p className="text-base text-gray-600 mb-6 max-w-xl mx-auto">Vamos agendar uma consultoria gratuita de 30 minutos para mapear exatamente quais processos estão gerando esse gargalo hoje e construir seu plano de automação sob medida.</p>
+            <div className="inline-block bg-gray-900 text-white px-8 py-4 rounded-xl font-bold text-lg mb-4">
+              WhatsApp: (11) 98651-4401
+            </div>
+            <p className="text-sm font-bold text-gray-400 uppercase tracking-widest mt-4">rugemtugem.dev</p>
+          </div>
+        </div>
       )}
 
     </div>
