@@ -2,8 +2,10 @@
 
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { Calculator, ArrowRight, Download, Mail, PieChart, TrendingUp, DollarSign, Clock } from "lucide-react";
+import { Calculator, ArrowRight, Download, Mail, PieChart, TrendingUp, DollarSign, Clock, Loader2 } from "lucide-react";
 import { PrimaryButton } from "@/components/ui/buttons";
+import html2canvas from "html2canvas";
+import jsPDF from "jspdf";
 
 export function RoiCalculator() {
   // Passos: 1 = Calculadora, 2 = Captura de Lead, 3 = Resultado
@@ -18,6 +20,7 @@ export function RoiCalculator() {
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isGeneratingPdf, setIsGeneratingPdf] = useState(false);
 
   // Formatting utilities
   const formatCurrency = (value: number) => {
@@ -56,6 +59,38 @@ export function RoiCalculator() {
     await new Promise(resolve => setTimeout(resolve, 1500));
     setIsSubmitting(false);
     setStep(3);
+  };
+
+  const generatePDF = async () => {
+    const element = document.getElementById("roi-result-container");
+    if (!element) return;
+
+    setIsGeneratingPdf(true);
+    try {
+      // Create a canvas from the DOM element
+      const canvas = await html2canvas(element, {
+        scale: 2, // Higher scale for better resolution
+        useCORS: true,
+        backgroundColor: "#111827", // Dark theme background to match
+      });
+
+      const imgData = canvas.toDataURL("image/png");
+      const pdf = new jsPDF({
+        orientation: "portrait",
+        unit: "mm",
+        format: "a4",
+      });
+
+      const pdfWidth = pdf.internal.pageSize.getWidth();
+      const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
+
+      pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
+      pdf.save(`relatorio-roi-${name.trim().toLowerCase().replace(/\s+/g, '-') || 'empresa'}.pdf`);
+    } catch (error) {
+      console.error("Erro ao gerar PDF:", error);
+    } finally {
+      setIsGeneratingPdf(false);
+    }
   };
 
   return (
@@ -227,6 +262,8 @@ export function RoiCalculator() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           className="relative z-10"
+          id="roi-result-container"
+          style={{ padding: '20px' }} // Add some padding for the PDF capture
         >
           <div className="text-center mb-10">
             <h2 className="text-3xl font-bold mb-3">Diagnóstico de Gargalos</h2>
@@ -281,9 +318,17 @@ export function RoiCalculator() {
             </div>
           </div>
           
-          <div className="text-center mt-6">
-            <button className="inline-flex items-center gap-2 text-sm text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors">
-              <Download className="w-4 h-4" /> Baixar PDF do Relatório
+          <div className="text-center mt-6" data-html2canvas-ignore>
+            <button 
+              onClick={generatePDF}
+              disabled={isGeneratingPdf}
+              className="inline-flex items-center gap-2 text-sm text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors disabled:opacity-50"
+            >
+              {isGeneratingPdf ? (
+                <><Loader2 className="w-4 h-4 animate-spin" /> Gerando PDF...</>
+              ) : (
+                <><Download className="w-4 h-4" /> Baixar PDF do Relatório</>
+              )}
             </button>
           </div>
 
