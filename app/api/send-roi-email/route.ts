@@ -1,7 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { Resend } from 'resend';
-
-const resend = new Resend(process.env.RESEND_API_KEY || 're_dummy_key'); // Set this in your physical .env file
+import nodemailer from 'nodemailer';
 
 export async function POST(request: NextRequest) {
   try {
@@ -21,10 +19,21 @@ export async function POST(request: NextRequest) {
     // Buffer da string Base64 do PDF (Gerado pelo Client-Side)
     const pdfBuffer = Buffer.from(base64Data, 'base64');
 
-    // Enviar por email com Resend
-    await resend.emails.send({
-      from: 'Fábio Soares <contato@rugemtugem.dev>',
-      to: email, // If using free Resend tier without domain verified, you can only send to your own registered email.
+    // Configuração do Transporte SMTP
+    const transporter = nodemailer.createTransport({
+      host: process.env.SMTP_HOST || 'smtp.example.com',
+      port: Number(process.env.SMTP_PORT) || 465,
+      secure: Number(process.env.SMTP_PORT) === 465, // true for 465, false for other ports
+      auth: {
+        user: process.env.SMTP_USER || 'contato@seusite.com',
+        pass: process.env.SMTP_PASS || 'suasenha',
+      },
+    });
+
+    // Enviar por email com Nodemailer
+    await transporter.sendMail({
+      from: process.env.SMTP_FROM || '"Fábio Soares" <contato@rugemtugem.dev>',
+      to: email, 
       subject: `${nome}, sua análise de ROI está pronta!`,
       html: `
         <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
@@ -57,21 +66,22 @@ export async function POST(request: NextRequest) {
       attachments: [
         {
           filename: `Analise-ROI-${nome.replace(/\s/g, '-')}.pdf`,
-          content: pdfBuffer
+          content: pdfBuffer,
+          contentType: 'application/pdf'
         }
       ]
     });
 
     return NextResponse.json({ 
       success: true, 
-      message: 'PDF enviado com sucesso!' 
+      message: 'PDF enviado com sucesso via SMTP!' 
     });
 
   } catch (error) {
-    console.error('Erro ao gerar/enviar resend PDF:', error);
+    console.error('Erro ao enviar email via SMTP:', error);
     return NextResponse.json({ 
       success: false, 
-      error: 'Erro ao enviar o relatório.' 
+      error: 'Erro ao enviar o relatório SMTP. Verifique as credenciais.' 
     }, { status: 500 });
   }
 }
