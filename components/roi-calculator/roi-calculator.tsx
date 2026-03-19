@@ -91,6 +91,11 @@ export function RoiCalculator() {
         const imgData = canvas.toDataURL("image/jpeg", 0.95); // Use JPEG for smaller file size
         if (i > 0) pdf.addPage();
         pdf.addImage(imgData, "JPEG", 0, 0, 794, 1123);
+        
+        // Add clickable link area over the "Agendar Reunião" button on the last page (Index 5)
+        if (i === 5) {
+          pdf.link(150, 350, 494, 200, { url: 'https://calendly.com/rugemtugem/diagnostico' });
+        }
       }
 
       if (sendEmail) {

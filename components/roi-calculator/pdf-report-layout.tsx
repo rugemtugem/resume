@@ -149,11 +149,11 @@ export function PdfReportLayout({
 
         {/* Without Shadow on html2canvas, simpler borders */}
         <div className="bg-white border-l-4 border-gray-200 p-8 mb-8" style={{ borderLeftColor: '#2563eb' }}>
-          <div className="flex justify-between items-start mb-4">
-            <h3 className="text-2xl font-bold text-blue-700 m-0">🥇 Prioridade 1: Automação Core End-to-End</h3>
-            <span className="bg-blue-100 text-blue-800 text-sm font-bold px-3 py-1 rounded-full">Meses 1-2</span>
+          <div className="mb-4 block">
+            <span className="inline-block bg-blue-100 text-blue-800 text-sm font-bold px-3 py-1 rounded-full mb-3">Meses 1-2</span>
+            <h3 className="text-2xl font-bold text-blue-700 m-0 leading-tight">🥇 Prioridade 1: Automação Core End-to-End</h3>
           </div>
-          <p className="text-gray-600 mb-6">Integração fluida entre ERP, Meio de Pagamento e Plataforma de Vendas limitando interações humanas a apenas aprovações e exceções críticas.</p>
+          <p className="text-gray-600 mb-6 block">Integração fluida entre ERP, Meio de Pagamento e Plataforma de Vendas limitando interações humanas a apenas aprovações e exceções críticas.</p>
           <div className="flex bg-gray-50 p-4 rounded-xl">
             <div className="flex-1">
               <p className="text-xs text-gray-500 uppercase font-bold mb-1 m-0">Tempo Recuperado</p>
@@ -167,11 +167,11 @@ export function PdfReportLayout({
         </div>
 
         <div className="bg-white border-l-4 border-gray-200 p-8 mb-8" style={{ borderLeftColor: '#9333ea' }}>
-          <div className="flex justify-between items-start mb-4">
-            <h3 className="text-2xl font-bold text-purple-700 m-0">🥈 Prioridade 2: Conversão Autônoma Integrada</h3>
-            <span className="bg-purple-100 text-purple-800 text-sm font-bold px-3 py-1 rounded-full">Meses 2-3</span>
+          <div className="mb-4 block">
+            <span className="inline-block bg-purple-100 text-purple-800 text-sm font-bold px-3 py-1 rounded-full mb-3">Meses 2-3</span>
+            <h3 className="text-2xl font-bold text-purple-700 m-0 leading-tight">🥈 Prioridade 2: Conversão Autônoma Integrada</h3>
           </div>
-          <p className="text-gray-600 mb-6">Conexão de RD Station/HubSpot com WhatsApp API (Suri, Z-API) para nutrição de leads, disparos automáticos de fatura e onboarding humanizado.</p>
+          <p className="text-gray-600 mb-6 block">Conexão de RD Station/HubSpot com WhatsApp API (Suri, Z-API) para nutrição de leads, disparos automáticos de fatura e onboarding humanizado.</p>
           <div className="flex bg-gray-50 p-4 rounded-xl">
             <div className="flex-1">
               <p className="text-xs text-gray-500 uppercase font-bold mb-1 m-0">Aumento de Receita</p>
@@ -185,11 +185,11 @@ export function PdfReportLayout({
         </div>
 
         <div className="bg-white border-l-4 border-gray-200 p-8" style={{ borderLeftColor: '#f97316' }}>
-          <div className="flex justify-between items-start mb-4">
-            <h3 className="text-2xl font-bold text-orange-600 m-0">💡 Quick Win Imediato: Dashboard C-Level</h3>
-            <span className="bg-orange-100 text-orange-800 text-sm font-bold px-3 py-1 rounded-full">Semana 1-2</span>
+          <div className="mb-4 block">
+            <span className="inline-block bg-orange-100 text-orange-800 text-sm font-bold px-3 py-1 rounded-full mb-3">Semana 1-2</span>
+            <h3 className="text-2xl font-bold text-orange-600 m-0 leading-tight">💡 Quick Win Imediato: Dashboard C-Level</h3>
           </div>
-          <p className="text-gray-600 mb-6">Consolidação dos dados espalhados em uma única visão (PowerBI ou Painel Customizado React). Decisões assertivas em tempo real no lugar de planilhas de final de mês.</p>
+          <p className="text-gray-600 mb-6 block">Consolidação dos dados espalhados em uma única visão (PowerBI ou Painel Customizado React). Decisões assertivas em tempo real no lugar de planilhas de final de mês.</p>
           <div className="flex bg-gray-50 p-4 rounded-xl">
             <div className="flex-1">
               <p className="text-xs text-gray-500 uppercase font-bold mb-1 m-0">Setup Previsto</p>
@@ -262,7 +262,7 @@ export function PdfReportLayout({
 
       {/**************** PAGE 5: COMPARATIVO ****************/}
       <div className="pdf-a4-page flex flex-col text-gray-900 border-b border-gray-100" style={{ width: '794px', height: '1123px', backgroundColor: '#ffffff', padding: '60px', boxSizing: 'border-box' }}>
-        <h2 className="text-3xl font-black text-gray-900 uppercase tracking-tight mb-12 pb-4 inline-block" style={{ borderBottom: '4px solid #1f2937', alignSelf: 'flex-start' }}>4. Projeção: Composição a Longo Prazo</h2>
+        <h2 className="text-3xl font-black text-gray-900 uppercase tracking-tight mb-10 pb-4 inline-block" style={{ borderBottom: '4px solid #1f2937', alignSelf: 'flex-start' }}>4. Projeção: Composição a Longo Prazo</h2>
         
         <div className="flex w-full mb-16" style={{ height: '700px' }}>
           {/* STATUS QUO */}
@@ -288,8 +288,8 @@ export function PdfReportLayout({
           
           {/* COM AUTOMAÇÃO */}
           <div className="w-1/2 flex flex-col rounded-3xl border border-green-200 p-8 ml-4 relative" style={{ backgroundColor: '#f0fdf4' }}>
-            <div className="absolute top-0 right-6 text-white font-bold px-4 py-1 rounded-full text-sm" style={{ backgroundColor: '#16a34a', transform: 'translateY(-50%)' }}>RECOMENDADO</div>
             <div className="text-center mb-8 border-b border-green-200 pb-6">
+              <div className="inline-block text-white font-bold px-4 py-1 rounded-full text-sm mb-4" style={{ backgroundColor: '#16a34a' }}>RECOMENDADO</div>
               <h3 className="text-2xl font-black text-green-800 m-0">Cenário B<br/><span className="text-lg font-normal text-green-500 block mt-2">Operação Modernizada</span></h3>
             </div>
             <div className="flex-1 flex flex-col space-y-6">
