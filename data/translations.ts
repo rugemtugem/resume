@@ -267,7 +267,7 @@ export const translations = {
                     industry: "LegalTech",
                     challenge: "Trabalhadores precisam calcular direitos (rescisão, FGTS, CLT, MEI) sem formação jurídica ou contábil, numa rede rápida, acessível e leve em JS.",
                     solution: "Rede de calculadoras em PHP + JS ES Modules vanilla, com acessibilidade nativa do browser (ARIA, <details name>, CSS :has()) e JS reduzido ao essencial.",
-                    logo: null,
+                    logo: "/images/projects/calcula-trabalhador-logo.png",
                     deliverables: [
                         { title: "Suíte automatizada", desc: "Testes de regressão em toda a rede", impact: "222 testes passando" },
                         { title: "Piloto de UX (rescisão)", desc: "Protocolo de medição pré-registrado", impact: "Decisão de expansão baseada em dados" },
@@ -283,7 +283,7 @@ export const translations = {
                     industry: "PropTech",
                     challenge: "Cálculos imobiliários (ITBI, ganho de capital, financiamento, correção TR/IPCA) espalhados em ferramentas desatualizadas ou pagas.",
                     solution: "Rede com 16 ferramentas (15 calculadoras + simulador de ancoragem) em PHP + JS ES Modules vanilla, SEO completo (OG/JSON-LD/sitemap), AdSense lazy-loaded e LGPD básica.",
-                    logo: null,
+                    logo: "/images/projects/calcula-imoveis-logo.png",
                     deliverables: [
                         { title: "Cobertura técnica", desc: "Testes unitários + smoke tests", impact: "42 testes + 16/16 smoke" },
                         { title: "SEO desde o dia 1", desc: "OG, JSON-LD e sitemap estruturados", impact: "Indexação otimizada no lançamento" },
@@ -839,7 +839,7 @@ export const translations = {
                     industry: "LegalTech",
                     challenge: "Brazilian workers need to compute labor rights (severance, FGTS, CLT, MEI) without legal or accounting background, on a fast, accessible, low-JS network.",
                     solution: "Network of calculators in vanilla PHP + JS ES Modules, with native browser accessibility (ARIA, <details name>, CSS :has()) and JS kept to the essentials.",
-                    logo: null,
+                    logo: "/images/projects/calcula-trabalhador-logo.png",
                     deliverables: [
                         { title: "Automated test suite", desc: "Regression coverage across the whole network", impact: "222 tests passing" },
                         { title: "UX pilot (severance)", desc: "Pre-registered measurement protocol", impact: "Data-driven expansion decision" },
@@ -855,7 +855,7 @@ export const translations = {
                     industry: "PropTech",
                     challenge: "Real-estate calculations (transfer tax, capital gains, financing, TR/IPCA correction) scattered across outdated or paid tools.",
                     solution: "Network of 16 tools (15 calculators + 1 anchoring simulator) in vanilla PHP + JS ES Modules, full SEO (OG/JSON-LD/sitemap), lazy-loaded AdSense and baseline LGPD.",
-                    logo: null,
+                    logo: "/images/projects/calcula-imoveis-logo.png",
                     deliverables: [
                         { title: "Technical coverage", desc: "Unit tests + smoke tests", impact: "42 tests + 16/16 smoke" },
                         { title: "SEO from day one", desc: "Structured OG, JSON-LD and sitemap", impact: "Optimized indexing at launch" },
