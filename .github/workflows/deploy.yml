@@ -1,0 +1,43 @@
+name: Deploy to VPS
+
+# Rebuilds the Docker image and restarts the container on the VPS whenever
+# main changes. Root-cause fix for "the site didn't update after a push":
+# pushing to GitHub alone never deployed — this closes that gap.
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch: {}
+
+concurrency:
+  group: deploy-production
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    # Skipped (not failed) until you finish the one-time setup in DEPLOY.md
+    # and set the repo variable DEPLOY_ENABLED to "true".
+    if: ${{ vars.DEPLOY_ENABLED == 'true' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Deploy over SSH (git pull + docker rebuild + restart)
+        env:
+          SSH_KEY: ${{ secrets.SSH_KEY }}
+          SSH_HOST: ${{ secrets.SSH_HOST }}
+          SSH_USER: ${{ secrets.SSH_USER }}
+          SSH_PORT: ${{ secrets.SSH_PORT }}
+          DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
+        run: |
+          set -euo pipefail
+          if [ -z "${SSH_KEY:-}" ] || [ -z "${SSH_HOST:-}" ] || [ -z "${SSH_USER:-}" ] || [ -z "${DEPLOY_PATH:-}" ]; then
+            echo "::error::Missing required secrets: SSH_KEY, SSH_HOST, SSH_USER, DEPLOY_PATH (see DEPLOY.md)"
+            exit 1
+          fi
+          PORT="${SSH_PORT:-22}"
+          mkdir -p ~/.ssh
+          printf '%s\n' "$SSH_KEY" > ~/.ssh/id_deploy
+          chmod 600 ~/.ssh/id_deploy
+          ssh-keyscan -p "$PORT" -H "$SSH_HOST" >> ~/.ssh/known_hosts 2>/dev/null
+          ssh -i ~/.ssh/id_deploy -p "$PORT" -o IdentitiesOnly=yes "$SSH_USER@$SSH_HOST" \
+            "set -euo pipefail; cd '$DEPLOY_PATH'; git fetch origin main; git reset --hard origin/main; bash scripts/deploy.sh"
