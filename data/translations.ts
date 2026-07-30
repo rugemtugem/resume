@@ -261,6 +261,38 @@ export const translations = {
                         { label: "0.5% erro", value: "taxa de falha mínima" },
                     ],
                     tags: ["Node.js", "Bling API", "Webhooks", "REST"]
+                },
+                {
+                    client: "Calcula Trabalhador",
+                    industry: "LegalTech",
+                    challenge: "Trabalhadores precisam calcular direitos (rescisão, FGTS, CLT, MEI) sem formação jurídica ou contábil, numa rede rápida, acessível e leve em JS.",
+                    solution: "Rede de calculadoras em PHP + JS ES Modules vanilla, com acessibilidade nativa do browser (ARIA, <details name>, CSS :has()) e JS reduzido ao essencial.",
+                    logo: null,
+                    deliverables: [
+                        { title: "Suíte automatizada", desc: "Testes de regressão em toda a rede", impact: "222 testes passando" },
+                        { title: "Piloto de UX (rescisão)", desc: "Protocolo de medição pré-registrado", impact: "Decisão de expansão baseada em dados" },
+                    ],
+                    metrics: [
+                        { label: "222 testes", value: "Suíte automatizada" }, // TODO: atualizar métrica após pilot (rev. 12/08/2026)
+                        { label: "Zero-JS UX", value: "Performance nativa" }, // TODO: atualizar após pilot
+                    ],
+                    tags: ["PHP", "JavaScript (ES Modules)", "CSS :has()", "Acessibilidade (ARIA)"]
+                },
+                {
+                    client: "Calcula Imóveis",
+                    industry: "PropTech",
+                    challenge: "Cálculos imobiliários (ITBI, ganho de capital, financiamento, correção TR/IPCA) espalhados em ferramentas desatualizadas ou pagas.",
+                    solution: "Rede com 16 ferramentas (15 calculadoras + simulador de ancoragem) em PHP + JS ES Modules vanilla, SEO completo (OG/JSON-LD/sitemap), AdSense lazy-loaded e LGPD básica.",
+                    logo: null,
+                    deliverables: [
+                        { title: "Cobertura técnica", desc: "Testes unitários + smoke tests", impact: "42 testes + 16/16 smoke" },
+                        { title: "SEO desde o dia 1", desc: "OG, JSON-LD e sitemap estruturados", impact: "Indexação otimizada no lançamento" },
+                    ],
+                    metrics: [
+                        { label: "16 ferramentas", value: "Rede de calculadoras" }, // TODO: atualizar métrica após lançamento
+                        { label: "42 testes", value: "Cobertura técnica" }, // TODO: atualizar após lançamento
+                    ],
+                    tags: ["PHP", "JavaScript (ES Modules)", "SEO (JSON-LD)", "LGPD"]
                 }
             ]
         },
@@ -801,6 +833,38 @@ export const translations = {
                         { label: "0.5% error", value: "minimal failure rate" },
                     ],
                     tags: ["Node.js", "Bling API", "Webhooks", "REST"]
+                },
+                {
+                    client: "Calcula Trabalhador",
+                    industry: "LegalTech",
+                    challenge: "Brazilian workers need to compute labor rights (severance, FGTS, CLT, MEI) without legal or accounting background, on a fast, accessible, low-JS network.",
+                    solution: "Network of calculators in vanilla PHP + JS ES Modules, with native browser accessibility (ARIA, <details name>, CSS :has()) and JS kept to the essentials.",
+                    logo: null,
+                    deliverables: [
+                        { title: "Automated test suite", desc: "Regression coverage across the whole network", impact: "222 tests passing" },
+                        { title: "UX pilot (severance)", desc: "Pre-registered measurement protocol", impact: "Data-driven expansion decision" },
+                    ],
+                    metrics: [
+                        { label: "222 tests", value: "Automated suite" }, // TODO: update metric after pilot (rev. 2026-08-12)
+                        { label: "Zero-JS UX", value: "Native performance" }, // TODO: update after pilot
+                    ],
+                    tags: ["PHP", "JavaScript (ES Modules)", "CSS :has()", "Accessibility (ARIA)"]
+                },
+                {
+                    client: "Calcula Imóveis",
+                    industry: "PropTech",
+                    challenge: "Real-estate calculations (transfer tax, capital gains, financing, TR/IPCA correction) scattered across outdated or paid tools.",
+                    solution: "Network of 16 tools (15 calculators + 1 anchoring simulator) in vanilla PHP + JS ES Modules, full SEO (OG/JSON-LD/sitemap), lazy-loaded AdSense and baseline LGPD.",
+                    logo: null,
+                    deliverables: [
+                        { title: "Technical coverage", desc: "Unit tests + smoke tests", impact: "42 tests + 16/16 smoke" },
+                        { title: "SEO from day one", desc: "Structured OG, JSON-LD and sitemap", impact: "Optimized indexing at launch" },
+                    ],
+                    metrics: [
+                        { label: "16 tools", value: "Calculator network" }, // TODO: update metric after launch
+                        { label: "42 tests", value: "Technical coverage" }, // TODO: update after launch
+                    ],
+                    tags: ["PHP", "JavaScript (ES Modules)", "SEO (JSON-LD)", "LGPD"]
                 }
             ]
         },
