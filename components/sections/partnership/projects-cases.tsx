@@ -48,7 +48,7 @@ export function ProjectsCases() {
               <div className={`order-1 ${index % 2 === 1 ? 'lg:order-2' : ''}`}>
                 <div className="relative aspect-video rounded-2xl overflow-hidden 
                                 border-2 border-[var(--border-color)]
-                                shadow-2xl group bg-dark flex items-center justify-center p-8 transition-transform hover:scale-[1.02] duration-300">
+                                shadow-2xl group bg-white flex items-center justify-center p-8 transition-transform hover:scale-[1.02] duration-300">
                   {caso.logo ? (
                     <div className="relative w-full h-full">
                       <Image
