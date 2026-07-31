@@ -204,7 +204,7 @@ export const translations = {
                     industry: "EdTech",
                     challenge: "Escalar operações de conteúdo e captação de leads sem aumentar custos operacionais.",
                     solution: "Arquitetura WordPress escalável com 5 sistemas integrados: Vagas, Blog, Hub de Integrações e LPs de alta conversão.",
-                    logo: "/images/projects/sales-prime-logo.svg",
+                    logo: "/images/projects/sales-prime-logo.png",
                     deliverables: [
                         { title: "Sistema de Vagas", desc: "Gestão e publicação automatizada", impact: "70% redução no tempo operacional" },
                         { title: "Hub de Integrações", desc: "HubSpot + Pagarme + Guru", impact: "Pipeline de vendas unificado" }
@@ -220,7 +220,7 @@ export const translations = {
                     industry: "FinTech",
                     challenge: "Criar aplicativo de mentorias financeiras com IA e métricas em tempo real para sócios.",
                     solution: "Plataforma mobile-first com análise por IA (Gemini) e dashboard de métricas estratégicas.",
-                    logo: "/images/projects/prosperus-logo.svg",
+                    logo: "/images/projects/prosperus-logo.png",
                     deliverables: [
                         { title: "Sistema de Mentoria IA", desc: "Análise financeira via Gemini API", impact: "Análises em segundos vs dias" },
                         { title: "App Clube de Sócios", desc: "Módulos integrados de gestão", impact: "89% taxa de adoção imediata" }
@@ -776,7 +776,7 @@ export const translations = {
                     industry: "EdTech",
                     challenge: "Scale content operations and lead capture without increasing operational costs.",
                     solution: "Scalable WordPress architecture with 5 integrated systems: Vacancies, Blog, CRM Hub, and high-conversion LPs.",
-                    logo: "/images/projects/sales-prime-logo.svg",
+                    logo: "/images/projects/sales-prime-logo.png",
                     deliverables: [
                         { title: "Vacancy System", desc: "Automated management & publishing", impact: "70% reduction in operational time" },
                         { title: "Integration Hub", desc: "HubSpot + Pagarme + Guru", impact: "Unified sales pipeline" }
@@ -792,7 +792,7 @@ export const translations = {
                     industry: "FinTech",
                     challenge: "Create a financial mentorship app with AI and real-time metrics for partners.",
                     solution: "Mobile-first platform with AI analysis (Gemini) and strategic metrics dashboard.",
-                    logo: "/images/projects/prosperus-logo.svg",
+                    logo: "/images/projects/prosperus-logo.png",
                     deliverables: [
                         { title: "AI Mentoring System", desc: "Financial analysis via Gemini API", impact: "Analysis in seconds vs days" },
                         { title: "Member Club App", desc: "Integrated management modules", impact: "89% immediate adoption rate" }
