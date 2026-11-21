@@ -22,12 +22,22 @@
 - S&S Comércio: pedidos do WhatsApp (Suri) integrados ao sistema de gestão Bling.
 - Sales Prime: site WordPress integrado a HubSpot, Pagar.me e Guru.
 - Campanha 21 Dias: plugin WordPress para inscrições, aprovação e certificados em PDF.
-- Prosperus Club: diagnóstico de mentoria com análise por IA.
+- Prosperus Club: diagnóstico de mentoria em 4 módulos, com análise por IA.
 - Calcula Trabalhador e Calcula Imóveis: redes de calculadoras próprias, com testes automatizados.
 
 ## Páginas
 
 - [Início](https://rugemtugem.dev/): serviços, casos, processo e contato.
+- [Serviços](https://rugemtugem.dev/servicos): os quatro serviços.
+- [Integração de WhatsApp com sistema de gestão](https://rugemtugem.dev/servicos/integracao-whatsapp-erp)
+- [Integração de site com CRM e pagamento](https://rugemtugem.dev/servicos/integracao-site-crm)
+- [WordPress sob medida](https://rugemtugem.dev/servicos/wordpress-sob-medida)
+- [Soluções em IA para a operação](https://rugemtugem.dev/servicos/ia-na-operacao)
+- [Casos](https://rugemtugem.dev/casos): os quatro casos de cliente.
+- [S&S Comércio](https://rugemtugem.dev/casos/ss-comercio-whatsapp-bling)
+- [Sales Prime](https://rugemtugem.dev/casos/sales-prime-site-crm-pagamento)
+- [Campanha 21 Dias](https://rugemtugem.dev/casos/campanha-21-dias-inscricoes-certificados)
+- [Prosperus Club](https://rugemtugem.dev/casos/prosperus-club-diagnostico-mentoria)
 
 ## Contato
 

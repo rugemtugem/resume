@@ -24,16 +24,19 @@ export function Navbar() {
   const [activeSection, setActiveSection] = useState("inicio");
   const [scrolled, setScrolled] = useState(false);
 
+  // Fora da home e do currículo, as âncoras precisam levar para a home.
+  const base = pathname === "/" || pathname === "/resume" ? "" : "/";
+
   // Memoized navigation items
   const menuItems = useMemo(() => [
-    { id: "inicio", name: t.nav.home, href: "#home" },
-    { id: "sobre", name: t.nav.about, href: "#about" },
-    { id: "experiencia", name: t.nav.experience, href: "#experience" },
-    { id: "habilidades", name: t.nav.skills, href: "#skills" },
-    { id: "projetos", name: t.nav.projects, href: isResume ? "#projects" : "#cases" },
-    { id: "educacao", name: t.nav.education, href: "#education" },
-    { id: "contato", name: t.nav.contact, href: "#contact" },
-  ], [t.nav]);
+    { id: "inicio", name: t.nav.home, href: `${base}#home` },
+    { id: "sobre", name: t.nav.about, href: `${base}#about` },
+    { id: "experiencia", name: t.nav.experience, href: `${base}#experience` },
+    { id: "habilidades", name: t.nav.skills, href: `${base}#skills` },
+    { id: "projetos", name: t.nav.projects, href: isResume ? "#projects" : `${base}#cases` },
+    { id: "educacao", name: t.nav.education, href: `${base}#education` },
+    { id: "contato", name: t.nav.contact, href: `${base}#contact` },
+  ], [t.nav, base, isResume]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -45,7 +48,7 @@ export function Navbar() {
       }
 
       const current = menuItems.find((item) => {
-        const sectionId = item.href.substring(1);
+        const sectionId = item.href.split("#")[1];
         const element = document.getElementById(sectionId);
         if (element) {
           const rect = element.getBoundingClientRect();
@@ -114,7 +117,7 @@ export function Navbar() {
           {/* Desktop Menu */}
           <div className="hidden lg:flex items-center gap-1">
             {menuItems.map((item) => {
-              const sectionId = item.href.substring(1);
+              const sectionId = item.href.split("#")[1];
               return (
                 <LinkButton
                   key={item.id}
@@ -155,7 +158,7 @@ export function Navbar() {
             >
               <div className="flex flex-col gap-2">
                 {menuItems.map((item) => {
-                  const sectionId = item.href.substring(1);
+                  const sectionId = item.href.split("#")[1];
                   return (
                     <GhostButton
                       key={item.id}

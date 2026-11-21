@@ -1,5 +1,7 @@
 "use client";
 
+import Link from "next/link";
+import { slugDoCliente } from "@/data/casos";
 import { motion } from "framer-motion";
 import { TrendingUp, Users, DollarSign, Clock, Star } from "lucide-react";
 import Image from "next/image";
@@ -99,6 +101,17 @@ export function ProjectsCases() {
                     </p>
                   </div>
                 </div>
+
+                {slugDoCliente(caso.client) && (
+                  <p className="mb-8">
+                    <Link
+                      href={`/casos/${slugDoCliente(caso.client)}`}
+                      className="font-semibold text-[var(--primary-color)] underline"
+                    >
+                      Ver o caso completo
+                    </Link>
+                  </p>
+                )}
 
                 {/* Deliverables - New Section */}
                 {caso.deliverables && (

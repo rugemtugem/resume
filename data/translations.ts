@@ -217,13 +217,13 @@ export const translations = {
                 },
                 {
                     client: "Prosperus Club",
-                    industry: "FinTech",
-                    challenge: "Criar aplicativo de mentorias financeiras com IA e métricas em tempo real para sócios.",
-                    solution: "Plataforma mobile-first com análise por IA (Gemini) e dashboard de métricas estratégicas.",
+                    industry: "Mentoria",
+                    challenge: "Guiar mentores na montagem de uma oferta high-ticket a partir do próprio conhecimento, com um diagnóstico estruturado.",
+                    solution: "Sistema de diagnóstico interativo em 4 módulos, com análise por IA (Google Gemini), login pelo HubSpot, painel administrativo em tempo real e plano de ação gerado por IA.",
                     logo: "/images/projects/prosperus-logo.png",
                     deliverables: [
-                        { title: "Sistema de Mentoria IA", desc: "Análise financeira via Gemini API", impact: "Análises em segundos vs dias" },
-                        { title: "App Clube de Sócios", desc: "Módulos integrados de gestão", impact: "89% taxa de adoção imediata" }
+                        { title: "Diagnóstico em 4 módulos", desc: "Roteiro guiado para o mentor", impact: "Plano de ação gerado por IA" },
+                        { title: "Painel administrativo", desc: "Acompanhamento em tempo real", impact: "Login integrado ao HubSpot" }
                     ],
                     metrics: [
                         { label: "95% redução", value: "tempo de análise" },
@@ -251,7 +251,7 @@ export const translations = {
                     client: "S&S Comércio",
                     industry: "E-commerce",
                     challenge: "Pedidos do WhatsApp sem integração com o sistema de vendas, gerando retrabalho.",
-                    solution: "Integração automatizada bidirecional Suri (WhatsApp) + Bling (ERP).",
+                    solution: "Integração automatizada nos dois sentidos entre a Suri (WhatsApp) e o Bling (sistema de gestão), em Node.js com webhooks e migração para n8n.",
                     logo: "/images/projects/ses.png",
                     deliverables: [
                         { title: "Integração Suri+Bling", desc: "Sincronização via Webhooks", impact: "100% automação de pedidos" }
@@ -260,7 +260,7 @@ export const translations = {
                         { label: "5 segundos", value: "sincronização média" },
                         { label: "0.5% erro", value: "taxa de falha mínima" },
                     ],
-                    tags: ["Node.js", "Bling API", "Webhooks", "REST"]
+                    tags: ["Node.js", "Bling API", "Webhooks", "n8n"]
                 },
                 {
                     client: "Calcula Trabalhador",

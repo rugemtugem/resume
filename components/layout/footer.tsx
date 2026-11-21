@@ -20,6 +20,7 @@ import {
     Instagram
 } from 'lucide-react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
 /**
  * Footer Component — Premium
@@ -37,14 +38,17 @@ export function Footer() {
         window.scrollTo({ top: 0, behavior: 'smooth' });
     };
 
+    const pathname = usePathname();
+    // Fora da home e do currículo, as âncoras precisam levar para a home.
+    const base = pathname === '/' || pathname === '/resume' ? '' : '/';
+
     const navLinks = [
-        { href: '#home', label: t.nav?.home || 'Início' },
-        { href: '#about', label: t.nav?.about || 'Sobre' },
-        { href: '#experience', label: t.nav?.experience || 'Experiência' },
-        { href: '#skills', label: t.nav?.skills || 'Habilidades' },
-        { href: isResume ? '#projects' : '#cases', label: t.nav?.projects || 'Projetos' },
-        { href: '#education', label: t.nav?.education || 'Educação' },
-        { href: '#contact', label: t.nav?.contact || 'Contato' },
+        { href: `${base}#home`, label: t.nav?.home || 'Início' },
+        { href: `${base}#about`, label: t.nav?.about || 'Sobre' },
+        { href: '/servicos', label: 'Serviços' },
+        { href: '/casos', label: 'Casos' },
+        { href: isResume ? '#projects' : `${base}#cases`, label: t.nav?.projects || 'Projetos' },
+        { href: `${base}#contact`, label: t.nav?.contact || 'Contato' },
     ];
 
     const socialLinks = [
@@ -252,7 +256,7 @@ export function Footer() {
                         </div>
 
                         <Link
-                            href="#contact"
+                            href={`${base}#contact`}
                             data-cta="rodape_contato"
                             data-cta-destino="contato"
                             className="group inline-flex items-center gap-2 px-4 py-2.5 rounded-lg bg-gradient-to-r from-[var(--primary-color)] to-[var(--secondary-color)] text-white text-sm font-medium hover:shadow-lg hover:shadow-[var(--primary-color)]/25 transition-all"
