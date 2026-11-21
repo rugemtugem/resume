@@ -51,13 +51,13 @@ export const translations = {
         },
         // --- Partnership Content ---
         hero: {
-            badge: "Rugemtugem: sistemas para empresas desde novembro de 2000",
+            badge: "Rugemtugem: integração de sistemas e soluções em IA",
             title: "Transformo Desafios Técnicos em Resultados de Negócio",
             role: "Parceiro estratégico em tecnologia que combina liderança técnica, design e IA para criar produtos digitais que geram impacto mensurável e escalam negócios.",
             facts: [
-                { strong: "399 testes", text: "automatizados passando (21/11/2026)", href: "#cases" },
-                { strong: "44 ferramentas", text: "no ar no Calcula Trabalhador (21/11/2026)", href: "#cases" },
+                { strong: "Desde 2000", text: "atendendo empresas", href: "#experience" },
                 { strong: "5 estrelas", text: "em 3 avaliações no Google", href: "#cases" },
+                { strong: "Cliente desde 2008", text: "segundo avaliação no Google", href: "#cases" },
             ],
             cta1: "Vamos Escalar Seu Negócio?",
             cta2: "Ver Casos de Sucesso",
@@ -85,10 +85,10 @@ export const translations = {
                 },
             ],
             stats: [
-                { value: "399", label: "Testes automatizados passando", desc: "No Calcula Trabalhador, medido em 21/11/2026.", href: "#cases" },
                 { value: "2000", label: "Ano em que a Rugemtugem começou", desc: "Atendendo empresas desde novembro de 2000.", href: "#experience" },
                 { value: "5 estrelas", label: "Em 3 avaliações no Google", desc: "Com link para cada avaliação na seção de cases.", href: "#cases" },
-                { value: "44", label: "Ferramentas no Calcula Trabalhador", desc: "Calculadoras e simuladores no ar, contados em 21/11/2026.", href: "#cases" },
+                { value: "2008", label: "Cliente mais antigo com avaliação pública", desc: "\"Já sou cliente do Fábio há 12 anos, desde 2008.\" Avaliação no Google.", href: "#cases" },
+                { value: "4", label: "Clientes com caso publicado", desc: "Sales Prime, Prosperus Club, Campanha 21 Dias e S&S Comércio.", href: "#cases" },
             ],
         },
         contact: {
