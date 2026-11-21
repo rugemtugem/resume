@@ -1,7 +1,17 @@
 import Link from "next/link";
 import Image from "next/image";
 import { notFound } from "next/navigation";
-import { PaginaInterna, ChamadaDiagnostico } from "@/components/layout/pagina-interna";
+import { AlertTriangle, ArrowRight, CheckCircle2, Wrench } from "lucide-react";
+import {
+  PaginaInterna,
+  TopoInterno,
+  Faixa,
+  TituloDeSecao,
+  CartaoVidro,
+  IconeGradiente,
+  ChamadaDiagnostico,
+  BotoesDoTopo,
+} from "@/components/layout/pagina-interna";
 import { CASOS, casoPorSlug, detalhesDoCaso } from "@/data/casos";
 import { servicoPorSlug } from "@/data/servicos";
 
@@ -28,80 +38,109 @@ export default async function CasoPage({ params }: { params: Promise<{ slug: str
   if (!caso) notFound();
   const d = detalhesDoCaso(caso.client);
   const servico = servicoPorSlug(caso.servico);
+  const outros = CASOS.filter((c) => c.slug !== caso.slug);
+  const migalhas = [{ nome: "Início", href: "/" }, { nome: "Casos", href: "/casos" }, { nome: caso.client }];
 
   return (
-    <PaginaInterna
-      migalhas={[{ nome: "Início", href: "/" }, { nome: "Casos", href: "/casos" }, { nome: caso.client }]}
-    >
-      <article>
-        <header className="mb-12">
-          {d.logo && (
-            <div className="relative h-20 w-48 mb-6 rounded-xl bg-white">
-              <Image src={d.logo} alt={`Logo ${caso.client}`} fill className="object-contain p-3" sizes="192px" priority />
-            </div>
+    <PaginaInterna migalhas={migalhas}>
+      <TopoInterno migalhas={migalhas} selo={`Caso de cliente: ${d.industry}`} titulo={`${caso.client}:`} destaque={caso.titulo} texto={caso.resumo}>
+        <BotoesDoTopo local="caso_topo" secundario={{ href: "/casos", texto: "Ver todos os casos" }} />
+      </TopoInterno>
+
+      <Faixa fundo="secundario">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-12 items-center">
+          <div className="relative aspect-video rounded-2xl overflow-hidden border-2 border-[var(--border-color)] shadow-2xl bg-white p-8">
+            {d.logo && (
+              <div className="relative w-full h-full">
+                <Image src={d.logo} alt={`Logo ${caso.client}`} fill className="object-contain" sizes="(min-width: 1024px) 560px, 100vw" priority />
+              </div>
+            )}
+          </div>
+
+          <div className="space-y-6">
+            <CartaoVidro>
+              <div className="flex items-start gap-4">
+                <IconeGradiente icone={AlertTriangle} indice={0} />
+                <div>
+                  <h2 className="text-xl md:text-2xl font-bold mb-2">O problema</h2>
+                  <p className="text-[var(--text-secondary)] leading-relaxed">{d.challenge}</p>
+                </div>
+              </div>
+            </CartaoVidro>
+            <CartaoVidro>
+              <div className="flex items-start gap-4">
+                <IconeGradiente icone={Wrench} indice={1} />
+                <div>
+                  <h2 className="text-xl md:text-2xl font-bold mb-2">O que foi construído</h2>
+                  <p className="text-[var(--text-secondary)] leading-relaxed">{d.solution}</p>
+                </div>
+              </div>
+            </CartaoVidro>
+          </div>
+        </div>
+      </Faixa>
+
+      <Faixa>
+        <TituloDeSecao rotulo="O que foi entregue" titulo="Entregas e" destaque="tecnologias" />
+        {d.deliverables && d.deliverables.length > 0 && (
+          <ul className={`grid grid-cols-1 ${d.deliverables.length > 1 ? "md:grid-cols-2" : "max-w-2xl mx-auto"} gap-6 mb-10`}>
+            {d.deliverables.map((item) => (
+              <li key={item.title}>
+                <div className="h-full flex items-start gap-3 p-5 rounded-xl bg-[var(--bg-secondary)] border border-dashed border-[var(--border-color)]">
+                  <CheckCircle2 className="w-5 h-5 mt-1 text-[var(--primary-color)] shrink-0" aria-hidden="true" />
+                  <p className="leading-relaxed">
+                    <span className="font-bold text-[var(--text-primary)]">{item.title}.</span>{" "}
+                    <span className="text-[var(--text-secondary)]">{item.desc}.</span>
+                  </p>
+                </div>
+              </li>
+            ))}
+          </ul>
+        )}
+        <ul className="flex flex-wrap justify-center gap-3">
+          {d.tags.map((tag) => (
+            <li key={tag} className="px-4 py-2 rounded-full bg-[var(--primary-color)]/10 text-[var(--primary-color)] text-sm font-semibold">
+              {tag}
+            </li>
+          ))}
+        </ul>
+      </Faixa>
+
+      <Faixa fundo="secundario">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          {servico && (
+            <Link href={`/servicos/${servico.slug}`} className="lg:col-span-1 block">
+              <CartaoVidro>
+                <p className="text-sm font-semibold text-[var(--primary-color)] uppercase tracking-wider mb-3">O serviço por trás deste caso</p>
+                <h2 className="text-xl md:text-2xl font-bold mb-3">{servico.nome}</h2>
+                <p className="text-[var(--text-secondary)] leading-relaxed mb-5">{servico.resumo}</p>
+                <span className="inline-flex items-center gap-2 font-semibold text-[var(--primary-color)]">
+                  Ver o serviço
+                  <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" aria-hidden="true" />
+                </span>
+              </CartaoVidro>
+            </Link>
           )}
-          <p className="text-sm font-semibold uppercase tracking-wider text-[var(--primary-color)] mb-3">
-            {d.industry}
-          </p>
-          <h1 className="text-4xl md:text-5xl font-bold text-[var(--text-primary)] leading-tight">
-            {caso.client}: {caso.titulo}
-          </h1>
-        </header>
-
-        <div className="space-y-10 text-lg leading-relaxed text-[var(--text-secondary)]">
-          <section>
-            <h2 className="text-2xl font-bold text-[var(--text-primary)] mb-3">O problema</h2>
-            <p>{d.challenge}</p>
-          </section>
-
-          <section>
-            <h2 className="text-2xl font-bold text-[var(--text-primary)] mb-3">O que foi construído</h2>
-            <p>{d.solution}</p>
-          </section>
-
-          {d.deliverables && d.deliverables.length > 0 && (
-            <section>
-              <h2 className="text-2xl font-bold text-[var(--text-primary)] mb-4">Entregas</h2>
-              <ul className="space-y-3">
-                {d.deliverables.map((item) => (
-                  <li
-                    key={item.title}
-                    className="rounded-xl border border-[var(--border-color)] bg-[var(--bg-secondary)] p-4"
-                  >
-                    <span className="font-semibold text-[var(--text-primary)]">{item.title}.</span> {item.desc}.
+          <div className="lg:col-span-2">
+            <CartaoVidro>
+              <p className="text-sm font-semibold text-[var(--primary-color)] uppercase tracking-wider mb-4">Outros casos</p>
+              <ul className="divide-y divide-[var(--border-color)]/60">
+                {outros.map((outro) => (
+                  <li key={outro.slug}>
+                    <Link href={`/casos/${outro.slug}`} className="flex items-center justify-between gap-4 py-4 hover:text-[var(--primary-color)] transition-colors">
+                      <span>
+                        <span className="font-bold">{outro.client}:</span>{" "}
+                        <span className="text-[var(--text-secondary)]">{outro.titulo}</span>
+                      </span>
+                      <ArrowRight className="w-5 h-5 shrink-0" aria-hidden="true" />
+                    </Link>
                   </li>
                 ))}
               </ul>
-            </section>
-          )}
-
-          <section>
-            <h2 className="text-2xl font-bold text-[var(--text-primary)] mb-4">Tecnologias</h2>
-            <ul className="flex flex-wrap gap-2">
-              {d.tags.map((tag) => (
-                <li
-                  key={tag}
-                  className="px-3 py-1 rounded-full border border-[var(--border-color)] text-sm text-[var(--text-primary)]"
-                >
-                  {tag}
-                </li>
-              ))}
-            </ul>
-          </section>
-
-          {servico && (
-            <section>
-              <h2 className="text-2xl font-bold text-[var(--text-primary)] mb-3">O serviço por trás deste caso</h2>
-              <p>
-                <Link href={`/servicos/${servico.slug}`} className="underline text-[var(--text-primary)]">
-                  {servico.nome}
-                </Link>
-                . {servico.resumo}
-              </p>
-            </section>
-          )}
+            </CartaoVidro>
+          </div>
         </div>
-      </article>
+      </Faixa>
 
       <ChamadaDiagnostico local="caso" />
     </PaginaInterna>

@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
-import { PaginaInterna, ChamadaDiagnostico } from "@/components/layout/pagina-interna";
+import { ArrowRight } from "lucide-react";
+import { PaginaInterna, TopoInterno, Faixa, ChamadaDiagnostico } from "@/components/layout/pagina-interna";
 import { CASOS, detalhesDoCaso } from "@/data/casos";
 
 export const metadata = {
@@ -10,42 +11,58 @@ export const metadata = {
   alternates: { canonical: "/casos" },
 };
 
+const MIGALHAS = [{ nome: "Início", href: "/" }, { nome: "Casos" }];
+
 export default function CasosPage() {
   return (
-    <PaginaInterna migalhas={[{ nome: "Início", href: "/" }, { nome: "Casos" }]}>
-      <header className="mb-12">
-        <h1 className="text-4xl md:text-5xl font-bold text-[var(--text-primary)] mb-4">Casos</h1>
-        <p className="text-xl text-[var(--text-secondary)] max-w-2xl">
-          Quatro clientes, com nome. Em cada um, o problema que existia e o que a Rugemtugem construiu.
-        </p>
-      </header>
+    <PaginaInterna migalhas={MIGALHAS}>
+      <TopoInterno
+        migalhas={MIGALHAS}
+        selo="Quatro clientes, com nome"
+        titulo="O que mudou em"
+        destaque="cada empresa"
+        texto="Em cada caso, o problema que existia e o que a Rugemtugem construiu para resolver."
+      />
 
-      <ul className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {CASOS.map((caso) => {
-          const d = detalhesDoCaso(caso.client);
-          return (
-            <li key={caso.slug}>
-              <Link
-                href={`/casos/${caso.slug}`}
-                className="block h-full rounded-2xl border border-[var(--border-color)] bg-[var(--bg-secondary)] p-6 hover:border-[var(--primary-color)] transition-colors"
-              >
-                {d.logo && (
-                  <div className="relative h-16 w-40 mb-5 rounded-lg bg-white p-2">
-                    <Image src={d.logo} alt="" fill className="object-contain p-2" sizes="160px" />
+      <Faixa fundo="secundario" largura="max-w-7xl">
+        <ul className="space-y-10">
+          {CASOS.map((caso, indice) => {
+            const d = detalhesDoCaso(caso.client);
+            return (
+              <li key={caso.slug}>
+                <Link
+                  href={`/casos/${caso.slug}`}
+                  className="group grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center rounded-3xl p-4 md:p-6 border border-transparent hover:border-[var(--primary-color)]/40 hover:bg-[var(--bg-primary)]/40 transition-all duration-300"
+                >
+                  <div className={indice % 2 === 1 ? "lg:order-2" : ""}>
+                    <div className="relative aspect-video rounded-2xl overflow-hidden border-2 border-[var(--border-color)] shadow-2xl bg-white p-8 transition-transform duration-300 group-hover:scale-[1.02]">
+                      {d.logo && (
+                        <div className="relative w-full h-full">
+                          <Image src={d.logo} alt={`Logo ${caso.client}`} fill className="object-contain" sizes="(min-width: 1024px) 560px, 100vw" priority={indice === 0} />
+                        </div>
+                      )}
+                    </div>
                   </div>
-                )}
-                <p className="text-sm font-semibold uppercase tracking-wider text-[var(--primary-color)] mb-2">
-                  {d.industry}
-                </p>
-                <h2 className="text-xl font-bold text-[var(--text-primary)] mb-3">
-                  {caso.client}: {caso.titulo}
-                </h2>
-                <p className="text-[var(--text-secondary)]">{caso.resumo}</p>
-              </Link>
-            </li>
-          );
-        })}
-      </ul>
+                  <div className={indice % 2 === 1 ? "lg:order-1" : ""}>
+                    <div className="flex flex-wrap items-center gap-3 mb-4">
+                      <h2 className="text-3xl font-bold">{caso.client}</h2>
+                      <span className="px-3 py-1 rounded-full bg-[var(--primary-color)]/10 text-[var(--primary-color)] text-sm font-semibold">
+                        {d.industry}
+                      </span>
+                    </div>
+                    <p className="text-xl font-semibold text-[var(--text-primary)] mb-3 first-letter:uppercase">{caso.titulo}</p>
+                    <p className="text-[var(--text-secondary)] leading-relaxed mb-6">{caso.resumo}</p>
+                    <span className="inline-flex items-center gap-2 font-semibold text-[var(--primary-color)]">
+                      Ver o caso completo
+                      <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" aria-hidden="true" />
+                    </span>
+                  </div>
+                </Link>
+              </li>
+            );
+          })}
+        </ul>
+      </Faixa>
 
       <ChamadaDiagnostico local="casos" />
     </PaginaInterna>
