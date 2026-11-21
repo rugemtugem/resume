@@ -4,7 +4,7 @@ import { useLanguage } from "@/contexts/language-provider";
 
 export function AvailabilityBadge() {
   const { language } = useLanguage();
-  const text = language === 'pt' ? 'Disponível para Oportunidades' : 'Available for Opportunities';
+  const text = 'Disponível para Oportunidades';
 
   return (
     <div className="inline-flex items-center gap-3 px-4 py-2 rounded-full

@@ -12,29 +12,18 @@ import { WhyHireMeSection } from "@/components/sections/resume/why-hire-me";
 import { Footer } from "@/components/layout/footer";
 
 export const metadata = {
-  title: "Fábio Soares - Currículo | Tech Lead Front-end",
-  description: "Tech Lead com 8+ anos de experiência em desenvolvimento front-end, UX/UI e produtos digitais modernos.",
+  title: "Currículo | Fábio Rugemtugem",
+  description: "Currículo de Fábio Rugemtugem: 25+ anos de experiência em desenvolvimento web, UX/UI e produtos digitais.",
+  alternates: { canonical: "/resume" },
+  robots: { index: false, follow: true },
   openGraph: {
-    title: "Fábio Soares | Tech Lead Front-end",
-    description: "Tech Lead especializado em Next.js, React e UX/UI Design.",
+    title: "Currículo | Fábio Rugemtugem",
+    description: "25+ anos de experiência em desenvolvimento web, UX/UI e produtos digitais.",
     url: "https://rugemtugem.dev/resume",
-    siteName: "Fábio Soares Portfolio",
-    images: [
-      {
-        url: "/images/perfil.png",
-        width: 1200,
-        height: 630,
-        alt: "Fábio Soares - Tech Lead",
-      },
-    ],
+    siteName: "Rugemtugem",
+    images: [{ url: "/images/perfil.png", alt: "Fábio Rugemtugem" }],
     locale: "pt_BR",
     type: "profile",
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Fábio Soares - Tech Lead Front-end",
-    description: "Especialista em produtos digitais de alta performance.",
-    images: ["/images/perfil.png"],
   },
 };
 

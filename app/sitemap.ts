@@ -1,38 +1,13 @@
 import type { MetadataRoute } from "next";
 
+/** Só URLs reais. Âncoras da home não entram, e o /resume fica de fora (noindex). */
 export default function sitemap(): MetadataRoute.Sitemap {
-    const baseUrl = "https://rugemtugem.dev";
-
     return [
         {
-            url: baseUrl,
+            url: "https://rugemtugem.dev",
             lastModified: new Date(),
             changeFrequency: "monthly",
             priority: 1,
-        },
-        {
-            url: `${baseUrl}/#about`,
-            lastModified: new Date(),
-            changeFrequency: "monthly",
-            priority: 0.8,
-        },
-        {
-            url: `${baseUrl}/#experience`,
-            lastModified: new Date(),
-            changeFrequency: "monthly",
-            priority: 0.8,
-        },
-        {
-            url: `${baseUrl}/#projects`,
-            lastModified: new Date(),
-            changeFrequency: "monthly",
-            priority: 0.8,
-        },
-        {
-            url: `${baseUrl}/#contact`,
-            lastModified: new Date(),
-            changeFrequency: "yearly",
-            priority: 0.7,
         },
     ];
 }

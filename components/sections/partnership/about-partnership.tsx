@@ -27,8 +27,8 @@ export function AboutPartnership() {
             {t.tag}
           </p>
           <h2 className="text-4xl md:text-5xl font-bold mb-6">
-            {t.title.split(language === 'pt' ? 'Gera Resultados' : 'Drives Results')[0]}
-            <span className="text-gradient-neon">{language === 'pt' ? 'Gera Resultados' : 'Drives Results'}</span>
+            {t.title.split('Gera Resultados')[0]}
+            <span className="text-gradient-neon">{'Gera Resultados'}</span>
           </h2>
           <p className="text-xl text-[var(--text-secondary)] max-w-3xl mx-auto">
             {t.summary}
@@ -90,7 +90,7 @@ export function AboutPartnership() {
               const bg = colorClasses.join(' ');
 
               return (
-                <div key={idx} className={`p-8 rounded-2xl bg-gradient-to-br ${bg} border ${darkBorder} ${border}`}>
+                <a key={idx} href={stat.href} className={`block p-8 rounded-2xl bg-gradient-to-br ${bg} border ${darkBorder} ${border}`}>
                   <div className={`text-5xl font-bold ${textColor} mb-2`}>
                     {stat.value}
                   </div>
@@ -100,7 +100,7 @@ export function AboutPartnership() {
                   <p className="text-sm text-[var(--text-secondary)]">
                     {stat.desc}
                   </p>
-                </div>
+                </a>
               );
             })}
           </motion.div>

@@ -18,75 +18,51 @@ const inter = Inter({
 /* ------------------------------------------------------------------ */
 
 const siteUrl = "https://rugemtugem.dev";
-const siteName = "Fábio Soares Portfolio";
-const siteTitle = "Fábio Soares - Seu Parceiro Estratégico em Tecnologia";
-const siteDescription = "Transformo desafios técnicos em resultados de negócio escaláveis. Descubra como ajudei mais de 50 empresas a gerar R$ 5M+ em valor real.";
-const ogImageLandscape = "https://rugemtugem.dev/images/og_image_1.png";
-const ogImageSquare = "https://rugemtugem.dev/images/logo-nova.png";
+const siteName = "Rugemtugem";
+const siteTitle = "Integração de sistemas e soluções em IA | Rugemtugem";
+const siteDescription = "A Rugemtugem conecta site, WhatsApp e sistemas da sua empresa e cria soluções em IA para o trabalho manual sumir. Diagnóstico gratuito com Fábio Rugemtugem.";
+const ogImage = "https://rugemtugem.dev/images/og_image_1.png";
 
 export const metadata: Metadata = {
-  /* ---- Core ---- */
   metadataBase: new URL(siteUrl),
   title: siteTitle,
   description: siteDescription,
   keywords: [
-    "Parceiro Estratégico",
-    "Especialista em Tecnologia",
-    "Tech Lead",
-    "React",
-    "Next.js",
-    "TypeScript",
-    "Fábio Soares",
-    "Ferrugem",
+    "Rugemtugem",
+    "Fábio Rugemtugem",
+    "integração de sistemas",
+    "automação para empresas",
+    "soluções em IA",
+    "WordPress sob medida",
   ],
-  authors: [{ name: "Fábio Soares", url: siteUrl }],
-  creator: "Fábio Soares",
-  publisher: "Fábio Soares",
+  authors: [{ name: "Fábio Rugemtugem", url: siteUrl }],
+  creator: "Fábio Rugemtugem",
+  publisher: "Rugemtugem",
   category: "technology",
 
-  /* ---- Icons ---- */
   icons: {
     icon: "/images/favicon.png",
     apple: "/images/favicon.png",
   },
 
-  /* ---- Open Graph (Facebook & LinkedIn) ---- */
   openGraph: {
     title: siteTitle,
     description: siteDescription,
     url: siteUrl,
     siteName,
     locale: "pt_BR",
-    alternateLocale: "en_US",
     type: "website",
-    images: [
-      {
-        url: ogImageLandscape,
-        width: 1200,
-        height: 630,
-        alt: siteTitle,
-        type: "image/png",
-      },
-      {
-        url: ogImageSquare,
-        width: 1080,
-        height: 1080,
-        alt: siteTitle,
-        type: "image/png",
-      },
-    ],
+    images: [{ url: ogImage, width: 1536, height: 1024, alt: siteTitle, type: "image/png" }],
   },
 
-  /* ---- Twitter / X Card ---- */
   twitter: {
     card: "summary_large_image",
     title: siteTitle,
     description: siteDescription,
-    images: [ogImageLandscape],
+    images: [ogImage],
     creator: "@rugemtugem",
   },
 
-  /* ---- Robots ---- */
   robots: {
     index: true,
     follow: true,
@@ -98,49 +74,68 @@ export const metadata: Metadata = {
       "max-snippet": -1,
     },
   },
-
-  /* ---- Alternates ---- */
-  alternates: {
-    canonical: siteUrl,
-  },
+  // O canonical é definido em cada página. Aqui ele vazaria para todas.
 };
 
 /* ------------------------------------------------------------------ */
-/*  JSON-LD — Structured Data (Google Rich Results)                   */
+/*  JSON-LD: pessoa, empresa e site                                    */
 /* ------------------------------------------------------------------ */
 
 const jsonLd = {
   "@context": "https://schema.org",
-  "@type": "Person",
-  name: "Fábio Soares",
-  alternateName: "Ferrugem",
-  url: siteUrl,
-  image: `${siteUrl}/images/perfil.png`,
-  jobTitle: "Especialista em Tecnologia & IA, Desenvolvedor Front-end",
-  description: siteDescription,
-  knowsAbout: [
-    "React",
-    "Next.js",
-    "TypeScript",
-    "UX/UI Design",
-    "Inteligência Artificial",
-    "Front-end Development",
-    "Produtos Digitais",
+  "@graph": [
+    {
+      "@type": "Person",
+      "@id": `${siteUrl}/#fabio`,
+      name: "Fábio Rugemtugem",
+      alternateName: "Fábio Soares",
+      url: siteUrl,
+      image: `${siteUrl}/images/perfil.png`,
+      jobTitle: "Especialista em Tecnologia & IA, Desenvolvedor Front-end",
+      knowsAbout: [
+        "Integração de sistemas",
+        "Automação de processos",
+        "WordPress",
+        "Inteligência Artificial aplicada",
+        "UX/UI Design",
+        "Next.js",
+      ],
+      sameAs: [
+        "https://github.com/rugemtugem",
+        "https://linkedin.com/in/rugemtugem",
+        "https://instagram.com/rugemtugem/",
+      ],
+      worksFor: { "@id": `${siteUrl}/#rugemtugem` },
+    },
+    {
+      "@type": "ProfessionalService",
+      "@id": `${siteUrl}/#rugemtugem`,
+      name: "Rugemtugem",
+      url: siteUrl,
+      image: ogImage,
+      description: siteDescription,
+      foundingDate: "2000-11",
+      founder: { "@id": `${siteUrl}/#fabio` },
+      email: "contato@rugemtugem.dev",
+      telephone: "+55 11 98651-4401",
+      areaServed: "BR",
+      address: {
+        "@type": "PostalAddress",
+        addressLocality: "São Paulo",
+        addressRegion: "SP",
+        addressCountry: "BR",
+      },
+      sameAs: ["https://instagram.com/rugemtugem/"],
+    },
+    {
+      "@type": "WebSite",
+      "@id": `${siteUrl}/#site`,
+      url: siteUrl,
+      name: "Rugemtugem",
+      inLanguage: "pt-BR",
+      publisher: { "@id": `${siteUrl}/#rugemtugem` },
+    },
   ],
-  sameAs: [
-    "https://github.com/rugemtugem",
-    "https://linkedin.com/in/rugemtugem",
-  ],
-  address: {
-    "@type": "PostalAddress",
-    addressLocality: "São Paulo",
-    addressRegion: "SP",
-    addressCountry: "BR",
-  },
-  worksFor: {
-    "@type": "Organization",
-    name: "Sales Prime",
-  },
 };
 
 export default function RootLayout({

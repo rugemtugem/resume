@@ -3,19 +3,20 @@ import { Footer } from "@/components/layout/footer";
 import { RoiCalculator } from "@/components/roi-calculator/roi-calculator";
 
 export const metadata = {
-  title: "Calculadora de ROI para Automação | Fábio Soares",
+  alternates: { canonical: "/calculadora-roi" },
+  title: "Calculadora de ROI para Automação | Rugemtugem",
   description: "Calcule em 2 minutos o custo REAL do retrabalho e descubra quanto você está perdendo com processos manuais.",
   openGraph: {
     title: "Calculadora de ROI para Automação",
     description: "Descubra quanto dinheiro sua operação perde com processos manuais e o potencial de economia com automações inteligêntes.",
     url: "https://rugemtugem.dev/calculadora-roi",
-    siteName: "Fábio Soares Portfolio",
+    siteName: "Rugemtugem",
     images: [
       {
         url: "https://rugemtugem.dev/images/og_image_1.png",
         width: 1200,
         height: 630,
-        alt: "Calculadora de ROI - Fábio Soares",
+        alt: "Calculadora de ROI - Rugemtugem",
       },
     ],
     locale: "pt_BR",

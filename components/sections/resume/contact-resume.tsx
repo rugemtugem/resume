@@ -120,7 +120,7 @@ export function ContactResume() {
         },
         {
             icon: MapPin,
-            label: language === 'pt' ? 'Localização' : 'Location',
+            label: 'Localização',
             value: personalInfo.location,
             href: `https://maps.google.com/?q=${encodeURIComponent(personalInfo.location)}`,
             color: 'from-red-500 to-orange-500',
@@ -218,7 +218,7 @@ export function ContactResume() {
                                                     <input
                                                         {...register('name')}
                                                         type="text"
-                                                        placeholder={language === 'pt' ? 'Seu nome completo' : 'Your full name'}
+                                                        placeholder={'Seu nome completo'}
                                                         className={`
                               w-full px-4 py-3 rounded-lg
                               bg-[var(--bg-secondary)]
@@ -368,9 +368,7 @@ export function ContactResume() {
                                                     <textarea
                                                         {...register('message')}
                                                         rows={5}
-                                                        placeholder={language === 'pt'
-                                                            ? 'Conte-me sobre seu projeto ou dúvida...'
-                                                            : 'Tell me about your project or question...'
+                                                        placeholder={'Conte-me sobre seu projeto ou dúvida...'
                                                         }
                                                         className={`
                               w-full px-4 py-3 rounded-lg resize-none
@@ -419,7 +417,7 @@ export function ContactResume() {
                                                 {isSubmitting
                                                     ? t.contact.sending
                                                     : submitSuccess
-                                                        ? (language === 'pt' ? 'Enviado!' : 'Sent!')
+                                                        ? ('Enviado!')
                                                         : t.contact.send
                                                 }
                                             </PrimaryButton>
@@ -514,15 +512,11 @@ export function ContactResume() {
                                         className="p-6 rounded-xl bg-gradient-to-br from-[var(--primary-color)]/10 to-[var(--secondary-color)]/10 border border-[var(--primary-color)]/20"
                                     >
                                         <h3 className="text-xl font-bold text-[var(--text-primary)] mb-2">
-                                            {language === 'pt'
-                                                ? '💡 Vamos criar algo incrível juntos?'
-                                                : "💡 Let's create something amazing together?"
+                                            {'💡 Vamos criar algo incrível juntos?'
                                             }
                                         </h3>
                                         <p className="text-sm text-[var(--text-secondary)] leading-relaxed">
-                                            {language === 'pt'
-                                                ? 'Estou sempre aberto a novas oportunidades, colaborações e projetos desafiadores. Entre em contato!'
-                                                : "I'm always open to new opportunities, collaborations and challenging projects. Get in touch!"
+                                            {'Estou sempre aberto a novas oportunidades, colaborações e projetos desafiadores. Entre em contato!'
                                             }
                                         </p>
                                     </motion.div>

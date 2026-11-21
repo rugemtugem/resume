@@ -45,3 +45,6 @@ next-env.d.ts
 
 #env
 .env
+# agent skills and marketing context (local only)
+.agents/
+skills-lock.json

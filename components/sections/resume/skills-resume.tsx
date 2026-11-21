@@ -190,13 +190,13 @@ export function SkillsResume() {
                             <span className="text-3xl md:text-4xl font-bold text-[var(--primary-color)]">
                                 <AnimatedCounter value={25} suffix="+" />
                             </span>
-                            <p className="text-sm text-[var(--text-secondary)] mt-1">{language === 'pt' ? 'Anos XP' : 'Years XP'}</p>
+                            <p className="text-sm text-[var(--text-secondary)] mt-1">{'Anos XP'}</p>
                         </div>
                         <div className="text-center">
                             <span className="text-3xl md:text-4xl font-bold text-[var(--primary-color)]">
                                 <AnimatedCounter value={4} />
                             </span>
-                            <p className="text-sm text-[var(--text-secondary)] mt-1">{language === 'pt' ? 'Categorias' : 'Categories'}</p>
+                            <p className="text-sm text-[var(--text-secondary)] mt-1">{'Categorias'}</p>
                         </div>
                     </div>
 

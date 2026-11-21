@@ -72,12 +72,12 @@ export function AboutResume() {
                             {/* Core competency progress bars */}
                             <div className="space-y-4 pt-4">
                                 <h3 className="text-sm font-semibold uppercase tracking-wider text-[var(--color-text-muted)] mb-2">
-                                    {language === 'pt' ? 'Competências Principais' : 'Core Competencies'}
+                                    {'Competências Principais'}
                                 </h3>
                                 <AnimatedProgress value={95} label="Front-end Development" color="var(--primary-color)" delay={0} />
                                 <AnimatedProgress value={90} label="UX/UI Design" color="var(--secondary-color)" delay={200} />
-                                <AnimatedProgress value={85} label={language === 'pt' ? 'Liderança Técnica' : 'Tech Leadership'} color="var(--syntax-value)" delay={400} />
-                                <AnimatedProgress value={80} label={language === 'pt' ? 'IA & Automação' : 'AI & Automation'} color="var(--accent-color)" delay={600} />
+                                <AnimatedProgress value={85} label={'Liderança Técnica'} color="var(--syntax-value)" delay={400} />
+                                <AnimatedProgress value={80} label={'IA & Automação'} color="var(--accent-color)" delay={600} />
                             </div>
 
                             {/* Stats counters */}
@@ -87,7 +87,7 @@ export function AboutResume() {
                                         <AnimatedCounter value={25} suffix="+" />
                                     </span>
                                     <p className="text-xs text-[var(--color-text-muted)] mt-1">
-                                        {language === 'pt' ? 'Anos' : 'Years'}
+                                        {'Anos'}
                                     </p>
                                 </div>
                                 <div className="text-center p-4 rounded-xl bg-[var(--color-secondary-bg)] border border-[var(--color-border)]">
@@ -95,7 +95,7 @@ export function AboutResume() {
                                         <AnimatedCounter value={50} suffix="+" />
                                     </span>
                                     <p className="text-xs text-[var(--color-text-muted)] mt-1">
-                                        {language === 'pt' ? 'Projetos' : 'Projects'}
+                                        {'Projetos'}
                                     </p>
                                 </div>
                                 <div className="text-center p-4 rounded-xl bg-[var(--color-secondary-bg)] border border-[var(--color-border)]">
@@ -103,7 +103,7 @@ export function AboutResume() {
                                         <AnimatedCounter value={30} suffix="+" />
                                     </span>
                                     <p className="text-xs text-[var(--color-text-muted)] mt-1">
-                                        {language === 'pt' ? 'Clientes' : 'Clients'}
+                                        {'Clientes'}
                                     </p>
                                 </div>
                             </div>
@@ -124,7 +124,7 @@ export function AboutResume() {
                                 <div className="relative w-full aspect-[3/4] rounded-3xl overflow-hidden border-2 border-[var(--color-border)] shadow-2xl hover:border-[var(--primary-color)] transition-all duration-500">
                                     <Image
                                         src="/images/perfil.png"
-                                        alt="Fábio Soares"
+                                        alt="Fábio Rugemtugem"
                                         fill
                                         sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 500px"
                                         className="object-cover"
@@ -151,7 +151,7 @@ export function AboutResume() {
                                                     textOrientation: 'mixed'
                                                 }}
                                             >
-                                                {language === 'pt' ? 'EXPERIÊNCIAS' : 'EXPERIENCES'}
+                                                {'EXPERIÊNCIAS'}
                                             </p>
                                         </div>
                                     </a>

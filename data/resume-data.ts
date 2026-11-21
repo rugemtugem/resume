@@ -1,9 +1,9 @@
 export const personalInfo = {
-    name: "Fábio Soares",
-    nickname: "Ferrugem",
+    name: "Fábio Rugemtugem",
+    nickname: "Rugemtugem",
     title: "Especialista em Tecnologia & IA, Desenvolvedor Front-end",
     subtitle: "Especialista em Tecnologia & IA Aplicada",
-    location: "São Paulo – SP",
+    location: "São Paulo, SP",
     phone: "+55 11 9 8651-4401",
     email: "contato@rugemtugem.dev",
     linkedin: "https://linkedin.com/in/rugemtugem",
@@ -12,16 +12,16 @@ export const personalInfo = {
 };
 
 export const about = {
-    summary: `Nos últimos 25 anos, ajudei empresas a transformar desafios de negócio em produtos digitais que geram resultado. Combino front-end de alta performance, design centrado no usuário e IA aplicada para criar soluções que não apenas funcionam — elas convertem.`,
-    description: `Minha abordagem é simples: entender o seu problema antes de escrever uma linha de código. Trabalho de ponta a ponta — do Figma ao deploy — e integro inteligência artificial onde ela realmente faz diferença.`,
+    summary: `Nos últimos 25 anos, ajudei empresas a transformar desafios de negócio em produtos digitais que geram resultado. Combino front-end de alta performance, design centrado no usuário e IA aplicada para criar soluções que não apenas funcionam, elas convertem.`,
+    description: `Minha abordagem é simples: entender o seu problema antes de escrever uma linha de código. Trabalho de ponta a ponta, do Figma ao deploy, e integro inteligência artificial onde ela realmente faz diferença.`,
 };
 
 export const experiences = [
     {
         company: "Sales Prime",
         role: "Especialista em Tecnologia & IA | Desenvolvedor Front-end & UX | Criação de Produtos Digitais Escaláveis",
-        period: "Ago/2024 – Atual",
-        location: "São Paulo – SP",
+        period: "Ago/2024 a Atual",
+        location: "São Paulo, SP",
         responsibilities: [
             "Liderança técnica no desenvolvimento de produtos digitais web",
             "Atuação estratégica entre design, tecnologia e negócio",
@@ -33,8 +33,8 @@ export const experiences = [
     {
         company: "Tecsa® Group",
         role: "UX/UI Designer & Desenvolvedor Front-end",
-        period: "Mai/2023 – Jan/2024",
-        location: "São Paulo – SP",
+        period: "Mai/2023 a Jan/2024",
+        location: "São Paulo, SP",
         responsibilities: [
             "Liderança de projetos digitais do conceito à entrega",
             "Desenvolvimento de interfaces modernas e consistentes",
@@ -46,7 +46,7 @@ export const experiences = [
     {
         company: "METAVERSO-LIVEPLANET",
         role: "UI/UX Designer & Front-end Developer",
-        period: "Set/2021 – Jul/2023",
+        period: "Set/2021 a Jul/2023",
         location: "Remoto",
         responsibilities: [
             "Evolução da experiência do usuário em sistemas digitais complexos",
@@ -58,7 +58,7 @@ export const experiences = [
     {
         company: "Roupateca",
         role: "Desenvolvedor Front-end & UX Designer",
-        period: "Mar/2020 – Abr/2023",
+        period: "Mar/2020 a Abr/2023",
         location: "Remoto",
         responsibilities: [
             "Criação de plataforma digital integrada de e-commerce",
@@ -70,8 +70,8 @@ export const experiences = [
     {
         company: "Rugemtugem Comunicação",
         role: "Desenvolvedor Web & UX Designer",
-        period: "Nov/2000 – Atual",
-        location: "São Paulo – SP",
+        period: "Nov/2000 a Atual",
+        location: "São Paulo, SP",
         responsibilities: [
             "Desenvolvimento de soluções digitais para múltiplos segmentos",
             "Criação de produtos sob medida com foco em resultado",
@@ -126,7 +126,7 @@ export const education = [
     {
         degree: "Análise e Desenvolvimento de Sistemas",
         institution: "Estácio",
-        period: "2020 – 2023",
+        period: "2020 a 2023",
         type: "Graduação",
     },
     {

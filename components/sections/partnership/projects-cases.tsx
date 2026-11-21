@@ -83,7 +83,7 @@ export function ProjectsCases() {
                   <div>
                     <h4 className="text-sm font-bold text-[var(--text-secondary)] 
                                    uppercase tracking-wider mb-2">
-                      {language === 'pt' ? 'Desafio' : 'Challenge'}
+                      {'Desafio'}
                     </h4>
                     <p className="text-[var(--text-primary)] leading-relaxed">
                       {caso.challenge}
@@ -92,7 +92,7 @@ export function ProjectsCases() {
                   <div>
                     <h4 className="text-sm font-bold text-[var(--text-secondary)] 
                                    uppercase tracking-wider mb-2">
-                      {language === 'pt' ? 'Solução' : 'Solution'}
+                      {'Solução'}
                     </h4>
                     <p className="text-[var(--text-primary)] leading-relaxed">
                       {caso.solution}
@@ -105,7 +105,7 @@ export function ProjectsCases() {
                   <div className="mb-8">
                     <h4 className="text-sm font-bold text-[var(--text-secondary)] 
                                    uppercase tracking-wider mb-3">
-                      {language === 'pt' ? 'Entregas & Impacto' : 'Deliverables & Impact'}
+                      {'Entregas & Impacto'}
                     </h4>
                     <div className="space-y-3">
                       {caso.deliverables.map((item, i) => (
@@ -155,7 +155,7 @@ export function ProjectsCases() {
                       <blockquote className="border-l-4 border-[var(--primary-color)] pl-4 italic mb-8 py-1">
                         <p className="text-[var(--text-primary)] mb-2 text-sm">"{caso.testimonial.text}"</p>
                         <footer className="text-xs font-semibold not-italic text-[var(--text-secondary)]">
-                          — {caso.testimonial.author}, {caso.testimonial.role}
+                          {caso.testimonial.author}, {caso.testimonial.role}
                         </footer>
                       </blockquote>
                     )}
@@ -244,7 +244,7 @@ export function ProjectsCases() {
                       rel="noopener noreferrer"
                       className="text-xs text-[var(--primary-color)] hover:underline font-medium"
                     >
-                      {language === 'pt' ? 'Ver review' : 'View review'}
+                      {'Ver review'}
                     </a>
                   )}
                 </div>

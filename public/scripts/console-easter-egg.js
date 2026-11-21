@@ -1,8 +1,8 @@
 // public/scripts/console-easter-egg.js
 
 window.coder = {
-    name: 'Fábio Soares',
-    nickname: 'Ferrugem',
+    name: 'Fábio Rugemtugem',
+    nickname: 'Rugemtugem',
     role: 'Tech Lead em Front-end & Produtos Digitais',
     location: 'São Paulo - SP',
 

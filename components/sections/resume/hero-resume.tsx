@@ -92,7 +92,7 @@ console.log(coder.hireable()); // true`, []);
                             >
                                 <Image
                                     src="/images/broche.png"
-                                    alt="Fábio Soares"
+                                    alt="Fábio Rugemtugem"
                                     width={64}
                                     height={64}
                                     className="rounded-full border-2 border-[var(--secondary-color)] p-0.5 bg-[var(--bg-secondary)]"

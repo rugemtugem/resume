@@ -41,24 +41,24 @@ export const translations = {
             contact: "Contato",
         },
         personal: {
-            name: "Fábio Soares",
-            nickname: "Ferrugem",
+            name: "Fábio Rugemtugem",
+            nickname: "Rugemtugem",
             title: "Especialista em Tecnologia & IA, Desenvolvedor Front-end",
             subtitle: "Especialista em Tecnologia & IA Aplicada",
-            location: "São Paulo – SP",
+            location: "São Paulo, SP",
             phone: "+55 11 9 8651-4401",
             email: "contato@rugemtugem.dev",
         },
         // --- Partnership Content ---
         hero: {
-            badge: "Parceiro de 50+ empresas em crescimento",
+            badge: "Rugemtugem: sistemas para empresas desde novembro de 2000",
             title: "Transformo Desafios Técnicos em Resultados de Negócio",
             role: "Parceiro estratégico em tecnologia que combina liderança técnica, design e IA para criar produtos digitais que geram impacto mensurável e escalam negócios.",
-            metrics: {
-                roi: "+40% ROI médio para clientes",
-                value: "R$ 5M+ em valor gerado",
-                satisfaction: "95% taxa de satisfação",
-            },
+            facts: [
+                { strong: "399 testes", text: "automatizados passando no Calcula Trabalhador (21/11/2026)", href: "#cases" },
+                { strong: "16 ferramentas", text: "no ar no Calcula Imóveis", href: "#cases" },
+                { strong: "5 estrelas", text: "em 3 avaliações no Google", href: "#cases" },
+            ],
             cta1: "Vamos Escalar Seu Negócio?",
             cta2: "Ver Casos de Sucesso",
         },
@@ -69,7 +69,7 @@ export const translations = {
             features: [
                 {
                     title: "Resultados Mensuráveis, Não Apenas Código",
-                    desc: "Meus clientes não apenas recebem código bonito — eles veem crescimento real: +40% em conversões, redução de 60% no time-to-market.",
+                    desc: "Cada projeto termina com um resultado que dá para conferir. Os casos mais abaixo mostram o que mudou em cada cliente.",
                 },
                 {
                     title: "Parceiro Estratégico, Não Apenas Executor",
@@ -85,10 +85,10 @@ export const translations = {
                 },
             ],
             stats: [
-                { value: "+40%", label: "ROI Médio dos Clientes", desc: "Retorno mensurável em até 6 meses." },
-                { value: "R$ 5M+", label: "Em Valor Gerado para Parceiros", desc: "Produtos que ajudaram empresas a crescer e escalar." },
-                { value: "95%", label: "Taxa de Satisfação", desc: "Parcerias de longo prazo baseadas em confiança." },
-                { value: "50+", label: "Empresas Cresceram Conosco", desc: "De startups a empresas consolidadas." },
+                { value: "399", label: "Testes automatizados passando", desc: "No Calcula Trabalhador, medido em 21/11/2026.", href: "#cases" },
+                { value: "2000", label: "Ano em que a Rugemtugem começou", desc: "Atendendo empresas desde novembro de 2000.", href: "#experience" },
+                { value: "5 estrelas", label: "Em 3 avaliações no Google", desc: "Com link para cada avaliação na seção de cases.", href: "#cases" },
+                { value: "16", label: "Ferramentas no Calcula Imóveis", desc: "Rede de calculadoras imobiliárias no ar.", href: "#cases" },
             ],
         },
         contact: {
@@ -326,16 +326,16 @@ export const translations = {
         // --- Resume Content ---
         hero_resume: {
             greeting: "Olá, eu sou o",
-            name: "Fábio Soares",
-            role: "Transformo ideias em produtos digitais que vendem — com código limpo, design estratégico e Inteligência Artificial.",
+            name: "Fábio Rugemtugem",
+            role: "Transformo ideias em produtos digitais que vendem, com código limpo, design estratégico e Inteligência Artificial.",
             cta1: "Vamos Conversar?",
             cta2: "Ver Projetos",
         },
         about_resume: {
             title: "Sobre Mim",
             subtitle: "Seu próximo parceiro de tecnologia.",
-            summary: "Nos últimos 25 anos, ajudei empresas a transform desafios de negócio em produtos digitais que geram resultado. Combino front-end de alta performance, design centrado no usuário e IA aplicada para criar soluções que não apenas funcionam — elas convertem.",
-            description: "Minha abordagem é simples: entender o seu problema antes de escrever uma linha de código. Trabalho de ponta a ponta — do Figma ao deploy — e integro inteligência artificial onde ela realmente faz diferença.",
+            summary: "Nos últimos 25 anos, ajudei empresas a transformar desafios de negócio em produtos digitais que geram resultado. Combino front-end de alta performance, design centrado no usuário e IA aplicada para criar soluções que não apenas funcionam, elas convertem.",
+            description: "Minha abordagem é simples: entender o seu problema antes de escrever uma linha de código. Trabalho de ponta a ponta, do Figma ao deploy, e integro inteligência artificial onde ela realmente faz diferença.",
         },
         why_hire_me: {
             title: "Por Que Me ",
@@ -388,9 +388,9 @@ export const translations = {
                     id: "exp-1",
                     company: "Sales Prime",
                     role: "Especialista em Tecnologia & IA Desenvolvedor Front-end & UX",
-                    period: "Ago/2024 – Atual",
+                    period: "Ago/2024 a Atual",
                     duration: "1 ano e 6 meses",
-                    location: "São Paulo – SP",
+                    location: "São Paulo, SP",
                     description: [
                         "Liderança técnica no desenvolvimento de produtos digitais web",
                         "Atuação estratégica entre design, tecnologia e negócio",
@@ -409,9 +409,9 @@ export const translations = {
                     id: "exp-2",
                     company: "Tecsa® Group",
                     role: "UX/UI Designer & Desenvolvedor Front-end",
-                    period: "Mai/2023 – Jan/2024",
+                    period: "Mai/2023 a Jan/2024",
                     duration: "9 meses",
-                    location: "São Paulo – SP",
+                    location: "São Paulo, SP",
                     description: [
                         "Liderança de projetos digitais do conceito à entrega",
                         "Desenvolvimento de interfaces modernas e consistentes",
@@ -426,7 +426,7 @@ export const translations = {
                     id: "exp-3",
                     company: "METAVERSO-LIVEPLANET",
                     role: "UI/UX Designer & Front-end Developer",
-                    period: "Set/2021 – Jul/2023",
+                    period: "Set/2021 a Jul/2023",
                     duration: "1 ano e 10 meses",
                     location: "Remoto",
                     description: [
@@ -442,7 +442,7 @@ export const translations = {
                     id: "exp-4",
                     company: "Roupateca",
                     role: "Desenvolvedor Front-end & UX Designer",
-                    period: "Mar/2020 – Abr/2023",
+                    period: "Mar/2020 a Abr/2023",
                     duration: "3 anos e 1 mês",
                     location: "Remoto",
                     description: [
@@ -458,9 +458,9 @@ export const translations = {
                     id: "exp-5",
                     company: "Rugemtugem Comunicação",
                     role: "Desenvolvedor Web & UX Designer",
-                    period: "Nov/2000 – Atual",
+                    period: "Nov/2000 a Atual",
                     duration: "25+ anos",
-                    location: "São Paulo – SP",
+                    location: "São Paulo, SP",
                     description: [
                         "Desenvolvimento de soluções digitais para múltiplos segmentos",
                         "Criação de produtos sob medida com foco em resultado",
@@ -489,7 +489,7 @@ export const translations = {
                     degree: "Análise e Desenvolvimento de Sistemas",
                     institution: "Estácio",
                     location: "São Paulo, SP",
-                    period: "2020 – 2023",
+                    period: "2020 a 2023",
                     description: "Graduação tecnológica com foco em desenvolvimento de software, banco de dados, redes e engenharia de sistemas.",
                     type: "graduation" as const,
                     status: "completed" as const,
@@ -546,7 +546,7 @@ export const translations = {
                     myRole: "Especialista em Tecnologia & IA, Desenvolvedor Front-end",
                 },
                 {
-                    name: "Prosperus Club — Diagnóstico de Mentoria High-Ticket",
+                    name: "Prosperus Club: Diagnóstico de Mentoria High-Ticket",
                     tools: ["React 19", "TypeScript", "Tailwind CSS", "Framer Motion", "Express.js", "SQLite", "Google Gemini AI"],
                     description: "Sistema de diagnóstico interativo com IA integrada (Google Gemini) que guia mentores através de 4 módulos estruturados para empacotar conhecimento em oferta high-ticket. Inclui autenticação via HubSpot CRM, painel administrativo em tempo real e plano de ação gerado por IA.",
                     myRole: "Full-stack Developer & AI Integrator",
@@ -588,13 +588,13 @@ export const translations = {
                     myRole: "Front-end Developer & UI Designer",
                 },
                 {
-                    name: "Calcula Trabalhador — Rede de Calculadoras Trabalhistas",
+                    name: "Calcula Trabalhador: Rede de Calculadoras Trabalhistas",
                     tools: ["PHP", "JavaScript (ES Modules)", "CSS :has()", "ARIA"],
                     description: "Rede de calculadoras trabalhistas (rescisão, FGTS, CLT, MEI) em PHP e JS vanilla, com foco em performance e acessibilidade nativa do browser. 222 testes automatizados e experimento de UX pré-registrado para decisões baseadas em dados.",
                     myRole: "Full-stack Developer & Product Engineer",
                 },
                 {
-                    name: "Calcula Imóveis — Rede de Ferramentas Imobiliárias",
+                    name: "Calcula Imóveis: Rede de Ferramentas Imobiliárias",
                     tools: ["PHP", "JavaScript (ES Modules)", "SEO/JSON-LD", "LGPD"],
                     description: "Rede com 16 ferramentas (15 calculadoras + simulador de ancoragem) para ITBI, ganho de capital, financiamento e correção TR/IPCA. SEO estruturado (OG/JSON-LD/sitemap), AdSense lazy-loaded e LGPD básica. 42 testes unitários + 16/16 smoke tests.",
                     myRole: "Full-stack Developer & Product Engineer",
@@ -602,578 +602,6 @@ export const translations = {
             ],
         },
     },
-    en: {
-        nav: {
-            home: "Home",
-            about: "About",
-            experience: "Experience",
-            skills: "Skills",
-            education: "Education",
-            projects: "Projects",
-            contact: "Contact",
-        },
-        personal: {
-            name: "Fábio Soares",
-            nickname: "Ferrugem",
-            title: "Technology & AI Specialist, Front-end Developer",
-            subtitle: "Technology & Applied AI Specialist",
-            location: "São Paulo – SP",
-            phone: "+55 11 9 8651-4401",
-            email: "contact@rugemtugem.dev",
-        },
-        // --- Partnership Content ---
-        hero: {
-            badge: "Partner to 50+ growing companies",
-            title: "I turn technical challenges into business results",
-            role: "Strategic technology partner combining technical leadership, design, and AI to create digital products that generate measurable impact and scale businesses.",
-            metrics: {
-                roi: "+40% average ROI for clients",
-                value: "R$ 5M+ in value generated",
-                satisfaction: "95% satisfaction rate",
-            },
-            cta1: "Let's Scale Your Business?",
-            cta2: "View Success Cases",
-        },
-        about: {
-            tag: "Why Companies Choose to Work With Me",
-            title: "Partnership that Drives Results",
-            summary: "It's not about technology for technology's sake. It's about using the right tools to solve real business problems and create products your customers love.",
-            features: [
-                {
-                    title: "Measurable Results, Not Just Code",
-                    desc: "My clients don't just get beautiful code — they see real growth: +40% in conversions, 60% reduction in time-to-market.",
-                },
-                {
-                    title: "Strategic Partner, Not Just Executor",
-                    desc: "I work alongside your team to understand business challenges and propose strategic solutions.",
-                },
-                {
-                    title: "Speed without Sacrificing Quality",
-                    desc: "I use agile methodologies and AI tools to deliver MVPs in weeks, not months.",
-                },
-                {
-                    title: "360º Vision: Tech, Design, and Business",
-                    desc: "I combine technical expertise, design, and business vision to create strategic products.",
-                },
-            ],
-            stats: [
-                { value: "+40%", label: "Average ROI for Clients", desc: "Measurable return within 6 months." },
-                { value: "R$ 5M+", label: "In Value Generated for Partners", desc: "Products that helped companies grow and scale." },
-                { value: "95%", label: "Satisfaction Rate", desc: "Long-term partnerships based on trust." },
-                { value: "50+", label: "Companies Grown With Us", desc: "From startups to established companies." },
-            ],
-        },
-        contact: {
-            title: "Ready to Scale Your Business?",
-            subtitle: "Let's build something together",
-            description: "Let's talk about how a strategic partnership can transform your technical challenges into a competitive advantage.",
-            options: {
-                consultation: { title: "Strategic Consultation", desc: "Free analysis of your challenge and solution roadmap." },
-                proposal: { title: "Custom Proposal", desc: "Detailed plan with investment and expected results." },
-                chat: { title: "Informal Chat", desc: "Direct WhatsApp to answer questions or explore ideas." },
-            },
-            name: "Name",
-            email: "Email",
-            whatsapp: "WhatsApp",
-            message: "Message",
-            placeholder: "How can I help your business today?",
-            send: "Send Message",
-            sending: "Sending...",
-            success: "Message sent successfully!",
-            error: "Error sending message. Please try again.",
-            followMe: "Follow me on:",
-            instagram: "https://instagram.com/rugemtugem/",
-            tip: { title: "Strategic Tip", desc: "Most of our projects start with a simple \"hello\". Don't wait for the perfect moment to plan your scale." },
-        },
-        how_it_works: {
-            tag: "Transparent Process",
-            title: "How We ",
-            highlight: "Work Together",
-            description: "A simple, agile, and bureaucracy-free process. From the first contact to the live system, you know exactly what to expect.",
-            cta: {
-                title: "Ready to Start?",
-                description: "Schedule a free 30-minute diagnosis. No commitment, no catch.",
-                primary: "Schedule Free Diagnosis",
-                secondary: "View Success Cases"
-            },
-            steps: [
-                {
-                    number: "01",
-                    title: "Free Diagnosis (30min)",
-                    description: "I understand your pain points, map bottlenecks, and present a roadmap of possible solutions",
-                    duration: "30 minutes",
-                    deliverable: "Initial Analysis + Value Proposition",
-                    iconName: "Calendar"
-                },
-                {
-                    number: "02",
-                    title: "Technical + Commercial Proposal",
-                    description: "I present a detailed solution with timeline, investment, and expected ROI",
-                    duration: "3-5 business days",
-                    deliverable: "Technical Document + Cost Spreadsheet",
-                    iconName: "CheckCircle"
-                },
-                {
-                    number: "03",
-                    title: "Agile Development",
-                    description: "Weekly deliveries, continuous validation, real-time adjustments",
-                    duration: "4-12 weeks",
-                    deliverable: "Weekly Sprints + Live Demos",
-                    iconName: "Code"
-                },
-                {
-                    number: "04",
-                    title: "Launch + Training",
-                    description: "Professional deployment, team training, and complete documentation",
-                    duration: "1-2 weeks",
-                    deliverable: "System Live + Trained Team",
-                    iconName: "Rocket"
-                },
-                {
-                    number: "05",
-                    title: "Support + Evolution",
-                    description: "Continuous monitoring, quick fixes, and new features",
-                    duration: "Continuous",
-                    deliverable: "Response SLA + Evolutionary Roadmap",
-                    iconName: "TrendingUp"
-                }
-            ]
-        },
-        faq: {
-            tag: "Frequently Asked Questions",
-            title: "Frequently ",
-            highlight: "Asked Questions",
-            items: [
-                {
-                    question: "How long does it take to see results?",
-                    answer: "Initial results in 2-4 weeks. Complete system in 8-12 weeks. We work with weekly deliveries so you can see constant progress."
-                },
-                {
-                    question: "How much does a project cost?",
-                    answer: "Projects vary depending on the scope. After the free diagnosis, you receive a detailed proposal with timeline and expected ROI. No surprises."
-                },
-                {
-                    question: "Do I need a technical team?",
-                    answer: "No. I handle everything: development, testing, deployment, and training. You only need to validate the weekly deliveries and provide business feedback."
-                },
-                {
-                    question: "And after the system is ready?",
-                    answer: "You choose: (1) On-demand support when needed, (2) Monthly retainer for continuous evolutions, or (3) Training for your team to take over."
-                },
-                {
-                    question: "How to guarantee it will work?",
-                    answer: "I work with an agile methodology: weekly sprints with live demos. If something isn't working, we adjust immediately. No risk of 'surprises' at the end."
-                }
-            ]
-        },
-        success_cases: {
-            title: "Success Cases",
-            subtitle: "Real Results from Real Partnerships",
-            description: "Companies that trusted in a strategic partnership and saw their businesses grow measurably",
-            items: [
-                {
-                    client: "Sales Prime",
-                    industry: "EdTech",
-                    challenge: "Scale content operations and lead capture without increasing operational costs.",
-                    solution: "Scalable WordPress architecture with 5 integrated systems: Vacancies, Blog, CRM Hub, and high-conversion LPs.",
-                    logo: "/images/projects/sales-prime-logo.png",
-                    deliverables: [
-                        { title: "Vacancy System", desc: "Automated management & publishing", impact: "70% reduction in operational time" },
-                        { title: "Integration Hub", desc: "HubSpot + Pagarme + Guru", impact: "Unified sales pipeline" }
-                    ],
-                    metrics: [
-                        { label: "+156% growth", value: "in qualified leads" },
-                        { label: "R$ 2M+", value: "in generated revenue" },
-                    ],
-                    tags: ["WordPress", "PHP", "HubSpot", "Pagarme"]
-                },
-                {
-                    client: "Prosperus Club",
-                    industry: "FinTech",
-                    challenge: "Create a financial mentorship app with AI and real-time metrics for partners.",
-                    solution: "Mobile-first platform with AI analysis (Gemini) and strategic metrics dashboard.",
-                    logo: "/images/projects/prosperus-logo.png",
-                    deliverables: [
-                        { title: "AI Mentoring System", desc: "Financial analysis via Gemini API", impact: "Analysis in seconds vs days" },
-                        { title: "Member Club App", desc: "Integrated management modules", impact: "89% immediate adoption rate" }
-                    ],
-                    metrics: [
-                        { label: "95% reduction", value: "analysis time" },
-                        { label: "NPS 85", value: "extremely high satisfaction" },
-                    ],
-                    tags: ["React", "TypeScript", "Google Gemini", "Tailwind"]
-                },
-                {
-                    client: "21 Days Campaign",
-                    industry: "Social Impact",
-                    challenge: "Manage national event with hundreds of registrations and certificate automation under LGPD.",
-                    solution: "Custom WordPress plugin with PDF automation and data security at scale.",
-                    logo: "/images/projects/campanha-21-dias-logo.webp",
-                    deliverables: [
-                        { title: "Registration System", desc: "Smart forms with validation", impact: "Zero errors in 500+ records" },
-                        { title: "Certificate Automation", desc: "Dynamic PDF generation", impact: "Saved 100+ manual hours" }
-                    ],
-                    metrics: [
-                        { label: "500+", value: "managed registrations" },
-                        { label: "100%", value: "LGPD compliant" },
-                    ],
-                    tags: ["PHP", "WordPress", "TCPDF", "MySQL"]
-                },
-                {
-                    client: "S&S Comércio",
-                    industry: "E-commerce",
-                    challenge: "WhatsApp orders without CRM integration, causing manual rework.",
-                    solution: "Automated bidirectional integration Suri (WhatsApp) + Bling (ERP).",
-                    logo: "/images/projects/ses.png",
-                    deliverables: [
-                        { title: "Suri+Bling Integration", desc: "Sync via Webhooks", impact: "100% order automation" }
-                    ],
-                    metrics: [
-                        { label: "5 seconds", value: "average synchronization" },
-                        { label: "0.5% error", value: "minimal failure rate" },
-                    ],
-                    tags: ["Node.js", "Bling API", "Webhooks", "REST"]
-                },
-                {
-                    client: "Calcula Trabalhador",
-                    industry: "LegalTech",
-                    challenge: "Brazilian workers need to compute labor rights (severance, FGTS, CLT, MEI) without legal or accounting background, on a fast, accessible, low-JS network.",
-                    solution: "Network of calculators in vanilla PHP + JS ES Modules, with native browser accessibility (ARIA, <details name>, CSS :has()) and JS kept to the essentials.",
-                    logo: "/images/projects/calcula-trabalhador-logo.png",
-                    deliverables: [
-                        { title: "Automated test suite", desc: "Regression coverage across the whole network", impact: "222 tests passing" },
-                        { title: "UX pilot (severance)", desc: "Pre-registered measurement protocol", impact: "Data-driven expansion decision" },
-                    ],
-                    metrics: [
-                        { label: "222 tests", value: "Automated suite" }, // TODO: update metric after pilot (rev. 2026-08-12)
-                        { label: "Zero-JS UX", value: "Native performance" }, // TODO: update after pilot
-                    ],
-                    tags: ["PHP", "JavaScript (ES Modules)", "CSS :has()", "Accessibility (ARIA)"]
-                },
-                {
-                    client: "Calcula Imóveis",
-                    industry: "PropTech",
-                    challenge: "Real-estate calculations (transfer tax, capital gains, financing, TR/IPCA correction) scattered across outdated or paid tools.",
-                    solution: "Network of 16 tools (15 calculators + 1 anchoring simulator) in vanilla PHP + JS ES Modules, full SEO (OG/JSON-LD/sitemap), lazy-loaded AdSense and baseline LGPD.",
-                    logo: "/images/projects/calcula-imoveis-logo.png",
-                    deliverables: [
-                        { title: "Technical coverage", desc: "Unit tests + smoke tests", impact: "42 tests + 16/16 smoke" },
-                        { title: "SEO from day one", desc: "Structured OG, JSON-LD and sitemap", impact: "Optimized indexing at launch" },
-                    ],
-                    metrics: [
-                        { label: "16 tools", value: "Calculator network" }, // TODO: update metric after launch
-                        { label: "42 tests", value: "Technical coverage" }, // TODO: update after launch
-                    ],
-                    tags: ["PHP", "JavaScript (ES Modules)", "SEO (JSON-LD)", "LGPD"]
-                }
-            ]
-        },
-        testimonials: {
-            title: "What Our Partners Say",
-            subtitle: "Google Reviews",
-            items: [
-                {
-                    author: "Ericka Guimarães",
-                    rating: 5,
-                    text: "Fabio is a great professional, always helpful, responds immediately and manages to translate the client's needs in the best way. I always look for him when putting a new project live! Highly recommend!",
-                    reviewLink: "https://share.google/cVYXtY7Lk",
-                    avatar: "/images/testimonials/ericka.jpg"
-                },
-                {
-                    author: "Henri Passos",
-                    rating: 5,
-                    text: "I've been Fabio's client for 12 years, since 2008 when I started in photography. Always helpful and doing more than what is asked. Great professional!",
-                    reviewLink: "https://share.google/9qA08v8Yq",
-                    avatar: "/images/testimonials/henri.jpg"
-                },
-                {
-                    author: "uelerson santos",
-                    rating: 5,
-                    text: "Responsible and super attentive professional, he worked hard on every detail until my site was the way I wanted it. Super recommend!!!",
-                    reviewLink: "https://share.google/XaPXeWlk",
-                    avatar: null
-                }
-            ]
-        },
-        // --- Resume Content ---
-        hero_resume: {
-            greeting: "Hi, I'm",
-            name: "Fábio Soares",
-            role: "I transform ideas into digital products that sell — with clean code, strategic design, and Artificial Intelligence.",
-            cta1: "Let's Talk?",
-            cta2: "View Projects",
-        },
-        about_resume: {
-            title: "ABOUT ME",
-            subtitle: "Your next technology partner.",
-            summary: "Over the last 25 years, I've helped companies transform business challenges into digital products that deliver results. I combine high-performance front-end, user-centered design, and applied AI to create solutions that don't just work — they convert.",
-            description: "My approach is simple: understand your problem before writing a single line of code. I work end-to-end — from Figma to deploy — and integrate artificial intelligence where it truly makes a difference.",
-        },
-        why_hire_me: {
-            title: "Why Hire ",
-            highlight: "Me",
-            subtitle: "Key Differentiators",
-            reasons: [
-                {
-                    iconName: "Zap",
-                    title: "Speed without Sacrificing Quality",
-                    description: "Agile methodologies + automation = MVPs in weeks, not months"
-                },
-                {
-                    iconName: "Users",
-                    title: "Proven Technical Leadership",
-                    description: "Led teams of 5-8 devs with consistent deliveries"
-                },
-                {
-                    iconName: "TrendingUp",
-                    title: "Business + Technical Vision",
-                    description: "I don't just execute, I propose strategic solutions aligned with the roadmap"
-                },
-                {
-                    iconName: "Code",
-                    title: "Modern and Scalable Stack",
-                    description: "Next.js 16, React 19, TypeScript, Applied AI - cutting edge tech"
-                }
-            ]
-        },
-        contact_resume: {
-            title: "Get in touch",
-            subtitle: "Let's talk",
-            description: "If you have any questions or concerns, please don't hesitate to contact me. I am open to any work opportunities that align with my skills and interests.",
-            name: "Name",
-            email: "Email",
-            whatsapp: "WhatsApp",
-            message: "Message",
-            send: "Send Message",
-            sending: "Sending...",
-            success: "Message sent successfully!",
-            error: "Error sending message. Please try again.",
-            followMe: "Follow me on:",
-        },
-        experience: {
-            subtitle: "Professional Journey",
-            title: "Professional Experience",
-            description: "My path building digital solutions that transform businesses",
-            current: "Current",
-            items: [
-                {
-                    id: "exp-1",
-                    company: "Sales Prime",
-                    role: "Technology & AI Specialist | Front-end & UX Developer",
-                    period: "Aug/2024 – Current",
-                    duration: "1 year and 6 months",
-                    location: "São Paulo – SP",
-                    description: [
-                        "Technical leadership in web digital product development",
-                        "Strategic action between design, technology, and business",
-                        "Collaboration with agile squads (sprints, dailies, plannings, reviews)",
-                        "Implementation of scalable, responsive, and performant interfaces",
-                        "Multidisciplinary team management and technical alignment",
-                    ],
-                    technologies: ["React", "TypeScript", "Tailwind CSS", "Next.js", "Figma"],
-                    achievements: [
-                        "Led complete redesign of the main dashboard",
-                        "Implemented unified design system for all products",
-                    ],
-                    type: "current" as const,
-                },
-                {
-                    id: "exp-2",
-                    company: "Tecsa® Group",
-                    role: "UX/UI Designer & Front-end Developer",
-                    period: "May/2023 – Jan/2024",
-                    duration: "9 months",
-                    location: "São Paulo – SP",
-                    description: [
-                        "Leadership of digital projects from concept to delivery",
-                        "Development of modern and consistent interfaces",
-                        "Translation of business requirements into technical solutions",
-                        "Usability testing and continuous experience improvement",
-                        "Implementation of design systems and front-end best practices",
-                    ],
-                    technologies: ["Next.js", "React", "Bootstrap", "Figma", "Adobe XD"],
-                    type: "past" as const,
-                },
-                {
-                    id: "exp-3",
-                    company: "METAVERSO-LIVEPLANET",
-                    role: "UI/UX Designer & Front-end Developer",
-                    period: "Sep/2021 – Jul/2023",
-                    duration: "1 year and 10 months",
-                    location: "Remote",
-                    description: [
-                        "Evolution of user experience in complex digital systems",
-                        "Development of responsive and optimized interfaces",
-                        "Integration between design and functional code",
-                        "Performance optimization and cross-browser compatibility",
-                    ],
-                    technologies: ["React", "Three.js", "WebGL", "CSS3", "JavaScript"],
-                    type: "past" as const,
-                },
-                {
-                    id: "exp-4",
-                    company: "Roupateca",
-                    role: "Front-end Developer & UX Designer",
-                    period: "Mar/2020 – Apr/2023",
-                    duration: "3 years and 1 month",
-                    location: "Remote",
-                    description: [
-                        "Creation of integrated e-commerce digital platform",
-                        "Complete execution of UX/UI process",
-                        "WordPress implementation with focus on scalability",
-                        "Simplification of complex flows for end users",
-                    ],
-                    technologies: ["WordPress", "WooCommerce", "JavaScript", "CSS3", "PHP"],
-                    type: "past" as const,
-                },
-                {
-                    id: "exp-5",
-                    company: "Rugemtugem Communication",
-                    role: "Web Developer & UX Designer",
-                    period: "Nov/2000 – Current",
-                    duration: "25+ years",
-                    location: "São Paulo – SP",
-                    description: [
-                        "Development of digital solutions for multiple segments",
-                        "Creation of custom products focused on results",
-                        "Full-stack work with modern web technologies",
-                        "Continuous client relationship and business vision",
-                    ],
-                    technologies: ["HTML", "CSS", "JavaScript", "React", "PHP", "MySQL", "WordPress"],
-                    type: "current" as const,
-                },
-            ],
-        },
-        skills: {
-            title: "Skills",
-            technology: "Technology",
-            ux: "UX/UI Design",
-            ai: "AI & Automation",
-            tools: "Tools",
-        },
-        education: {
-            subtitle: "Academic Background",
-            title: "Education",
-            description: "Continuous investment in formal education and professional certifications",
-            items: [
-                {
-                    id: "edu-1",
-                    degree: "Systems Analysis and Development",
-                    institution: "Estácio",
-                    location: "São Paulo, Brazil",
-                    period: "2020 – 2023",
-                    description: "Technology degree focused on software development, databases, networking, and systems engineering.",
-                    type: "graduation" as const,
-                    status: "completed" as const,
-                },
-                {
-                    id: "edu-2",
-                    degree: "User-Centered Design",
-                    institution: "PUCRS",
-                    location: "Online",
-                    period: "2022",
-                    description: "Extension course focused on Design Thinking methodologies, user research, and user-centered solution prototyping.",
-                    highlights: [
-                        "Design Thinking and user research",
-                        "Prototyping and usability testing",
-                    ],
-                    type: "postgrad" as const,
-                    status: "completed" as const,
-                },
-                {
-                    id: "edu-3",
-                    degree: "Professional JavaScript",
-                    institution: "EBAC",
-                    location: "Online",
-                    period: "2021",
-                    description: "Intensive training in modern JavaScript, ES6+, asynchronous programming, and development best practices.",
-                    type: "certification" as const,
-                    status: "completed" as const,
-                },
-                {
-                    id: "edu-4",
-                    degree: "UX/UI: Interface Fundamentals",
-                    institution: "USP",
-                    location: "São Paulo, Brazil",
-                    period: "2021",
-                    description: "Course focused on usability principles, Nielsen heuristics, wireframing, and interface design.",
-                    highlights: [
-                        "Nielsen heuristics and usability evaluation",
-                        "Wireframing and high-fidelity prototyping",
-                    ],
-                    type: "certification" as const,
-                    status: "completed" as const,
-                },
-            ],
-        },
-        projects: {
-            title: "Success Cases",
-            role: "Role",
-            tools: "Technologies",
-            items: [
-                {
-                    name: "Sales Prime - Dashboard",
-                    tools: ["React", "TypeScript", "Tailwind CSS"],
-                    description: "Technical leadership in web digital product development with strategic action between design, technology, and business. Collaboration with agile squads (sprints, dailies, plannings, reviews) and implementation of scalable, responsive, and performant interfaces.",
-                    myRole: "Tech Lead",
-                },
-                {
-                    name: "Prosperus Club — High-Ticket Mentorship Diagnosis",
-                    tools: ["React 19", "TypeScript", "Tailwind CSS", "Framer Motion", "Express.js", "SQLite", "Google Gemini AI"],
-                    description: "Interactive AI-powered diagnostic system (Google Gemini) that guides mentors through 4 structured modules to package their expertise into a high-ticket mentorship offer. Features HubSpot CRM authentication, real-time admin dashboard, and AI-generated strategic action plans.",
-                    myRole: "Full-stack Developer & AI Integrator",
-                },
-                {
-                    name: "Tecsa Group - Corporate Portal",
-                    tools: ["Next.js", "React", "Bootstrap"],
-                    description: "Leadership of digital projects from concept to delivery. Development of modern and consistent interfaces, translation of business requirements into technical solutions, and implementation of design systems with front-end best practices.",
-                    myRole: "UX/UI Designer & Front-end",
-                },
-                {
-                    name: "LivePlanet - Metaverse",
-                    tools: ["React", "Three.js", "WebGL"],
-                    description: "Evolution of user experience in complex digital systems. Development of responsive and optimized interfaces with integration between design and functional code, focusing on performance and cross-browser compatibility.",
-                    myRole: "UI/UX Designer & Developer",
-                },
-                {
-                    name: "Roupateca - E-commerce",
-                    tools: ["WordPress", "WooCommerce", "JavaScript"],
-                    description: "Creation of integrated e-commerce digital platform with complete execution of UX/UI process. WordPress implementation with focus on scalability and simplification of complex flows for end users.",
-                    myRole: "Full Stack Developer",
-                },
-                {
-                    name: "21 Days Campaign - WordPress Plugin",
-                    tools: ["WordPress", "PHP", "Dompdf", "JavaScript", "MySQL"],
-                    description: "WordPress plugin for managing activities of the 21 Days of Activism Against Racism Campaign. Complete system with registration form, administrative approval, XLS export, and custom PDF generation with Dompdf.",
-                    myRole: "Full-stack Developer",
-                },
-                {
-                    name: "Bling-Suri Integration (N8N Migration)",
-                    tools: ["N8N", "Docker", "OAuth2", "REST API", "Webhooks"],
-                    description: "Migration of PHP integration to N8N (no-code automation). Bidirectional synchronization system between Bling ERP and Suri Chatbot with OAuth2, webhooks, and visual workflows for product and order automation.",
-                    myRole: "Integration Architect & DevOps",
-                },
-                {
-                    name: "Disstantes Website - Official Band",
-                    tools: ["HTML5", "CSS3", "JavaScript", "YouTube API", "Spotify Embed"],
-                    description: "One-page website for rock band with modern design and glitch/corruption visual effects. Includes YouTube video carousel, Spotify integration, concert schedule section, and contact form.",
-                    myRole: "Front-end Developer & UI Designer",
-                },
-                {
-                    name: "Calcula Trabalhador — Labor Calculator Network",
-                    tools: ["PHP", "JavaScript (ES Modules)", "CSS :has()", "ARIA"],
-                    description: "Network of Brazilian labor-law calculators (severance, FGTS, CLT, MEI) built in vanilla PHP and JS, focused on performance and native browser accessibility. 222 automated tests and a pre-registered UX experiment for data-driven decisions.",
-                    myRole: "Full-stack Developer & Product Engineer",
-                },
-                {
-                    name: "Calcula Imóveis — Real Estate Tools Network",
-                    tools: ["PHP", "JavaScript (ES Modules)", "SEO/JSON-LD", "LGPD"],
-                    description: "Network of 16 tools (15 calculators + 1 anchoring simulator) covering property transfer tax, capital gains, financing, and inflation-adjusted correction (TR/IPCA). Structured SEO (OG/JSON-LD/sitemap), lazy-loaded AdSense, and baseline LGPD compliance. 42 unit tests + 16/16 smoke tests.",
-                    myRole: "Full-stack Developer & Product Engineer",
-                },
-            ],
-        },
-    },
 } as const;
 
-export type Language = "pt" | "en";
+export type Language = "pt";

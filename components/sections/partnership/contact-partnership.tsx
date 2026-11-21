@@ -169,13 +169,13 @@ export function ContactPartnership() {
                             <Calendar className="w-6 h-6 text-white" />
                         </div>
                         <h3 className="text-xl font-bold mb-2">
-                            {language === 'pt' ? 'Consulta Estratégica' : 'Strategic Consultation'} (30min)
+                            {'Consulta Estratégica'} (30min)
                         </h3>
                         <p className="text-[var(--text-secondary)] mb-4">
-                            {language === 'pt' ? 'Análise gratuita do seu desafio e roadmap de soluções.' : 'Free analysis of your challenge and solution roadmap.'}
+                            {'Análise gratuita do seu desafio e roadmap de soluções.'}
                         </p>
                         <a href={`https://wa.me/${personalInfo.phone.replace(/\D/g, '')}`} target="_blank" className="text-[var(--primary-color)] font-semibold hover:underline flex items-center gap-2">
-                            {language === 'pt' ? 'Agendar agora' : 'Book now'} <ArrowRight className="w-4 h-4" />
+                            {'Agendar agora'} <ArrowRight className="w-4 h-4" />
                         </a>
                     </motion.div>
 
@@ -190,13 +190,13 @@ export function ContactPartnership() {
                             <FileText className="w-6 h-6 text-white" />
                         </div>
                         <h3 className="text-xl font-bold mb-2">
-                            {language === 'pt' ? 'Proposta Customizada' : 'Custom Proposal'}
+                            {'Proposta Customizada'}
                         </h3>
                         <p className="text-[var(--text-secondary)] mb-4">
-                            {language === 'pt' ? 'Plano detalhado com investimento e resultados esperados.' : 'Detailed plan with investment and expected results.'}
+                            {'Plano detalhado com investimento e resultados esperados.'}
                         </p>
                         <a href="#contact-form" className="text-[var(--primary-color)] font-semibold hover:underline flex items-center gap-2">
-                            {language === 'pt' ? 'Solicitar proposta' : 'Request proposal'} <ArrowRight className="w-4 h-4" />
+                            {'Solicitar proposta'} <ArrowRight className="w-4 h-4" />
                         </a>
                     </motion.div>
 
@@ -211,13 +211,13 @@ export function ContactPartnership() {
                             <MessageCircle className="w-6 h-6 text-white" />
                         </div>
                         <h3 className="text-xl font-bold mb-2">
-                            {language === 'pt' ? 'Bate-papo Informal' : 'Informal Chat'}
+                            {'Bate-papo Informal'}
                         </h3>
                         <p className="text-[var(--text-secondary)] mb-4">
-                            {language === 'pt' ? 'WhatsApp direto para tirar dúvidas ou explorar ideias.' : 'Direct WhatsApp to answer questions or explore ideas.'}
+                            {'WhatsApp direto para tirar dúvidas ou explorar ideias.'}
                         </p>
                         <a href={`https://wa.me/${personalInfo.phone.replace(/\D/g, '')}`} target="_blank" className="text-[var(--primary-color)] font-semibold hover:underline flex items-center gap-2">
-                            {language === 'pt' ? 'Iniciar conversa' : 'Start conversation'} <ArrowRight className="w-4 h-4" />
+                            {'Iniciar conversa'} <ArrowRight className="w-4 h-4" />
                         </a>
                     </motion.div>
                 </div>
@@ -243,7 +243,7 @@ export function ContactPartnership() {
                                     <input
                                         {...register('name')}
                                         type="text"
-                                        placeholder={language === 'pt' ? 'Nome completo' : 'Full name'}
+                                        placeholder={'Nome completo'}
                                         className={`w-full px-4 py-3 rounded-xl bg-[var(--bg-primary)] border-2 transition-all duration-300 outline-none focus:ring-2 focus:ring-[var(--primary-color)]/20 ${getInputBorderClass('name')}`}
                                     />
                                     {errors.name && <p className="mt-1 text-xs text-red-500">{errors.name.message}</p>}
@@ -284,7 +284,7 @@ export function ContactPartnership() {
                                 <textarea
                                     {...register('message')}
                                     rows={4}
-                                    placeholder={language === 'pt' ? 'Como posso ajudar seu negócio hoje?' : 'How can I help your business today?'}
+                                    placeholder={'Como posso ajudar seu negócio hoje?'}
                                     className={`w-full px-4 py-3 rounded-xl bg-[var(--bg-primary)] border-2 transition-all duration-300 outline-none focus:ring-2 focus:ring-[var(--primary-color)]/20 resize-none ${getInputBorderClass('message')}`}
                                 />
                                 {errors.message && <p className="mt-1 text-xs text-red-500">{errors.message.message}</p>}
@@ -297,7 +297,7 @@ export function ContactPartnership() {
                                 className="w-full py-4 text-lg"
                                 leftIcon={submitSuccess ? <CheckCircle2 className="w-5 h-5" /> : <Send className="w-5 h-5" />}
                             >
-                                {isSubmitting ? t.contact.sending : submitSuccess ? (language === 'pt' ? 'Enviado!' : 'Sent!') : t.contact.send}
+                                {isSubmitting ? t.contact.sending : submitSuccess ? ('Enviado!') : t.contact.send}
                             </PrimaryButton>
                         </form>
                     </motion.div>
@@ -349,11 +349,9 @@ export function ContactPartnership() {
                         </div>
 
                         <div className="p-6 rounded-3xl bg-[var(--primary-color)] text-white shadow-lg shadow-[var(--primary-color)]/20">
-                            <h4 className="text-lg font-bold mb-2">💡 {language === 'pt' ? 'Dica Estratégica' : 'Strategic Tip'}</h4>
+                            <h4 className="text-lg font-bold mb-2">💡 {'Dica Estratégica'}</h4>
                             <p className="text-sm text-white/90 leading-relaxed">
-                                {language === 'pt' 
-                                    ? 'A maioria dos nossos projetos começa com um simples "olá". Não espere o momento perfeito para planejar sua escala.'
-                                    : 'Most of our projects start with a simple "hello". Don\'t wait for the perfect moment to plan your scale.'}
+                                {'A maioria dos nossos projetos começa com um simples "olá". Não espere o momento perfeito para planejar sua escala.'}
                             </p>
                         </div>
                     </motion.div>

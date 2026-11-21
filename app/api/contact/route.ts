@@ -30,7 +30,7 @@ export async function POST(request: Request) {
 
         // Send email
         await transporter.sendMail({
-            from: `"Portfolio Ferrugem" <${process.env.SMTP_USER || 'contato@rugemtugem.dev'}>`,
+            from: `"Site Rugemtugem" <${process.env.SMTP_USER || 'contato@rugemtugem.dev'}>`,
             to: 'contato@rugemtugem.dev',
             replyTo: email,
             subject: `Nova mensagem do Portfolio - ${name}`,

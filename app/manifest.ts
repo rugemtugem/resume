@@ -2,10 +2,10 @@ import type { MetadataRoute } from "next";
 
 export default function manifest(): MetadataRoute.Manifest {
     return {
-        name: "Fábio Soares — Especialista em Tecnologia & IA",
-        short_name: "Fábio Soares",
+        name: "Rugemtugem: integração de sistemas e soluções em IA",
+        short_name: "Rugemtugem",
         description:
-            "Transformo ideias em produtos digitais que vendem — com código limpo, design estratégico e Inteligência Artificial.",
+            "A Rugemtugem conecta site, WhatsApp e sistemas da sua empresa e cria soluções em IA para o trabalho manual sumir.",
         start_url: "/",
         display: "standalone",
         background_color: "#0a0a1a",

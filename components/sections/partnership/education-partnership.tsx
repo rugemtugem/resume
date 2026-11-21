@@ -52,16 +52,16 @@ export function EducationPartnership() {
         : education.filter(item => item.type === activeFilter);
 
     const filters = [
-        { value: 'all', label: language === 'pt' ? 'Todos' : 'All', icon: BookOpen },
-        { value: 'graduation', label: language === 'pt' ? 'Graduação' : 'Graduation', icon: GraduationCap },
-        { value: 'postgrad', label: language === 'pt' ? 'Pós-Graduação' : 'Postgraduate', icon: Award },
-        { value: 'certification', label: language === 'pt' ? 'Certificações' : 'Certifications', icon: Star },
+        { value: 'all', label: 'Todos', icon: BookOpen },
+        { value: 'graduation', label: 'Graduação', icon: GraduationCap },
+        { value: 'postgrad', label: 'Pós-Graduação', icon: Award },
+        { value: 'certification', label: 'Certificações', icon: Star },
     ];
 
     const stats = [
-        { value: education.filter(e => e.type === 'graduation').length, label: language === 'pt' ? 'Graduações' : 'Degrees' },
-        { value: education.filter(e => e.type === 'postgrad').length, label: language === 'pt' ? 'Pós-Graduações' : 'Postgraduate' },
-        { value: education.filter(e => e.type === 'certification').length, label: language === 'pt' ? 'Certificações' : 'Certifications' },
+        { value: education.filter(e => e.type === 'graduation').length, label: 'Graduações' },
+        { value: education.filter(e => e.type === 'postgrad').length, label: 'Pós-Graduações' },
+        { value: education.filter(e => e.type === 'certification').length, label: 'Certificações' },
     ];
 
     return (
@@ -188,9 +188,7 @@ export function EducationPartnership() {
                         <div className="inline-flex items-center gap-3 px-6 py-4 rounded-2xl bg-gradient-to-r from-[var(--primary-color)]/10 via-[var(--secondary-color)]/10 to-[var(--primary-color)]/10 border border-[var(--primary-color)]/20">
                             <TrendingUp className="w-5 h-5 text-[var(--primary-color)]" />
                             <span className="text-sm font-semibold text-[var(--text-primary)]">
-                                {language === 'pt'
-                                    ? 'Sempre aprendendo e evoluindo profissionalmente'
-                                    : 'Always learning and evolving professionally'
+                                {'Sempre aprendendo e evoluindo profissionalmente'
                                 }
                             </span>
                         </div>
@@ -217,17 +215,17 @@ function EducationCard({
         graduation: {
             icon: GraduationCap,
             color: 'blue',
-            label: language === 'pt' ? 'Graduação' : 'Graduation'
+            label: 'Graduação'
         },
         postgrad: {
             icon: Award,
             color: 'purple',
-            label: language === 'pt' ? 'Pós-Graduação' : 'Postgraduate'
+            label: 'Pós-Graduação'
         },
         certification: {
             icon: Star,
             color: 'amber',
-            label: language === 'pt' ? 'Certificação' : 'Certification'
+            label: 'Certificação'
         }
     };
 
@@ -317,7 +315,7 @@ function EducationCard({
                         >
                             <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
                             <span className="text-xs font-semibold text-green-600 dark:text-green-400">
-                                {language === 'pt' ? 'EM ANDAMENTO' : 'IN PROGRESS'}
+                                {'EM ANDAMENTO'}
                             </span>
                         </motion.div>
                     )}
@@ -333,7 +331,7 @@ function EducationCard({
                     {education.highlights && education.highlights.length > 0 && (
                         <div className="mb-4">
                             <div className="text-xs font-semibold text-[var(--text-primary)] mb-2 uppercase tracking-wide">
-                                {language === 'pt' ? 'Destaques' : 'Highlights'}
+                                {'Destaques'}
                             </div>
                             <ul className="space-y-1.5">
                                 {education.highlights.map((highlight, i) => (
@@ -361,7 +359,7 @@ function EducationCard({
                             rel="noopener noreferrer"
                             className="inline-flex items-center gap-2 text-sm font-medium text-[var(--primary-color)] hover:text-[var(--secondary-color)] transition-colors mt-auto"
                         >
-                            <span>{language === 'pt' ? 'Ver credencial' : 'View credential'}</span>
+                            <span>{'Ver credencial'}</span>
                             <ExternalLink className="w-4 h-4" />
                         </a>
                     )}

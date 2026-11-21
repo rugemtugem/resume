@@ -91,7 +91,7 @@ export function Navbar() {
           <Link 
             href={pathname === "/resume" ? "/resume" : "/"}
             className="flex items-center gap-3 group"
-            aria-label={language === 'pt' ? "Fábio Soares - Ir para o topo" : "Fábio Soares - Go to top"}
+            aria-label={"Fábio Rugemtugem - Ir para o topo"}
             onClick={(e) => {
                 if ((pathname === "/" && !pathname.includes("#")) || (pathname === "/resume" && pathname === "/resume")) {
                     // e.preventDefault();
@@ -102,7 +102,7 @@ export function Navbar() {
             <div className="relative h-10 w-[120px]">
               <Image
                 src="/images/logo-nova.png"
-                alt="Fábio Soares"
+                alt="Fábio Rugemtugem"
                 fill
                 priority
                 className="object-contain"

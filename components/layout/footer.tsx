@@ -129,9 +129,7 @@ export function Footer() {
                         </div>
 
                         <p className="text-sm text-[var(--text-secondary)] leading-relaxed mb-4">
-                            {language === 'pt'
-                                ? 'Transformando ideias em experiências digitais memoráveis através de código limpo e design intuitivo.'
-                                : 'Transforming ideas into memorable digital experiences through clean code and intuitive design.'}
+                            {'Transformando ideias em experiências digitais memoráveis através de código limpo e design intuitivo.'}
                         </p>
 
                         <div className="flex items-center gap-2 text-sm text-[var(--text-secondary)]">
@@ -149,7 +147,7 @@ export function Footer() {
                     >
                         <h4 className="text-sm font-bold text-[var(--text-primary)] uppercase tracking-wide mb-4 flex items-center gap-2">
                             <Sparkles className="w-4 h-4 text-[var(--primary-color)]" />
-                            {language === 'pt' ? 'Navegação' : 'Navigation'}
+                            {'Navegação'}
                         </h4>
                         <nav className="space-y-2">
                             {navLinks.map((link, index) => (
@@ -181,7 +179,7 @@ export function Footer() {
                     >
                         <h4 className="text-sm font-bold text-[var(--text-primary)] uppercase tracking-wide mb-4 flex items-center gap-2">
                             <Coffee className="w-4 h-4 text-[var(--primary-color)]" />
-                            {language === 'pt' ? 'Tecnologias' : 'Tech Stack'}
+                            {'Tecnologias'}
                         </h4>
                         <div className="flex flex-wrap gap-2">
                             {techStack.map((tech, index) => (
@@ -210,13 +208,11 @@ export function Footer() {
                             <div className="flex items-center gap-2 mb-2">
                                 <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
                                 <span className="text-xs font-semibold text-[var(--text-primary)]">
-                                    {language === 'pt' ? 'Disponível para Projetos' : 'Available for Projects'}
+                                    {'Disponível para Projetos'}
                                 </span>
                             </div>
                             <p className="text-xs text-[var(--text-secondary)]">
-                                {language === 'pt'
-                                    ? 'Aberto a freelances e oportunidades'
-                                    : 'Open to freelance and opportunities'}
+                                {'Aberto a freelances e oportunidades'}
                             </p>
                         </motion.div>
                     </motion.div>
@@ -230,13 +226,11 @@ export function Footer() {
                     >
                         <h4 className="text-sm font-bold text-[var(--text-primary)] uppercase tracking-wide mb-4 flex items-center gap-2">
                             <Heart className="w-4 h-4 text-[var(--primary-color)]" />
-                            {language === 'pt' ? 'Vamos Conectar' : "Let's Connect"}
+                            {'Vamos Conectar'}
                         </h4>
 
                         <p className="text-sm text-[var(--text-secondary)] mb-4">
-                            {language === 'pt'
-                                ? 'Entre em contato para discutir projetos, colaborações ou apenas para trocar ideias!'
-                                : 'Get in touch to discuss projects, collaborations or just to exchange ideas!'}
+                            {'Entre em contato para discutir projetos, colaborações ou apenas para trocar ideias!'}
                         </p>
 
                         <div className="flex gap-3 mb-6">
@@ -262,7 +256,7 @@ export function Footer() {
                             className="group inline-flex items-center gap-2 px-4 py-2.5 rounded-lg bg-gradient-to-r from-[var(--primary-color)] to-[var(--secondary-color)] text-white text-sm font-medium hover:shadow-lg hover:shadow-[var(--primary-color)]/25 transition-all"
                         >
                             <Mail className="w-4 h-4" />
-                            <span>{language === 'pt' ? 'Enviar Mensagem' : 'Send Message'}</span>
+                            <span>{'Enviar Mensagem'}</span>
                             <ExternalLink className="w-3 h-3 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
                         </Link>
                     </motion.div>
@@ -290,9 +284,9 @@ export function Footer() {
                             <span>© {currentYear} {personalInfo.name}.</span>
                             <span className="hidden sm:inline">•</span>
                             <span className="flex items-center gap-1">
-                                {language === 'pt' ? 'Feito com' : 'Made with'}
+                                {'Feito com'}
                                 <Heart className="w-4 h-4 text-red-500 animate-pulse" />
-                                {language === 'pt' ? 'e muito café' : 'and lots of coffee'}
+                                {'e muito café'}
                                 <Coffee className="w-4 h-4 text-amber-600" />
                             </span>
                         </p>
@@ -308,10 +302,10 @@ export function Footer() {
                         whileHover={{ scale: 1.05, y: -2 }}
                         whileTap={{ scale: 0.95 }}
                         className="group flex items-center gap-2 px-4 py-2 rounded-lg bg-[var(--bg-primary)] border border-[var(--border-color)] text-[var(--text-secondary)] hover:text-[var(--primary-color)] hover:border-[var(--primary-color)]/50 transition-all"
-                        aria-label={language === 'pt' ? 'Voltar ao topo' : 'Back to top'}
+                        aria-label={'Voltar ao topo'}
                     >
                         <span className="text-sm font-medium">
-                            {language === 'pt' ? 'Voltar ao Topo' : 'Back to Top'}
+                            {'Voltar ao Topo'}
                         </span>
                         <ArrowUp className="w-4 h-4 group-hover:-translate-y-1 transition-transform" />
                     </motion.button>
@@ -326,9 +320,7 @@ export function Footer() {
                     className="text-center mt-8"
                 >
                     <p className="text-xs text-[var(--text-secondary)]/50 font-mono">
-                        {language === 'pt'
-                            ? '// Se você está lendo isso, você é curioso. Vamos trabalhar juntos! 🚀'
-                            : "// If you're reading this, you're curious. Let's work together! 🚀"}
+                        {'// Se você está lendo isso, você é curioso. Vamos trabalhar juntos! 🚀'}
                     </p>
                 </motion.div>
             </div>

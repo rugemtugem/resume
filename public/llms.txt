@@ -1,0 +1,36 @@
+# Rugemtugem
+
+> A Rugemtugem conecta o site e os sistemas de pequenas e médias empresas (WhatsApp, sistema de gestão, CRM, meio de pagamento, WordPress) e cria soluções em IA para o trabalho manual sumir e nenhum lead se perder. Quem atende é Fábio Rugemtugem, em São Paulo. A empresa existe desde novembro de 2000.
+
+## O que a Rugemtugem faz
+
+- Integração de WhatsApp com sistema de gestão: o pedido entra sozinho, sem digitação.
+- Integração de site com CRM e meio de pagamento.
+- WordPress sob medida: plugins, formulários e automações dentro da LGPD.
+- IA aplicada à operação da empresa.
+
+## Como funciona
+
+1. Diagnóstico gratuito de 30 minutos.
+2. Proposta em 3 a 5 dias úteis.
+3. Entregas semanais com demonstração.
+4. Lançamento e treinamento.
+5. Suporte e evolução.
+
+## Casos
+
+- S&S Comércio: pedidos do WhatsApp (Suri) integrados ao sistema de gestão Bling.
+- Sales Prime: site WordPress integrado a HubSpot, Pagar.me e Guru.
+- Campanha 21 Dias: plugin WordPress para inscrições, aprovação e certificados em PDF.
+- Prosperus Club: diagnóstico de mentoria com análise por IA.
+- Calcula Trabalhador e Calcula Imóveis: redes de calculadoras próprias, com testes automatizados.
+
+## Páginas
+
+- [Início](https://rugemtugem.dev/): serviços, casos, processo e contato.
+
+## Contato
+
+- E-mail: contato@rugemtugem.dev
+- WhatsApp: +55 11 98651-4401
+- Instagram: https://instagram.com/rugemtugem/

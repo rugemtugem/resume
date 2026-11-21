@@ -35,7 +35,7 @@ export function HeroPartnership() {
         >
           <Sparkles className="w-4 h-4 text-[var(--primary-color)]" />
           <span className="text-sm font-medium">
-            {t.badge.split('50+')[0]} <strong>50+</strong> {t.badge.split('50+')[1]}
+            {t.badge}
           </span>
         </motion.div>
 
@@ -46,8 +46,8 @@ export function HeroPartnership() {
           transition={{ delay: 0.1 }}
           className="text-[2rem] md:text-7xl font-bold mb-6 leading-tight"
         >
-          {t.title.split(language === 'pt' ? 'Resultados' : 'business results')[0]}
-          <span className="text-gradient-neon">{language === 'pt' ? 'Resultados de Negócio' : 'Business Results'}</span>
+          {t.title.split('Resultados')[0]}
+          <span className="text-gradient-neon">{'Resultados de Negócio'}</span>
         </motion.h1>
 
         {/* Clear Value Proposition */}
@@ -69,24 +69,18 @@ export function HeroPartnership() {
           className="flex flex-wrap justify-center gap-6 mb-12 text-sm 
                      text-[var(--text-secondary)]"
         >
-          <div className="flex items-center gap-2">
-            <TrendingUp className="w-4 h-4 text-green-500" />
-            <span>
-              <strong>{t.metrics.roi.split('ROI')[0]}ROI</strong> {t.metrics.roi.split('ROI')[1]}
-            </span>
-          </div>
-          <div className="flex items-center gap-2">
-            <Sparkles className="w-4 h-4 text-yellow-500" />
-            <span>
-              <strong>{t.metrics.value.split(' ')[0]}</strong> {t.metrics.value.split(' ').slice(1).join(' ')}
-            </span>
-          </div>
-          <div className="flex items-center gap-2">
-            <TrendingUp className="w-4 h-4 text-blue-500" />
-            <span>
-              <strong>{t.metrics.satisfaction.split(' ')[0]}</strong> {t.metrics.satisfaction.split(' ').slice(1).join(' ')}
-            </span>
-          </div>
+          {t.facts.map((fact) => (
+            <a
+              key={fact.strong}
+              href={fact.href}
+              className="flex items-center gap-2 hover:text-[var(--text-primary)] transition-colors"
+            >
+              <TrendingUp className="w-4 h-4 text-green-500" />
+              <span>
+                <strong>{fact.strong}</strong> {fact.text}
+              </span>
+            </a>
+          ))}
         </motion.div>
 
         {/* Partnership-Oriented CTAs */}

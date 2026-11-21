@@ -115,7 +115,7 @@ export function ExperiencePartnership() {
                             href="#contact"
                             className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[var(--primary-color)]/10 border border-[var(--primary-color)]/20 text-[var(--primary-color)] font-medium hover:bg-[var(--primary-color)]/20 transition-all group"
                         >
-                            <span>{language === 'pt' ? 'Vamos trabalhar juntos?' : "Let's work together?"}</span>
+                            <span>{'Vamos trabalhar juntos?'}</span>
                             <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                         </a>
                     </motion.div>
@@ -178,7 +178,7 @@ function ExperienceCard({
                             >
                                 <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
                                 <span className="text-xs font-semibold text-green-600 dark:text-green-400">
-                                    {language === 'pt' ? 'ATUAL' : 'CURRENT'}
+                                    {'ATUAL'}
                                 </span>
                             </motion.div>
                         )}
@@ -234,7 +234,7 @@ function ExperienceCard({
                             <div className="flex items-center gap-2 mb-3">
                                 <TrendingUp className="w-4 h-4 text-[var(--primary-color)]" />
                                 <span className="text-sm font-semibold text-[var(--text-primary)]">
-                                    {language === 'pt' ? 'Conquistas' : 'Achievements'}
+                                    {'Conquistas'}
                                 </span>
                             </div>
                             <ul className="space-y-1.5">
