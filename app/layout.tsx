@@ -6,7 +6,6 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { LanguageProvider } from "@/contexts/language-provider";
 import { PageModeProvider } from "@/contexts/page-mode-provider";
 import { ToastProvider } from "@/components/ui/toast";
-import { RoiPopup } from "@/components/roi-calculator/roi-popup";
 
 const inter = Inter({
   variable: "--font-sans",
@@ -181,8 +180,6 @@ export default function RootLayout({
           strategy="afterInteractive"
         />
 
-        {/* Global Lead Capture Popup */}
-        <RoiPopup />
       </body>
     </html>
   );
