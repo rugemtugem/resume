@@ -3,6 +3,7 @@
 
 import { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { track } from '@/lib/analytics';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
@@ -33,11 +34,23 @@ import {
     Instagram
 } from 'lucide-react';
 
+/** Opções de "Como nos conheceu?". O valor vai no e-mail e no evento de lead. */
+const ORIGENS = ['instagram', 'google', 'ia', 'indicacao', 'linkedin', 'outro'] as const;
+const ROTULO_ORIGEM: Record<(typeof ORIGENS)[number], string> = {
+    instagram: 'Instagram',
+    google: 'Google',
+    ia: 'IA (ChatGPT, Perplexity e outras)',
+    indicacao: 'Indicação',
+    linkedin: 'LinkedIn',
+    outro: 'Outro',
+};
+
 const formSchema = z.object({
     name: z.string().min(2, 'Nome muito curto').max(100, 'Nome muito longo'),
     email: z.string().email('Email inválido'),
     whatsapp: z.string().min(10, 'WhatsApp inválido').optional().or(z.literal('')),
     message: z.string().min(10, 'Mensagem muito curta').max(1000, 'Mensagem muito longa'),
+    origem: z.enum(ORIGENS, { message: 'Escolha uma opção' }),
 });
 
 type ContactFormData = z.infer<typeof formSchema>;
@@ -72,7 +85,13 @@ export function ContactPartnership() {
                 body: JSON.stringify({ ...data, to: personalInfo.email }),
             });
 
-            if (!response.ok) throw new Error('Erro ao enviar');
+            if (!response.ok) throw new Error('http');
+
+            track('generate_lead', {
+                form_name: 'contato',
+                lead_source_declared: data.origem,
+                has_whatsapp: Boolean(data.whatsapp),
+            });
 
             setSubmitSuccess(true);
             showToast({
@@ -85,6 +104,10 @@ export function ContactPartnership() {
             setTimeout(() => setSubmitSuccess(false), 5000);
         } catch (error) {
             console.error('Error sending message:', error);
+            track('form_submit_error', {
+                form_name: 'contato',
+                error_type: error instanceof Error && error.message === 'http' ? 'http' : 'rede',
+            });
             showToast({
                 type: 'error',
                 title: `❌ ${t.contact.error}`,
@@ -139,7 +162,7 @@ export function ContactPartnership() {
     };
 
     return (
-        <section id="contact" className="py-24 px-4 md:px-8 relative overflow-hidden">
+        <section id="contact" data-local="contato" className="py-24 px-4 md:px-8 relative overflow-hidden">
             <div className="max-w-6xl mx-auto relative z-10">
                 {/* Header */}
                 <motion.div
@@ -274,6 +297,29 @@ export function ContactPartnership() {
                                     className={`w-full px-4 py-3 rounded-xl bg-[var(--bg-primary)] border-2 transition-all duration-300 outline-none focus:ring-2 focus:ring-[var(--primary-color)]/20 ${getInputBorderClass('email')}`}
                                 />
                                 {errors.email && <p className="mt-1 text-xs text-red-500">{errors.email.message}</p>}
+                            </div>
+
+                            <div>
+                                <label htmlFor="contato-origem" className="text-sm font-medium text-[var(--text-primary)] mb-2 flex items-center gap-2">
+                                    <MessageCircle className="w-4 h-4 text-[var(--primary-color)]" />
+                                    Como nos conheceu?
+                                </label>
+                                <select
+                                    id="contato-origem"
+                                    {...register('origem')}
+                                    defaultValue=""
+                                    className={`w-full px-4 py-3 rounded-xl bg-[var(--bg-primary)] border-2 transition-all duration-300 outline-none focus:ring-2 focus:ring-[var(--primary-color)]/20 ${getInputBorderClass('origem')}`}
+                                >
+                                    <option value="" disabled>
+                                        Escolha uma opção
+                                    </option>
+                                    {ORIGENS.map((valor) => (
+                                        <option key={valor} value={valor}>
+                                            {ROTULO_ORIGEM[valor]}
+                                        </option>
+                                    ))}
+                                </select>
+                                {errors.origem && <p className="mt-1 text-xs text-red-500">{errors.origem.message}</p>}
                             </div>
 
                             <div>

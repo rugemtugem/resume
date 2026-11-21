@@ -2,6 +2,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { track } from "@/lib/analytics";
 import { PrimaryButton, SecondaryButton } from "@/components/ui/buttons";
 import { ArrowRight, Sparkles, TrendingUp } from "lucide-react";
 import { useLanguage } from "@/contexts/language-provider";
@@ -95,6 +96,7 @@ export function HeroPartnership() {
             rightIcon={<ArrowRight className="w-5 h-5" />}
             aria-label={t.cta1}
             onClick={() => {
+              track("cta_click", { cta_id: "hero_primario", cta_destination: "contato" });
               document.getElementById("contact")?.scrollIntoView({
                 behavior: "smooth",
               });
@@ -107,6 +109,7 @@ export function HeroPartnership() {
             size="lg"
             aria-label={t.cta2}
             onClick={() => {
+              track("cta_click", { cta_id: "hero_secundario", cta_destination: "cases" });
               document.getElementById("cases")?.scrollIntoView({
                 behavior: "smooth",
               });

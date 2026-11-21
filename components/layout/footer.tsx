@@ -83,7 +83,7 @@ export function Footer() {
     ];
 
     return (
-        <footer className="relative bg-[var(--bg-secondary)] border-t border-[var(--border-color)] overflow-hidden">
+        <footer data-local="rodape" className="relative bg-[var(--bg-secondary)] border-t border-[var(--border-color)] overflow-hidden">
             {/* Decorative Background Elements */}
             <div className="absolute inset-0 -z-10">
                 <div className="absolute top-0 left-1/4 w-96 h-96 bg-[var(--primary-color)]/5 rounded-full blur-3xl" />
@@ -253,6 +253,8 @@ export function Footer() {
 
                         <Link
                             href="#contact"
+                            data-cta="rodape_contato"
+                            data-cta-destino="contato"
                             className="group inline-flex items-center gap-2 px-4 py-2.5 rounded-lg bg-gradient-to-r from-[var(--primary-color)] to-[var(--secondary-color)] text-white text-sm font-medium hover:shadow-lg hover:shadow-[var(--primary-color)]/25 transition-all"
                         >
                             <Mail className="w-4 h-4" />
@@ -282,6 +284,10 @@ export function Footer() {
                     >
                         <p className="flex items-center gap-2 flex-wrap justify-center md:justify-start">
                             <span>© {currentYear} {personalInfo.name}.</span>
+                            <span className="hidden sm:inline">•</span>
+                            <Link href="/privacidade" className="underline hover:text-[var(--text-primary)]">
+                                Privacidade
+                            </Link>
                             <span className="hidden sm:inline">•</span>
                             <span className="flex items-center gap-1">
                                 {'Feito com'}

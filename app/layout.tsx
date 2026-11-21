@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import Script from "next/script";
+import { AnalyticsLoader } from "@/components/analytics-loader";
+import { CookieBanner } from "@/components/cookie-banner";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import { LanguageProvider } from "@/contexts/language-provider";
@@ -152,19 +154,6 @@ export default function RootLayout({
         />
       </head>
 
-      {/* Google Analytics (gtag.js) */}
-      <Script
-        src="https://www.googletagmanager.com/gtag/js?id=G-M2K9HY4EXN"
-        strategy="afterInteractive"
-      />
-      <Script id="google-analytics" strategy="afterInteractive">
-        {`
-          window.dataLayer = window.dataLayer || [];
-          function gtag(){dataLayer.push(arguments);}
-          gtag('js', new Date());
-          gtag('config', 'G-M2K9HY4EXN');
-        `}
-      </Script>
       <body className={`${inter.variable} antialiased overflow-x-hidden`}>
         <ThemeProvider>
           <PageModeProvider>
@@ -173,6 +162,10 @@ export default function RootLayout({
             </LanguageProvider>
           </PageModeProvider>
         </ThemeProvider>
+
+        {/* Medição: só carrega depois do aceite no aviso de cookies */}
+        <AnalyticsLoader />
+        <CookieBanner />
 
         {/* Console Easter Egg */}
         <Script

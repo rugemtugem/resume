@@ -272,6 +272,8 @@ export function HowItWorksSection() {
               <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
                 <a
                   href="#contact"
+                  data-cta="como_funciona_primario"
+                  data-cta-destino="contato"
                   className="group relative px-6 md:px-8 py-3 md:py-4 rounded-xl font-semibold text-white
                              bg-gradient-to-r from-[var(--primary-color)] to-[var(--secondary-color)]
                              shadow-xl hover:shadow-2xl transition-all overflow-hidden inline-block"
@@ -292,6 +294,8 @@ export function HowItWorksSection() {
 
                 <a
                   href="#cases"
+                  data-cta="como_funciona_secundario"
+                  data-cta-destino="cases"
                   className="px-6 md:px-8 py-3 md:py-4 rounded-xl font-semibold
                              border-2 border-[var(--border-color)]
                              hover:bg-[var(--bg-primary)] transition-all inline-block"
