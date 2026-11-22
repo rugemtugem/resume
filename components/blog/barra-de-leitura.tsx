@@ -2,16 +2,22 @@
 
 import { useEffect, useState } from "react";
 
-/** Barra fina no topo que mostra quanto do post já foi lido. Também conta a leitura, uma vez por visita. */
+/** Barra colada embaixo do menu que enche conforme o post é lido. Também conta a leitura, uma vez por visita. */
 export function BarraDeLeitura({ slug }: { slug: string }) {
     const [progresso, setProgresso] = useState(0);
+    const [topo, setTopo] = useState(72);
 
     useEffect(() => {
         const artigo = document.querySelector<HTMLElement>("[data-post-conteudo]");
         if (!artigo) return;
+        const menu = document.querySelector<HTMLElement>("nav");
         const atualizar = () => {
-            const inicio = artigo.offsetTop - 96;
-            const fim = artigo.offsetTop + artigo.offsetHeight - window.innerHeight;
+            // A barra fica colada embaixo do menu fixo, e acompanha a altura dele.
+            if (menu) setTopo(menu.offsetHeight);
+            // Posição do artigo na página inteira (offsetTop sozinho é relativo ao bloco pai).
+            const caixa = artigo.getBoundingClientRect();
+            const inicio = caixa.top + window.scrollY - (menu ? menu.offsetHeight : 0) - 24;
+            const fim = caixa.bottom + window.scrollY - window.innerHeight;
             const p = fim <= inicio ? 1 : (window.scrollY - inicio) / (fim - inicio);
             setProgresso(Math.min(1, Math.max(0, p)));
         };
@@ -41,8 +47,19 @@ export function BarraDeLeitura({ slug }: { slug: string }) {
     }, [slug]);
 
     return (
-        <div className="fixed top-0 inset-x-0 z-[70] h-1 bg-transparent" aria-hidden="true">
-            <div className="h-full bg-gradient-to-r from-[var(--primary-color)] to-[var(--secondary-color)] origin-left" style={{ transform: `scaleX(${progresso})` }} />
+        <div
+            className="fixed inset-x-0 z-[49] h-1.5 bg-[var(--border-color)]/40"
+            style={{ top: topo }}
+            role="progressbar"
+            aria-label="Progresso da leitura"
+            aria-valuemin={0}
+            aria-valuemax={100}
+            aria-valuenow={Math.round(progresso * 100)}
+        >
+            <div
+                className="h-full bg-gradient-to-r from-[var(--primary-color)] to-[var(--secondary-color)] origin-left transition-transform duration-150 ease-out"
+                style={{ transform: `scaleX(${progresso})` }}
+            />
         </div>
     );
 }
