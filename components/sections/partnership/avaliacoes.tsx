@@ -45,7 +45,7 @@ export function Avaliacoes() {
                   ))}
                 </div>
                 <p className="text-lg italic text-[var(--text-primary)] mb-6 flex-grow">
-                  "{testimonial.text}"
+                  &ldquo;{testimonial.text}&rdquo;
                 </p>
                 
                 <div className="flex items-center justify-between mt-auto pt-4 border-t border-[var(--border-color)]">
