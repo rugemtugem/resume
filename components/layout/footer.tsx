@@ -47,6 +47,7 @@ export function Footer() {
         { href: `${base}#about`, label: t.nav?.about || 'Sobre' },
         { href: '/servicos', label: 'Serviços' },
         { href: '/casos', label: 'Casos' },
+        { href: '/blog', label: 'Blog' },
         { href: isResume ? '#projects' : `${base}#cases`, label: t.nav?.projects || 'Projetos' },
         { href: `${base}#contact`, label: t.nav?.contact || 'Contato' },
     ];

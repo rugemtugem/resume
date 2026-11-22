@@ -5,7 +5,7 @@ import { readFileSync, readdirSync, statSync } from "node:fs";
 import { join, extname } from "node:path";
 
 const RAIZ = new URL("..", import.meta.url).pathname;
-const PASTAS = ["app", "components", "data", "public/llms.txt", "public/scripts"];
+const PASTAS = ["app", "components", "data", "lib", "content", "public/llms.txt", "public/scripts"];
 const EXT = new Set([".ts", ".tsx", ".js", ".txt", ".md"]);
 
 function arquivos(caminho) {
