@@ -48,3 +48,6 @@ next-env.d.ts
 # agent skills and marketing context (local only)
 .agents/
 skills-lock.json
+
+# dados locais (contador de leituras do blog)
+/.dados

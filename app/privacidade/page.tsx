@@ -61,6 +61,10 @@ export default function PrivacidadePage() {
         <section className="space-y-3">
           <h2 className="text-2xl font-semibold text-[var(--text-primary)]">Outros dados guardados no navegador</h2>
           <p>O site guarda no seu navegador a preferência de tema claro ou escuro. Esse dado não sai do seu aparelho.</p>
+          <p>
+            O blog conta quantas vezes cada post foi aberto, para montar a lista de mais lidos. Fica guardado só o
+            número por post, sem nenhum dado de quem leu.
+          </p>
         </section>
 
         <section className="space-y-3">

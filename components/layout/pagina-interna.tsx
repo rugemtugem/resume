@@ -65,7 +65,10 @@ export function TopoInterno({
     destaque,
     texto,
     children,
+    comCapa = false,
 }: {
+    /** Deixa espaço embaixo para a capa do post, que sobe sobre o topo. */
+    comCapa?: boolean;
     migalhas: Migalha[];
     selo: string;
     titulo: string;
@@ -74,7 +77,7 @@ export function TopoInterno({
     children?: React.ReactNode;
 }) {
     return (
-        <section className="relative overflow-hidden pt-32 pb-16 md:pt-40 md:pb-20 px-4 md:px-8">
+        <section className={`relative overflow-hidden pt-32 md:pt-40 px-4 md:px-8 ${comCapa ? "pb-40 md:pb-48" : "pb-16 md:pb-20"}`}>
             <Brilho />
             <div className="max-w-5xl mx-auto relative z-10 text-center">
                 <div role="navigation" aria-label="Caminho de navegação" className="mb-8 text-sm text-[var(--text-secondary)]">

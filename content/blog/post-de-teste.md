@@ -1,35 +1,36 @@
-# Post de teste do blog da Rugemtugem
+# Post de teste: pedido que entra sozinho no sistema
 
 > Categoria: Empresas · slug: post-de-teste
-> SEO: Post de teste do blog
-> DESC: Post de teste para conferir o desenho do blog em localhost. Não é publicado no site.
+> SEO: Teste: pedido que entra sozinho
+> DESC: Post de teste para conferir o desenho do blog em localhost, com miniatura gerada e dois dados em destaque. Não é publicado.
+> CAPA: eyebrow=Para empresas | destaque=entra sozinho | chip=Exemplo de dado=valor A | chip=Outro dado=valor B | nota=Post de teste
 > Agendar: 2026-11-21 09:00
 > Rascunho: sim
+> Destaque: sim
 
-**Resumo:** Este post existe só para conferir o desenho do blog em localhost. Ele tem a linha **Rascunho: sim**, então não aparece no site que está no ar.
+**Resumo:** Este é um **post de teste**, sem texto real. Ele existe só para mostrar o desenho do blog em localhost e não aparece no site que está no ar.
 
-## Como um post é montado
+## Primeira seção
 
-Cada post é um arquivo de texto na pasta `content/blog`. O título vem da primeira linha, a categoria e o endereço vêm da linha de metadados, e o corpo é escrito em texto simples.
+Texto de exemplo para ocupar o espaço de um parágrafo e mostrar o tamanho da letra, a largura da coluna e o espaço entre as linhas do corpo do post.
 
-O texto aceita **negrito**, _itálico_ e [links para outras páginas](/casos).
+- Um item de lista.
+- Outro item de lista.
 
-## O que dá para usar no corpo
+## Segunda seção
 
-- Subtítulos de dois níveis.
-- Listas como esta.
-- Links internos e externos.
+Mais um parágrafo de exemplo, com um [link para os casos](/casos) e um trecho em **negrito**.
 
 ### Um subtítulo menor
 
-Subtítulo de terceiro nível, para dividir uma seção longa.
+Parágrafo curto dentro de um subtítulo de terceiro nível.
+
+## Terceira seção
+
+Parágrafo final de exemplo.
 
 ## Perguntas frequentes
 
 ### Este post vai para o ar?
 
 Não. A linha de rascunho mantém o post só em localhost.
-
-### Como um post de verdade é publicado?
-
-Ele recebe uma data na linha Agendar e aparece no site depois desse horário.

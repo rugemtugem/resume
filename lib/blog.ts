@@ -36,6 +36,10 @@ export interface Post {
     /** Data e hora de publicação, em ISO (UTC). */
     publicadoEm: string;
     rascunho: boolean;
+    /** Marcado como recomendado na linha "> Destaque: sim". */
+    destaque: boolean;
+    /** Dados da miniatura, da linha "> CAPA:". */
+    capa: { selo?: string; destaque?: string; nota?: string; chips: { rotulo: string; valor: string }[] };
 }
 
 const esc = (s: string) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
@@ -151,6 +155,24 @@ function agendamento(valor: string): string | null {
     return new Date(Date.UTC(+ano, +mes - 1, +dia, +hora + 3, +minuto)).toISOString();
 }
 
+/** "> CAPA: eyebrow=...| destaque=... | chip=Rótulo=Valor | nota=..." (mesmo formato do Calcula Trabalhador). */
+function lerCapa(valor: string): Post["capa"] {
+    const capa: Post["capa"] = { chips: [] };
+    for (const parte of valor.split("|")) {
+        const [chave, ...resto] = parte.split("=");
+        const v = resto.join("=").trim();
+        const k = chave.trim().toLowerCase();
+        if (!k || !v) continue;
+        if (k === "chip") {
+            const [rotulo, ...vv] = v.split("=");
+            capa.chips.push({ rotulo: rotulo.trim(), valor: vv.join("=").trim() });
+        } else if (k === "eyebrow" || k === "selo") capa.selo = v;
+        else if (k === "destaque") capa.destaque = v;
+        else if (k === "nota") capa.nota = v;
+    }
+    return capa;
+}
+
 function lerPost(arquivo: string): Post | null {
     const bruto = readFileSync(join(PASTA, arquivo), "utf8");
     const linhas = bruto.split("\n");
@@ -167,7 +189,7 @@ function lerPost(arquivo: string): Post | null {
         .slice(0, inicioPerguntas === -1 ? linhas.length : inicioPerguntas)
         .filter((l) => {
             const t = l.trim();
-            return !/^#\s+/.test(t) && !/^>\s*(Categoria|SEO|DESC|Agendar|Rascunho|CAPA|Publicado):/.test(t) && !/^\*\*Resumo:\*\*/.test(t);
+            return !/^#\s+/.test(t) && !/^>\s*(Categoria|SEO|DESC|Agendar|Rascunho|CAPA|Publicado|Destaque):/.test(t) && !/^\*\*Resumo:\*\*/.test(t);
         });
     const { html, indice, palavras } = corpo(linhasDoCorpo);
 
@@ -185,6 +207,8 @@ function lerPost(arquivo: string): Post | null {
         minutos: Math.max(2, Math.round(palavras / 200)),
         publicadoEm,
         rascunho: /^sim$/i.test(meta(bruto, "Rascunho")),
+        destaque: /^sim$/i.test(meta(bruto, "Destaque")),
+        capa: lerCapa(meta(bruto, "CAPA")),
     };
 }
 
@@ -212,3 +236,6 @@ export function dataPorExtenso(iso: string): string {
     const d = new Date(Date.parse(iso) - 3 * 3600e3);
     return `${d.getUTCDate()} de ${MESES[d.getUTCMonth()]} de ${d.getUTCFullYear()}`;
 }
+
+/** Endereço da miniatura gerada para o post. */
+export const capaDoPost = (slug: string) => `/blog/capa/${slug}`;
