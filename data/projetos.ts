@@ -74,14 +74,43 @@ export interface Ferramenta {
     texto: string;
 }
 
-/** Tipos de ferramenta interna que a Rugemtugem constrói para o time de uma empresa. */
-export const FERRAMENTAS: Ferramenta[] = [
-    { nome: "Assistente de IA ligado aos sistemas da empresa", texto: "O time pergunta em linguagem natural, no ChatGPT ou no Claude, e o assistente consulta o CRM, as conversas e as reuniões para responder." },
-    { nome: "Dossiê do cliente em uma consulta", texto: "Identidade, estágio no CRM, conversas de WhatsApp e histórico de reuniões reunidos em uma resposta só." },
-    { nome: "Base de conhecimento pesquisável", texto: "Aulas, processos e manuais da casa indexados por assunto, com busca pelo sentido da pergunta, e não só pela palavra." },
-    { nome: "Trilha personalizada por cliente", texto: "Plano de estudo ou de ação montado para cada cliente e publicado em uma página própria, pronta para enviar." },
-    { nome: "Plano dos primeiros 30 dias", texto: "Roteiro de entrada de um cliente novo, gerado a partir do que ele contou nas reuniões e revisado antes de sair." },
-    { nome: "Mensagens com prévia e confirmação", texto: "O assistente escreve a mensagem de WhatsApp, mostra como vai ficar e só envia depois que uma pessoa aprova." },
-    { nome: "Hub de dados da jornada do cliente", texto: "Vendas, atendimento e ciclo de vida do cliente em um lugar só, com a origem de cada número e as divergências à mostra." },
-    { nome: "Tarefas e lembretes por conversa", texto: "Pendências criadas, listadas e concluídas pelo assistente, direto na agenda de tarefas de cada pessoa." },
+export interface GrupoDeFerramentas {
+    titulo: string;
+    texto: string;
+    itens: Ferramenta[];
+}
+
+/** Tipos de ferramenta interna que a Rugemtugem constrói para o time de uma empresa, por finalidade. */
+export const FERRAMENTAS: GrupoDeFerramentas[] = [
+    {
+        titulo: "IA ligada aos dados da empresa",
+        texto: "O time trabalha conversando com um assistente que enxerga os sistemas da casa.",
+        itens: [
+            { nome: "Assistente de IA ligado aos sistemas", texto: "O time pergunta em linguagem natural, no ChatGPT ou no Claude, e o assistente consulta o CRM, as conversas e as reuniões para responder." },
+            { nome: "Hub de dados da jornada do cliente", texto: "Vendas, atendimento e ciclo de vida do cliente em um lugar só, com a origem de cada número e as divergências à mostra." },
+            { nome: "Dossiê do cliente em uma consulta", texto: "Identidade, estágio no CRM, conversas de WhatsApp e histórico de reuniões reunidos em uma resposta só." },
+        ],
+    },
+    {
+        titulo: "Conhecimento da empresa",
+        texto: "Aulas, manuais e processos deixam de ficar espalhados e passam a responder perguntas.",
+        itens: [
+            { nome: "Base de conhecimento pesquisável", texto: "Todo o conteúdo da casa indexado, com busca pelo sentido da pergunta, e não só pela palavra." },
+            { nome: "Mapa de necessidades", texto: "A pessoa descreve a situação do cliente e a ferramenta aponta o assunto e o conteúdo que resolve." },
+            { nome: "Dossiê por assunto", texto: "Para cada necessidade, os conteúdos mais indicados já separados, com o melhor ponto de partida." },
+            { nome: "Resumo com indicação de uso", texto: "Cada aula ou documento ganha um resumo e a indicação de quando recomendar." },
+            { nome: "Resposta com fonte e trecho literal", texto: "O assistente só responde com o que está na base, cita o título de origem e abre a transcrição quando é preciso a fala exata." },
+            { nome: "Processos internos pesquisáveis", texto: "Procedimentos e regras da operação em uma base à parte, com a data da última atualização." },
+        ],
+    },
+    {
+        titulo: "Atendimento e acompanhamento",
+        texto: "O que o time de atendimento fazia à mão passa a sair pronto para revisão.",
+        itens: [
+            { nome: "Trilha personalizada por cliente", texto: "Plano de estudo ou de ação montado para cada cliente e publicado em uma página própria, pronta para enviar." },
+            { nome: "Plano dos primeiros 30 dias", texto: "Roteiro de entrada de um cliente novo, gerado a partir do que ele contou nas reuniões e revisado antes de sair." },
+            { nome: "Mensagens com prévia e confirmação", texto: "O assistente escreve a mensagem de WhatsApp, mostra como vai ficar e só envia depois que uma pessoa aprova." },
+            { nome: "Tarefas e lembretes por conversa", texto: "Pendências criadas, listadas e concluídas pelo assistente, direto na agenda de tarefas de cada pessoa." },
+        ],
+    },
 ];

@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowRight, ArrowUpRight, Bot, CalendarCheck, Database, FileSearch, ListChecks, MessageSquareText, Route, UserSearch } from "lucide-react";
+import { ArrowRight, ArrowUpRight, Bot, FileSearch, Route } from "lucide-react";
 import { PaginaInterna, TopoInterno, Faixa, TituloDeSecao, CartaoVidro, IconeGradiente, ChamadaDiagnostico } from "@/components/layout/pagina-interna";
 import { CASOS, detalhesDoCaso } from "@/data/casos";
 import { FERRAMENTAS, PASSAGENS, PROJETOS_PROPRIOS, SITES_NO_AR } from "@/data/projetos";
@@ -12,7 +12,7 @@ export const metadata = {
   alternates: { canonical: "/projetos" },
 };
 
-const ICONES_DAS_FERRAMENTAS = [Bot, UserSearch, FileSearch, Route, CalendarCheck, MessageSquareText, Database, ListChecks];
+const ICONES_DOS_GRUPOS = [Bot, FileSearch, Route];
 const MIGALHAS = [{ nome: "Início", href: "/" }, { nome: "Projetos" }];
 const cartao =
   "group flex flex-col h-full rounded-2xl overflow-hidden bg-[var(--bg-primary)]/60 backdrop-blur-xl border border-[var(--border-color)]/50 shadow-[0_8px_32px_rgba(0,0,0,0.1)] dark:shadow-[0_8px_32px_rgba(0,0,0,0.3)] hover:border-[var(--primary-color)]/40 hover:-translate-y-1 transition-all duration-300";
@@ -56,19 +56,31 @@ export default function ProjetosPage() {
       </Faixa>
 
       <Faixa largura="max-w-7xl">
-        <TituloDeSecao rotulo="IA na operação" titulo="Ferramentas que eu" destaque="construo" texto="Sistemas internos que ligam a IA aos dados da empresa, para o time trabalhar conversando." />
-        <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {FERRAMENTAS.map((ferramenta, indice) => (
-            <li key={ferramenta.nome}>
-              <CartaoVidro className="!bg-[var(--bg-secondary)]/60 !p-6">
-                <IconeGradiente icone={ICONES_DAS_FERRAMENTAS[indice % ICONES_DAS_FERRAMENTAS.length]} indice={indice} />
-                <h3 className="text-lg font-bold leading-snug mt-5 mb-2">{ferramenta.nome}</h3>
-                <p className="text-[var(--text-secondary)] leading-relaxed">{ferramenta.texto}</p>
-              </CartaoVidro>
-            </li>
+        <TituloDeSecao rotulo="IA na operação" titulo="Ferramentas que eu" destaque="construo" texto="Treze tipos de sistema interno, em três frentes. Cada um nasceu de uma necessidade real de operação." />
+        <div className="space-y-14">
+          {FERRAMENTAS.map((grupo, g) => (
+            <div key={grupo.titulo} className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-10">
+              <div className="lg:col-span-4">
+                <div className="lg:sticky lg:top-28">
+                  <IconeGradiente icone={ICONES_DOS_GRUPOS[g % ICONES_DOS_GRUPOS.length]} indice={g} />
+                  <h3 className="text-2xl md:text-3xl font-bold leading-tight mt-5 mb-3">{grupo.titulo}</h3>
+                  <p className="text-lg text-[var(--text-secondary)] leading-relaxed">{grupo.texto}</p>
+                </div>
+              </div>
+              <ul className="lg:col-span-8 grid grid-cols-1 sm:grid-cols-2 gap-5">
+                {grupo.itens.map((ferramenta) => (
+                  <li key={ferramenta.nome}>
+                    <div className="h-full p-6 rounded-2xl bg-[var(--bg-secondary)]/60 border border-[var(--border-color)]/50">
+                      <h4 className="text-lg font-bold leading-snug mb-2">{ferramenta.nome}</h4>
+                      <p className="text-[var(--text-secondary)] leading-relaxed">{ferramenta.texto}</p>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            </div>
           ))}
-        </ul>
-        <p className="text-center mt-10">
+        </div>
+        <p className="text-center mt-14">
           <Link href="/servicos/ia-na-operacao" className="inline-flex items-center gap-2 font-semibold text-[var(--primary-color)]">
             Ver o serviço de soluções em IA
             <ArrowRight className="w-5 h-5" aria-hidden="true" />
