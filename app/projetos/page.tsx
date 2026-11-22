@@ -1,9 +1,9 @@
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowRight, ArrowUpRight } from "lucide-react";
-import { PaginaInterna, TopoInterno, Faixa, TituloDeSecao, CartaoVidro, ChamadaDiagnostico } from "@/components/layout/pagina-interna";
+import { ArrowRight, ArrowUpRight, Bot, CalendarCheck, Database, FileSearch, ListChecks, MessageSquareText, Route, UserSearch } from "lucide-react";
+import { PaginaInterna, TopoInterno, Faixa, TituloDeSecao, CartaoVidro, IconeGradiente, ChamadaDiagnostico } from "@/components/layout/pagina-interna";
 import { CASOS, detalhesDoCaso } from "@/data/casos";
-import { PASSAGENS, PROJETOS_PROPRIOS, SITES_NO_AR } from "@/data/projetos";
+import { FERRAMENTAS, PASSAGENS, PROJETOS_PROPRIOS, SITES_NO_AR } from "@/data/projetos";
 
 export const metadata = {
   title: "Projetos: sites, integrações e produtos | Rugemtugem",
@@ -12,6 +12,7 @@ export const metadata = {
   alternates: { canonical: "/projetos" },
 };
 
+const ICONES_DAS_FERRAMENTAS = [Bot, UserSearch, FileSearch, Route, CalendarCheck, MessageSquareText, Database, ListChecks];
 const MIGALHAS = [{ nome: "Início", href: "/" }, { nome: "Projetos" }];
 const cartao =
   "group flex flex-col h-full rounded-2xl overflow-hidden bg-[var(--bg-primary)]/60 backdrop-blur-xl border border-[var(--border-color)]/50 shadow-[0_8px_32px_rgba(0,0,0,0.1)] dark:shadow-[0_8px_32px_rgba(0,0,0,0.3)] hover:border-[var(--primary-color)]/40 hover:-translate-y-1 transition-all duration-300";
@@ -24,7 +25,7 @@ export default function ProjetosPage() {
         selo="Rugemtugem, desde novembro de 2000"
         titulo="O que eu já"
         destaque="coloquei no ar"
-        texto="Integrações e sistemas com IA, sites e lojas de clientes, e produtos que eu mesmo criei e mantenho."
+        texto="Integrações, ferramentas de IA para o time, sites e lojas de clientes, e produtos que eu mesmo criei e mantenho."
       />
 
       <Faixa fundo="secundario" largura="max-w-7xl">
@@ -55,13 +56,34 @@ export default function ProjetosPage() {
       </Faixa>
 
       <Faixa largura="max-w-7xl">
-        <TituloDeSecao rotulo="Sites e lojas de clientes" titulo="Sites que estão" destaque="no ar" texto="Feitos em WordPress pela Rugemtugem. Cada cartão abre o site do cliente." />
-        <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+        <TituloDeSecao rotulo="IA na operação" titulo="Ferramentas que eu" destaque="construo" texto="Sistemas internos que ligam a IA aos dados da empresa, para o time trabalhar conversando." />
+        <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          {FERRAMENTAS.map((ferramenta, indice) => (
+            <li key={ferramenta.nome}>
+              <CartaoVidro className="!bg-[var(--bg-secondary)]/60 !p-6">
+                <IconeGradiente icone={ICONES_DAS_FERRAMENTAS[indice % ICONES_DAS_FERRAMENTAS.length]} indice={indice} />
+                <h3 className="text-lg font-bold leading-snug mt-5 mb-2">{ferramenta.nome}</h3>
+                <p className="text-[var(--text-secondary)] leading-relaxed">{ferramenta.texto}</p>
+              </CartaoVidro>
+            </li>
+          ))}
+        </ul>
+        <p className="text-center mt-10">
+          <Link href="/servicos/ia-na-operacao" className="inline-flex items-center gap-2 font-semibold text-[var(--primary-color)]">
+            Ver o serviço de soluções em IA
+            <ArrowRight className="w-5 h-5" aria-hidden="true" />
+          </Link>
+        </p>
+      </Faixa>
+
+      <Faixa fundo="secundario" largura="max-w-7xl">
+        <TituloDeSecao rotulo="Sites e lojas de clientes" titulo="Sites que estão" destaque="no ar" texto="Oito sites feitos em WordPress pela Rugemtugem. Cada cartão abre o site do cliente." />
+        <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {SITES_NO_AR.map((site) => (
             <li key={site.url}>
-              <a href={site.url} target="_blank" rel="noopener noreferrer" className={cartao.replace("bg-[var(--bg-primary)]/60", "bg-[var(--bg-secondary)]/60")}>
+              <a href={site.url} target="_blank" rel="noopener noreferrer" className={cartao}>
                 <div className="relative aspect-[16/10] border-b border-[var(--border-color)]/50 overflow-hidden">
-                  <Image src={site.imagem} alt={`Tela inicial do site ${site.nome}`} fill className="object-cover object-top transition-transform duration-500 group-hover:scale-[1.03]" sizes="(min-width: 1024px) 400px, 100vw" />
+                  <Image src={site.imagem} alt={`Tela inicial do site ${site.nome}`} fill className="object-cover object-top transition-transform duration-500 group-hover:scale-[1.03]" sizes="(min-width: 1024px) 320px, 100vw" />
                 </div>
                 <div className="flex flex-col flex-1 p-6">
                   <span className="self-start px-3 py-1 rounded-full bg-[var(--primary-color)]/10 text-[var(--primary-color)] text-xs font-semibold mb-3">{site.segmento}</span>
@@ -78,12 +100,12 @@ export default function ProjetosPage() {
         </ul>
       </Faixa>
 
-      <Faixa fundo="secundario" largura="max-w-7xl">
+      <Faixa largura="max-w-7xl">
         <TituloDeSecao rotulo="Produtos da Rugemtugem" titulo="Projetos" destaque="próprios" texto="O que eu criei, publiquei e mantenho por conta própria." />
         <ul className="grid grid-cols-1 lg:grid-cols-3 gap-6 md:gap-8">
           {PROJETOS_PROPRIOS.map((projeto) => (
             <li key={projeto.url}>
-              <a href={projeto.url} target="_blank" rel="noopener noreferrer" className={cartao}>
+              <a href={projeto.url} target="_blank" rel="noopener noreferrer" className={cartao.replace("bg-[var(--bg-primary)]/60", "bg-[var(--bg-secondary)]/60")}>
                 <div className="relative aspect-[16/10] border-b border-[var(--border-color)]/50 overflow-hidden">
                   <Image src={projeto.imagem} alt={`Tela inicial do ${projeto.nome}`} fill className="object-cover object-top transition-transform duration-500 group-hover:scale-[1.03]" sizes="(min-width: 1024px) 400px, 100vw" />
                 </div>
@@ -103,12 +125,12 @@ export default function ProjetosPage() {
         </ul>
       </Faixa>
 
-      <Faixa>
+      <Faixa fundo="secundario">
         <TituloDeSecao rotulo="Dentro de empresas" titulo="Onde eu também" destaque="trabalhei" />
         <ul className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {PASSAGENS.map((p) => (
             <li key={p.empresa}>
-              <CartaoVidro className="!bg-[var(--bg-secondary)]/60">
+              <CartaoVidro>
                 <p className="text-sm text-[var(--text-secondary)] mb-2">{p.periodo}</p>
                 <h3 className="text-xl font-bold mb-1">{p.empresa}</h3>
                 <p className="text-sm font-semibold text-[var(--primary-color)] mb-3">{p.area}</p>

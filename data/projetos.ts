@@ -9,6 +9,8 @@ export interface SiteNoAr {
 
 /** Sites de clientes feitos pela Rugemtugem e que estão no ar (conferidos em 22/11/2026). */
 export const SITES_NO_AR: SiteNoAr[] = [
+    { nome: "Acrópole Projetos", segmento: "Arquitetura e engenharia", tipo: "Site em WordPress", url: "https://www.acropoleprojetos.com.br/", imagem: "/images/projetos/acropole-projetos.jpg" },
+    { nome: "Uono Sanchez Engenharia", segmento: "Avaliação e perícia de imóveis", tipo: "Site em WordPress", url: "https://uonosanchez.com.br/", imagem: "/images/projetos/uono-sanchez.jpg" },
     { nome: "Vetor Jóias", segmento: "Joalheria", tipo: "Loja virtual em WordPress", url: "https://loja.vetorjoias.com.br/", imagem: "/images/projetos/vetor-joias.jpg" },
     { nome: "Compra de Ouro São Gonçalo", segmento: "Avaliação e compra de ouro e prata", tipo: "Site em WordPress", url: "https://compraourosg.com.br/", imagem: "/images/projetos/compra-de-ouro-sg.jpg" },
     { nome: "Marjorie Dawe", segmento: "Regnum Mariae", tipo: "Site com loja em WordPress", url: "https://marjoriedaweoficial.com.br/", imagem: "/images/projetos/marjorie-dawe.jpg" },
@@ -65,4 +67,21 @@ export const PASSAGENS: Passagem[] = [
     { empresa: "Tecsa Group", periodo: "Mai/2023 a jan/2024", area: "UX/UI e front-end", texto: "Wireframes, protótipos, testes de usabilidade e landing pages com design system." },
     { empresa: "Metaverso-LivePlanet", periodo: "Set/2021 a jul/2023", area: "UI/UX e front-end", texto: "Interfaces responsivas em HTML5, CSS3 e JavaScript, com testes de compatibilidade e desempenho." },
     { empresa: "Roupateca", periodo: "Mar/2020 a abr/2023", area: "WordPress e UX", texto: "Site de aluguel de roupas, com vitrine e venda, do mapeamento de jornada à entrega." },
+];
+
+export interface Ferramenta {
+    nome: string;
+    texto: string;
+}
+
+/** Tipos de ferramenta interna que a Rugemtugem constrói para o time de uma empresa. */
+export const FERRAMENTAS: Ferramenta[] = [
+    { nome: "Assistente de IA ligado aos sistemas da empresa", texto: "O time pergunta em linguagem natural, no ChatGPT ou no Claude, e o assistente consulta o CRM, as conversas e as reuniões para responder." },
+    { nome: "Dossiê do cliente em uma consulta", texto: "Identidade, estágio no CRM, conversas de WhatsApp e histórico de reuniões reunidos em uma resposta só." },
+    { nome: "Base de conhecimento pesquisável", texto: "Aulas, processos e manuais da casa indexados por assunto, com busca pelo sentido da pergunta, e não só pela palavra." },
+    { nome: "Trilha personalizada por cliente", texto: "Plano de estudo ou de ação montado para cada cliente e publicado em uma página própria, pronta para enviar." },
+    { nome: "Plano dos primeiros 30 dias", texto: "Roteiro de entrada de um cliente novo, gerado a partir do que ele contou nas reuniões e revisado antes de sair." },
+    { nome: "Mensagens com prévia e confirmação", texto: "O assistente escreve a mensagem de WhatsApp, mostra como vai ficar e só envia depois que uma pessoa aprova." },
+    { nome: "Hub de dados da jornada do cliente", texto: "Vendas, atendimento e ciclo de vida do cliente em um lugar só, com a origem de cada número e as divergências à mostra." },
+    { nome: "Tarefas e lembretes por conversa", texto: "Pendências criadas, listadas e concluídas pelo assistente, direto na agenda de tarefas de cada pessoa." },
 ];
