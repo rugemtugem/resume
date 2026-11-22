@@ -23,6 +23,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
         ...SERVICOS.map((s) => pagina(`/servicos/${s.slug}`, 0.8)),
         pagina("/casos", 0.9),
         ...CASOS.map((c) => pagina(`/casos/${c.slug}`, 0.8)),
+        pagina("/projetos", 0.8),
         pagina("/blog", 0.7),
         ...postsPublicados()
             .filter((post) => !post.rascunho)

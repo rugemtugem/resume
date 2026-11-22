@@ -33,6 +33,7 @@
 - [Integração de site com CRM e pagamento](https://rugemtugem.dev/servicos/integracao-site-crm)
 - [WordPress sob medida](https://rugemtugem.dev/servicos/wordpress-sob-medida)
 - [Soluções em IA para a operação](https://rugemtugem.dev/servicos/ia-na-operacao)
+- [Projetos](https://rugemtugem.dev/projetos): casos, sites de clientes no ar e produtos próprios.
 - [Casos](https://rugemtugem.dev/casos): os quatro casos de cliente.
 - [S&S Comércio](https://rugemtugem.dev/casos/ss-comercio-whatsapp-bling)
 - [Sales Prime](https://rugemtugem.dev/casos/sales-prime-site-crm-pagamento)

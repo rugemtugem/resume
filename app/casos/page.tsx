@@ -62,6 +62,12 @@ export default function CasosPage() {
             );
           })}
         </ul>
+        <p className="text-center mt-12">
+          <Link href="/projetos" className="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold border-2 border-[var(--border-color)] hover:bg-[var(--bg-primary)] transition-all">
+            Ver sites de clientes e projetos próprios
+            <ArrowRight className="w-5 h-5" aria-hidden="true" />
+          </Link>
+        </p>
       </Faixa>
 
       <ChamadaDiagnostico local="casos" />

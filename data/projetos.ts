@@ -1,0 +1,68 @@
+/** Projetos da Rugemtugem fora dos quatro casos completos: sites de clientes no ar e projetos próprios. */
+export interface SiteNoAr {
+    nome: string;
+    segmento: string;
+    tipo: string;
+    url: string;
+    imagem: string;
+}
+
+/** Sites de clientes feitos pela Rugemtugem e que estão no ar (conferidos em 22/11/2026). */
+export const SITES_NO_AR: SiteNoAr[] = [
+    { nome: "Vetor Jóias", segmento: "Joalheria", tipo: "Loja virtual em WordPress", url: "https://loja.vetorjoias.com.br/", imagem: "/images/projetos/vetor-joias.jpg" },
+    { nome: "Compra de Ouro São Gonçalo", segmento: "Avaliação e compra de ouro e prata", tipo: "Site em WordPress", url: "https://compraourosg.com.br/", imagem: "/images/projetos/compra-de-ouro-sg.jpg" },
+    { nome: "Marjorie Dawe", segmento: "Regnum Mariae", tipo: "Site com loja em WordPress", url: "https://marjoriedaweoficial.com.br/", imagem: "/images/projetos/marjorie-dawe.jpg" },
+    { nome: "Irmãos Ribeiro", segmento: "Comércio de resíduos e transporte", tipo: "Site em WordPress", url: "https://irmaoribeiro.com/", imagem: "/images/projetos/irmaos-ribeiro.jpg" },
+    { nome: "Felipe Carvalho", segmento: "Artista visual", tipo: "Site em WordPress", url: "https://felipecarvalho.art.br/", imagem: "/images/projetos/felipe-carvalho.jpg" },
+    { nome: "Renderizando", segmento: "Produção de conteúdo digital", tipo: "Site em WordPress", url: "https://renderizando.com.br/", imagem: "/images/projetos/renderizando.jpg" },
+];
+
+export interface ProjetoProprio {
+    nome: string;
+    area: string;
+    texto: string;
+    /** Fato com data, quando existe. */
+    fato?: string;
+    url: string;
+    imagem: string;
+}
+
+export const PROJETOS_PROPRIOS: ProjetoProprio[] = [
+    {
+        nome: "Calcula Trabalhador",
+        area: "Produto web e automação de conteúdo",
+        texto: "Rede de calculadoras trabalhistas e fiscais para quem é CLT, MEI, empresário ou autônomo. O blog é gerado de arquivos de texto, e uma agenda de aprovação monta carrossel, Reels e stories e publica no Instagram pela API.",
+        fato: "399 testes automatizados passando em 21/11/2026.",
+        url: "https://calculatrabalhador.com.br/",
+        imagem: "/images/projetos/calcula-trabalhador.jpg",
+    },
+    {
+        nome: "Calcula Imóveis",
+        area: "Produto web e SEO",
+        texto: "Calculadoras de aluguel, venda e financiamento, com dado estruturado para o Google desde o lançamento.",
+        fato: "42 testes automatizados passando em 21/11/2026.",
+        url: "https://calculaimoveis.com/",
+        imagem: "/images/projetos/calcula-imoveis.jpg",
+    },
+    {
+        nome: "Parô",
+        area: "Sistema por assinatura, aplicativo instalável",
+        texto: "Gestão de pátio e estacionamento, para usar no celular de quem trabalha em movimento.",
+        url: "https://paro.rugemtugem.dev/",
+        imagem: "/images/projetos/paro.jpg",
+    },
+];
+
+export interface Passagem {
+    empresa: string;
+    periodo: string;
+    area: string;
+    texto: string;
+}
+
+/** Trabalhos dentro de empresas, como estão no currículo. */
+export const PASSAGENS: Passagem[] = [
+    { empresa: "Tecsa Group", periodo: "Mai/2023 a jan/2024", area: "UX/UI e front-end", texto: "Wireframes, protótipos, testes de usabilidade e landing pages com design system." },
+    { empresa: "Metaverso-LivePlanet", periodo: "Set/2021 a jul/2023", area: "UI/UX e front-end", texto: "Interfaces responsivas em HTML5, CSS3 e JavaScript, com testes de compatibilidade e desempenho." },
+    { empresa: "Roupateca", periodo: "Mar/2020 a abr/2023", area: "WordPress e UX", texto: "Site de aluguel de roupas, com vitrine e venda, do mapeamento de jornada à entrega." },
+];

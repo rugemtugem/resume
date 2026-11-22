@@ -53,6 +53,7 @@ export function Footer() {
         : [
               { href: '/servicos', label: 'Serviços' },
               { href: '/casos', label: 'Casos' },
+              { href: '/projetos', label: 'Projetos' },
               { href: '/blog', label: 'Blog' },
               { href: `${base}#about`, label: t.nav?.about || 'Sobre' },
               { href: `${base}#contact`, label: t.nav?.contact || 'Contato' },

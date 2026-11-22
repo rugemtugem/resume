@@ -13,7 +13,7 @@ const POSTS = readdirSync(PASTA)
 const slugs = (arquivo, exportado) =>
   [...readFileSync(join(RAIZ, arquivo), "utf8").matchAll(/slug: "([^"]+)"/g)].map((m) => `${exportado}/${m[1]}`);
 const slugsDosPosts = POSTS.map(({ texto }) => `/blog/${(texto.match(/·\s*slug:\s*(\S+)/) || [])[1]}`);
-const ROTAS = new Set(["/", "/casos", "/servicos", "/blog", "/privacidade", ...slugs("data/casos.ts", "/casos"), ...slugs("data/servicos.ts", "/servicos"), ...slugsDosPosts]);
+const ROTAS = new Set(["/", "/casos", "/servicos", "/projetos", "/blog", "/privacidade", ...slugs("data/casos.ts", "/casos"), ...slugs("data/servicos.ts", "/servicos"), ...slugsDosPosts]);
 
 test("há pelo menos um post para conferir", () => {
   assert.ok(POSTS.length > 0);

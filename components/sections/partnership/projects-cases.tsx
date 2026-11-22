@@ -193,6 +193,11 @@ export function ProjectsCases() {
           ))}
         </div>
 
+        <p className="text-center mt-16">
+          <Link href="/projetos" className="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold border-2 border-[var(--border-color)] hover:bg-[var(--bg-primary)] transition-all">
+            Ver todos os projetos
+          </Link>
+        </p>
       </div>
     </section>
   );
