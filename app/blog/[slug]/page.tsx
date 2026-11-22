@@ -85,6 +85,7 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
         {/* eslint-disable-next-line @next/next/no-img-element -- miniatura gerada pela rota /blog/capa */}
         <img
           src={capaDoPost(post.slug)}
+          data-post-capa
           alt=""
           width={1200}
           height={630}
