@@ -45,10 +45,10 @@ export function HeroPartnership() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
-          className="text-[2rem] md:text-7xl font-bold mb-6 leading-tight"
+          className="text-[2rem] md:text-6xl font-bold mb-6 leading-tight"
         >
-          {t.title.split('Resultados')[0]}
-          <span className="text-gradient-neon">{'Resultados de Negócio'}</span>
+          {t.title}{" "}
+          <span className="text-gradient-neon">{t.titleDestaque}</span>
         </motion.h1>
 
         {/* Clear Value Proposition */}

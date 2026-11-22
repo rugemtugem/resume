@@ -52,91 +52,93 @@ export const translations = {
         // --- Partnership Content ---
         hero: {
             badge: "Rugemtugem: integração de sistemas e soluções em IA",
-            title: "Transformo Desafios Técnicos em Resultados de Negócio",
-            role: "Parceiro estratégico em tecnologia que combina liderança técnica, design e IA para criar produtos digitais que geram impacto mensurável e escalam negócios.",
+            title: "Conecto o site e os sistemas da sua empresa",
+            titleDestaque: "para o trabalho manual sumir",
+            role: "Integro WhatsApp, sistema de gestão, CRM e WordPress, e aplico IA na operação. O pedido entra sozinho e nenhum lead se perde.",
             facts: [
-                { strong: "Desde 2000", text: "atendendo empresas", href: "#experience" },
-                { strong: "5 estrelas", text: "em 3 avaliações no Google", href: "#cases" },
-                { strong: "Cliente desde 2008", text: "segundo avaliação no Google", href: "#cases" },
+                { strong: "Desde 2000", text: "atendendo empresas", href: "#about" },
+                { strong: "5 estrelas", text: "em 3 avaliações no Google", href: "#avaliacoes" },
+                { strong: "Cliente desde 2008", text: "segundo avaliação no Google", href: "#avaliacoes" },
             ],
-            cta1: "Vamos Escalar Seu Negócio?",
-            cta2: "Ver Casos de Sucesso",
+            cta1: "Pedir o diagnóstico gratuito",
+            cta2: "Ver os casos",
         },
         about: {
-            tag: "Por Que Empresas Escolhem Trabalhar Comigo",
-            title: "Parceria que Gera Resultados",
-            summary: "Não é sobre tecnologia pela tecnologia. É sobre usar as ferramentas certas para resolver problemas reais de negócio e criar produtos que seus clientes amam.",
+            tag: "Quem é a Rugemtugem",
+            title: "Uma pessoa,",
+            titleDestaque: "do site ao sistema",
+            summary: "A Rugemtugem atende empresas desde novembro de 2000. Quem conversa com você e quem constrói o sistema sou eu, Fábio Rugemtugem.",
             features: [
                 {
-                    title: "Resultados Mensuráveis, Não Apenas Código",
-                    desc: "Cada projeto termina com um resultado que dá para conferir. Os casos mais abaixo mostram o que mudou em cada cliente.",
+                    title: "Resultado que dá para conferir",
+                    desc: "Cada projeto termina com um resultado que dá para conferir. Os casos mostram o que mudou em cada cliente.",
                 },
                 {
-                    title: "Parceiro Estratégico, Não Apenas Executor",
-                    desc: "Trabalho lado a lado com seu time para entender desafios de negócio e propor soluções estratégicas.",
+                    title: "Começo pelo processo da empresa",
+                    desc: "Antes de escolher ferramenta, entendo como o pedido, o lead ou a inscrição andam hoje dentro da sua operação.",
                 },
                 {
-                    title: "Velocidade sem Sacrificar Qualidade",
-                    desc: "Uso metodologias ágeis e ferramentas de IA para entregar MVPs em semanas, não meses.",
+                    title: "Entrega toda semana",
+                    desc: "Você vê o sistema andando em demonstrações semanais. Uso IA para construir mais rápido.",
                 },
                 {
-                    title: "Visão 360º: Técnico, Design e Negócio",
-                    desc: "Combino expertise técnica, design e visão de negócio para criar produtos estratégicos.",
+                    title: "Design e código na mesma pessoa",
+                    desc: "Do desenho da tela à integração com o sistema de gestão, sem passar por intermediário.",
                 },
             ],
             stats: [
-                { value: "2000", label: "Ano em que a Rugemtugem começou", desc: "Atendendo empresas desde novembro de 2000.", href: "#experience" },
-                { value: "5 estrelas", label: "Em 3 avaliações no Google", desc: "Com link para cada avaliação na seção de cases.", href: "#cases" },
-                { value: "2008", label: "Cliente mais antigo com avaliação pública", desc: "\"Já sou cliente do Fábio há 12 anos, desde 2008.\" Avaliação no Google.", href: "#cases" },
+                { value: "2000", label: "Ano em que a Rugemtugem começou", desc: "Atendendo empresas desde novembro de 2000.", href: "#about" },
+                { value: "5 estrelas", label: "Em 3 avaliações no Google", desc: "Com link para cada avaliação, logo abaixo do topo.", href: "#avaliacoes" },
+                { value: "2008", label: "Cliente mais antigo com avaliação pública", desc: "\"Já sou cliente do Fábio há 12 anos, desde 2008.\" Avaliação no Google.", href: "#avaliacoes" },
                 { value: "4", label: "Clientes com caso publicado", desc: "Sales Prime, Prosperus Club, Campanha 21 Dias e S&S Comércio.", href: "#cases" },
             ],
         },
         contact: {
-            title: "Pronto para Escalar Seu Negócio?",
+            title: "Vamos conversar sobre a sua operação?",
             subtitle: "Vamos construir algo juntos",
-            description: "Vamos conversar sobre como uma parceria estratégica pode transformar seus desafios técnicos em vantagem competitiva.",
+            description: "Conte como o processo funciona hoje. Eu respondo dizendo o que dá para ligar e por onde começar.",
             options: {
-                consultation: { title: "Consulta Estratégica", desc: "Análise gratuita do seu desafio e roadmap de soluções." },
-                proposal: { title: "Proposta Customizada", desc: "Plano detalhado com investimento e resultados esperados." },
-                chat: { title: "Bate-papo Informal", desc: "WhatsApp direto para tirar dúvidas ou explorar ideias." },
+                consultation: { title: "Diagnóstico de 30 minutos", desc: "Gratuito. Você conta o processo e eu digo o que dá para ligar." },
+                proposal: { title: "Proposta fechada", desc: "Escopo, prazo e valor em 3 a 5 dias úteis." },
+                chat: { title: "Conversa no WhatsApp", desc: "Para tirar uma dúvida rápida antes de marcar o diagnóstico." },
             },
             name: "Nome",
             email: "E-mail",
             whatsapp: "WhatsApp",
             message: "Mensagem",
-            placeholder: "Como posso ajudar seu negócio hoje?",
+            placeholder: "O que hoje é feito à mão na sua empresa?",
             send: "Enviar Mensagem",
             sending: "Enviando...",
             success: "Mensagem enviada com sucesso!",
             error: "Erro ao enviar mensagem. Tente novamente.",
             followMe: "Siga-me em:",
             instagram: "https://instagram.com/rugemtugem/",
-            tip: { title: "Dica Estratégica", desc: "A maioria dos nossos projetos começa com um simples \"olá\". Não espere o momento perfeito para planejar sua escala." },
+            tip: { title: "Como começar", desc: "A maioria dos projetos começa com uma mensagem curta contando o que hoje é feito à mão." },
         },
         how_it_works: {
             tag: "Processo Transparente",
             title: "Como ",
             highlight: "Trabalhamos Juntos",
-            description: "Processo simples, ágil e sem burocracias. Do primeiro contato ao sistema no ar, você sabe exatamente o que esperar.",
+            description: "Do primeiro contato ao sistema no ar, você sabe o que esperar em cada etapa.",
             cta: {
                 title: "Pronto para Começar?",
-                description: "Agende um diagnóstico gratuito de 30 minutos. Sem compromisso, sem pegadinhas.",
+                description: "Agende um diagnóstico gratuito de 30 minutos. Você sai sabendo o que dá para ligar.",
                 primary: "Agendar Diagnóstico Gratuito",
-                secondary: "Ver Casos de Sucesso"
+                secondary: "Ver os casos"
             },
             steps: [
                 {
                     number: "01",
                     title: "Diagnóstico Gratuito (30min)",
-                    description: "Entendo sua dor, mapeio gargalos e apresento roadmap de soluções possíveis",
+                    description: "Você conta como o processo funciona hoje e eu digo o que dá para ligar",
                     duration: "30 minutos",
-                    deliverable: "Análise inicial + Proposta de valor",
+                    deliverable: "Mapa do que vale e do que não vale automatizar",
                     iconName: "Calendar"
                 },
                 {
                     number: "02",
                     title: "Proposta Técnica + Comercial",
-                    description: "Apresento solução detalhada com cronograma, investimento e ROI esperado",
+                    description: "Proposta com escopo, cronograma e valor fechados",
                     duration: "3-5 dias úteis",
                     deliverable: "Documento técnico + Planilha de custos",
                     iconName: "CheckCircle"
@@ -174,11 +176,11 @@ export const translations = {
             items: [
                 {
                     question: "Quanto tempo leva para ter resultados?",
-                    answer: "Primeiros resultados em 2-4 semanas. Sistema completo em 8-12 semanas. Trabalhamos com entregas semanais para você ver progresso constante."
+                    answer: "As entregas são semanais, então você vê o sistema andando desde a primeira semana. Um projeto completo leva de 4 a 12 semanas."
                 },
                 {
                     question: "Quanto custa um projeto?",
-                    answer: "Projetos variam dependendo do escopo. Após o diagnóstico gratuito, você recebe proposta detalhada com cronograma e ROI esperado. Sem surpresas."
+                    answer: "O valor depende do escopo. Depois do diagnóstico gratuito, você recebe uma proposta com escopo, prazo e valor fechados."
                 },
                 {
                     question: "Preciso ter equipe técnica?",
@@ -190,19 +192,19 @@ export const translations = {
                 },
                 {
                     question: "Como garantir que vai funcionar?",
-                    answer: "Trabalho com metodologia ágil: sprints semanais com demos ao vivo. Se algo não está funcionando, ajustamos imediatamente. Sem risco de 'surpresa' no final."
+                    answer: "Toda semana tem uma demonstração do que foi feito. Se algo está errado, aparece na primeira semana e é corrigido ali."
                 }
             ]
         },
         success_cases: {
-            title: "Casos de Sucesso",
-            subtitle: "Resultados Reais de Parcerias Reais",
-            description: "Empresas que confiaram em uma parceria estratégica e viram seus negócios crescerem de forma mensurável",
+            title: "Casos de clientes",
+            subtitle: "Quatro clientes, com nome",
+            description: "O problema que existia em cada empresa e o que a Rugemtugem construiu.",
             items: [
                 {
                     client: "Sales Prime",
                     industry: "EdTech",
-                    challenge: "Escalar operações de conteúdo e captação de leads sem aumentar custos operacionais.",
+                    challenge: "Publicar conteúdo e captar leads sem aumentar o custo da operação.",
                     solution: "Arquitetura WordPress escalável com 5 sistemas integrados: Vagas, Blog, Hub de Integrações e LPs de alta conversão.",
                     logo: "/images/projects/sales-prime-logo.png",
                     deliverables: [
@@ -234,8 +236,8 @@ export const translations = {
                 {
                     client: "Campanha 21 Dias",
                     industry: "Social Impact",
-                    challenge: "Gerenciar evento nacional com centras de inscrições e automação de certificados sob LGPD.",
-                    solution: "Plugin WordPress customizado com automação de PDFs e segurança de dados em escala.",
+                    challenge: "Gerenciar evento nacional com centenas de inscrições e automação de certificados sob LGPD.",
+                    solution: "Plugin WordPress sob medida, com geração automática de PDFs e cuidado com os dados dos inscritos.",
                     logo: "/images/projects/campanha-21-dias-logo.webp",
                     deliverables: [
                         { title: "Sistema de Inscrições", desc: "Formulários inteligentes com validação", impact: "Erro zero em 500+ registros" },
@@ -297,7 +299,7 @@ export const translations = {
             ]
         },
         testimonials: {
-            title: "O Que Dizem Nossos Parceiros",
+            title: "O que dizem os clientes",
             subtitle: "Avaliações no Google",
             items: [
                 {

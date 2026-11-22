@@ -42,15 +42,21 @@ export function Footer() {
     // Fora da home e do currículo, as âncoras precisam levar para a home.
     const base = pathname === '/' || pathname === '/resume' ? '' : '/';
 
-    const navLinks = [
-        { href: `${base}#home`, label: t.nav?.home || 'Início' },
-        { href: `${base}#about`, label: t.nav?.about || 'Sobre' },
-        { href: '/servicos', label: 'Serviços' },
-        { href: '/casos', label: 'Casos' },
-        { href: '/blog', label: 'Blog' },
-        { href: isResume ? '#projects' : `${base}#cases`, label: t.nav?.projects || 'Projetos' },
-        { href: `${base}#contact`, label: t.nav?.contact || 'Contato' },
-    ];
+    const navLinks = isResume
+        ? [
+              { href: '#home', label: t.nav?.home || 'Início' },
+              { href: '#about', label: t.nav?.about || 'Sobre' },
+              { href: '#experience', label: t.nav?.experience || 'Experiência' },
+              { href: '#projects', label: t.nav?.projects || 'Projetos' },
+              { href: '#contact', label: t.nav?.contact || 'Contato' },
+          ]
+        : [
+              { href: '/servicos', label: 'Serviços' },
+              { href: '/casos', label: 'Casos' },
+              { href: '/blog', label: 'Blog' },
+              { href: `${base}#about`, label: t.nav?.about || 'Sobre' },
+              { href: `${base}#contact`, label: t.nav?.contact || 'Contato' },
+          ];
 
     const socialLinks = [
         {

@@ -27,8 +27,8 @@ export function AboutPartnership() {
             {t.tag}
           </p>
           <h2 className="text-4xl md:text-5xl font-bold mb-6">
-            {t.title.split('Gera Resultados')[0]}
-            <span className="text-gradient-neon">{'Gera Resultados'}</span>
+            {t.title}{" "}
+            <span className="text-gradient-neon">{t.titleDestaque}</span>
           </h2>
           <p className="text-xl text-[var(--text-secondary)] max-w-3xl mx-auto">
             {t.summary}

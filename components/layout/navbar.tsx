@@ -4,7 +4,7 @@
 import { useState, useEffect, useMemo, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { Menu, X } from "lucide-react";
 import Image from "next/image";
 import { LinkButton, IconButton, GhostButton } from "@/components/ui/buttons";
@@ -13,6 +13,9 @@ import { useLanguage } from "@/contexts/language-provider";
 import { usePageMode } from "@/contexts/page-mode-provider";
 import { translations } from "@/data/translations";
 
+const WHATSAPP_DIAGNOSTICO =
+  "https://wa.me/5511986514401?text=" + encodeURIComponent("Oi, Fábio! Quero agendar o diagnóstico gratuito de 30 minutos.");
+
 const SECTION_IDS = ["inicio", "sobre", "experiencia", "habilidades", "projetos", "educacao", "contato"];
 
 export function Navbar() {
@@ -20,6 +23,7 @@ export function Navbar() {
   const { isResume } = usePageMode();
   const t = translations[language];
   const pathname = usePathname();
+  const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("inicio");
   const [scrolled, setScrolled] = useState(false);
@@ -27,28 +31,39 @@ export function Navbar() {
   // Fora da home e do currículo, as âncoras precisam levar para a home.
   const base = pathname === "/" || pathname === "/resume" ? "" : "/";
 
-  // Memoized navigation items
-  const menuItems = useMemo(() => [
-    { id: "inicio", name: t.nav.home, href: `${base}#home` },
+  // No currículo, o menu continua apontando para as seções da própria página.
+  // No resto do site, leva às páginas de serviços, casos e blog, e às seções Sobre e Contato da home.
+  const menuItems = useMemo(() => isResume ? [
+    { id: "inicio", name: t.nav.home, href: "#home" },
+    { id: "sobre", name: t.nav.about, href: "#about" },
+    { id: "experiencia", name: t.nav.experience, href: "#experience" },
+    { id: "habilidades", name: t.nav.skills, href: "#skills" },
+    { id: "projetos", name: t.nav.projects, href: "#projects" },
+    { id: "educacao", name: t.nav.education, href: "#education" },
+    { id: "contato", name: t.nav.contact, href: "#contact" },
+  ] : [
+    { id: "servicos", name: "Serviços", href: "/servicos" },
+    { id: "casos", name: "Casos", href: "/casos" },
+    { id: "blog", name: "Blog", href: "/blog" },
     { id: "sobre", name: t.nav.about, href: `${base}#about` },
-    { id: "experiencia", name: t.nav.experience, href: `${base}#experience` },
-    { id: "habilidades", name: t.nav.skills, href: `${base}#skills` },
-    { id: "projetos", name: t.nav.projects, href: isResume ? "#projects" : `${base}#cases` },
-    { id: "educacao", name: t.nav.education, href: `${base}#education` },
     { id: "contato", name: t.nav.contact, href: `${base}#contact` },
   ], [t.nav, base, isResume]);
+
+  // Página atual marca o item do menu; na home, vale a seção que está na tela.
+  const rotaAtiva = menuItems.find((item) => !item.href.includes("#") && pathname.startsWith(item.href))?.id;
 
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 50);
 
       if (window.scrollY < 100) {
-        setActiveSection("inicio");
+        setActiveSection(isResume ? "inicio" : "");
         return;
       }
 
       const current = menuItems.find((item) => {
         const sectionId = item.href.split("#")[1];
+        if (!sectionId) return false;
         const element = document.getElementById(sectionId);
         if (element) {
           const rect = element.getBoundingClientRect();
@@ -57,12 +72,12 @@ export function Navbar() {
         return false;
       });
 
-      if (current) setActiveSection(current.id);
+      setActiveSection(current ? current.id : "");
     };
 
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, [menuItems]);
+  }, [menuItems, isResume]);
 
   const handleNavClick = useCallback((e: React.MouseEvent<HTMLAnchorElement>, targetId: string) => {
     if (targetId === "home") {
@@ -71,13 +86,22 @@ export function Navbar() {
         setIsOpen(false);
         return;
     }
-    const element = document.getElementById(targetId);
+    const element = targetId ? document.getElementById(targetId) : null;
     if (element) {
         e.preventDefault();
         element.scrollIntoView({ behavior: 'smooth' });
-        setIsOpen(false);
     }
+    setIsOpen(false);
   }, []);
+
+  // Menu do celular: rola até a seção se ela está nesta página; senão, navega.
+  const irPara = useCallback((href: string) => {
+    const id = href.split("#")[1];
+    const element = id ? document.getElementById(id) : null;
+    if (element) element.scrollIntoView({ behavior: 'smooth' });
+    else router.push(href);
+    setIsOpen(false);
+  }, [router]);
 
   return (
     <motion.nav
@@ -122,7 +146,7 @@ export function Navbar() {
                 <LinkButton
                   key={item.id}
                   href={item.href}
-                  active={activeSection === item.id}
+                  active={(rotaAtiva ?? activeSection) === item.id}
                   aria-label={item.name}
                   onClick={(e) => handleNavClick(e, sectionId)}
                 >
@@ -133,7 +157,20 @@ export function Navbar() {
           </div>
 
           {/* Actions */}
-          <NavbarActions />
+          <div className="flex items-center gap-3">
+            {!isResume && (
+              <a
+                href={WHATSAPP_DIAGNOSTICO}
+                target="_blank"
+                rel="noopener noreferrer"
+                data-local="menu"
+                className="hidden md:inline-flex items-center px-5 py-2.5 rounded-xl text-sm font-semibold text-white bg-gradient-to-r from-[var(--primary-color)] to-[var(--secondary-color)] shadow-lg hover:shadow-xl hover:scale-[1.02] transition-all"
+              >
+                Diagnóstico gratuito
+              </a>
+            )}
+            <NavbarActions />
+          </div>
 
           {/* Mobile Menu Button */}
           <div className="lg:hidden flex items-center">
@@ -162,8 +199,8 @@ export function Navbar() {
                   return (
                     <GhostButton
                       key={item.id}
-                      onClick={(e) => handleNavClick(e as any, sectionId)}
-                      active={activeSection === item.id}
+                      onClick={() => irPara(item.href)}
+                      active={(rotaAtiva ?? activeSection) === item.id}
                       aria-label={item.name}
                       size="md"
                       className="w-full justify-start"
@@ -172,6 +209,17 @@ export function Navbar() {
                     </GhostButton>
                   );
                 })}
+                {!isResume && (
+                  <a
+                    href={WHATSAPP_DIAGNOSTICO}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    data-local="menu"
+                    className="mt-2 inline-flex items-center justify-center px-5 py-3 rounded-xl font-semibold text-white bg-gradient-to-r from-[var(--primary-color)] to-[var(--secondary-color)]"
+                  >
+                    Diagnóstico gratuito
+                  </a>
+                )}
               </div>
             </motion.div>
           )}
