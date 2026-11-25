@@ -8,7 +8,7 @@ const nextConfig: NextConfig = {
   // O painel envia as imagens do Instagram por formulário: até 10 imagens de 8 MB.
   experimental: { serverActions: { bodySizeLimit: "90mb" } },
   // Os posts são lidos do disco em tempo de execução: a pasta precisa ir junto no build standalone.
-  outputFileTracingIncludes: { "/blog": ["./content/blog/**/*"], "/blog/[slug]": ["./content/blog/**/*"], "/blog/rss.xml": ["./content/blog/**/*"], "/sitemap.xml": ["./content/blog/**/*"], "/blog/capa/[slug]": ["./content/blog/**/*"], "/api/blog/view": ["./content/blog/**/*"], "/admin": ["./content/blog/**/*"], "/": ["./content/blog/**/*"], "/api/cron/tique": ["./content/blog/**/*"] },
+  outputFileTracingIncludes: { "/blog": ["./content/blog/**/*"], "/blog/[slug]": ["./content/blog/**/*"], "/blog/rss.xml": ["./content/blog/**/*"], "/sitemap.xml": ["./content/blog/**/*"], "/blog/capa/[slug]": ["./content/blog/**/*", "./lib/social/fontes/*"], "/api/blog/view": ["./content/blog/**/*"], "/admin": ["./content/**/*"], "/": ["./content/blog/**/*"], "/api/cron/tique": ["./content/blog/**/*"], "/admin/instagram": ["./content/social/**/*"], "/admin/social/[slug]": ["./content/**/*", "./lib/social/fontes/*"], "/admin/social/[slug]/[n]": ["./content/social/**/*", "./lib/social/fontes/*"] },
   async redirects() {
     // A calculadora saiu do site. O endereço antigo leva para a home.
     return [{ source: "/calculadora-roi", destination: "/", permanent: true }];

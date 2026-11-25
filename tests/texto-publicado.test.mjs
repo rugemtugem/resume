@@ -26,8 +26,8 @@ function semComentarios(texto) {
     .replace(/^\s*\/\/.*$/gm, "");
 }
 
-// O arquivo de regras do Instagram cita a palavra proibida para poder barrá-la nas legendas.
-const FORA = new Set(["lib/instagram/regras.ts"]);
+// Os arquivos de regras citam a palavra proibida para poder barrá-la nas legendas e nos slides. A licença da fonte vem pronta.
+const FORA = new Set(["lib/instagram/regras.ts", "lib/social/roteiro.ts", "lib/social/fontes/LICENSE.txt"]);
 
 const TODOS = PASTAS.flatMap(arquivos).filter((rel) => !FORA.has(rel)).map((rel) => ({
   rel,

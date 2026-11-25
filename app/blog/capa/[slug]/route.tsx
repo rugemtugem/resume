@@ -1,5 +1,6 @@
 import { ImageResponse } from "next/og";
 import { CATEGORIAS, postPorSlug } from "@/lib/blog";
+import { fontesDaMarca } from "@/lib/social/slide";
 
 export const revalidate = 300;
 
@@ -21,7 +22,7 @@ export async function GET(_request: Request, { params }: { params: Promise<{ slu
 
     return new ImageResponse(
         (
-            <div style={{ width: "100%", height: "100%", display: "flex", flexDirection: "column", justifyContent: "space-between", padding: 64, background: "#1a202c", color: "#f7fafc", position: "relative" }}>
+            <div style={{ width: "100%", height: "100%", display: "flex", flexDirection: "column", justifyContent: "space-between", padding: 64, background: "#1a202c", color: "#f7fafc", fontFamily: "Inter", position: "relative" }}>
                 <div style={{ position: "absolute", top: -180, right: -120, width: 560, height: 560, borderRadius: 560, background: "#992A2B", opacity: 0.35, filter: "blur(90px)", display: "flex" }} />
                 <div style={{ position: "absolute", bottom: -220, left: -100, width: 520, height: 520, borderRadius: 520, background: "#EE6936", opacity: 0.22, filter: "blur(90px)", display: "flex" }} />
 
@@ -52,6 +53,6 @@ export async function GET(_request: Request, { params }: { params: Promise<{ slu
                 </div>
             </div>
         ),
-        { width: 1200, height: 630 },
+        { width: 1200, height: 630, fonts: fontesDaMarca() },
     );
 }

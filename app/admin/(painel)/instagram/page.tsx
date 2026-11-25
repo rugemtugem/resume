@@ -1,8 +1,10 @@
+import Link from "next/link";
 import { horaAtual } from "@/lib/agenda";
 import { utcParaBrasilia } from "@/lib/admin/seguranca";
 import { dataPorExtenso } from "@/lib/blog";
 import { contaConectada, cotaDaConta, filaDoInstagram } from "@/lib/instagram/fila";
 import { usandoApiFalsa } from "@/lib/instagram/graph";
+import { roteirosSociais } from "@/lib/social";
 import { acaoCancelar, acaoDesconectar, acaoTentarDeNovo } from "./acoes";
 import { FormularioDeAgendamento, FormularioDeToken } from "./formularios";
 
@@ -25,6 +27,7 @@ export default async function InstagramPage() {
     const cota = conta ? await cotaDaConta() : null;
     const fila = filaDoInstagram();
     const falsa = usandoApiFalsa();
+    const roteiros = roteirosSociais();
     const agora = horaAtual();
     const amanha = utcParaBrasilia(new Date(agora + 24 * 3600e3).toISOString());
     const diasDoToken = conta ? Math.round((Date.parse(conta.expira_em) - agora) / 86400e3) : 0;
@@ -64,9 +67,37 @@ export default async function InstagramPage() {
                 )}
             </section>
 
+            <section className={cartao}>
+                <h2 className="text-xl font-bold mb-2">Carrosséis prontos</h2>
+                <p className="text-sm text-[var(--text-secondary)] mb-4">Roteiros da pasta content/social. Abra para ver os slides e aprovar.</p>
+                {roteiros.length === 0 ? (
+                    <p className="text-sm text-[var(--text-secondary)]">Nenhum roteiro na pasta.</p>
+                ) : (
+                    <ul className="divide-y divide-[var(--border-color)]">
+                        {roteiros.map(({ slug, roteiro, problemas }) => {
+                            const daFila = fila.find((p) => p.slug === slug && p.tipo === "carrossel");
+                            const estado = problemas.length > 0 ? "Com pendência no arquivo" : daFila ? (ROTULO[daFila.status]?.texto ?? daFila.status) : "Aguardando aprovação";
+                            return (
+                                <li key={slug} className="py-3 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+                                    <div className="min-w-0">
+                                        <p className="font-semibold">{roteiro.tema || slug}</p>
+                                        <p className="text-xs text-[var(--text-secondary)]">
+                                            {roteiro.slides.length} slides. {estado}.
+                                        </p>
+                                    </div>
+                                    <Link href={`/admin/social/${slug}`} className="shrink-0 px-5 py-2.5 rounded-lg font-semibold border-2 border-[var(--border-color)] hover:border-[var(--primary-color)] text-center">
+                                        Ver e aprovar
+                                    </Link>
+                                </li>
+                            );
+                        })}
+                    </ul>
+                )}
+            </section>
+
             {conta && (
                 <section className={cartao}>
-                    <h2 className="text-xl font-bold mb-4">Agendar publicação</h2>
+                    <h2 className="text-xl font-bold mb-4">Agendar publicação avulsa</h2>
                     <FormularioDeAgendamento dataPadrao={amanha} />
                 </section>
             )}

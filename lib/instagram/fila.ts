@@ -97,6 +97,17 @@ export function cancelarPost(id: number): void {
     banco()?.prepare("UPDATE ig_post SET status = 'cancelado' WHERE id = ? AND status IN ('agendado', 'erro')").run(id);
 }
 
+/** Carrosséis de um roteiro que ainda estão na fila (agendados ou com erro), do mais recente para o mais antigo. */
+export function carrosseisDoSlug(slug: string): PostDaFila[] {
+    const linhas = (banco()?.prepare(`SELECT ${COLUNAS} FROM ig_post WHERE slug = ? AND tipo = 'carrossel' AND status <> 'cancelado' ORDER BY id DESC`).all(slug) as LinhaBruta[] | undefined) ?? [];
+    return linhas.map(ler);
+}
+
+/** Tira da fila os carrosséis do roteiro que ainda não saíram. Usado ao aprovar de novo com a prévia atual. */
+export function cancelarCarrosseisDoSlug(slug: string): number {
+    return banco()?.prepare("UPDATE ig_post SET status = 'cancelado' WHERE slug = ? AND tipo = 'carrossel' AND status IN ('agendado', 'erro')").run(slug).changes ?? 0;
+}
+
 /** Recoloca na fila um post que deu erro, para sair no próximo tique. */
 export function tentarDeNovo(id: number): void {
     banco()?.prepare("UPDATE ig_post SET status = 'agendado', tentativas = 0, erro = NULL, reservado_em = NULL WHERE id = ? AND status = 'erro'").run(id);

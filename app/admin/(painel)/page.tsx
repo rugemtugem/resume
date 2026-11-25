@@ -1,6 +1,8 @@
 import { agendaDoBlog, horaAtual, ultimoBatimento } from "@/lib/agenda";
 import { utcParaBrasilia } from "@/lib/admin/seguranca";
+import Link from "next/link";
 import { CATEGORIAS, dataPorExtenso, todosOsPosts } from "@/lib/blog";
+import { roteirosSociais } from "@/lib/social";
 import { acaoAprovar, acaoDesaprovar } from "./acoes";
 
 function horaDeBrasilia(iso: string): string {
@@ -27,6 +29,7 @@ export default function AgendaPage() {
     const agora = horaAtual();
     const posts = todosOsPosts().sort((a, b) => b.publicadoEm.localeCompare(a.publicadoEm));
     const batimento = batimentoTexto();
+    const comCarrossel = new Map(roteirosSociais().map((r) => [r.slug, r.roteiro.slides.length]));
 
     return (
         <div>
@@ -67,6 +70,13 @@ export default function AgendaPage() {
                                             {estado === "pendente" && `Data sugerida no arquivo: ${horaDeBrasilia(post.publicadoEm)}.`}
                                             {estado === "rascunho" && "Tem a linha Rascunho: sim. Tire a linha do arquivo para poder aprovar."}
                                         </p>
+                                        {comCarrossel.has(post.slug) && (
+                                            <p className="text-sm mt-2">
+                                                <Link href={`/admin/social/${post.slug}`} className="font-semibold text-[var(--primary-color)] underline underline-offset-4">
+                                                    Tem carrossel de {comCarrossel.get(post.slug)} slides: ver e aprovar os dois juntos
+                                                </Link>
+                                            </p>
+                                        )}
                                     </div>
 
                                     {!post.rascunho && (
