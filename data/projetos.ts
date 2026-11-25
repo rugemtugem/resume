@@ -74,17 +74,48 @@ export interface Ferramenta {
     texto: string;
 }
 
+export interface Referencia {
+    /** Texto antes do link. */
+    antes: string;
+    link: string;
+    url: string;
+    /** Texto depois do link. */
+    depois: string;
+}
+
 export interface GrupoDeFerramentas {
     titulo: string;
     texto: string;
+    referencia?: Referencia;
     itens: Ferramenta[];
 }
+
+/** A liga de clubes de mentoria da qual o Prosperus Club faz parte. */
+export const MLS: Referencia = {
+    antes: "Em uso no Prosperus Club, um dos clubes da ",
+    link: "Mentoring League Society (MLS)",
+    url: "https://mlsociety.co/",
+    depois: ", a liga de clubes de mentoria.",
+};
 
 /**
  * Tipos de sistema que a Rugemtugem constrói, por finalidade.
  * Só entra aqui o que foi construído pelo Fábio. Ferramentas feitas por outras pessoas ficam de fora.
  */
 export const FERRAMENTAS: GrupoDeFerramentas[] = [
+    {
+        titulo: "Para mentores e para quem dá mentoria",
+        texto: "Sistemas para clubes e programas de mentoria: do diagnóstico do mentor ao acompanhamento de cada mentorado.",
+        referencia: MLS,
+        itens: [
+            { nome: "Diagnóstico com IA para o mentor", texto: "Roteiro em módulos que ajuda o mentor a transformar o que sabe em uma oferta, com plano de ação gerado por IA." },
+            { nome: "Aplicativo do clube ou do programa", texto: "Cada mentorado tem o seu acesso: agenda dos encontros, conteúdos, benefícios e a comunidade do grupo." },
+            { nome: "Trilha personalizada do mentorado", texto: "A sequência de aulas e tarefas indicada para cada pessoa aparece na tela dela, pronta para seguir." },
+            { nome: "Jornada dos primeiros 30 dias", texto: "O plano de entrada do mentorado novo, com as etapas à vista para ele e para quem acompanha." },
+            { nome: "Medição de crescimento", texto: "Coleta periódica dos números do negócio do mentorado, para mostrar o retorno da mentoria ao longo do tempo." },
+            { nome: "Encontros e presença", texto: "Convite, confirmação e check-in dos encontros, com a presença registrada no CRM." },
+        ],
+    },
     {
         titulo: "Aplicativo para clientes e membros",
         texto: "Um aplicativo instalável no celular, sem passar pela loja, com a marca da empresa.",

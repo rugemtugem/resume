@@ -58,6 +58,15 @@ export default async function CasoPage({ params }: { params: Promise<{ slug: str
           </div>
 
           <div className="space-y-6">
+            {caso.referencia && (
+              <p className="text-lg text-[var(--text-secondary)] leading-relaxed">
+                {caso.referencia.antes}
+                <a href={caso.referencia.url} target="_blank" rel="noopener noreferrer" className="font-semibold text-[var(--primary-color)] underline underline-offset-4">
+                  {caso.referencia.link}
+                </a>
+                {caso.referencia.depois}
+              </p>
+            )}
             <CartaoVidro>
               <div className="flex items-start gap-4">
                 <IconeGradiente icone={AlertTriangle} indice={0} />

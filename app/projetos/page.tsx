@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowRight, ArrowUpRight, GraduationCap, LayoutDashboard, Smartphone, Workflow, Wrench } from "lucide-react";
+import { ArrowRight, ArrowUpRight, GraduationCap, LayoutDashboard, Smartphone, Users, Workflow, Wrench } from "lucide-react";
 import { PaginaInterna, TopoInterno, Faixa, TituloDeSecao, CartaoVidro, IconeGradiente, ChamadaDiagnostico } from "@/components/layout/pagina-interna";
 import { CASOS, detalhesDoCaso } from "@/data/casos";
 import { FERRAMENTAS, PASSAGENS, PROJETOS_PROPRIOS, PROVA_DO_APLICATIVO, SITES_NO_AR } from "@/data/projetos";
@@ -12,7 +12,7 @@ export const metadata = {
   alternates: { canonical: "/projetos" },
 };
 
-const ICONES_DOS_GRUPOS = [Smartphone, GraduationCap, LayoutDashboard, Workflow, Wrench];
+const ICONES_DOS_GRUPOS = [Users, Smartphone, GraduationCap, LayoutDashboard, Workflow, Wrench];
 const MIGALHAS = [{ nome: "Início", href: "/" }, { nome: "Projetos" }];
 const cartao =
   "group flex flex-col h-full rounded-2xl overflow-hidden bg-[var(--bg-primary)]/60 backdrop-blur-xl border border-[var(--border-color)]/50 shadow-[0_8px_32px_rgba(0,0,0,0.1)] dark:shadow-[0_8px_32px_rgba(0,0,0,0.3)] hover:border-[var(--primary-color)]/40 hover:-translate-y-1 transition-all duration-300";
@@ -65,6 +65,15 @@ export default function ProjetosPage() {
                   <IconeGradiente icone={ICONES_DOS_GRUPOS[g % ICONES_DOS_GRUPOS.length]} indice={g} />
                   <h3 className="text-2xl md:text-3xl font-bold leading-tight mt-5 mb-3">{grupo.titulo}</h3>
                   <p className="text-lg text-[var(--text-secondary)] leading-relaxed">{grupo.texto}</p>
+                  {grupo.referencia && (
+                    <p className="mt-4 text-[var(--text-secondary)] leading-relaxed">
+                      {grupo.referencia.antes}
+                      <a href={grupo.referencia.url} target="_blank" rel="noopener noreferrer" className="font-semibold text-[var(--primary-color)] underline underline-offset-4">
+                        {grupo.referencia.link}
+                      </a>
+                      {grupo.referencia.depois}
+                    </p>
+                  )}
                 </div>
               </div>
               <ul className="lg:col-span-8 grid grid-cols-1 sm:grid-cols-2 gap-5">
