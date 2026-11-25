@@ -118,6 +118,25 @@ async function linkedin(req, res, url) {
 
   if (caminho === "/v2/userinfo") return responder(res, 200, { sub: "FALSO12345", name: "Fábio Rugemtugem" });
 
+  // Métricas: só responde para o token que tem "comleitura", como um app com as permissões de análise liberadas.
+  if (caminho === "/rest/memberFollowersCount" || caminho === "/rest/memberCreatorPostAnalytics") {
+    if (!token.includes("comleitura")) return responder(res, 403, { status: 403, code: "ACCESS_DENIED", message: "Not enough permissions to access: " + caminho.slice(6) + ".FINDER-me" });
+    if (caminho === "/rest/memberFollowersCount") return responder(res, 200, { elements: [{ memberFollowersCount: 1200 + Math.floor(Date.now() / DIA) % 300 }], paging: { count: 10, start: 0 } });
+    const bruta = decodeURIComponent(url.search);
+    const tipo = url.searchParams.get("queryType");
+    const peso = { IMPRESSION: 40, REACTION: 2, COMMENT: 0.4, RESHARE: 0.15 }[tipo];
+    if (!peso) return responder(res, 400, { message: "queryType inválido" });
+    if (url.searchParams.get("q") === "entity") {
+      if (!/entity=\((share|ugcPost):urn:li:(share|ugcPost):/.test(bruta)) return responder(res, 400, { message: "entity malformado" });
+      return responder(res, 200, { elements: [{ count: Math.round(22 * peso), metricType: tipo }], paging: { count: 10, start: 0 } });
+    }
+    const datas = bruta.match(/start:\(day:(\d+),month:(\d+),year:(\d+)\),end:\(day:(\d+),month:(\d+),year:(\d+)\)/);
+    if (!datas) return responder(res, 400, { message: "dateRange malformado" });
+    const iso = (a, m, d) => `${a}-${String(m).padStart(2, "0")}-${String(d).padStart(2, "0")}`;
+    const dias = diasDe(iso(datas[3], datas[2], datas[1]), iso(datas[6], datas[5], datas[4])).slice(0, -1);
+    return responder(res, 200, { elements: [{ count: Math.round(somaDe(dias, sessoesDoDia) * peso), metricType: tipo }], paging: { count: 10, start: 0 } });
+  }
+
   if (caminho === "/rest/images" && req.method === "POST") {
     const dono = JSON.parse(corpo.toString() || "{}").initializeUploadRequest?.owner;
     if (dono !== "urn:li:person:FALSO12345") return responder(res, 403, { message: "Not enough permissions to access: images.initializeUpload" });
@@ -168,7 +187,21 @@ createServer(async (req, res) => {
   if (token.includes("recusar")) return responder(res, 400, { error: { message: "Invalid OAuth access token - Cannot parse access token" } });
 
   if (partes[0] === "refresh_access_token") return responder(res, 200, { access_token: token, expires_in: 5184000 });
-  if (partes[0] === "me") return responder(res, 200, { user_id: "17841400000000001", username: "rugemtugem", account_type: "BUSINESS" });
+  if (partes[0] === "me") return responder(res, 200, { user_id: "17841400000000001", username: "rugemtugem", account_type: "BUSINESS", followers_count: 480 + Math.floor(Date.now() / DIA) % 400, media_count: 64 });
+  // Métricas: token com "seminsights" imita o token gerado sem a permissão de insights.
+  if (partes[1] === "insights") {
+    if (token.includes("seminsights")) return responder(res, 400, { error: { message: "(#10) Application does not have permission for this action" } });
+    const metricas = (params.get("metric") || "").split(",").filter(Boolean);
+    if (partes[0] === "17841400000000001") {
+      if (params.get("metric_type") !== "total_value" || params.get("period") !== "day") return responder(res, 400, { error: { message: "An unknown error has occurred." } });
+      const s = sessoesDoDia(new Date(Number(params.get("since")) * 1000).toISOString().slice(0, 10));
+      const valor = { reach: s * 6, views: s * 11, accounts_engaged: Math.floor(s / 2), total_interactions: s, profile_links_taps: Math.floor(s / 12) };
+      return responder(res, 200, { data: metricas.map((m) => ({ name: m, period: "day", total_value: { value: valor[m] ?? 0 }, id: `17841400000000001/insights/${m}/day` })) });
+    }
+    const n = Number(String(partes[0]).replace(/\D/g, "").slice(-3)) || 7;
+    const valor = { reach: 300 + n, views: 520 + n * 2, likes: 20 + (n % 30), comments: n % 6, saved: n % 9, shares: n % 4 };
+    return responder(res, 200, { data: metricas.map((m) => ({ name: m, period: "lifetime", values: [{ value: valor[m] ?? 0 }], id: `${partes[0]}/insights/${m}/lifetime` })) });
+  }
   if (partes[1] === "content_publishing_limit") {
     const usados = [...containers.values()].filter((c) => c.publicado).length;
     return responder(res, 200, { data: [{ quota_usage: usados, config: { quota_total: 100 } }] });

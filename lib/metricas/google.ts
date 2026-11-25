@@ -78,7 +78,7 @@ async function pedir(token: string, url: string, corpo: unknown): Promise<Record
     return dados;
 }
 
-function doCache<T>(chave: string): T | null {
+export function doCache<T>(chave: string): T | null {
     try {
         const linha = banco()?.prepare("SELECT json FROM cache_metricas WHERE chave = ? AND ate > ?").get(chave, new Date().toISOString()) as { json: string } | undefined;
         return linha ? (JSON.parse(linha.json) as T) : null;
@@ -87,11 +87,11 @@ function doCache<T>(chave: string): T | null {
     }
 }
 
-function paraOCache(chave: string, valor: unknown): void {
+export function paraOCache(chave: string, valor: unknown, validadeMs = CACHE_MS): void {
     try {
         banco()
             ?.prepare("INSERT INTO cache_metricas (chave, ate, json) VALUES (?, ?, ?) ON CONFLICT(chave) DO UPDATE SET ate = excluded.ate, json = excluded.json")
-            .run(chave, new Date(Date.now() + CACHE_MS).toISOString(), JSON.stringify(valor));
+            .run(chave, new Date(Date.now() + validadeMs).toISOString(), JSON.stringify(valor));
     } catch {
         // Sem cache o painel funciona igual, só consulta o Google de novo.
     }

@@ -5,6 +5,7 @@ import { pegarTrava, publicarVencidos, registrarBatimento, soltarTrava } from "@
 import { banco } from "@/lib/db";
 import { manutencaoDiaria, publicarVencidosDoInstagram } from "@/lib/instagram/fila";
 import { publicarVencidosDoLinkedin } from "@/lib/linkedin/fila";
+import { capturarRedes } from "@/lib/metricas/redes";
 
 export const dynamic = "force-dynamic";
 export const maxDuration = 300;
@@ -29,7 +30,8 @@ function primeiraVezHoje(nome: string): boolean {
 
 /**
  * Tique do agendador, chamado a cada 5 minutos. Na ordem: publica os posts do blog que venceram,
- * publica a fila do Instagram, a do LinkedIn e, uma vez por dia, renova o token e limpa mídias sem uso.
+ * publica a fila do Instagram, a do LinkedIn e, uma vez por dia, renova o token, limpa mídias sem uso
+ * e guarda as métricas das redes.
  */
 export async function POST(request: Request) {
     if (!autorizado(request)) return NextResponse.json({ ok: false }, { status: 401 });
@@ -57,6 +59,8 @@ export async function POST(request: Request) {
         if (primeiraVezHoje("manutencao")) {
             const manutencao = await manutencaoDiaria();
             if (manutencao) partes.push(manutencao);
+            const redes = await capturarRedes();
+            if (redes) partes.push(redes);
         }
 
         registrarBatimento(partes.length > 0 ? partes.join(" ") : "Nada para publicar.");

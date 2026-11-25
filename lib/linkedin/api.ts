@@ -1,4 +1,5 @@
 import { VERSAO_DA_API, baseDoLinkedin, semTokenDoLinkedin, textoParaLinkedin } from "@/lib/linkedin/regras";
+import { dataDoLinkedin, entidadeDoLinkedin } from "@/lib/metricas/regras";
 
 /**
  * Cliente da API do LinkedIn para publicar no perfil pessoal (permissões openid, profile e w_member_social).
@@ -6,6 +7,8 @@ import { VERSAO_DA_API, baseDoLinkedin, semTokenDoLinkedin, textoParaLinkedin } 
  */
 
 export class ErroDoLinkedin extends Error {}
+/** O token não tem a permissão pedida. Acontece com as leituras de métricas em app sem os produtos de análise. */
+export class SemPermissaoNoLinkedin extends ErroDoLinkedin {}
 
 const base = () => baseDoLinkedin(process.env);
 export const usandoLinkedinFalso = () => base().falsa;
@@ -26,7 +29,8 @@ async function pedir(token: string, url: string, opcoes: RequestInit): Promise<R
     if (resposta.ok) return resposta;
     const corpo = (await resposta.json().catch(() => ({}))) as { message?: string; error_description?: string };
     const motivo = corpo.message || corpo.error_description || `resposta ${resposta.status}`;
-    throw new ErroDoLinkedin(semTokenDoLinkedin(`LinkedIn recusou: ${motivo}`, token));
+    const Erro = resposta.status === 403 ? SemPermissaoNoLinkedin : ErroDoLinkedin;
+    throw new Erro(semTokenDoLinkedin(`LinkedIn recusou: ${motivo}`, token));
 }
 
 export interface Perfil {
@@ -76,4 +80,34 @@ export async function publicarNoLinkedin(token: string, autor: string, texto: st
     const id = resposta.headers.get("x-restli-id");
     if (!id) throw new ErroDoLinkedin("O LinkedIn aceitou o post, mas não devolveu o identificador.");
     return id;
+}
+
+export const METRICAS_DO_LINKEDIN = ["IMPRESSION", "REACTION", "COMMENT", "RESHARE"] as const;
+export type MetricaDoLinkedin = (typeof METRICAS_DO_LINKEDIN)[number];
+
+async function contar(token: string, consulta: string): Promise<number> {
+    // Os parênteses e os dois-pontos destes parâmetros não podem ser codificados: a URL é montada à mão.
+    const r = (await (await pedir(token, `${base().base}/rest/memberCreatorPostAnalytics?${consulta}`, { headers: cabecalhos(token, false) })).json()) as { elements?: { count?: number }[] };
+    return (r.elements ?? []).reduce((soma, e) => soma + Number(e.count ?? 0), 0);
+}
+
+/** Total de seguidores do perfil. Exige a permissão r_member_profileAnalytics. */
+export async function lerSeguidoresDoLinkedin(token: string): Promise<number> {
+    const r = (await (await pedir(token, `${base().base}/rest/memberFollowersCount?q=me`, { headers: cabecalhos(token, false) })).json()) as { elements?: { memberFollowersCount?: number }[] };
+    return Number(r.elements?.[0]?.memberFollowersCount ?? 0);
+}
+
+/** Totais de todos os posts do perfil entre dois dias (o fim é exclusivo). Exige a permissão r_member_postAnalytics. */
+export async function lerTotaisDoLinkedin(token: string, inicio: string, fimExclusivo: string): Promise<Record<MetricaDoLinkedin, number>> {
+    const periodo = `dateRange=(start:${dataDoLinkedin(inicio)},end:${dataDoLinkedin(fimExclusivo)})`;
+    const valores = await Promise.all(METRICAS_DO_LINKEDIN.map((m) => contar(token, `q=me&queryType=${m}&aggregation=TOTAL&${periodo}`)));
+    return Object.fromEntries(METRICAS_DO_LINKEDIN.map((m, i) => [m, valores[i]])) as Record<MetricaDoLinkedin, number>;
+}
+
+/** Números de um post desde a publicação. */
+export async function lerNumerosDoPost(token: string, urn: string): Promise<Record<MetricaDoLinkedin, number> | null> {
+    const entidade = entidadeDoLinkedin(urn);
+    if (!entidade) return null;
+    const valores = await Promise.all(METRICAS_DO_LINKEDIN.map((m) => contar(token, `q=entity&entity=${entidade}&queryType=${m}&aggregation=TOTAL`)));
+    return Object.fromEntries(METRICAS_DO_LINKEDIN.map((m, i) => [m, valores[i]])) as Record<MetricaDoLinkedin, number>;
 }

@@ -34,7 +34,8 @@ export function contaDoLinkedin(): ContaDoLinkedin | null {
     return (banco()?.prepare("SELECT pessoa_urn, nome, expira_em FROM li_conta WHERE apelido = ?").get(APELIDO) as ContaDoLinkedin | undefined) ?? null;
 }
 
-function tokenDaConta(): { pessoa_urn: string; token: string; expira_em: string } | null {
+/** Credenciais para as leituras do servidor (publicação e métricas). Nunca vão para a tela. */
+export function tokenDoLinkedin(): { pessoa_urn: string; token: string; expira_em: string } | null {
     return (banco()?.prepare("SELECT pessoa_urn, token, expira_em FROM li_conta WHERE apelido = ?").get(APELIDO) as { pessoa_urn: string; token: string; expira_em: string } | undefined) ?? null;
 }
 
@@ -109,7 +110,7 @@ export function midiasEmUsoNoLinkedin(): string[] {
  */
 export async function publicarVencidosDoLinkedin(agora = new Date()): Promise<{ publicados: number; erros: number }> {
     const db = banco();
-    const conta = tokenDaConta();
+    const conta = tokenDoLinkedin();
     if (!db || !conta) return { publicados: 0, erros: 0 };
 
     db.prepare("UPDATE li_post SET status = 'agendado' WHERE status = 'publicando' AND reservado_em < ?").run(new Date(agora.getTime() - 15 * 60e3).toISOString());

@@ -1,4 +1,5 @@
 import { baseDaGraph, semToken } from "@/lib/instagram/regras";
+import { valorDoInsight } from "@/lib/metricas/regras";
 
 /**
  * Cliente da API do Instagram (login do Instagram), portado do publicador do Calcula Trabalhador.
@@ -137,4 +138,34 @@ export function usandoApiFalsa(): boolean {
     } catch {
         return true;
     }
+}
+
+/** Seguidores e total de publicações do perfil. */
+export async function lerNumerosDoPerfil(token: string): Promise<{ seguidores: number; publicacoes: number }> {
+    const r = await pedir("GET", `${enderecos().api}/me`, token, { fields: "followers_count,media_count" });
+    return { seguidores: Number(r.followers_count ?? 0), publicacoes: Number(r.media_count ?? 0) };
+}
+
+export const METRICAS_DA_CONTA = ["reach", "views", "accounts_engaged", "total_interactions", "profile_links_taps"] as const;
+export const METRICAS_DO_POST = ["reach", "views", "likes", "comments", "saved", "shares"] as const;
+
+/** Números da conta em um dia (do início do dia em Brasília até o início do seguinte). Exige a permissão de insights. */
+export async function lerInsightsDoDia(igUserId: string, token: string, dia: string): Promise<Record<string, number>> {
+    const desde = Math.floor(Date.parse(`${dia}T03:00:00Z`) / 1000);
+    const r = await pedir("GET", `${enderecos().api}/${encodeURIComponent(igUserId)}/insights`, token, {
+        metric: METRICAS_DA_CONTA.join(","),
+        period: "day",
+        metric_type: "total_value",
+        since: String(desde),
+        until: String(desde + 86400),
+    });
+    const itens = (r.data as { name: string; total_value?: { value?: number }; values?: { value?: number }[] }[] | undefined) ?? [];
+    return Object.fromEntries(itens.map((i) => [i.name, valorDoInsight(i)]));
+}
+
+/** Números de uma publicação. A Meta atrasa esses dados em até 48 horas. */
+export async function lerInsightsDaMidia(mediaId: string, token: string): Promise<Record<string, number>> {
+    const r = await pedir("GET", `${enderecos().api}/${encodeURIComponent(mediaId)}/insights`, token, { metric: METRICAS_DO_POST.join(",") });
+    const itens = (r.data as { name: string; total_value?: { value?: number }; values?: { value?: number }[] }[] | undefined) ?? [];
+    return Object.fromEntries(itens.map((i) => [i.name, valorDoInsight(i)]));
 }

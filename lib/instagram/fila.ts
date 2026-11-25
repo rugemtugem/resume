@@ -38,7 +38,8 @@ export function contaConectada(): ContaGuardada | null {
     );
 }
 
-function tokenDaConta(): { ig_user_id: string; token: string; expira_em: string } | null {
+/** Credenciais para as leituras do servidor (publicação e métricas). Nunca vão para a tela. */
+export function tokenDaConta(): { ig_user_id: string; token: string; expira_em: string } | null {
     return (banco()?.prepare("SELECT ig_user_id, token, expira_em FROM ig_conta WHERE apelido = ?").get(APELIDO) as { ig_user_id: string; token: string; expira_em: string } | undefined) ?? null;
 }
 

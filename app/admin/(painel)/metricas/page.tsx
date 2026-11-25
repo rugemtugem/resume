@@ -2,6 +2,8 @@ import Link from "next/link";
 import { usandoGoogleFalso } from "@/lib/metricas/google";
 import { metasFixas, montarPainel } from "@/lib/metricas/painel";
 import type { Indicador } from "@/lib/metricas/painel";
+import type { NumeroComparado, PostComNumeros } from "@/lib/metricas/redes";
+import { variacao } from "@/lib/metricas/regras";
 import { PERIODOS, diaCurto, inteiro } from "@/lib/metricas/regras";
 import { acaoAtualizarMetricas, acaoGravarMetas } from "./acoes";
 import { GraficoDiario } from "./grafico";
@@ -64,6 +66,92 @@ function Cartao({ i, dias }: { i: Indicador; dias: number }) {
     );
 }
 
+function Seguidores({ dados }: { dados: { total: number | null; ganho: number | null; desde: string | null } }) {
+    return (
+        <div>
+            <dt className="text-sm text-[var(--text-secondary)]">Seguidores</dt>
+            <dd className="text-3xl font-bold tabular-nums">{dados.total === null ? "Sem dado" : inteiro(dados.total)}</dd>
+            <dd className="text-xs text-[var(--text-secondary)] mt-1">
+                {dados.ganho === null || dados.desde === null
+                    ? "O painel guarda o total uma vez por dia. A variação aparece a partir do segundo dia."
+                    : `${dados.ganho > 0 ? "Ganhou" : dados.ganho < 0 ? "Perdeu" : "Sem mudança:"} ${dados.ganho === 0 ? "" : inteiro(Math.abs(dados.ganho))} desde ${diaCurto(dados.desde)}.`}
+            </dd>
+        </div>
+    );
+}
+
+function Numeros({ itens, dias }: { itens: NumeroComparado[]; dias: number }) {
+    return (
+        <>
+            {itens.map((n) => {
+                const v = variacao(n.atual, n.anterior);
+                return (
+                    <div key={n.nome}>
+                        <dt className="text-sm text-[var(--text-secondary)]">{n.nome}</dt>
+                        <dd className="text-3xl font-bold tabular-nums">{inteiro(n.atual)}</dd>
+                        <dd className="text-xs mt-1">
+                            {v === null ? (
+                                <span className="text-[var(--text-secondary)]">Sem base de comparação: o período anterior não tem número guardado.</span>
+                            ) : (
+                                <>
+                                    <strong className={v > 0 ? "text-emerald-500" : v < 0 ? "text-red-500" : ""}>{v > 0 ? `Subiu ${v}%` : v < 0 ? `Caiu ${Math.abs(v)}%` : "Igual"}</strong>{" "}
+                                    <span className="text-[var(--text-secondary)]">
+                                        {v === 0 ? "aos" : "contra os"} {dias} dias anteriores ({inteiro(n.anterior)})
+                                    </span>
+                                </>
+                            )}
+                        </dd>
+                        <dd className="text-xs text-[var(--text-secondary)] mt-1">{n.explicacao}</dd>
+                    </div>
+                );
+            })}
+        </>
+    );
+}
+
+function TabelaDePosts({ posts, colunas, vazio }: { posts: PostComNumeros[]; colunas: [string, string][]; vazio: string }) {
+    if (posts.length === 0) return <p className="text-sm text-[var(--text-secondary)]">{vazio}</p>;
+    return (
+        <div className="overflow-x-auto">
+            <table className="w-full text-sm">
+                <thead>
+                    <tr className="text-left text-[var(--text-secondary)]">
+                        <th scope="col" className="py-1 pr-3 font-semibold">
+                            Publicação
+                        </th>
+                        {colunas.map(([id, nome]) => (
+                            <th key={id} scope="col" className="py-1 px-2 font-semibold text-right whitespace-nowrap">
+                                {nome}
+                            </th>
+                        ))}
+                    </tr>
+                </thead>
+                <tbody>
+                    {posts.map((post) => (
+                        <tr key={post.quando + post.titulo} className="border-t border-[var(--border-color)]">
+                            <td className="py-1.5 pr-3 min-w-[12rem]">
+                                {post.link ? (
+                                    <a href={post.link} target="_blank" rel="noopener noreferrer" className="font-semibold underline underline-offset-4">
+                                        {post.titulo}
+                                    </a>
+                                ) : (
+                                    <span className="font-semibold">{post.titulo}</span>
+                                )}
+                                <span className="block text-xs text-[var(--text-secondary)]">{diaCurto(new Date(Date.parse(post.quando) - 3 * 3600e3).toISOString().slice(0, 10))}</span>
+                            </td>
+                            {colunas.map(([id]) => (
+                                <td key={id} className="py-1.5 px-2 text-right tabular-nums">
+                                    {post.numeros ? inteiro(post.numeros[id] ?? 0) : "sem dado"}
+                                </td>
+                            ))}
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
+        </div>
+    );
+}
+
 function Barras({ itens }: { itens: { nome: string; valor: number }[] }) {
     const maior = Math.max(1, ...itens.map((i) => i.valor));
     return (
@@ -90,6 +178,8 @@ export default async function MetricasPage({ searchParams }: { searchParams: Pro
     const fixas = metasFixas();
     const p = painel.periodo;
     const semDados = "text-sm text-[var(--text-secondary)]";
+    const ig = painel.redes.instagram;
+    const li = painel.redes.linkedin;
 
     return (
         <div className="space-y-8">
@@ -146,7 +236,91 @@ export default async function MetricasPage({ searchParams }: { searchParams: Pro
                 <h2 id="titulo-diario" className="text-xl font-bold mb-4">
                     Dia a dia
                 </h2>
-                <GraficoDiario series={painel.indicadores.map((i) => ({ id: i.id, nome: i.nome, indisponivel: i.indisponivel, serie: i.serie }))} />
+                <GraficoDiario
+                    series={[
+                        ...painel.indicadores.map((i) => ({ id: i.id, nome: i.nome, indisponivel: i.indisponivel, serie: i.serie })),
+                        {
+                            id: "ig-alcance",
+                            nome: "Alcance no Instagram",
+                            indisponivel: !ig.conectada ? "Nenhuma conta do Instagram conectada." : ig.erro ? ig.erro : ig.diasComDado === 0 ? "Os números do Instagram ainda não foram guardados. Clique em Atualizar agora." : "",
+                            serie: ig.alcancePorDia,
+                        },
+                    ]}
+                />
+            </section>
+
+            <section className={cartao} aria-labelledby="titulo-instagram">
+                <h2 id="titulo-instagram" className="text-xl font-bold mb-1">
+                    Instagram
+                </h2>
+                {!ig.conectada ? (
+                    <p className={semDados}>Nenhuma conta conectada. Conecte em Instagram para os números aparecerem aqui.</p>
+                ) : (
+                    <>
+                        <p className="text-sm text-[var(--text-secondary)] mb-5">
+                            {ig.erro
+                                ? `O Instagram não entregou os números: ${ig.erro} Confira se o token foi gerado com a permissão de insights.`
+                                : ig.diasComDado === 0
+                                  ? "Os números da conta ainda não foram guardados. O agendador faz isso uma vez por dia; para ler já, clique em Atualizar agora."
+                                  : `Números da conta guardados em ${ig.diasComDado} de ${dias} dias do período. O Instagram fecha cada dia com até 48 horas de atraso.`}
+                        </p>
+                        <dl className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-6 mb-6">
+                            <Seguidores dados={ig.seguidores} />
+                            <Numeros itens={ig.numeros} dias={dias} />
+                        </dl>
+                        <h3 className="text-base font-bold mb-3">Publicações do período</h3>
+                        <TabelaDePosts
+                            posts={ig.posts}
+                            vazio="Nenhuma publicação saiu pelo painel neste período."
+                            colunas={[
+                                ["reach", "Alcance"],
+                                ["views", "Visualizações"],
+                                ["likes", "Curtidas"],
+                                ["comments", "Comentários"],
+                                ["saved", "Salvos"],
+                                ["shares", "Envios"],
+                            ]}
+                        />
+                    </>
+                )}
+            </section>
+
+            <section className={cartao} aria-labelledby="titulo-linkedin">
+                <h2 id="titulo-linkedin" className="text-xl font-bold mb-1">
+                    LinkedIn
+                </h2>
+                {!li.conectada ? (
+                    <p className={semDados}>Nenhum perfil conectado. Conecte em LinkedIn para os números aparecerem aqui.</p>
+                ) : li.erro ? (
+                    <>
+                        <p className="text-sm text-amber-500 mb-3">{li.erro}</p>
+                        <p className="text-sm text-[var(--text-secondary)] mb-5">
+                            Publicar funciona com o app simples; ler os números exige duas permissões a mais no token (r_member_postAnalytics e r_member_profileAnalytics), que dependem de o LinkedIn liberar para o seu app. Depois de gerar um token com elas,
+                            conecte de novo e clique em Atualizar agora.
+                        </p>
+                        <h3 className="text-base font-bold mb-3">Publicações do período</h3>
+                        <TabelaDePosts posts={li.posts} vazio="Nenhum post saiu pelo painel neste período." colunas={[]} />
+                    </>
+                ) : (
+                    <>
+                        <p className="text-sm text-[var(--text-secondary)] mb-5">Números de todos os posts do seu perfil no período, inclusive os que não saíram pelo painel.</p>
+                        <dl className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-6 mb-6">
+                            <Seguidores dados={li.seguidores} />
+                            <Numeros itens={li.numeros} dias={dias} />
+                        </dl>
+                        <h3 className="text-base font-bold mb-3">Publicações do período</h3>
+                        <TabelaDePosts
+                            posts={li.posts}
+                            vazio="Nenhum post saiu pelo painel neste período."
+                            colunas={[
+                                ["IMPRESSION", "Impressões"],
+                                ["REACTION", "Reações"],
+                                ["COMMENT", "Comentários"],
+                                ["RESHARE", "Compartilhamentos"],
+                            ]}
+                        />
+                    </>
+                )}
             </section>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">

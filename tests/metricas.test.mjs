@@ -52,3 +52,16 @@ test("trava: fora de produção as APIs do Google só podem ser a falsa, em loca
   assert.equal(real.ga4, "https://analyticsdata.googleapis.com/v1beta");
   assert.equal(real.gsc, "https://searchconsole.googleapis.com/webmasters/v3");
 });
+
+test("redes: formatos de parâmetro do LinkedIn e valor do insight do Instagram", async () => {
+  const { dataDoLinkedin, entidadeDoLinkedin, valorDoInsight, diaSeguinte } = await import("../lib/metricas/regras.ts");
+  assert.equal(dataDoLinkedin("2026-11-05"), "(day:5,month:11,year:2026)");
+  assert.equal(entidadeDoLinkedin("urn:li:share:7001"), "(share:urn%3Ali%3Ashare%3A7001)");
+  assert.equal(entidadeDoLinkedin("urn:li:ugcPost:7002"), "(ugcPost:urn%3Ali%3AugcPost%3A7002)");
+  assert.equal(entidadeDoLinkedin("urn:li:person:abc"), null, "só post tem números");
+  assert.equal(entidadeDoLinkedin("urn:li:share:1)&q=me"), null, "nada além do identificador entra na consulta");
+  assert.equal(valorDoInsight({ total_value: { value: 12 } }), 12);
+  assert.equal(valorDoInsight({ values: [{ value: 7 }] }), 7);
+  assert.equal(valorDoInsight({}), 0);
+  assert.equal(diaSeguinte("2026-11-30"), "2026-12-01");
+});

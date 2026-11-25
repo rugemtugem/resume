@@ -5,13 +5,15 @@ import { exigirAdmin } from "@/lib/admin/sessao";
 import { limparCacheDeMetricas } from "@/lib/metricas/google";
 import { gravarMetaFixa } from "@/lib/metricas/painel";
 import type { IdDoIndicador } from "@/lib/metricas/painel";
+import { capturarRedes } from "@/lib/metricas/redes";
 
 const INDICADORES: IdDoIndicador[] = ["sessoes", "buscas", "contatos", "leads", "leituras"];
 
-/** Joga fora o que está guardado há até uma hora e consulta o Google de novo. */
+/** Joga fora o que está guardado há até uma hora, lê as redes de novo e consulta o Google de novo. */
 export async function acaoAtualizarMetricas(): Promise<void> {
     await exigirAdmin();
     limparCacheDeMetricas();
+    await capturarRedes();
     revalidatePath("/admin/metricas");
 }
 

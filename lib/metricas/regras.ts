@@ -92,6 +92,27 @@ export function enderecosDoGoogle(env: { NODE_ENV?: string; GOOGLE_API_BASE?: st
     };
 }
 
+/** Valor de um item de insights do Instagram: a API usa "total_value" em alguns pedidos e "values" em outros. */
+export function valorDoInsight(item: { total_value?: { value?: number }; values?: { value?: number }[] }): number {
+    return Number(item.total_value?.value ?? item.values?.[0]?.value ?? 0);
+}
+
+/** Data no formato de parâmetro do LinkedIn: (day:25,month:11,year:2026). */
+export function dataDoLinkedin(dia: string): string {
+    return `(day:${Number(dia.slice(8, 10))},month:${Number(dia.slice(5, 7))},year:${Number(dia.slice(0, 4))})`;
+}
+
+/** Identificador do post no formato de parâmetro do LinkedIn: (share:urn%3Ali%3Ashare%3A123). Devolve null se não for post. */
+export function entidadeDoLinkedin(urn: string): string | null {
+    const m = urn.match(/^urn:li:(share|ugcPost):[A-Za-z0-9_-]+$/);
+    return m ? `(${m[1]}:${encodeURIComponent(urn)})` : null;
+}
+
+/** Dia seguinte, "AAAA-MM-DD". */
+export function diaSeguinte(dia: string): string {
+    return new Date(Date.parse(`${dia}T00:00:00Z`) + 86400e3).toISOString().slice(0, 10);
+}
+
 /** "AAAA-MM-DD" vira "DD/MM". */
 export const diaCurto = (dia: string) => `${dia.slice(8, 10)}/${dia.slice(5, 7)}`;
 

@@ -4,6 +4,8 @@ import { configuracaoDoGoogle, lerGa4, lerGsc } from "@/lib/metricas/google";
 import type { DadosDoGa4, DadosDoGsc } from "@/lib/metricas/google";
 import { metaAutomatica, periodoDe, serieCompleta, ultimos7, variacao } from "@/lib/metricas/regras";
 import type { Periodo } from "@/lib/metricas/regras";
+import { lerRedes } from "@/lib/metricas/redes";
+import type { Redes } from "@/lib/metricas/redes";
 
 export type IdDoIndicador = "sessoes" | "buscas" | "contatos" | "leads" | "leituras";
 
@@ -39,6 +41,7 @@ export interface Painel {
     origens: { origem: string; total: number }[];
     publicacoes: { blog: number; instagram: number; linkedin: number; stories: number };
     google: { ga4: string; gsc: string };
+    redes: Redes;
 }
 
 const ORIGENS: Record<string, string> = { instagram: "Instagram", google: "Google", ia: "IA (ChatGPT, Perplexity e outras)", indicacao: "Indicação", linkedin: "LinkedIn", outro: "Outro" };
@@ -86,6 +89,8 @@ export async function montarPainel(dias: number, agora = new Date()): Promise<Pa
     else faltaGa4 = faltaGa4 || `O GA4 não respondeu: ${rGa4.reason instanceof Error ? rGa4.reason.message : "erro"}`;
     if (rGsc.status === "fulfilled") gsc = rGsc.value;
     else faltaGsc = faltaGsc || `O Search Console não respondeu: ${rGsc.reason instanceof Error ? rGsc.reason.message : "erro"}`;
+
+    const redes = await lerRedes(p);
 
     const leads = porDia("lead_dia", "total", p.inicio, p.fim);
     const leadsAnt = soma(porDia("lead_dia", "total", p.antInicio, p.antFim));
@@ -157,5 +162,6 @@ export async function montarPainel(dias: number, agora = new Date()): Promise<Pa
             stories: soma(porDia("story_clique", "cliques", p.inicio, p.fim)),
         },
         google: { ga4: faltaGa4, gsc: faltaGsc },
+        redes,
     };
 }
