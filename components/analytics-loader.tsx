@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Script from "next/script";
+import { usePathname } from "next/navigation";
 import { EVENTO_CONSENTIMENTO, lerConsentimento } from "@/lib/consent";
 import { GA_ID, track } from "@/lib/analytics";
 
@@ -10,6 +11,7 @@ import { GA_ID, track } from "@/lib/analytics";
  * link para o WhatsApp, link de e-mail e elementos marcados com data-cta.
  */
 export function AnalyticsLoader() {
+    const pathname = usePathname();
     const [aceito, setAceito] = useState(false);
 
     useEffect(() => {
@@ -43,7 +45,8 @@ export function AnalyticsLoader() {
         return () => document.removeEventListener("click", aoClicar);
     }, []);
 
-    if (!aceito) return null;
+    // O painel não é medido.
+    if (!aceito || pathname.startsWith("/admin")) return null;
 
     return (
         <>

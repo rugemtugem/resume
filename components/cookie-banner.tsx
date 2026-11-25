@@ -2,10 +2,12 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { EVENTO_CONSENTIMENTO, gravarConsentimento, lerConsentimento } from "@/lib/consent";
 
 /** Aviso de cookies. Aparece enquanto a pessoa não escolheu. */
 export function CookieBanner() {
+    const pathname = usePathname();
     const [visivel, setVisivel] = useState(false);
 
     useEffect(() => {
@@ -15,7 +17,8 @@ export function CookieBanner() {
         return () => window.removeEventListener(EVENTO_CONSENTIMENTO, atualizar);
     }, []);
 
-    if (!visivel) return null;
+    // O painel não mede visita nem mostra o aviso.
+    if (!visivel || pathname.startsWith("/admin")) return null;
 
     return (
         <div
