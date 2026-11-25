@@ -16,7 +16,10 @@ export default async function PainelLayout({ children }: { children: React.React
                         <span className="font-bold">Painel da Rugemtugem</span>
                         <nav className="flex items-center gap-4 text-sm">
                             <Link href="/admin" className="font-semibold text-[var(--primary-color)]">
-                                Agenda
+                                Agenda do blog
+                            </Link>
+                            <Link href="/admin/instagram" className="font-semibold text-[var(--primary-color)]">
+                                Instagram
                             </Link>
                             <Link href="/" className="text-[var(--text-secondary)] hover:text-[var(--text-primary)]">
                                 Ver o site

@@ -21,7 +21,13 @@ const linhas = [
 ];
 
 if (local) {
-  const cabecalho = ["# Só para localhost. Não vai para o git nem para o servidor.", "DATA_DIR=./.dados"];
+  const cabecalho = [
+    "# Só para localhost. Não vai para o git nem para o servidor.",
+    "DATA_DIR=./.dados",
+    "SITE_URL=http://localhost:3000",
+    "# Instagram: em localhost só a API falsa (node scripts/graph-falsa.mjs).",
+    "IG_GRAPH_BASE=http://localhost:4010",
+  ];
   writeFileSync(".env.local", cabecalho.concat(linhas).join("\n") + "\n");
   console.log("Arquivo .env.local gravado com", linhas.length + 1, "variáveis.");
 } else {

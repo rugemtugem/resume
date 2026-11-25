@@ -4,7 +4,9 @@ const nextConfig: NextConfig = {
   output: 'standalone',
   devIndicators: false,
   // O SQLite tem um binário nativo: fica fora do empacotamento e vai junto no build standalone.
-  serverExternalPackages: ["better-sqlite3"],
+  serverExternalPackages: ["better-sqlite3", "sharp"],
+  // O painel envia as imagens do Instagram por formulário: até 10 imagens de 8 MB.
+  experimental: { serverActions: { bodySizeLimit: "90mb" } },
   // Os posts são lidos do disco em tempo de execução: a pasta precisa ir junto no build standalone.
   outputFileTracingIncludes: { "/blog": ["./content/blog/**/*"], "/blog/[slug]": ["./content/blog/**/*"], "/blog/rss.xml": ["./content/blog/**/*"], "/sitemap.xml": ["./content/blog/**/*"], "/blog/capa/[slug]": ["./content/blog/**/*"], "/api/blog/view": ["./content/blog/**/*"], "/admin": ["./content/blog/**/*"], "/": ["./content/blog/**/*"], "/api/cron/tique": ["./content/blog/**/*"] },
   async redirects() {

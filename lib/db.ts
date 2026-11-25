@@ -17,6 +17,16 @@ CREATE TABLE IF NOT EXISTS login_tentativa (ip TEXT NOT NULL, em TEXT NOT NULL);
 CREATE INDEX IF NOT EXISTS ix_login_tentativa ON login_tentativa(ip, em);
 CREATE TABLE IF NOT EXISTS batimento (id INTEGER PRIMARY KEY CHECK (id = 1), em TEXT NOT NULL, linha TEXT NOT NULL);
 CREATE TABLE IF NOT EXISTS trava (nome TEXT PRIMARY KEY, ate TEXT NOT NULL);
+CREATE TABLE IF NOT EXISTS ig_conta (
+  apelido TEXT PRIMARY KEY, ig_user_id TEXT NOT NULL, username TEXT NOT NULL, account_type TEXT,
+  token TEXT NOT NULL, expira_em TEXT NOT NULL, atualizado_em TEXT NOT NULL);
+CREATE TABLE IF NOT EXISTS ig_post (
+  id INTEGER PRIMARY KEY, apelido TEXT NOT NULL, tipo TEXT NOT NULL, titulo TEXT, slug TEXT,
+  midias TEXT NOT NULL, legenda TEXT NOT NULL, quando_utc TEXT NOT NULL,
+  status TEXT NOT NULL DEFAULT 'agendado', tentativas INTEGER NOT NULL DEFAULT 0, erro TEXT,
+  media_id TEXT, permalink TEXT, reservado_em TEXT, publicado_em TEXT, criado_em TEXT NOT NULL);
+CREATE INDEX IF NOT EXISTS ix_ig_status_quando ON ig_post(status, quando_utc);
+CREATE TABLE IF NOT EXISTS rotina_diaria (nome TEXT PRIMARY KEY, dia TEXT NOT NULL);
 `;
 
 let conexao: Database.Database | null | undefined;

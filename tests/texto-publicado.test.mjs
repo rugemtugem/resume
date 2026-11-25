@@ -26,7 +26,10 @@ function semComentarios(texto) {
     .replace(/^\s*\/\/.*$/gm, "");
 }
 
-const TODOS = PASTAS.flatMap(arquivos).map((rel) => ({
+// O arquivo de regras do Instagram cita a palavra proibida para poder barrá-la nas legendas.
+const FORA = new Set(["lib/instagram/regras.ts"]);
+
+const TODOS = PASTAS.flatMap(arquivos).filter((rel) => !FORA.has(rel)).map((rel) => ({
   rel,
   texto: semComentarios(readFileSync(join(RAIZ, rel), "utf8")),
 }));
