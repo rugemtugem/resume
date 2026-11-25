@@ -1,9 +1,9 @@
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowRight, ArrowUpRight, Bot, FileSearch, Route } from "lucide-react";
+import { ArrowRight, ArrowUpRight, GraduationCap, LayoutDashboard, Smartphone, Workflow, Wrench } from "lucide-react";
 import { PaginaInterna, TopoInterno, Faixa, TituloDeSecao, CartaoVidro, IconeGradiente, ChamadaDiagnostico } from "@/components/layout/pagina-interna";
 import { CASOS, detalhesDoCaso } from "@/data/casos";
-import { FERRAMENTAS, PASSAGENS, PROJETOS_PROPRIOS, SITES_NO_AR } from "@/data/projetos";
+import { FERRAMENTAS, PASSAGENS, PROJETOS_PROPRIOS, PROVA_DO_APLICATIVO, SITES_NO_AR } from "@/data/projetos";
 
 export const metadata = {
   title: "Projetos: sites, integrações e produtos | Rugemtugem",
@@ -12,7 +12,7 @@ export const metadata = {
   alternates: { canonical: "/projetos" },
 };
 
-const ICONES_DOS_GRUPOS = [Bot, FileSearch, Route];
+const ICONES_DOS_GRUPOS = [Smartphone, GraduationCap, LayoutDashboard, Workflow, Wrench];
 const MIGALHAS = [{ nome: "Início", href: "/" }, { nome: "Projetos" }];
 const cartao =
   "group flex flex-col h-full rounded-2xl overflow-hidden bg-[var(--bg-primary)]/60 backdrop-blur-xl border border-[var(--border-color)]/50 shadow-[0_8px_32px_rgba(0,0,0,0.1)] dark:shadow-[0_8px_32px_rgba(0,0,0,0.3)] hover:border-[var(--primary-color)]/40 hover:-translate-y-1 transition-all duration-300";
@@ -25,7 +25,7 @@ export default function ProjetosPage() {
         selo="Rugemtugem, desde novembro de 2000"
         titulo="O que eu já"
         destaque="coloquei no ar"
-        texto="Integrações, ferramentas de IA para o time, sites e lojas de clientes, e produtos que eu mesmo criei e mantenho."
+        texto="Integrações, aplicativos e painéis, sites e lojas de clientes, e produtos que eu mesmo criei e mantenho."
       />
 
       <Faixa fundo="secundario" largura="max-w-7xl">
@@ -56,7 +56,7 @@ export default function ProjetosPage() {
       </Faixa>
 
       <Faixa largura="max-w-7xl">
-        <TituloDeSecao rotulo="IA na operação" titulo="Ferramentas que eu" destaque="construo" texto="Treze tipos de sistema interno, em três frentes. Cada um nasceu de uma necessidade real de operação." />
+        <TituloDeSecao rotulo="Aplicativos e sistemas" titulo="O que eu" destaque="construo" texto={PROVA_DO_APLICATIVO} />
         <div className="space-y-14">
           {FERRAMENTAS.map((grupo, g) => (
             <div key={grupo.titulo} className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-10">
@@ -81,8 +81,8 @@ export default function ProjetosPage() {
           ))}
         </div>
         <p className="text-center mt-14">
-          <Link href="/servicos/ia-na-operacao" className="inline-flex items-center gap-2 font-semibold text-[var(--primary-color)]">
-            Ver o serviço de soluções em IA
+          <Link href="/servicos" className="inline-flex items-center gap-2 font-semibold text-[var(--primary-color)]">
+            Ver os serviços
             <ArrowRight className="w-5 h-5" aria-hidden="true" />
           </Link>
         </p>

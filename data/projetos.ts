@@ -80,37 +80,64 @@ export interface GrupoDeFerramentas {
     itens: Ferramenta[];
 }
 
-/** Tipos de ferramenta interna que a Rugemtugem constrói para o time de uma empresa, por finalidade. */
+/**
+ * Tipos de sistema que a Rugemtugem constrói, por finalidade.
+ * Só entra aqui o que foi construído pelo Fábio. Ferramentas feitas por outras pessoas ficam de fora.
+ */
 export const FERRAMENTAS: GrupoDeFerramentas[] = [
     {
-        titulo: "IA ligada aos dados da empresa",
-        texto: "O time trabalha conversando com um assistente que enxerga os sistemas da casa.",
+        titulo: "Aplicativo para clientes e membros",
+        texto: "Um aplicativo instalável no celular, sem passar pela loja, com a marca da empresa.",
         itens: [
-            { nome: "Assistente de IA ligado aos sistemas", texto: "O time pergunta em linguagem natural, no ChatGPT ou no Claude, e o assistente consulta o CRM, as conversas e as reuniões para responder." },
-            { nome: "Hub de dados da jornada do cliente", texto: "Vendas, atendimento e ciclo de vida do cliente em um lugar só, com a origem de cada número e as divergências à mostra." },
-            { nome: "Dossiê do cliente em uma consulta", texto: "Identidade, estágio no CRM, conversas de WhatsApp e histórico de reuniões reunidos em uma resposta só." },
+            { nome: "Aplicativo instalável", texto: "Abre pelo navegador, instala por link ou QR code e se atualiza sozinho, com o consentimento de quem usa." },
+            { nome: "Agenda, eventos e check-in", texto: "Confirmação de presença, ingresso, check-in na entrada e convite que cai direto na agenda de cada pessoa." },
+            { nome: "Avisos no celular", texto: "Notificações que levam a pessoa para a tela certa do aplicativo: evento, novidade, aniversário, benefício parado." },
+            { nome: "Diretório e comunidade", texto: "Perfil de cada membro, busca, conversa, indicações de negócio e ranking." },
+            { nome: "Benefícios e conteúdos", texto: "Vitrine de benefícios, notícias, galeria e arquivos, com favoritos e busca." },
         ],
     },
     {
-        titulo: "Conhecimento da empresa",
-        texto: "Aulas, manuais e processos deixam de ficar espalhados e passam a responder perguntas.",
+        titulo: "Área de ensino",
+        texto: "Aulas e trilhas dentro do mesmo aplicativo, para o cliente e para o time dele.",
         itens: [
-            { nome: "Base de conhecimento pesquisável", texto: "Todo o conteúdo da casa indexado, com busca pelo sentido da pergunta, e não só pela palavra." },
-            { nome: "Mapa de necessidades", texto: "A pessoa descreve a situação do cliente e a ferramenta aponta o assunto e o conteúdo que resolve." },
-            { nome: "Dossiê por assunto", texto: "Para cada necessidade, os conteúdos mais indicados já separados, com o melhor ponto de partida." },
-            { nome: "Resumo com indicação de uso", texto: "Cada aula ou documento ganha um resumo e a indicação de quando recomendar." },
-            { nome: "Resposta com fonte e trecho literal", texto: "O assistente só responde com o que está na base, cita o título de origem e abre a transcrição quando é preciso a fala exata." },
-            { nome: "Processos internos pesquisáveis", texto: "Procedimentos e regras da operação em uma base à parte, com a data da última atualização." },
+            { nome: "Catálogo de aulas", texto: "Módulos, busca, continuar de onde parou, favoritos e avaliações." },
+            { nome: "Trilhas por pessoa e por time", texto: "Sequência de aulas montada para cada cliente ou para a equipe inteira, com acompanhamento do líder." },
+            { nome: "Aulas ao vivo e certificados", texto: "Transmissão dentro do aplicativo e certificado emitido ao concluir." },
+            { nome: "Acesso para funcionários", texto: "O dono libera a equipe, cada pessoa entra por link e o líder vê o progresso do time." },
         ],
     },
     {
-        titulo: "Atendimento e acompanhamento",
-        texto: "O que o time de atendimento fazia à mão passa a sair pronto para revisão.",
+        titulo: "Painel administrativo",
+        texto: "A equipe da empresa cuida do aplicativo sem depender de programador.",
         itens: [
-            { nome: "Trilha personalizada por cliente", texto: "Plano de estudo ou de ação montado para cada cliente e publicado em uma página própria, pronta para enviar." },
-            { nome: "Plano dos primeiros 30 dias", texto: "Roteiro de entrada de um cliente novo, gerado a partir do que ele contou nas reuniões e revisado antes de sair." },
-            { nome: "Mensagens com prévia e confirmação", texto: "O assistente escreve a mensagem de WhatsApp, mostra como vai ficar e só envia depois que uma pessoa aprova." },
-            { nome: "Tarefas e lembretes por conversa", texto: "Pendências criadas, listadas e concluídas pelo assistente, direto na agenda de tarefas de cada pessoa." },
+            { nome: "Gestão de conteúdo e pessoas", texto: "Notícias, eventos, banners, benefícios, membros e suporte em um painel só." },
+            { nome: "Funções e permissões", texto: "Cada pessoa da equipe enxerga e altera só o que a função dela permite." },
+            { nome: "Números de uso e relatórios", texto: "Quem acessa, o que usa e o que parou de usar, fechados todo dia." },
+            { nome: "Registro de auditoria", texto: "Cada alteração feita no painel fica registrada, com quem fez e quando." },
+            { nome: "Acompanhamento do atendimento", texto: "Carteira de clientes por responsável, plano dos primeiros 30 dias e tempo de resposta do atendimento." },
+        ],
+    },
+    {
+        titulo: "Integrações e rotinas automáticas",
+        texto: "O aplicativo conversa com os outros sistemas da empresa e trabalha sozinho de madrugada.",
+        itens: [
+            { nome: "CRM nos dois sentidos", texto: "O que muda no CRM chega ao aplicativo, e o que acontece no aplicativo volta para o CRM. Presença em evento vira reunião registrada." },
+            { nome: "Rotinas agendadas", texto: "Tarefas que rodam em horário marcado: decidir quem tem acesso, enviar avisos, reenviar o que falhou, limpar o que venceu." },
+            { nome: "Entrada segura de outras ferramentas", texto: "Sistemas de fora entregam o resultado pronto ao aplicativo por um canal assinado, sem acesso ao banco." },
+            { nome: "Login único", texto: "Uma entrada só para todas as áreas, com acesso decidido pela situação do cliente." },
+        ],
+    },
+    {
+        titulo: "Ferramentas de apoio",
+        texto: "Sistemas pequenos que tiram um trabalho repetido da frente do time.",
+        itens: [
+            { nome: "Gerador de links rastreados", texto: "O time comercial monta o link de campanha no padrão certo, sem errar a origem." },
+            { nome: "Plugin de vagas para WordPress", texto: "O RH publica e gerencia vagas dentro do site da empresa." },
+            { nome: "Calculadora de preço", texto: "Precificação de produto ou serviço com as regras da casa." },
+            { nome: "Cofre de senhas da equipe", texto: "Acessos da empresa guardados em um lugar só, com controle de quem vê." },
         ],
     },
 ];
+
+/** Prova com data, sem citar o cliente. Fonte: medição do repositório em 25/11/2026. */
+export const PROVA_DO_APLICATIVO = "O maior aplicativo que construí tem 95 módulos, 7.170 testes automatizados e 173 versões publicadas (medido em 25/11/2026).";
