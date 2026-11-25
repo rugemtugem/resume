@@ -24,6 +24,11 @@ COPY --from=builder /app/public ./public
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 
+# Pasta de dados (banco SQLite e mídias). No servidor é um volume, para sobreviver a cada deploy.
+RUN mkdir -p /data && chown nextjs:nodejs /data
+ENV DATA_DIR=/data
+VOLUME /data
+
 USER nextjs
 
 EXPOSE 3000

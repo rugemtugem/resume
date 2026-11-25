@@ -1,28 +1,11 @@
-import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
-import { join } from "node:path";
+import { banco } from "@/lib/db";
 
-/**
- * Contador próprio de leituras, para a lista "Mais lidos". Guarda só o número por post, sem dado de quem leu.
- * Fica em DATA_DIR (no servidor, o volume). No Passo 3 passa para o banco da Agenda.
- */
-const PASTA = process.env.DATA_DIR || join(process.cwd(), ".dados");
-const ARQUIVO = join(PASTA, "blog-leituras.json");
-
+/** Contador próprio de leituras, para a lista "Mais lidos". Guarda só o número por post, sem dado de quem leu. */
 export function leituras(): Record<string, number> {
-    try {
-        return JSON.parse(readFileSync(ARQUIVO, "utf8")) as Record<string, number>;
-    } catch {
-        return {};
-    }
+    const linhas = (banco()?.prepare("SELECT slug, total FROM blog_leitura").all() as { slug: string; total: number }[] | undefined) ?? [];
+    return Object.fromEntries(linhas.map((l) => [l.slug, l.total]));
 }
 
 export function contarLeitura(slug: string): void {
-    try {
-        if (!existsSync(PASTA)) mkdirSync(PASTA, { recursive: true });
-        const atual = leituras();
-        atual[slug] = (atual[slug] || 0) + 1;
-        writeFileSync(ARQUIVO, JSON.stringify(atual));
-    } catch {
-        // Sem permissão de escrita, o blog segue funcionando sem a lista de mais lidos.
-    }
+    banco()?.prepare("INSERT INTO blog_leitura (slug, total) VALUES (?, 1) ON CONFLICT(slug) DO UPDATE SET total = total + 1").run(slug);
 }

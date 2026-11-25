@@ -22,6 +22,7 @@ echo "==> Restarting container $CONTAINER on port $PORT"
 docker rm -f "$CONTAINER" 2>/dev/null || true
 docker run -d --name "$CONTAINER" --restart unless-stopped \
   -p "${PORT}:3000" \
+  -v rugemtugem-data:/data \
   $( [ -f .env ] && echo "--env-file .env" ) \
   "$IMAGE"
 

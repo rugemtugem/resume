@@ -3,6 +3,14 @@ node_modules
 .git
 .gitignore
 *.md
+# os posts do blog são arquivos .md e precisam ir para a imagem
+!content/**/*.md
 .env*
 .vscode
 .idea
+# dados locais (banco e senha de desenvolvimento) e material de trabalho
+.dados
+.agents
+skills-lock.json
+tests
+docs

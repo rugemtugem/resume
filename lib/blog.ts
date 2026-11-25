@@ -1,5 +1,7 @@
 import { readFileSync, readdirSync, existsSync } from "node:fs";
 import { join } from "node:path";
+import { agendaDoBlog } from "@/lib/agenda";
+import { visivelNaAgenda } from "@/lib/admin/seguranca";
 
 /**
  * Blog em arquivos de texto, no formato do blog do Calcula Trabalhador:
@@ -212,16 +214,26 @@ function lerPost(arquivo: string): Post | null {
     };
 }
 
-/** Posts que podem aparecer agora: data vencida e, no ar, sem a marca de rascunho. */
-export function postsPublicados(): Post[] {
+/** Todos os posts da pasta, sem filtro. Só o painel usa. */
+export function todosOsPosts(): Post[] {
     if (!existsSync(PASTA)) return [];
-    const agora = Date.now();
-    const noAr = process.env.NODE_ENV === "production";
     return readdirSync(PASTA)
         .filter((arquivo) => /^[a-z0-9].*\.md$/.test(arquivo))
         .map(lerPost)
-        .filter((post): post is Post => post !== null)
-        .filter((post) => Date.parse(post.publicadoEm) <= agora && !(noAr && post.rascunho))
+        .filter((post): post is Post => post !== null);
+}
+
+/**
+ * Posts que podem aparecer agora: aprovados na Agenda e com o horário vencido.
+ * A data do post é a da Agenda. Rascunhos ("> Rascunho: sim") aparecem só fora de produção, para conferir o desenho.
+ */
+export function postsPublicados(): Post[] {
+    const agenda = agendaDoBlog();
+    const noAr = process.env.NODE_ENV === "production";
+    const agora = Date.now();
+    return todosOsPosts()
+        .filter((post) => (post.rascunho ? !noAr && Date.parse(post.publicadoEm) <= agora : visivelNaAgenda(agenda[post.slug], agora)))
+        .map((post) => (post.rascunho ? post : { ...post, publicadoEm: agenda[post.slug].quando_utc }))
         .sort((a, b) => b.publicadoEm.localeCompare(a.publicadoEm));
 }
 
