@@ -11,14 +11,17 @@ import { NOME_DE_MIDIA } from "@/lib/instagram/regras";
  */
 export const PASTA_DE_MIDIA = join(PASTA_DE_DADOS, "midia");
 
-/** Recebe a imagem enviada, converte para JPEG (o Instagram não aceita PNG) e devolve o nome do arquivo. */
-export async function salvarImagem(dados: Buffer, prefixo: string): Promise<string> {
+/**
+ * Recebe a imagem enviada, converte para JPEG (o Instagram não aceita PNG) e devolve o nome do arquivo.
+ * A proporção do feed do Instagram é conferida, a não ser que a imagem seja só para o LinkedIn.
+ */
+export async function salvarImagem(dados: Buffer, prefixo: string, qualquerProporcao = false): Promise<string> {
     if (!existsSync(PASTA_DE_MIDIA)) mkdirSync(PASTA_DE_MIDIA, { recursive: true });
     const imagem = sharp(dados, { failOn: "error" });
     const meta = await imagem.metadata();
     if (!meta.width || !meta.height) throw new Error("O arquivo enviado não é uma imagem.");
     const proporcao = meta.width / meta.height;
-    if (proporcao < 0.79 || proporcao > 1.92) {
+    if (!qualquerProporcao && (proporcao < 0.79 || proporcao > 1.92)) {
         throw new Error(`Imagem de ${meta.width} x ${meta.height} fica fora da proporção aceita pelo Instagram (de 4:5 a 1,91:1).`);
     }
     const limpo = prefixo.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "").slice(0, 40) || "midia";

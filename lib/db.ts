@@ -27,6 +27,14 @@ CREATE TABLE IF NOT EXISTS ig_post (
   media_id TEXT, permalink TEXT, reservado_em TEXT, publicado_em TEXT, criado_em TEXT NOT NULL);
 CREATE INDEX IF NOT EXISTS ix_ig_status_quando ON ig_post(status, quando_utc);
 CREATE TABLE IF NOT EXISTS rotina_diaria (nome TEXT PRIMARY KEY, dia TEXT NOT NULL);
+CREATE TABLE IF NOT EXISTS li_conta (
+  apelido TEXT PRIMARY KEY, pessoa_urn TEXT NOT NULL, nome TEXT NOT NULL,
+  token TEXT NOT NULL, expira_em TEXT NOT NULL, atualizado_em TEXT NOT NULL);
+CREATE TABLE IF NOT EXISTS li_post (
+  id INTEGER PRIMARY KEY, titulo TEXT NOT NULL, slug TEXT, texto TEXT NOT NULL, midias TEXT NOT NULL DEFAULT '[]',
+  quando_utc TEXT NOT NULL, status TEXT NOT NULL DEFAULT 'agendado', tentativas INTEGER NOT NULL DEFAULT 0, erro TEXT,
+  post_urn TEXT, reservado_em TEXT, publicado_em TEXT, criado_em TEXT NOT NULL);
+CREATE INDEX IF NOT EXISTS ix_li_status_quando ON li_post(status, quando_utc);
 CREATE TABLE IF NOT EXISTS story_clique (dia TEXT NOT NULL, slug TEXT NOT NULL, cliques INTEGER NOT NULL DEFAULT 0, PRIMARY KEY (dia, slug));
 `;
 

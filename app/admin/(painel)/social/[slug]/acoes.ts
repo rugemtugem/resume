@@ -7,6 +7,8 @@ import { aprovarPost } from "@/lib/agenda";
 import { todosOsPosts } from "@/lib/blog";
 import { agendarPost, cancelarCarrosseisDoSlug } from "@/lib/instagram/fila";
 import { salvarImagem } from "@/lib/instagram/midia";
+import { agendarNoLinkedin, cancelarLinkedinDoSlug } from "@/lib/linkedin/fila";
+import { comLink } from "@/lib/linkedin/regras";
 import { roteiroPorSlug } from "@/lib/social";
 import { imagemDoSlide } from "@/lib/social/slide";
 
@@ -17,6 +19,7 @@ export interface Retorno {
 
 /**
  * Aprovação única: aprova o post do blog (se o roteiro tiver um) e agenda o carrossel no mesmo horário.
+ * Se o roteiro tiver texto para o LinkedIn e a caixa estiver marcada, agenda também o post de lá, com os mesmos slides.
  * O agendador publica o blog antes do Instagram no mesmo ciclo, então o post já está no ar quando o carrossel sai.
  */
 export async function acaoAprovarTudo(_anterior: Retorno, dados: FormData): Promise<Retorno> {
@@ -42,8 +45,17 @@ export async function acaoAprovarTudo(_anterior: Retorno, dados: FormData): Prom
         agendarPost({ tipo: "carrossel", titulo: arquivo.roteiro.tema, slug, midias: nomes, legenda: arquivo.roteiro.legenda, quandoUtc: quando });
         if (post) aprovarPost(post.slug, post.titulo, quando);
 
-        for (const caminho of ["/", "/blog", `/blog/${slug}`, "/blog/rss.xml", "/sitemap.xml", "/admin", "/admin/instagram", `/admin/social/${slug}`]) revalidatePath(caminho);
-        const partes = [post ? "Post do blog aprovado." : "", `Carrossel de ${nomes.length} slides agendado.`, trocados > 0 ? "O carrossel que estava na fila foi trocado por este." : ""];
+        const paraLinkedin = Boolean(arquivo.roteiro.linkedin) && dados.get("linkedin") === "sim";
+        let trocadosNoLinkedin = 0;
+        if (paraLinkedin) {
+            const site = process.env.SITE_URL || "https://rugemtugem.dev";
+            const caminho = arquivo.roteiro.link || (post ? `/blog/${slug}` : "/");
+            trocadosNoLinkedin = cancelarLinkedinDoSlug(slug);
+            agendarNoLinkedin({ titulo: arquivo.roteiro.tema, slug, texto: comLink(arquivo.roteiro.linkedin, site, caminho, slug), midias: nomes, quandoUtc: quando });
+        }
+
+        for (const caminho of ["/", "/blog", `/blog/${slug}`, "/blog/rss.xml", "/sitemap.xml", "/admin", "/admin/instagram", "/admin/linkedin", `/admin/social/${slug}`]) revalidatePath(caminho);
+        const partes = [post ? "Post do blog aprovado." : "", `Carrossel de ${nomes.length} slides agendado.`, trocados > 0 ? "O carrossel que estava na fila foi trocado por este." : "", paraLinkedin ? "Post do LinkedIn agendado." : "", trocadosNoLinkedin > 0 ? "O post do LinkedIn que estava na fila foi trocado por este." : ""];
         return { erro: null, ok: partes.filter(Boolean).join(" ") };
     } catch (e) {
         return { erro: e instanceof Error ? e.message : "Não foi possível agendar.", ok: null };

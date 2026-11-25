@@ -2,6 +2,7 @@ import { banco } from "@/lib/db";
 import { ErroDoInstagram, lerConta, lerCota, publicarCarrossel, publicarImagem, renovarToken } from "@/lib/instagram/graph";
 import { enderecoDaMidia, limparOrfas } from "@/lib/instagram/midia";
 import { semToken } from "@/lib/instagram/regras";
+import { midiasEmUsoNoLinkedin } from "@/lib/linkedin/fila";
 import type { TipoDePost } from "@/lib/instagram/regras";
 
 const APELIDO = "rugemtugem";
@@ -162,7 +163,7 @@ export async function manutencaoDiaria(agora = new Date()): Promise<string> {
             partes.push(semToken(`Falha ao renovar o token: ${e instanceof Error ? e.message : "erro"}`, conta.token));
         }
     }
-    const emUso = new Set<string>();
+    const emUso = new Set<string>(midiasEmUsoNoLinkedin());
     for (const l of db.prepare("SELECT midias FROM ig_post WHERE status IN ('agendado', 'publicando', 'erro')").all() as { midias: string }[]) {
         for (const nome of JSON.parse(l.midias) as string[]) emUso.add(nome);
     }

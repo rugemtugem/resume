@@ -27,9 +27,11 @@ if (local) {
     "SITE_URL=http://localhost:3000",
     "# Instagram: em localhost só a API falsa (node scripts/graph-falsa.mjs).",
     "IG_GRAPH_BASE=http://localhost:4010",
+    "# LinkedIn: a mesma API falsa atende em /linkedin.",
+    "LINKEDIN_API_BASE=http://localhost:4010/linkedin",
   ];
   writeFileSync(".env.local", cabecalho.concat(linhas).join("\n") + "\n");
-  console.log("Arquivo .env.local gravado com", linhas.length + 1, "variáveis.");
+  console.log("Arquivo .env.local gravado com", linhas.length + 4, "variáveis.");
 } else {
   console.log(linhas.join("\n"));
 }

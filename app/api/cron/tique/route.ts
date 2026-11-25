@@ -4,6 +4,7 @@ import { timingSafeEqual } from "node:crypto";
 import { pegarTrava, publicarVencidos, registrarBatimento, soltarTrava } from "@/lib/agenda";
 import { banco } from "@/lib/db";
 import { manutencaoDiaria, publicarVencidosDoInstagram } from "@/lib/instagram/fila";
+import { publicarVencidosDoLinkedin } from "@/lib/linkedin/fila";
 
 export const dynamic = "force-dynamic";
 export const maxDuration = 300;
@@ -28,7 +29,7 @@ function primeiraVezHoje(nome: string): boolean {
 
 /**
  * Tique do agendador, chamado a cada 5 minutos. Na ordem: publica os posts do blog que venceram,
- * publica a fila do Instagram e, uma vez por dia, renova o token e limpa mídias sem uso.
+ * publica a fila do Instagram, a do LinkedIn e, uma vez por dia, renova o token e limpa mídias sem uso.
  */
 export async function POST(request: Request) {
     if (!autorizado(request)) return NextResponse.json({ ok: false }, { status: 401 });
@@ -48,13 +49,18 @@ export async function POST(request: Request) {
         if (instagram.erros > 0) partes.push(`Instagram: ${instagram.erros} com erro.`);
         if (instagram.publicados + instagram.erros > 0) revalidatePath("/admin/instagram");
 
+        const linkedin = await publicarVencidosDoLinkedin();
+        if (linkedin.publicados > 0) partes.push(`LinkedIn: publicou ${linkedin.publicados}.`);
+        if (linkedin.erros > 0) partes.push(`LinkedIn: ${linkedin.erros} com erro.`);
+        if (linkedin.publicados + linkedin.erros > 0) revalidatePath("/admin/linkedin");
+
         if (primeiraVezHoje("manutencao")) {
             const manutencao = await manutencaoDiaria();
             if (manutencao) partes.push(manutencao);
         }
 
         registrarBatimento(partes.length > 0 ? partes.join(" ") : "Nada para publicar.");
-        return NextResponse.json({ ok: true, publicados, instagram });
+        return NextResponse.json({ ok: true, publicados, instagram, linkedin });
     } finally {
         soltarTrava("tique");
     }

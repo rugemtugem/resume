@@ -4,6 +4,8 @@ import { agendaDoBlog, horaAtual } from "@/lib/agenda";
 import { brasiliaParaUtc, utcParaBrasilia } from "@/lib/admin/seguranca";
 import { dataPorExtenso, todosOsPosts } from "@/lib/blog";
 import { carrosseisDoSlug, contaConectada } from "@/lib/instagram/fila";
+import { contaDoLinkedin, linkedinDoSlug } from "@/lib/linkedin/fila";
+import { comLink } from "@/lib/linkedin/regras";
 import { postsPublicados } from "@/lib/blog";
 import { cliquesDoStory, linkDoStory, roteiroPorSlug } from "@/lib/social";
 import { destinoDoStory } from "@/lib/social/story";
@@ -30,6 +32,9 @@ export default async function RoteiroPage({ params }: { params: Promise<{ slug: 
     const pendente = naFila.find((p) => p.status === "agendado" || p.status === "erro");
     const publicado = naFila.find((p) => p.status === "publicado");
     const conta = contaConectada();
+    const contaLi = contaDoLinkedin();
+    const liPendente = linkedinDoSlug(slug).find((p) => p.status === "agendado" || p.status === "erro");
+    const textoDoLinkedin = roteiro.linkedin ? comLink(roteiro.linkedin, process.env.SITE_URL || "https://rugemtugem.dev", roteiro.link || (post ? `/blog/${slug}` : "/"), slug) : "";
 
     const sugerida = pendente?.quando_utc ?? linhaDoBlog?.quando_utc ?? (roteiro.agendar ? brasiliaParaUtc(roteiro.agendar) : null) ?? post?.publicadoEm ?? new Date(horaAtual() + 24 * 3600e3).toISOString();
     const rotulo = post ? "Aprovar post e agendar carrossel" : "Agendar carrossel";
@@ -75,6 +80,8 @@ export default async function RoteiroPage({ params }: { params: Promise<{ slug: 
                 <ul className="text-sm space-y-1 mb-5">
                     {post?.rascunho && <li className="text-amber-500">O post do blog tem a linha Rascunho: sim. Tire a linha do arquivo para poder aprovar.</li>}
                     {!conta && <li className="text-amber-500">Nenhuma conta do Instagram conectada. Dá para agendar, mas nada sai enquanto a conta não for conectada.</li>}
+                    {roteiro.linkedin && !contaLi && <li className="text-amber-500">Nenhuma conta do LinkedIn conectada. Dá para agendar, mas nada sai enquanto a conta não for conectada.</li>}
+                    {liPendente && <li>Já existe um post do LinkedIn deste roteiro na fila para {horaDeBrasilia(liPendente.quando_utc)}. Aprovar de novo troca por este.</li>}
                     {linhaDoBlog && <li>Post do blog já aprovado para {horaDeBrasilia(linhaDoBlog.quando_utc)}.</li>}
                     {pendente && (
                         <li>
@@ -84,7 +91,7 @@ export default async function RoteiroPage({ params }: { params: Promise<{ slug: 
                     )}
                     {publicado && <li className="text-emerald-500">Um carrossel deste roteiro já foi publicado{publicado.publicado_em ? ` em ${horaDeBrasilia(publicado.publicado_em)}` : ""}. Aprovar de novo publica outro.</li>}
                 </ul>
-                <FormularioDeAprovacao slug={slug} dataPadrao={utcParaBrasilia(sugerida)} rotulo={rotulo} bloqueado={bloqueado} />
+                <FormularioDeAprovacao slug={slug} dataPadrao={utcParaBrasilia(sugerida)} rotulo={rotulo} bloqueado={bloqueado} temLinkedin={Boolean(roteiro.linkedin)} />
             </section>
 
             <section aria-labelledby="titulo-slides">
@@ -150,6 +157,21 @@ export default async function RoteiroPage({ params }: { params: Promise<{ slug: 
                     </div>
                 </section>
             )}
+
+            <section className={cartao} aria-labelledby="titulo-linkedin">
+                <h2 id="titulo-linkedin" className="text-xl font-bold mb-3">
+                    LinkedIn
+                </h2>
+                {textoDoLinkedin ? (
+                    <>
+                        <p className="text-sm text-[var(--text-secondary)] mb-3">Sai no seu perfil com os {roteiro.slides.length} slides do carrossel como imagens.</p>
+                        <p className="whitespace-pre-wrap break-words text-sm leading-relaxed">{textoDoLinkedin}</p>
+                        <p className="text-xs text-[var(--text-secondary)] mt-3">{textoDoLinkedin.length} de 3.000 caracteres.</p>
+                    </>
+                ) : (
+                    <p className="text-sm text-[var(--text-secondary)]">Este roteiro não tem a seção linkedin, então não vai para o LinkedIn. Para ir, acrescente a seção no arquivo.</p>
+                )}
+            </section>
 
             <section className={cartao} aria-labelledby="titulo-legenda">
                 <h2 id="titulo-legenda" className="text-xl font-bold mb-3">

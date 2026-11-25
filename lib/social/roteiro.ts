@@ -35,6 +35,9 @@
  *   ## legenda
  *   Texto da legenda, com as hashtags no fim.
  *
+ *   ## linkedin
+ *   Texto do post do LinkedIn (opcional). {link} vira o endereço da página, já marcado para a medição.
+ *
  * Colchetes no título marcam o trecho em destaque. A linha "link:" é opcional: é para onde o adesivo do story leva
  * (um caminho do próprio site). Sem ela, o story leva ao post do blog de mesmo nome, ou à página inicial.
  */
@@ -63,6 +66,8 @@ export interface Roteiro {
     link: string;
     slides: Slide[];
     legenda: string;
+    /** Texto do post do LinkedIn, ou vazio se o roteiro não vai para lá. */
+    linkedin: string;
 }
 
 const CAMPOS_DO_SLIDE = ["titulo", "nota", "valor", "fonte", "antes", "depois", "botao"] as const;
@@ -73,10 +78,10 @@ function slideVazio(tipo: string): Slide {
 }
 
 export function lerRoteiro(md: string): Roteiro {
-    const roteiro: Roteiro = { tema: "", categoria: "", agendar: "", link: "", slides: [], legenda: "" };
-    const legenda: string[] = [];
+    const roteiro: Roteiro = { tema: "", categoria: "", agendar: "", link: "", slides: [], legenda: "", linkedin: "" };
+    const blocos: Record<"legenda" | "linkedin", string[]> = { legenda: [], linkedin: [] };
+    let bloco: "legenda" | "linkedin" | null = null;
     let atual: Slide | null = null;
-    let naLegenda = false;
     let noCabecalho = true;
 
     for (const bruta of md.replace(/\r/g, "").split("\n")) {
@@ -85,13 +90,13 @@ export function lerRoteiro(md: string): Roteiro {
         if (secao) {
             noCabecalho = false;
             const nome = secao[1].toLowerCase();
-            naLegenda = nome === "legenda";
-            atual = naLegenda ? null : slideVazio(nome);
+            bloco = nome === "legenda" || nome === "linkedin" ? nome : null;
+            atual = bloco ? null : slideVazio(nome);
             if (atual) roteiro.slides.push(atual);
             continue;
         }
-        if (naLegenda) {
-            legenda.push(bruta.trimEnd());
+        if (bloco) {
+            blocos[bloco].push(bruta.trimEnd());
             continue;
         }
         if (noCabecalho) {
@@ -107,7 +112,8 @@ export function lerRoteiro(md: string): Roteiro {
             atual.linhas.push(linha.replace(/^[-*]\s+/, ""));
         }
     }
-    roteiro.legenda = legenda.join("\n").trim();
+    roteiro.legenda = blocos.legenda.join("\n").trim();
+    roteiro.linkedin = blocos.linkedin.join("\n").trim();
     return roteiro;
 }
 

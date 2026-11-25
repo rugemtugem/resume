@@ -34,3 +34,14 @@ Todo pedido digitado duas vezes é tempo perdido e chance de erro. Integrar o Wh
 Diagnóstico gratuito de 30 minutos: o link está na bio.
 
 #integracao #automacao #pme #whatsappbusiness
+
+## linkedin
+Roteiro de teste do LinkedIn, para experimentar a aprovação em localhost.
+
+Em muita empresa o pedido chega pelo WhatsApp e alguém digita tudo de novo no sistema (às vezes duas vezes). Cada pedido redigitado é tempo perdido e chance de erro.
+
+Quando o WhatsApp conversa com o sistema, o pedido entra sozinho e a equipe só confere.
+
+Escrevi o passo a passo aqui: {link}
+
+#integracao #automacao #pme

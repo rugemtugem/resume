@@ -21,6 +21,9 @@ export default async function PainelLayout({ children }: { children: React.React
                             <Link href="/admin/instagram" className="font-semibold text-[var(--primary-color)]">
                                 Instagram
                             </Link>
+                            <Link href="/admin/linkedin" className="font-semibold text-[var(--primary-color)]">
+                                LinkedIn
+                            </Link>
                             <Link href="/" className="text-[var(--text-secondary)] hover:text-[var(--text-primary)]">
                                 Ver o site
                             </Link>

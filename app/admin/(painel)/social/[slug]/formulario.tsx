@@ -1,15 +1,12 @@
 "use client";
 
-import { useActionState } from "react";
+import { useEnvio } from "../../envio";
 import { acaoAprovarTudo } from "./acoes";
-import type { Retorno } from "./acoes";
 
-const VAZIO: Retorno = { erro: null, ok: null };
-
-export function FormularioDeAprovacao({ slug, dataPadrao, rotulo, bloqueado }: { slug: string; dataPadrao: string; rotulo: string; bloqueado: boolean }) {
-    const [estado, enviar, enviando] = useActionState(acaoAprovarTudo, VAZIO);
+export function FormularioDeAprovacao({ slug, dataPadrao, rotulo, bloqueado, temLinkedin }: { slug: string; dataPadrao: string; rotulo: string; bloqueado: boolean; temLinkedin: boolean }) {
+    const { estado, enviando, formulario, aoEnviar } = useEnvio(acaoAprovarTudo, false);
     return (
-        <form action={enviar} className="flex flex-col gap-4">
+        <form ref={formulario} onSubmit={aoEnviar} className="flex flex-col gap-4">
             <input type="hidden" name="slug" value={slug} />
             <div className="flex flex-col sm:flex-row sm:items-end gap-3">
                 <div>
@@ -33,6 +30,12 @@ export function FormularioDeAprovacao({ slug, dataPadrao, rotulo, bloqueado }: {
                     {enviando ? "Gerando as imagens..." : rotulo}
                 </button>
             </div>
+            {temLinkedin && (
+                <label className="flex items-center gap-3 text-sm">
+                    <input type="checkbox" name="linkedin" value="sim" defaultChecked className="w-5 h-5 accent-[var(--primary-color)]" />
+                    Agendar também o post do LinkedIn, no mesmo horário
+                </label>
+            )}
             {estado.erro && (
                 <p role="alert" className="text-sm text-red-500">
                     {estado.erro}

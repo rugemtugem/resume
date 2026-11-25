@@ -2,6 +2,7 @@ import { existsSync, readFileSync, readdirSync } from "node:fs";
 import { join } from "node:path";
 import { banco } from "@/lib/db";
 import { problemasDaLegenda } from "@/lib/instagram/regras";
+import { problemasDoTexto } from "@/lib/linkedin/regras";
 import { lerRoteiro, problemasDoRoteiro } from "@/lib/social/roteiro";
 import type { Roteiro } from "@/lib/social/roteiro";
 
@@ -16,7 +17,7 @@ export interface RoteiroDoArquivo {
 
 function carregar(slug: string): RoteiroDoArquivo {
     const roteiro = lerRoteiro(readFileSync(join(PASTA, `${slug}.md`), "utf8"));
-    const problemas = [...problemasDoRoteiro(roteiro), ...(roteiro.legenda ? problemasDaLegenda(roteiro.legenda) : [])];
+    const problemas = [...problemasDoRoteiro(roteiro), ...(roteiro.legenda ? problemasDaLegenda(roteiro.legenda) : []), ...(roteiro.linkedin ? problemasDoTexto(roteiro.linkedin) : [])];
     return { slug, roteiro, problemas };
 }
 

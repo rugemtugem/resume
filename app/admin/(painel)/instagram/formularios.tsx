@@ -1,6 +1,7 @@
 "use client";
 
 import { useActionState } from "react";
+import { useEnvio } from "../envio";
 import { acaoAgendar, acaoConectar } from "./acoes";
 import type { Retorno } from "./acoes";
 
@@ -46,9 +47,9 @@ export function FormularioDeToken() {
 }
 
 export function FormularioDeAgendamento({ dataPadrao }: { dataPadrao: string }) {
-    const [estado, enviar, enviando] = useActionState(acaoAgendar, VAZIO);
+    const { estado, enviando, formulario, aoEnviar } = useEnvio(acaoAgendar, true);
     return (
-        <form action={enviar} className="space-y-5">
+        <form ref={formulario} onSubmit={aoEnviar} className="space-y-5">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                 <div>
                     <label htmlFor="ig-titulo" className="block text-sm font-semibold mb-2">
