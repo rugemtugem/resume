@@ -22,7 +22,7 @@
 - S&S Comércio: pedidos do WhatsApp (Suri) integrados ao sistema de gestão Bling.
 - Sales Prime: site WordPress integrado a HubSpot, Pagar.me e Guru.
 - Campanha 21 Dias: plugin WordPress para inscrições, aprovação e certificados em PDF.
-- Prosperus Club: diagnóstico de mentoria em 4 módulos, com análise por IA.
+- Prosperus Club: diagnóstico em 4 módulos para mentores e para quem dá mentoria, com análise por IA.
 - Calcula Trabalhador e Calcula Imóveis: redes de calculadoras próprias, com testes automatizados.
 
 ## Páginas

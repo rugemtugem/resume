@@ -38,8 +38,8 @@ export const CASOS: Caso[] = [
     {
         slug: "prosperus-club-diagnostico-mentoria",
         client: "Prosperus Club",
-        titulo: "diagnóstico de mentoria com IA",
-        resumo: "Sistema de diagnóstico em 4 módulos para mentores do Prosperus Club, com análise por IA, painel administrativo e plano de ação gerado por IA.",
+        titulo: "diagnóstico com IA para mentores",
+        resumo: "Sistema de diagnóstico em 4 módulos, feito para mentores e para quem dá mentoria: análise por IA, painel administrativo e plano de ação gerado por IA.",
         servico: "ia-na-operacao",
     },
 ];

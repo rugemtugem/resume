@@ -220,8 +220,8 @@ export const translations = {
                 {
                     client: "Prosperus Club",
                     industry: "Mentoria",
-                    challenge: "Guiar mentores na montagem de uma oferta high-ticket a partir do próprio conhecimento, com um diagnóstico estruturado.",
-                    solution: "Sistema de diagnóstico interativo em 4 módulos, com análise por IA (Google Gemini), login pelo HubSpot, painel administrativo em tempo real e plano de ação gerado por IA.",
+                    challenge: "Mentores e quem dá mentoria precisam transformar o próprio conhecimento em uma oferta high-ticket, e faltava um diagnóstico estruturado para guiar esse caminho.",
+                    solution: "Sistema de diagnóstico interativo para mentores, em 4 módulos, com análise por IA (Google Gemini), login pelo HubSpot, painel administrativo em tempo real e plano de ação gerado por IA.",
                     logo: "/images/projects/prosperus-logo.png",
                     deliverables: [
                         { title: "Diagnóstico em 4 módulos", desc: "Roteiro guiado para o mentor", impact: "Plano de ação gerado por IA" },
