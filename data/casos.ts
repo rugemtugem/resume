@@ -46,7 +46,7 @@ export const CASOS: Caso[] = [
         referencia: [
             "O Prosperus Club é um dos clubes da ",
             { texto: "Mentoring League Society (MLS)", url: "https://mlsociety.co/" },
-            ", a liga de clubes de mentoria em que empresários treinam empresários. Em agosto de 2026 chegou ao primeiro lugar no ranking da liga, segundo a ",
+            ", a liga de clubes de mentoria em que empresários treinam empresários. Foi do 28º ao 1º lugar no ranking da liga em um ano, de agosto de 2025 a agosto de 2026, segundo a ",
             { texto: "Empreenda Revista", url: "https://empreendarevista.com.br/artigos/prosperus-club-a-estrategia-que-levou-ao-topo-da-mls/" },
             ".",
         ],

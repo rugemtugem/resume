@@ -22,7 +22,7 @@
 - S&S Comércio: pedidos do WhatsApp (Suri) integrados ao sistema de gestão Bling.
 - Sales Prime: site WordPress integrado a HubSpot, Pagar.me e Guru.
 - Campanha 21 Dias: plugin WordPress para inscrições, aprovação e certificados em PDF.
-- Prosperus Club: diagnóstico em 4 módulos para mentores e para quem dá mentoria, com análise por IA. O Prosperus Club é um dos clubes da Mentoring League Society (https://mlsociety.co/) e chegou ao primeiro lugar no ranking da liga em agosto de 2026, segundo a Empreenda Revista.
+- Prosperus Club: diagnóstico em 4 módulos para mentores e para quem dá mentoria, com análise por IA. O Prosperus Club é um dos clubes da Mentoring League Society (https://mlsociety.co/) e foi do 28º ao 1º lugar no ranking da liga em um ano, de agosto de 2025 a agosto de 2026, segundo a Empreenda Revista.
 - Calcula Trabalhador e Calcula Imóveis: redes de calculadoras próprias, com testes automatizados.
 
 ## Páginas
