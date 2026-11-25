@@ -15,7 +15,12 @@ export async function GET(_request: Request, { params }: { params: Promise<{ slu
 
     const titulo = post.tituloSeo;
     const trecho = post.capa.destaque && titulo.includes(post.capa.destaque) ? post.capa.destaque : titulo.split(" ").slice(-3).join(" ");
-    const inicio = titulo.slice(0, titulo.lastIndexOf(trecho)).trim();
+    const posicao = titulo.lastIndexOf(trecho);
+    const palavras = [
+        ...titulo.slice(0, posicao).split(/\s+/).filter(Boolean).map((texto) => ({ texto, destaque: false })),
+        ...trecho.split(/\s+/).filter(Boolean).map((texto) => ({ texto, destaque: true })),
+        ...titulo.slice(posicao + trecho.length).split(/\s+/).filter(Boolean).map((texto) => ({ texto, destaque: false })),
+    ];
     const selo = post.capa.selo || CATEGORIAS[post.categoria].nome;
     const chips = post.capa.chips.slice(0, 2);
     const tamanho = titulo.length > 60 ? 54 : titulo.length > 40 ? 64 : 76;
@@ -32,8 +37,11 @@ export async function GET(_request: Request, { params }: { params: Promise<{ slu
 
                 <div style={{ display: "flex", flexDirection: "column" }}>
                     <div style={{ display: "flex", flexWrap: "wrap", fontSize: tamanho, fontWeight: 800, lineHeight: 1.12, letterSpacing: -1 }}>
-                        {inicio && <span style={{ marginRight: 18 }}>{inicio}</span>}
-                        <span style={{ color: "#ff8a5b" }}>{trecho}</span>
+                        {palavras.map((p, i) => (
+                            <span key={i} style={{ marginRight: tamanho * 0.26, color: p.destaque ? "#ff8a5b" : "#f7fafc" }}>
+                                {p.texto}
+                            </span>
+                        ))}
                     </div>
                     {chips.length > 0 && (
                         <div style={{ display: "flex", marginTop: 36 }}>

@@ -994,6 +994,20 @@
   padding-left: 1.5rem;
 }
 
+.post-conteudo ol {
+    list-style: decimal;
+    padding-left: 1.5rem;
+}
+
+.post-conteudo blockquote {
+    margin-left: 0;
+    padding: 1rem 1.25rem;
+    border-left: 4px solid var(--secondary-color);
+    border-radius: 0 0.75rem 0.75rem 0;
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+}
+
 .post-conteudo li + li {
   margin-top: 0.5rem;
 }

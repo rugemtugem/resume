@@ -79,6 +79,8 @@ function corpo(linhas: string[]) {
     const indice: { id: string; texto: string }[] = [];
     let paragrafo: string[] = [];
     let lista: string[] | null = null;
+    // Tipo do bloco aberto: lista com marcador, lista numerada ou citação.
+    let tipoDaLista: "ul" | "ol" | "blockquote" = "ul";
     let palavras = 0;
 
     const fechaParagrafo = () => {
@@ -89,7 +91,7 @@ function corpo(linhas: string[]) {
         paragrafo = [];
     };
     const fechaLista = () => {
-        if (lista) saida.push(`<ul>${lista.join("")}</ul>`);
+        if (lista) saida.push(tipoDaLista === "blockquote" ? `<blockquote><p>${lista.join(" ")}</p></blockquote>` : `<${tipoDaLista}>${lista.join("")}</${tipoDaLista}>`);
         lista = null;
     };
 
@@ -115,11 +117,14 @@ function corpo(linhas: string[]) {
             fechaParagrafo();
             fechaLista();
             saida.push(`<figure><img src="${escAttr(m[2])}" alt="${escAttr(m[1])}" loading="lazy" decoding="async"></figure>`);
-        } else if ((m = linha.match(/^-\s+(.+)/))) {
+        } else if ((m = linha.match(/^(-|\d+\.|>)\s+(.+)/))) {
             fechaParagrafo();
+            const tipo = m[1] === "-" ? "ul" : m[1] === ">" ? "blockquote" : "ol";
+            if (lista && tipo !== tipoDaLista) fechaLista();
+            tipoDaLista = tipo;
             lista = lista || [];
-            palavras += m[1].split(/\s+/).length;
-            lista.push(`<li>${emLinha(m[1])}</li>`);
+            palavras += m[2].split(/\s+/).length;
+            lista.push(tipo === "blockquote" ? emLinha(m[2]) : `<li>${emLinha(m[2])}</li>`);
         } else {
             fechaLista();
             paragrafo.push(linha);
