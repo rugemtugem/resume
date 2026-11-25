@@ -89,11 +89,11 @@ export interface GrupoDeFerramentas {
  * Fonte da posição: Empreenda Revista, 06/10/2026 (28ª posição em agosto de 2025, primeiro lugar em agosto de 2026).
  */
 export const MLS: Referencia = [
-    "Em uso no Prosperus Club, que foi do 28º ao ",
-    { texto: "1º lugar no ranking em um ano, de agosto de 2025 a agosto de 2026,", url: "https://empreendarevista.com.br/artigos/prosperus-club-a-estrategia-que-levou-ao-topo-da-mls/" },
-    " da ",
+    "Em uso no Prosperus Club, que foi do 28º ao 1º lugar no ranking da ",
     { texto: "Mentoring League Society (MLS)", url: "https://mlsociety.co/" },
-    ", a liga de clubes de mentoria.",
+    ", a liga de clubes de mentoria, em um ano: de agosto de 2025 a agosto de 2026, segundo a ",
+    { texto: "Empreenda Revista", url: "https://empreendarevista.com.br/artigos/prosperus-club-a-estrategia-que-levou-ao-topo-da-mls/" },
+    ".",
 ];
 
 /**
