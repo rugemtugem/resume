@@ -142,7 +142,7 @@ async function linkedin(req, res, url) {
     if (dono !== "urn:li:person:FALSO12345") return responder(res, 403, { message: "Not enough permissions to access: images.initializeUpload" });
     const id = `urn:li:image:FALSO${++contador}`;
     imagensDoLinkedin.set(id, { enviada: false });
-    return responder(res, 200, { value: { uploadUrlExpiresAt: Date.now() + 3600e3, uploadUrl: `http://localhost:${PORTA}/linkedin/upload/${encodeURIComponent(id)}`, image: id } });
+    return responder(res, 200, { value: { uploadUrlExpiresAt: Date.now() + 3600e3, uploadUrl: `http://${req.headers.host}/linkedin/upload/${encodeURIComponent(id)}`, image: id } });
   }
 
   if (caminho.startsWith("/upload/") && req.method === "PUT") {

@@ -105,11 +105,15 @@ test("link do story: robô não conta e o dia é o de Brasília", () => {
   assert.equal(diaDeBrasilia(new Date("2026-12-02T03:00:00Z")), "2026-12-02");
 });
 
-test("os roteiros da pasta content/social estão prontos para aprovar", () => {
+test("o roteiro de exemplo e os roteiros de content/social estão prontos para aprovar", () => {
+  const exemplo = lerRoteiro(readFileSync(new URL("./exemplos/roteiro.md", import.meta.url), "utf8"));
+  assert.equal(exemplo.slides.length, 5);
+  assert.ok(exemplo.linkedin.includes("{link}"));
+  assert.deepEqual([...problemasDoRoteiro(exemplo), ...problemasDaLegenda(exemplo.legenda)], []);
+
+  // A pasta pode estar vazia (ou só com o LEIA-ME): nomes de arquivo com maiúscula não são roteiros.
   const pasta = new URL("../content/social/", import.meta.url).pathname;
-  const arquivos = readdirSync(pasta).filter((n) => n.endsWith(".md"));
-  assert.ok(arquivos.length > 0);
-  for (const nome of arquivos) {
+  for (const nome of readdirSync(pasta).filter((n) => /^[a-z0-9-]+\.md$/.test(n))) {
     const r = lerRoteiro(readFileSync(join(pasta, nome), "utf8"));
     assert.deepEqual([...problemasDoRoteiro(r), ...problemasDaLegenda(r.legenda)], [], nome);
   }

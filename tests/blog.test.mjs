@@ -6,9 +6,13 @@ import { join } from "node:path";
 
 const RAIZ = new URL("..", import.meta.url).pathname;
 const PASTA = join(RAIZ, "content", "blog");
-const POSTS = readdirSync(PASTA)
-  .filter((a) => /^[a-z0-9].*\.md$/.test(a))
-  .map((arquivo) => ({ arquivo, texto: readFileSync(join(PASTA, arquivo), "utf8") }));
+// O post de exemplo garante que as travas rodam mesmo com a pasta de posts vazia.
+const POSTS = [
+  { arquivo: "tests/exemplos/post.md", texto: readFileSync(join(RAIZ, "tests", "exemplos", "post.md"), "utf8") },
+  ...readdirSync(PASTA)
+    .filter((a) => /^[a-z0-9].*\.md$/.test(a))
+    .map((arquivo) => ({ arquivo, texto: readFileSync(join(PASTA, arquivo), "utf8") })),
+];
 
 const slugs = (arquivo, exportado) =>
   [...readFileSync(join(RAIZ, arquivo), "utf8").matchAll(/slug: "([^"]+)"/g)].map((m) => `${exportado}/${m[1]}`);

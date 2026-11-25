@@ -1,18 +1,17 @@
-# ---- Stage 1: Dependencies ----
-FROM node:20-alpine AS deps
+# ---- Estágio 1: dependências e build ----
+# Node 22: o módulo do banco (better-sqlite3 13) exige Node 22 ou mais novo. Com Node 20 ele quebra ao abrir o banco.
+FROM node:22-alpine AS builder
 WORKDIR /app
+# O better-sqlite3 é nativo: quando não há binário pronto para o Alpine, o npm compila,
+# e para isso precisa de Python e de um compilador. Ficam só neste estágio; a imagem final não leva.
+RUN apk add --no-cache python3 make g++
 COPY package.json package-lock.json* ./
 RUN npm ci
-
-# ---- Stage 2: Build ----
-FROM node:20-alpine AS builder
-WORKDIR /app
-COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 RUN npm run build
 
-# ---- Stage 3: Production ----
-FROM node:20-alpine AS runner
+# ---- Estágio 2: produção ----
+FROM node:22-alpine AS runner
 WORKDIR /app
 ENV NODE_ENV=production
 

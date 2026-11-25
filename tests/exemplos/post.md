@@ -1,8 +1,8 @@
-# Post de teste da Agenda
+# Post de exemplo
 
 > Categoria: Empresas · slug: post-de-teste-agenda
 > SEO: Post de teste da Agenda
-> DESC: Post de teste para experimentar a aprovação na Agenda em localhost. Apague este arquivo antes de publicar o primeiro post de verdade.
+> DESC: Post de teste para experimentar a aprovação na Agenda em localhost. Fica fora do site: serve de modelo e de base para os testes automatizados.
 > CAPA: eyebrow=Para empresas | destaque=da Agenda | nota=Post de teste
 > Agendar: 2026-12-01 09:00
 

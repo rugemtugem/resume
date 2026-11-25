@@ -4,7 +4,7 @@ agendar: 2026-12-01 09:00
 
 ## capa
 titulo: O pedido chega no WhatsApp e alguém [digita tudo de novo] no sistema?
-nota: Roteiro de teste. Apague este arquivo antes do primeiro carrossel de verdade.
+nota: Roteiro de exemplo, usado pelos testes automatizados.
 
 ## pontos
 titulo: Onde o tempo some
