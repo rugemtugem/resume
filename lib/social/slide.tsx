@@ -116,6 +116,38 @@ function Corpo({ slide }: { slide: Slide }) {
     );
 }
 
+/**
+ * Desenha o story (1080 x 1920) a partir da capa do roteiro. Zona segura: 250 no topo e 340 no rodapé,
+ * onde o Instagram põe os próprios botões. O quadro tracejado marca onde colar o adesivo de link.
+ */
+export function imagemDoStory(roteiro: Roteiro): ImageResponse {
+    const capa = roteiro.slides[0];
+    return new ImageResponse(
+        (
+            <div style={{ width: "100%", height: "100%", display: "flex", flexDirection: "column", justifyContent: "space-between", padding: "250px 72px 340px", background: COR.fundo, color: COR.texto, fontFamily: "Inter", position: "relative" }}>
+                <div style={{ position: "absolute", top: -200, right: -220, width: 820, height: 820, borderRadius: 820, background: COR.vinho, opacity: 0.4, filter: "blur(130px)", display: "flex" }} />
+                <div style={{ position: "absolute", bottom: -240, left: -200, width: 760, height: 760, borderRadius: 760, background: COR.laranja, opacity: 0.22, filter: "blur(130px)", display: "flex" }} />
+
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                    <div style={{ display: "flex", padding: "14px 32px", borderRadius: 999, border: `2px solid ${COR.linha}`, background: COR.painel, fontSize: 36, fontWeight: 600 }}>{roteiro.categoria || "Rugemtugem"}</div>
+                    <div style={{ display: "flex", fontSize: 36, fontWeight: 800 }}>rugemtugem.dev</div>
+                </div>
+
+                <div style={{ display: "flex", flexDirection: "column" }}>
+                    <Titulo texto={capa.titulo} tamanho={tamanhoDoTitulo(capa.titulo, 112)} />
+                    {capa.nota && <div style={{ display: "flex", marginTop: 48, fontSize: 48, lineHeight: 1.3, color: COR.suave }}>{capa.nota}</div>}
+                </div>
+
+                <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+                    <div style={{ display: "flex", fontSize: 44, fontWeight: 600 }}>Toque no link para ver</div>
+                    <div style={{ display: "flex", alignItems: "center", justifyContent: "center", marginTop: 28, width: 640, height: 150, borderRadius: 36, border: `4px dashed ${COR.linha}`, fontSize: 34, color: COR.linha }}>adesivo de link aqui</div>
+                </div>
+            </div>
+        ),
+        { width: LARGURA, height: 1920, fonts: fontesDaMarca() },
+    );
+}
+
 /** Desenha um slide do carrossel. O índice começa em zero. */
 export function imagemDoSlide(roteiro: Roteiro, indice: number): ImageResponse {
     const slide = roteiro.slides[indice];

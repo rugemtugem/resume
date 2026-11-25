@@ -5,6 +5,7 @@ import { readFileSync, readdirSync } from "node:fs";
 import { join } from "node:path";
 import { lerRoteiro, palavrasDoTitulo, problemasDoRoteiro } from "../lib/social/roteiro.ts";
 import { problemasDaLegenda } from "../lib/instagram/regras.ts";
+import { destinoDoStory, diaDeBrasilia, ehRobo } from "../lib/social/story.ts";
 
 const BOM = `tema: Pedido direto no sistema
 categoria: Para empresas
@@ -80,6 +81,28 @@ test("aponta cada problema que barra a aprovação", () => {
   assert.match(problemasDoRoteiro(lerRoteiro("tema: x\n## capa\ntitulo: Só um\n## legenda\noi")).join(" "), /2 a 10 slides/);
   const longo = "- " + "palavra ".repeat(15);
   assert.match(com("- Primeira linha", longo).join(" "), /limite é 95/);
+});
+
+test("link do story: destino sempre dentro do site, com a campanha", () => {
+  const utm = "?utm_source=instagram&utm_medium=story&utm_campaign=meu-post";
+  assert.equal(destinoDoStory({ slug: "meu-post", link: "", postNoAr: true }), "/blog/meu-post" + utm);
+  assert.equal(destinoDoStory({ slug: "meu-post", link: "", postNoAr: false }), "/" + utm);
+  assert.equal(destinoDoStory({ slug: "meu-post", link: "/servicos/ia-na-operacao", postNoAr: true }), "/servicos/ia-na-operacao" + utm);
+  for (const fora of ["https://exemplo.com", "//exemplo.com", "/\\exemplo.com", "/a?b=1", "javascript:alert(1)"]) {
+    assert.equal(destinoDoStory({ slug: "meu-post", link: fora, postNoAr: false }), "/" + utm, fora);
+  }
+  assert.equal(destinoDoStory({ slug: "", link: "", postNoAr: false }), "/?utm_source=instagram&utm_medium=story");
+  assert.match(problemasDoRoteiro(lerRoteiro(BOM.replace("agendar:", "link: https://exemplo.com\nagendar:"))).join(" "), /caminho do próprio site/);
+  assert.equal(lerRoteiro(BOM.replace("agendar:", "link: /servicos\nagendar:")).link, "/servicos");
+});
+
+test("link do story: robô não conta e o dia é o de Brasília", () => {
+  assert.equal(ehRobo("facebookexternalhit/1.1"), true);
+  assert.equal(ehRobo(""), true);
+  assert.equal(ehRobo(null), true);
+  assert.equal(ehRobo("Mozilla/5.0 (iPhone; CPU iPhone OS 18_0 like Mac OS X) Instagram 350.0"), false);
+  assert.equal(diaDeBrasilia(new Date("2026-12-02T01:30:00Z")), "2026-12-01");
+  assert.equal(diaDeBrasilia(new Date("2026-12-02T03:00:00Z")), "2026-12-02");
 });
 
 test("os roteiros da pasta content/social estão prontos para aprovar", () => {

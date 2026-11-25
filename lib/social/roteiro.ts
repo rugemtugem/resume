@@ -7,6 +7,7 @@
  *   tema: Pedido do WhatsApp direto no ERP
  *   categoria: Empresas
  *   agendar: 2026-12-02 12:00
+ *   link: /servicos/integracao-whatsapp-erp
  *
  *   ## capa
  *   titulo: O pedido chega no WhatsApp e alguém [digita tudo de novo]?
@@ -34,7 +35,8 @@
  *   ## legenda
  *   Texto da legenda, com as hashtags no fim.
  *
- * Colchetes no título marcam o trecho em destaque.
+ * Colchetes no título marcam o trecho em destaque. A linha "link:" é opcional: é para onde o adesivo do story leva
+ * (um caminho do próprio site). Sem ela, o story leva ao post do blog de mesmo nome, ou à página inicial.
  */
 
 export const TIPOS_DE_SLIDE = ["capa", "pontos", "numero", "duo", "cta"] as const;
@@ -57,6 +59,8 @@ export interface Roteiro {
     categoria: string;
     /** "AAAA-MM-DD HH:MM" no horário de Brasília, ou vazio. */
     agendar: string;
+    /** Caminho do próprio site para o adesivo do story, ou vazio. */
+    link: string;
     slides: Slide[];
     legenda: string;
 }
@@ -69,7 +73,7 @@ function slideVazio(tipo: string): Slide {
 }
 
 export function lerRoteiro(md: string): Roteiro {
-    const roteiro: Roteiro = { tema: "", categoria: "", agendar: "", slides: [], legenda: "" };
+    const roteiro: Roteiro = { tema: "", categoria: "", agendar: "", link: "", slides: [], legenda: "" };
     const legenda: string[] = [];
     let atual: Slide | null = null;
     let naLegenda = false;
@@ -91,8 +95,8 @@ export function lerRoteiro(md: string): Roteiro {
             continue;
         }
         if (noCabecalho) {
-            const par = linha.match(/^(tema|categoria|agendar)\s*:\s*(.+)$/i);
-            if (par) roteiro[par[1].toLowerCase() as "tema" | "categoria" | "agendar"] = par[2].trim();
+            const par = linha.match(/^(tema|categoria|agendar|link)\s*:\s*(.+)$/i);
+            if (par) roteiro[par[1].toLowerCase() as "tema" | "categoria" | "agendar" | "link"] = par[2].trim();
             continue;
         }
         if (!atual || linha === "") continue;
@@ -133,6 +137,9 @@ export function palavrasDoTitulo(titulo: string): { texto: string; destaque: boo
     return palavras;
 }
 
+/** Caminho interno aceito como destino de link: nunca um endereço de fora. */
+export const CAMINHO_DO_SITE = /^\/[a-z0-9/-]{0,120}$/;
+
 const semColchetes = (texto: string) => texto.replace(/[[\]]/g, "");
 
 /** Problemas que impedem gerar e agendar o carrossel. Lista vazia quer dizer que está tudo certo. */
@@ -141,6 +148,7 @@ export function problemasDoRoteiro(roteiro: Roteiro): string[] {
     const total = roteiro.slides.length;
     if (!roteiro.tema) problemas.push("Falta a linha \"tema:\" no começo do arquivo.");
     if (roteiro.agendar && !/^\d{4}-\d{2}-\d{2} \d{2}:\d{2}$/.test(roteiro.agendar)) problemas.push("A linha \"agendar:\" precisa estar no formato AAAA-MM-DD HH:MM.");
+    if (roteiro.link && !CAMINHO_DO_SITE.test(roteiro.link)) problemas.push("A linha \"link:\" precisa ser um caminho do próprio site, como /servicos ou /blog/nome-do-post.");
     if (total < 2 || total > 10) problemas.push(`O carrossel precisa de 2 a 10 slides (o arquivo tem ${total}).`);
     if (total > 0 && roteiro.slides[0].tipo !== "capa") problemas.push("O primeiro slide precisa ser a capa.");
     if (total > 1 && roteiro.slides[total - 1].tipo !== "cta") problemas.push("O último slide precisa ser o convite (cta).");

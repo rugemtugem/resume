@@ -1,5 +1,6 @@
 import { existsSync, readFileSync, readdirSync } from "node:fs";
 import { join } from "node:path";
+import { banco } from "@/lib/db";
 import { problemasDaLegenda } from "@/lib/instagram/regras";
 import { lerRoteiro, problemasDoRoteiro } from "@/lib/social/roteiro";
 import type { Roteiro } from "@/lib/social/roteiro";
@@ -23,6 +24,22 @@ function carregar(slug: string): RoteiroDoArquivo {
 export function roteiroPorSlug(slug: string): RoteiroDoArquivo | null {
     if (!SLUG.test(slug) || !existsSync(join(PASTA, `${slug}.md`))) return null;
     return carregar(slug);
+}
+
+/** Cliques no link do story de um roteiro: total e por dia (os 14 dias mais recentes com clique). */
+export function cliquesDoStory(slug: string): { total: number; dias: { dia: string; cliques: number }[] } {
+    try {
+        const dias = (banco()?.prepare("SELECT dia, cliques FROM story_clique WHERE slug = ? ORDER BY dia DESC LIMIT 14").all(slug) as { dia: string; cliques: number }[] | undefined) ?? [];
+        const total = (banco()?.prepare("SELECT COALESCE(SUM(cliques), 0) AS n FROM story_clique WHERE slug = ?").get(slug) as { n: number } | undefined)?.n ?? 0;
+        return { total, dias };
+    } catch {
+        return { total: 0, dias: [] };
+    }
+}
+
+/** Endereço que vai no adesivo de link do story. */
+export function linkDoStory(slug: string): string {
+    return `${(process.env.SITE_URL || "https://rugemtugem.dev").replace(/\/+$/, "")}/s/${slug}`;
 }
 
 /** Todos os roteiros da pasta content/social. */

@@ -27,6 +27,7 @@ CREATE TABLE IF NOT EXISTS ig_post (
   media_id TEXT, permalink TEXT, reservado_em TEXT, publicado_em TEXT, criado_em TEXT NOT NULL);
 CREATE INDEX IF NOT EXISTS ix_ig_status_quando ON ig_post(status, quando_utc);
 CREATE TABLE IF NOT EXISTS rotina_diaria (nome TEXT PRIMARY KEY, dia TEXT NOT NULL);
+CREATE TABLE IF NOT EXISTS story_clique (dia TEXT NOT NULL, slug TEXT NOT NULL, cliques INTEGER NOT NULL DEFAULT 0, PRIMARY KEY (dia, slug));
 `;
 
 let conexao: Database.Database | null | undefined;

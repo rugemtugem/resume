@@ -4,7 +4,10 @@ import { agendaDoBlog, horaAtual } from "@/lib/agenda";
 import { brasiliaParaUtc, utcParaBrasilia } from "@/lib/admin/seguranca";
 import { dataPorExtenso, todosOsPosts } from "@/lib/blog";
 import { carrosseisDoSlug, contaConectada } from "@/lib/instagram/fila";
-import { roteiroPorSlug } from "@/lib/social";
+import { postsPublicados } from "@/lib/blog";
+import { cliquesDoStory, linkDoStory, roteiroPorSlug } from "@/lib/social";
+import { destinoDoStory } from "@/lib/social/story";
+import { CopiarLink } from "./copiar";
 import { FormularioDeAprovacao } from "./formulario";
 
 function horaDeBrasilia(iso: string): string {
@@ -31,6 +34,9 @@ export default async function RoteiroPage({ params }: { params: Promise<{ slug: 
     const sugerida = pendente?.quando_utc ?? linhaDoBlog?.quando_utc ?? (roteiro.agendar ? brasiliaParaUtc(roteiro.agendar) : null) ?? post?.publicadoEm ?? new Date(horaAtual() + 24 * 3600e3).toISOString();
     const rotulo = post ? "Aprovar post e agendar carrossel" : "Agendar carrossel";
     const bloqueado = problemas.length > 0 || Boolean(post?.rascunho);
+    const link = linkDoStory(slug);
+    const cliques = cliquesDoStory(slug);
+    const destino = destinoDoStory({ slug, link: roteiro.link, postNoAr: postsPublicados().some((p) => p.slug === slug) }).split("?")[0];
 
     return (
         <div className="space-y-8">
@@ -108,6 +114,42 @@ export default async function RoteiroPage({ params }: { params: Promise<{ slug: 
                     ))}
                 </ol>
             </section>
+
+            {roteiro.slides.length > 0 && (
+                <section className={cartao} aria-labelledby="titulo-story">
+                    <h2 id="titulo-story" className="text-xl font-bold mb-2">
+                        Story
+                    </h2>
+                    <p className="text-sm text-[var(--text-secondary)] mb-5">
+                        O Instagram não deixa publicar story com adesivo de link pelo sistema, então este passo é pelo celular: baixe a imagem, publique como story, toque em adesivo, escolha Link, cole o endereço e
+                        ponha o adesivo em cima do quadro tracejado.
+                    </p>
+                    <div className="flex flex-col md:flex-row gap-6">
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img src={`/admin/social/${slug}/story`} alt={`Story: ${roteiro.slides[0].titulo.replace(/[[\]]/g, "")}`} width={1080} height={1920} loading="lazy" className="w-56 h-auto shrink-0 rounded-xl border border-[var(--border-color)]" />
+                        <div className="space-y-4 min-w-0">
+                            <div>
+                                <a href={`/admin/social/${slug}/story?baixar=1`} className="inline-block px-5 py-2.5 rounded-lg font-semibold text-white bg-gradient-to-r from-[var(--primary-color)] to-[var(--secondary-color)]">
+                                    Baixar imagem do story
+                                </a>
+                            </div>
+                            <div>
+                                <p className="text-sm font-semibold mb-1">Link do adesivo</p>
+                                <p className="text-sm break-all select-all rounded-lg border border-[var(--border-color)] bg-[var(--bg-primary)] px-3 py-2 mb-3">{link}</p>
+                                <CopiarLink texto={link} />
+                            </div>
+                            <p className="text-sm text-[var(--text-secondary)]">
+                                Hoje este link leva para <strong className="text-[var(--text-primary)]">{destino}</strong>.{" "}
+                                {roteiro.link ? "O destino vem da linha link: do roteiro." : post ? "Enquanto o post do blog não está no ar, ele leva para a página inicial." : "Para levar a outra página, ponha a linha link: no começo do roteiro."}
+                            </p>
+                            <p className="text-sm">
+                                Cliques no link: <strong>{cliques.total}</strong>
+                                {cliques.dias.length > 0 && <span className="text-[var(--text-secondary)]"> ({cliques.dias.map((d) => `${d.dia.slice(8, 10)}/${d.dia.slice(5, 7)}: ${d.cliques}`).join(", ")})</span>}
+                            </p>
+                        </div>
+                    </div>
+                </section>
+            )}
 
             <section className={cartao} aria-labelledby="titulo-legenda">
                 <h2 id="titulo-legenda" className="text-xl font-bold mb-3">
