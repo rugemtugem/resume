@@ -1,6 +1,6 @@
 // Gera as variáveis do painel. Uso: node scripts/gerar-senha.mjs "minha senha"
 // Com --local, grava o arquivo .env.local para uso em localhost (lê a senha de .dados/senha-local.txt).
-import { randomBytes, scryptSync } from "node:crypto";
+import { generateKeyPairSync, randomBytes, scryptSync } from "node:crypto";
 import { readFileSync, writeFileSync } from "node:fs";
 
 const local = process.argv.includes("--local");
@@ -29,9 +29,17 @@ if (local) {
     "IG_GRAPH_BASE=http://localhost:4010",
     "# LinkedIn: a mesma API falsa atende em /linkedin.",
     "LINKEDIN_API_BASE=http://localhost:4010/linkedin",
+    "# Métricas: API falsa do Google em /google, com uma conta de serviço de mentira.",
+    "GOOGLE_API_BASE=http://localhost:4010/google",
+    "GOOGLE_CHAVE=./.dados/google-falso.json",
+    "GA4_PROPERTY_ID=000000000",
+    "GSC_SITE=sc-domain:rugemtugem.dev",
   ];
+  // Chave gerada na hora, só para assinar o pedido à API falsa. Não dá acesso a nada de verdade.
+  const { privateKey } = generateKeyPairSync("rsa", { modulusLength: 2048 });
+  writeFileSync(".dados/google-falso.json", JSON.stringify({ client_email: "falso@localhost.iam.gserviceaccount.com", private_key: privateKey.export({ type: "pkcs8", format: "pem" }) }, null, 2));
   writeFileSync(".env.local", cabecalho.concat(linhas).join("\n") + "\n");
-  console.log("Arquivo .env.local gravado com", linhas.length + 4, "variáveis.");
+  console.log("Arquivo .env.local gravado com", linhas.length + 8, "variáveis.");
 } else {
   console.log(linhas.join("\n"));
 }

@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import nodemailer from 'nodemailer';
+import { contarLead } from '@/lib/blog-views';
 
 const ORIGENS: Record<string, string> = {
     instagram: 'Instagram',
@@ -76,6 +77,9 @@ export async function POST(request: Request) {
                 </div>
             `,
         });
+
+        // O e-mail saiu: soma o pedido ao painel de métricas (só a contagem e o canal marcado).
+        contarLead(String(body.origem));
 
         return NextResponse.json({
             success: true,

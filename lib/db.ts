@@ -35,6 +35,10 @@ CREATE TABLE IF NOT EXISTS li_post (
   quando_utc TEXT NOT NULL, status TEXT NOT NULL DEFAULT 'agendado', tentativas INTEGER NOT NULL DEFAULT 0, erro TEXT,
   post_urn TEXT, reservado_em TEXT, publicado_em TEXT, criado_em TEXT NOT NULL);
 CREATE INDEX IF NOT EXISTS ix_li_status_quando ON li_post(status, quando_utc);
+CREATE TABLE IF NOT EXISTS lead_dia (dia TEXT NOT NULL, origem TEXT NOT NULL, total INTEGER NOT NULL DEFAULT 0, PRIMARY KEY (dia, origem));
+CREATE TABLE IF NOT EXISTS blog_leitura_dia (dia TEXT NOT NULL, slug TEXT NOT NULL, total INTEGER NOT NULL DEFAULT 0, PRIMARY KEY (dia, slug));
+CREATE TABLE IF NOT EXISTS cache_metricas (chave TEXT PRIMARY KEY, ate TEXT NOT NULL, json TEXT NOT NULL);
+CREATE TABLE IF NOT EXISTS admin_meta (chave TEXT PRIMARY KEY, valor INTEGER NOT NULL);
 CREATE TABLE IF NOT EXISTS story_clique (dia TEXT NOT NULL, slug TEXT NOT NULL, cliques INTEGER NOT NULL DEFAULT 0, PRIMARY KEY (dia, slug));
 `;
 

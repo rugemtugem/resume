@@ -1,4 +1,4 @@
-// API falsa do Instagram e do LinkedIn para localhost. Uso: node scripts/graph-falsa.mjs
+// API falsa do Instagram, do LinkedIn e do Google (GA4 e Search Console) para localhost. Uso: node scripts/graph-falsa.mjs
 // Imita as chamadas que o site faz, baixa cada imagem como a Meta faria e registra tudo em .dados/graph-falsa.log.
 // Token que contenha "recusar" faz a API responder com erro, para testar o caminho de falha.
 import { createServer } from "node:http";
@@ -40,6 +40,67 @@ async function conferirImagem(endereco) {
   } catch (e) {
     return `não consegui baixar: ${e.message}`;
   }
+}
+
+/** Google: números inventados, mas estáveis por dia, para o painel de métricas ter o que mostrar. */
+const DIA = 86400e3;
+const diasDe = (inicio, fim) => { const l = []; for (let t = Date.parse(inicio); t <= Date.parse(fim); t += DIA) l.push(new Date(t).toISOString().slice(0, 10)); return l; };
+function sessoesDoDia(dia) {
+  const n = Math.floor(Date.parse(dia) / DIA);
+  const semana = new Date(dia).getUTCDay();
+  return 20 + ((n * 7) % 13) + (semana === 0 || semana === 6 ? -9 : 3) + Math.floor((n % 200) / 10);
+}
+const somaDe = (dias, f) => dias.reduce((a, d) => a + f(d), 0);
+const contatosDoDia = (dia) => Math.floor(sessoesDoDia(dia) / 9);
+const cliquesDoDia = (dia) => Math.floor(sessoesDoDia(dia) * 0.4);
+
+function relatorioDoGa4(pedido) {
+  const periodos = pedido.dateRanges.map((r, i) => ({ nome: r.name || `date_range_${i}`, dias: diasDe(r.startDate, r.endDate) }));
+  const dimensao = pedido.dimensions?.[0]?.name;
+  const metricas = pedido.metrics.map((m) => m.name);
+  const valores = (dias) => metricas.map((m) => ({ value: String(m === "sessions" ? somaDe(dias, sessoesDoDia) : m === "totalUsers" ? Math.round(somaDe(dias, sessoesDoDia) * 0.8) : m === "screenPageViews" ? somaDe(dias, sessoesDoDia) * 2 : somaDe(dias, contatosDoDia)) }));
+  const comPeriodo = periodos.length > 1;
+  let rows = [];
+  if (!dimensao) rows = periodos.map((p) => ({ dimensionValues: comPeriodo ? [{ value: p.nome }] : [], metricValues: valores(p.dias) }));
+  else if (dimensao === "date") rows = periodos[0].dias.map((d) => ({ dimensionValues: [{ value: d.replace(/-/g, "") }], metricValues: valores([d]) })).filter((r) => r.metricValues[0].value !== "0");
+  else if (dimensao === "eventName") rows = periodos.flatMap((p) => [["cta_click", 0.6], ["whatsapp_click", 0.3], ["email_click", 0.1]].map(([nome, parte]) => ({ dimensionValues: [{ value: nome }, { value: p.nome }], metricValues: [{ value: String(Math.round(somaDe(p.dias, contatosDoDia) * parte)) }] })));
+  else if (dimensao === "sessionDefaultChannelGroup") rows = [["Organic Search", 0.46], ["Direct", 0.24], ["Organic Social", 0.19], ["Referral", 0.11]].map(([nome, parte]) => ({ dimensionValues: [{ value: nome }], metricValues: [{ value: String(Math.round(somaDe(periodos[0].dias, sessoesDoDia) * parte)) }] }));
+  else if (dimensao === "pagePath") rows = [["/", 0.7], ["/servicos", 0.4], ["/casos", 0.3], ["/blog", 0.25], ["/projetos", 0.2], ["/servicos/integracao-whatsapp-erp", 0.15]].map(([nome, parte]) => ({ dimensionValues: [{ value: nome }], metricValues: [{ value: String(Math.round(somaDe(periodos[0].dias, sessoesDoDia) * parte)) }] }));
+  return { rows };
+}
+
+async function google(req, res, url) {
+  const caminho = decodeURIComponent(url.pathname.replace(/^\/google/, ""));
+  let corpo = "";
+  for await (const parte of req) corpo += parte;
+  registrar(`GOOGLE ${req.method} ${caminho}`);
+
+  if (caminho === "/token") {
+    const assercao = new URLSearchParams(corpo).get("assertion") || "";
+    const partes = assercao.split(".");
+    if (partes.length !== 3) return responder(res, 400, { error: "invalid_grant", error_description: "JWT malformado" });
+    const dados = JSON.parse(Buffer.from(partes[1], "base64url").toString());
+    if (!dados.iss || !String(dados.scope).includes("analytics.readonly") || dados.exp <= dados.iat) return responder(res, 400, { error: "invalid_grant", error_description: "JWT sem os campos esperados" });
+    return responder(res, 200, { access_token: "ya29.falso", expires_in: 3600, token_type: "Bearer" });
+  }
+  if (req.headers.authorization !== "Bearer ya29.falso") return responder(res, 401, { error: { message: "Request had invalid authentication credentials." } });
+  const pedido = JSON.parse(corpo || "{}");
+
+  if (/^\/analyticsdata\/v1beta\/properties\/\d+:batchRunReports$/.test(caminho)) {
+    if (!Array.isArray(pedido.requests) || pedido.requests.length > 5) return responder(res, 400, { error: { message: "Requests must have between 1 and 5 entries" } });
+    return responder(res, 200, { reports: pedido.requests.map(relatorioDoGa4) });
+  }
+  if (/^\/analyticsdata\/v1beta\/properties\/\d+:runReport$/.test(caminho)) return responder(res, 200, relatorioDoGa4(pedido));
+
+  if (/^\/searchconsole\/webmasters\/v3\/sites\/[^/]+\/searchAnalytics\/query$/.test(caminho)) {
+    const dias = diasDe(pedido.startDate, pedido.endDate);
+    const linha = (keys, ds) => { const cliques = somaDe(ds, cliquesDoDia); return { ...(keys ? { keys } : {}), clicks: cliques, impressions: cliques * 14 + 30 * ds.length, ctr: 0.06, position: 17.4 - (ds.length % 5) * 0.3 }; };
+    const dimensao = pedido.dimensions?.[0];
+    if (dimensao === "date") return responder(res, 200, { rows: dias.map((d) => linha([d], [d])) });
+    if (dimensao === "query") return responder(res, 200, { rows: [["integrar whatsapp com bling", 0.3, 6.2], ["automação whatsapp para empresa", 0.2, 9.8], ["rugemtugem", 0.18, 1.1], ["integração site crm", 0.12, 12.4], ["ia para pequenas empresas", 0.08, 15.9]].map(([termo, parte, posicao]) => { const cliques = Math.round(somaDe(dias, cliquesDoDia) * parte); return { keys: [termo], clicks: cliques, impressions: cliques * 12 + 40, ctr: 0.07, position: posicao }; }) });
+    return responder(res, 200, { rows: [linha(null, dias)] });
+  }
+  responder(res, 404, { error: { message: "Not found" } });
 }
 
 /** LinkedIn: token no cabeçalho, corpo em JSON, imagem enviada por PUT. */
@@ -96,6 +157,7 @@ async function linkedin(req, res, url) {
 createServer(async (req, res) => {
   const url = new URL(req.url, `http://localhost:${PORTA}`);
   if (url.pathname.startsWith("/linkedin/")) return linkedin(req, res, url);
+  if (url.pathname.startsWith("/google/")) return google(req, res, url);
   const params = await lerParametros(req, url);
   const token = params.get("access_token") || "";
   const partes = url.pathname.split("/").filter(Boolean);
@@ -140,4 +202,4 @@ createServer(async (req, res) => {
   if (alvo) return responder(res, 200, alvo.erro ? { status_code: "ERROR", status: alvo.erro } : { status_code: "FINISHED" });
 
   responder(res, 404, { error: { message: "Unsupported request" } });
-}).listen(PORTA, () => console.log(`API falsa do Instagram e do LinkedIn em http://localhost:${PORTA} (registro em ${LOG})`));
+}).listen(PORTA, () => console.log(`API falsa do Instagram, do LinkedIn e do Google em http://localhost:${PORTA} (registro em ${LOG})`));
