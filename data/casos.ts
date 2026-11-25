@@ -12,7 +12,7 @@ export interface Caso {
     /** Serviço ligado ao caso. */
     servico: string;
     /** Contexto do cliente, com link para a fonte. */
-    referencia?: { antes: string; link: string; url: string; depois: string };
+    referencia?: (string | { texto: string; url: string })[];
 }
 
 export const CASOS: Caso[] = [
@@ -43,12 +43,13 @@ export const CASOS: Caso[] = [
         titulo: "diagnóstico com IA para mentores",
         resumo: "Sistema de diagnóstico em 4 módulos, feito para mentores e para quem dá mentoria: análise por IA, painel administrativo e plano de ação gerado por IA.",
         servico: "ia-na-operacao",
-        referencia: {
-            antes: "O Prosperus Club é um dos clubes da ",
-            link: "Mentoring League Society (MLS)",
-            url: "https://mlsociety.co/",
-            depois: ", a liga de clubes de mentoria em que empresários treinam empresários.",
-        },
+        referencia: [
+            "O Prosperus Club é um dos clubes da ",
+            { texto: "Mentoring League Society (MLS)", url: "https://mlsociety.co/" },
+            ", a liga de clubes de mentoria em que empresários treinam empresários. Em agosto de 2026 chegou ao primeiro lugar no ranking da liga, segundo a ",
+            { texto: "Empreenda Revista", url: "https://empreendarevista.com.br/artigos/prosperus-club-a-estrategia-que-levou-ao-topo-da-mls/" },
+            ".",
+        ],
     },
 ];
 

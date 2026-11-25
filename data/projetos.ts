@@ -74,14 +74,8 @@ export interface Ferramenta {
     texto: string;
 }
 
-export interface Referencia {
-    /** Texto antes do link. */
-    antes: string;
-    link: string;
-    url: string;
-    /** Texto depois do link. */
-    depois: string;
-}
+/** Frase com links para a fonte: trechos de texto e trechos com endereço. */
+export type Referencia = (string | { texto: string; url: string })[];
 
 export interface GrupoDeFerramentas {
     titulo: string;
@@ -90,13 +84,17 @@ export interface GrupoDeFerramentas {
     itens: Ferramenta[];
 }
 
-/** A liga de clubes de mentoria da qual o Prosperus Club faz parte. */
-export const MLS: Referencia = {
-    antes: "Em uso no Prosperus Club, um dos clubes da ",
-    link: "Mentoring League Society (MLS)",
-    url: "https://mlsociety.co/",
-    depois: ", a liga de clubes de mentoria.",
-};
+/**
+ * O Prosperus Club e a liga de clubes de mentoria da qual ele faz parte.
+ * Fonte da posição: Empreenda Revista, 06/10/2026 (primeiro lugar no ranking da MLS de agosto de 2026).
+ */
+export const MLS: Referencia = [
+    "Em uso no Prosperus Club, que chegou ao ",
+    { texto: "primeiro lugar no ranking de agosto de 2026", url: "https://empreendarevista.com.br/artigos/prosperus-club-a-estrategia-que-levou-ao-topo-da-mls/" },
+    " da ",
+    { texto: "Mentoring League Society (MLS)", url: "https://mlsociety.co/" },
+    ", a liga de clubes de mentoria.",
+];
 
 /**
  * Tipos de sistema que a Rugemtugem constrói, por finalidade.

@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { ArrowRight, ArrowUpRight, GraduationCap, LayoutDashboard, Smartphone, Users, Workflow, Wrench } from "lucide-react";
-import { PaginaInterna, TopoInterno, Faixa, TituloDeSecao, CartaoVidro, IconeGradiente, ChamadaDiagnostico } from "@/components/layout/pagina-interna";
+import { PaginaInterna, TopoInterno, Faixa, TituloDeSecao, CartaoVidro, IconeGradiente, ChamadaDiagnostico, FraseComFonte } from "@/components/layout/pagina-interna";
 import { CASOS, detalhesDoCaso } from "@/data/casos";
 import { FERRAMENTAS, PASSAGENS, PROJETOS_PROPRIOS, PROVA_DO_APLICATIVO, SITES_NO_AR } from "@/data/projetos";
 
@@ -65,15 +65,7 @@ export default function ProjetosPage() {
                   <IconeGradiente icone={ICONES_DOS_GRUPOS[g % ICONES_DOS_GRUPOS.length]} indice={g} />
                   <h3 className="text-2xl md:text-3xl font-bold leading-tight mt-5 mb-3">{grupo.titulo}</h3>
                   <p className="text-lg text-[var(--text-secondary)] leading-relaxed">{grupo.texto}</p>
-                  {grupo.referencia && (
-                    <p className="mt-4 text-[var(--text-secondary)] leading-relaxed">
-                      {grupo.referencia.antes}
-                      <a href={grupo.referencia.url} target="_blank" rel="noopener noreferrer" className="font-semibold text-[var(--primary-color)] underline underline-offset-4">
-                        {grupo.referencia.link}
-                      </a>
-                      {grupo.referencia.depois}
-                    </p>
-                  )}
+                  {grupo.referencia && <FraseComFonte partes={grupo.referencia} className="mt-4 text-[var(--text-secondary)] leading-relaxed" />}
                 </div>
               </div>
               <ul className="lg:col-span-8 grid grid-cols-1 sm:grid-cols-2 gap-5">

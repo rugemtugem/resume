@@ -244,3 +244,20 @@ export function BotoesDoTopo({ local, secundario }: { local: string; secundario:
         </div>
     );
 }
+
+/** Frase com links para a fonte. Cada trecho é texto simples ou um link externo. */
+export function FraseComFonte({ partes, className = "" }: { partes: (string | { texto: string; url: string })[]; className?: string }) {
+    return (
+        <p className={className}>
+            {partes.map((parte, i) =>
+                typeof parte === "string" ? (
+                    <span key={i}>{parte}</span>
+                ) : (
+                    <a key={i} href={parte.url} target="_blank" rel="noopener noreferrer" className="font-semibold text-[var(--primary-color)] underline underline-offset-4">
+                        {parte.texto}
+                    </a>
+                ),
+            )}
+        </p>
+    );
+}
