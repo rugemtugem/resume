@@ -41,19 +41,33 @@ export function problemasDasMidias(tipo: TipoDePost, quantidade: number): string
 export function semToken(texto: string, token = ""): string {
     let limpo = texto;
     if (token) limpo = limpo.split(token).join("[token]");
-    return limpo.replace(/IGAA[A-Za-z0-9_-]{10,}/g, "[token]").replace(/access_token=[^&\s"]+/g, "access_token=[token]");
+    return limpo.replace(/(IGAA|EAA)[A-Za-z0-9_-]{10,}/g, "[token]").replace(/access_token=[^&\s"]+/g, "access_token=[token]");
 }
 
 /**
  * Trava de segurança: fora de produção, a API só pode apontar para um endereço local.
  * Assim um arquivo de ambiente errado em localhost nunca publica de verdade.
  */
-export function baseDaGraph(env: { NODE_ENV?: string; IG_GRAPH_BASE?: string }): { base: string; falsa: boolean } {
+export type TipoDeToken = "instagram" | "facebook";
+
+/**
+ * A Meta tem dois jeitos de ligar um app ao Instagram, e cada um gera um token de um tipo:
+ * o "login do Instagram" (token IGAA, servidor graph.instagram.com) e o "login unificado" dos apps
+ * mais novos (token EAA, servidor graph.facebook.com). Os caminhos de publicar e de ler são os mesmos.
+ */
+export function tipoDoToken(token: string): TipoDeToken {
+    return token.trim().startsWith("IGAA") ? "instagram" : "facebook";
+}
+
+/** Data usada quando a validade do token não pode ser lida: quem define é a configuração do app na Meta. */
+export const VALIDADE_DESCONHECIDA = "9999-12-31T00:00:00.000Z";
+
+export function baseDaGraph(env: { NODE_ENV?: string; IG_GRAPH_BASE?: string }, tipo: TipoDeToken = "instagram"): { base: string; falsa: boolean } {
     const configurada = (env.IG_GRAPH_BASE || "").replace(/\/+$/, "");
     const local = /^http:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/.test(configurada);
     if (env.NODE_ENV !== "production") {
         if (!local) throw new Error("Fora de produção, IG_GRAPH_BASE precisa apontar para a API falsa em localhost.");
         return { base: configurada, falsa: true };
     }
-    return { base: configurada || "https://graph.instagram.com", falsa: local };
+    return { base: configurada || (tipo === "facebook" ? "https://graph.facebook.com" : "https://graph.instagram.com"), falsa: local };
 }

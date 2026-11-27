@@ -1,17 +1,18 @@
-import { baseDaGraph, semToken } from "@/lib/instagram/regras";
+import { baseDaGraph, semToken, tipoDoToken } from "@/lib/instagram/regras";
 import { valorDoInsight } from "@/lib/metricas/regras";
 
 /**
- * Cliente da API do Instagram (login do Instagram), portado do publicador do Calcula Trabalhador.
+ * Cliente da API do Instagram, portado do publicador do Calcula Trabalhador. Aceita os dois tipos de token
+ * da Meta: o do login do Instagram (IGAA) e o do login unificado dos apps novos (EAA).
  * Em localhost fala só com a API falsa (scripts/graph-falsa.mjs).
  */
 
-const VERSAO = "v23.0";
+const VERSAO = "v27.0";
 
 export class ErroDoInstagram extends Error {}
 
-function enderecos() {
-    const { base, falsa } = baseDaGraph(process.env);
+function enderecos(token: string) {
+    const { base, falsa } = baseDaGraph(process.env, tipoDoToken(token));
     return { raiz: base, api: `${base}/${VERSAO}`, falsa };
 }
 
@@ -47,7 +48,14 @@ export interface Conta {
 }
 
 export async function lerConta(token: string): Promise<Conta> {
-    const r = await pedir("GET", `${enderecos().api}/me`, token, { fields: "user_id,username,account_type" });
+    if (tipoDoToken(token) === "facebook") {
+        // No login unificado, /me é o usuário de sistema do app. A conta do Instagram vem da lista de contas atribuídas.
+        const lista = await pedir("GET", `${enderecos(token).api}/me/assigned_instagram_accounts`, token, { fields: "id,username" });
+        const contas = (lista.data as { id?: string; username?: string }[] | undefined) ?? [];
+        if (contas.length === 0 || !contas[0].id || !contas[0].username) throw new ErroDoInstagram("O token não tem nenhuma conta do Instagram atribuída. Gere o token de novo escolhendo a conta.");
+        return { ig_user_id: String(contas[0].id), username: String(contas[0].username), account_type: "Profissional" };
+    }
+    const r = await pedir("GET", `${enderecos(token).api}/me`, token, { fields: "user_id,username,account_type" });
     const id = String(r.user_id ?? r.id ?? "");
     if (!id || !r.username) throw new ErroDoInstagram("A API não devolveu os dados da conta.");
     return { ig_user_id: id, username: String(r.username), account_type: String(r.account_type ?? "") };
@@ -55,21 +63,21 @@ export async function lerConta(token: string): Promise<Conta> {
 
 /** Cota de publicação das últimas 24 horas. */
 export async function lerCota(igUserId: string, token: string): Promise<{ usados: number; total: number }> {
-    const r = await pedir("GET", `${enderecos().api}/${encodeURIComponent(igUserId)}/content_publishing_limit`, token, { fields: "quota_usage,config" });
+    const r = await pedir("GET", `${enderecos(token).api}/${encodeURIComponent(igUserId)}/content_publishing_limit`, token, { fields: "quota_usage,config" });
     const d = ((r.data as Record<string, unknown>[] | undefined) ?? [])[0] ?? {};
     const config = (d.config ?? {}) as { quota_total?: number };
     return { usados: Number(d.quota_usage ?? 0), total: Number(config.quota_total ?? 100) };
 }
 
 async function criarContainer(igUserId: string, token: string, params: Record<string, string>): Promise<string> {
-    const r = await pedir("POST", `${enderecos().api}/${encodeURIComponent(igUserId)}/media`, token, params);
+    const r = await pedir("POST", `${enderecos(token).api}/${encodeURIComponent(igUserId)}/media`, token, params);
     if (!r.id) throw new ErroDoInstagram("A API não devolveu o id do contêiner.");
     return String(r.id);
 }
 
 /** Espera o contêiner ficar pronto. A Meta baixa e processa a mídia antes de liberar. */
 async function aguardar(containerId: string, token: string, limiteS = 120): Promise<void> {
-    const { api, falsa } = enderecos();
+    const { api, falsa } = enderecos(token);
     const inicio = Date.now();
     let intervalo = 10;
     for (;;) {
@@ -86,14 +94,14 @@ async function aguardar(containerId: string, token: string, limiteS = 120): Prom
 }
 
 async function publicarContainer(igUserId: string, token: string, containerId: string): Promise<string> {
-    const r = await pedir("POST", `${enderecos().api}/${encodeURIComponent(igUserId)}/media_publish`, token, { creation_id: containerId });
+    const r = await pedir("POST", `${enderecos(token).api}/${encodeURIComponent(igUserId)}/media_publish`, token, { creation_id: containerId });
     if (!r.id) throw new ErroDoInstagram("A API não devolveu o id da publicação.");
     return String(r.id);
 }
 
 async function lerPermalink(mediaId: string, token: string): Promise<string> {
     try {
-        const r = await pedir("GET", `${enderecos().api}/${encodeURIComponent(mediaId)}`, token, { fields: "permalink" });
+        const r = await pedir("GET", `${enderecos(token).api}/${encodeURIComponent(mediaId)}`, token, { fields: "permalink" });
         return String(r.permalink ?? "");
     } catch {
         return ""; // a publicação já saiu; o link é só conveniência
@@ -124,9 +132,9 @@ export async function publicarCarrossel(igUserId: string, token: string, urls: s
     return { media_id: m, permalink: await lerPermalink(m, token) };
 }
 
-/** Renova o token de longa duração (vale 60 dias). */
+/** Renova o token de longa duração (vale 60 dias). Só existe para o token do login do Instagram (IGAA). */
 export async function renovarToken(token: string): Promise<{ token: string; segundos: number }> {
-    const r = await pedir("GET", `${enderecos().raiz}/refresh_access_token`, token, { grant_type: "ig_refresh_token" });
+    const r = await pedir("GET", `${enderecos(token).raiz}/refresh_access_token`, token, { grant_type: "ig_refresh_token" });
     if (!r.access_token) throw new ErroDoInstagram("A renovação não devolveu um token novo.");
     return { token: String(r.access_token), segundos: Number(r.expires_in ?? 5184000) };
 }
@@ -134,15 +142,16 @@ export async function renovarToken(token: string): Promise<{ token: string; segu
 /** Diz se o site está falando com a API falsa. O painel mostra isso em destaque. */
 export function usandoApiFalsa(): boolean {
     try {
-        return enderecos().falsa;
+        return enderecos("").falsa;
     } catch {
         return true;
     }
 }
 
 /** Seguidores e total de publicações do perfil. */
-export async function lerNumerosDoPerfil(token: string): Promise<{ seguidores: number; publicacoes: number }> {
-    const r = await pedir("GET", `${enderecos().api}/me`, token, { fields: "followers_count,media_count" });
+export async function lerNumerosDoPerfil(igUserId: string, token: string): Promise<{ seguidores: number; publicacoes: number }> {
+    const alvo = tipoDoToken(token) === "facebook" ? encodeURIComponent(igUserId) : "me";
+    const r = await pedir("GET", `${enderecos(token).api}/${alvo}`, token, { fields: "followers_count,media_count" });
     return { seguidores: Number(r.followers_count ?? 0), publicacoes: Number(r.media_count ?? 0) };
 }
 
@@ -152,7 +161,7 @@ export const METRICAS_DO_POST = ["reach", "views", "likes", "comments", "saved",
 /** Números da conta em um dia (do início do dia em Brasília até o início do seguinte). Exige a permissão de insights. */
 export async function lerInsightsDoDia(igUserId: string, token: string, dia: string): Promise<Record<string, number>> {
     const desde = Math.floor(Date.parse(`${dia}T03:00:00Z`) / 1000);
-    const r = await pedir("GET", `${enderecos().api}/${encodeURIComponent(igUserId)}/insights`, token, {
+    const r = await pedir("GET", `${enderecos(token).api}/${encodeURIComponent(igUserId)}/insights`, token, {
         metric: METRICAS_DA_CONTA.join(","),
         period: "day",
         metric_type: "total_value",
@@ -165,7 +174,7 @@ export async function lerInsightsDoDia(igUserId: string, token: string, dia: str
 
 /** Números de uma publicação. A Meta atrasa esses dados em até 48 horas. */
 export async function lerInsightsDaMidia(mediaId: string, token: string): Promise<Record<string, number>> {
-    const r = await pedir("GET", `${enderecos().api}/${encodeURIComponent(mediaId)}/insights`, token, { metric: METRICAS_DO_POST.join(",") });
+    const r = await pedir("GET", `${enderecos(token).api}/${encodeURIComponent(mediaId)}/insights`, token, { metric: METRICAS_DO_POST.join(",") });
     const itens = (r.data as { name: string; total_value?: { value?: number }; values?: { value?: number }[] }[] | undefined) ?? [];
     return Object.fromEntries(itens.map((i) => [i.name, valorDoInsight(i)]));
 }

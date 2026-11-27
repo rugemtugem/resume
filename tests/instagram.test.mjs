@@ -1,7 +1,7 @@
 // Regras do Instagram: legenda, quantidade de imagens, nome de mídia, token fora dos textos e a trava da API.
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { NOME_DE_MIDIA, baseDaGraph, problemasDaLegenda, problemasDasMidias, semToken } from "../lib/instagram/regras.ts";
+import { NOME_DE_MIDIA, baseDaGraph, problemasDaLegenda, problemasDasMidias, semToken, tipoDoToken } from "../lib/instagram/regras.ts";
 
 test("legenda: aceita a boa e aponta cada problema", () => {
   assert.deepEqual(problemasDaLegenda("O pedido entra sozinho no Bling. #integracao #pme"), []);
@@ -43,4 +43,14 @@ test("trava: fora de produção a API só pode ser a falsa, em localhost", () =>
   assert.throws(() => baseDaGraph({ NODE_ENV: "development", IG_GRAPH_BASE: "https://graph.instagram.com" }), /API falsa/);
   assert.throws(() => baseDaGraph({ NODE_ENV: "test", IG_GRAPH_BASE: "http://exemplo.com" }), /API falsa/);
   assert.deepEqual(baseDaGraph({ NODE_ENV: "production" }), { base: "https://graph.instagram.com", falsa: false });
+});
+
+test("tipo de token: IGAA fala com o Instagram, EAA (login unificado) fala com o Facebook", () => {
+  assert.equal(tipoDoToken("IGAAabc123"), "instagram");
+  assert.equal(tipoDoToken("  EAAOabc123 "), "facebook");
+  assert.deepEqual(baseDaGraph({ NODE_ENV: "production" }, "facebook"), { base: "https://graph.facebook.com", falsa: false });
+  assert.deepEqual(baseDaGraph({ NODE_ENV: "production" }, "instagram"), { base: "https://graph.instagram.com", falsa: false });
+  assert.deepEqual(baseDaGraph({ NODE_ENV: "development", IG_GRAPH_BASE: "http://localhost:4010" }, "facebook"), { base: "http://localhost:4010", falsa: true });
+  assert.throws(() => baseDaGraph({ NODE_ENV: "development" }, "facebook"), /API falsa/, "fora de produção o tipo novo também só fala com a API falsa");
+  assert.equal(semToken("erro com EAAOzzzzzzzzzzzzzzzzzzzzzz no meio").includes("EAAOzzz"), false);
 });

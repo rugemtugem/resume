@@ -1,7 +1,7 @@
 import { banco } from "@/lib/db";
 import { ErroDoInstagram, lerConta, lerCota, publicarCarrossel, publicarImagem, renovarToken } from "@/lib/instagram/graph";
 import { enderecoDaMidia, limparOrfas } from "@/lib/instagram/midia";
-import { semToken } from "@/lib/instagram/regras";
+import { VALIDADE_DESCONHECIDA, semToken, tipoDoToken } from "@/lib/instagram/regras";
 import { midiasEmUsoNoLinkedin } from "@/lib/linkedin/fila";
 import type { TipoDePost } from "@/lib/instagram/regras";
 
@@ -55,7 +55,7 @@ export async function conectarConta(token: string): Promise<ContaGuardada> {
         `INSERT INTO ig_conta (apelido, ig_user_id, username, account_type, token, expira_em, atualizado_em) VALUES (?, ?, ?, ?, ?, ?, ?)
          ON CONFLICT(apelido) DO UPDATE SET ig_user_id = excluded.ig_user_id, username = excluded.username, account_type = excluded.account_type,
            token = excluded.token, expira_em = excluded.expira_em, atualizado_em = excluded.atualizado_em`,
-    ).run(APELIDO, conta.ig_user_id, conta.username, conta.account_type, limpo, new Date(agora.getTime() + 60 * 86400e3).toISOString(), agora.toISOString());
+    ).run(APELIDO, conta.ig_user_id, conta.username, conta.account_type, limpo, tipoDoToken(limpo) === "instagram" ? new Date(agora.getTime() + 60 * 86400e3).toISOString() : VALIDADE_DESCONHECIDA, agora.toISOString());
     return contaConectada() as ContaGuardada;
 }
 
@@ -155,7 +155,8 @@ export async function manutencaoDiaria(agora = new Date()): Promise<string> {
     if (!db) return "";
     const partes: string[] = [];
     const conta = tokenDaConta();
-    if (conta && Date.parse(conta.expira_em) - agora.getTime() < 15 * 86400e3) {
+    // Só o token do login do Instagram tem renovação. O do login unificado vale o que a configuração do app definir.
+    if (conta && tipoDoToken(conta.token) === "instagram" && Date.parse(conta.expira_em) - agora.getTime() < 15 * 86400e3) {
         try {
             const novo = await renovarToken(conta.token);
             db.prepare("UPDATE ig_conta SET token = ?, expira_em = ?, atualizado_em = ? WHERE apelido = ?").run(novo.token, new Date(agora.getTime() + novo.segundos * 1000).toISOString(), agora.toISOString(), APELIDO);

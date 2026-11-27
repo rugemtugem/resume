@@ -187,6 +187,11 @@ createServer(async (req, res) => {
   if (token.includes("recusar")) return responder(res, 400, { error: { message: "Invalid OAuth access token - Cannot parse access token" } });
 
   if (partes[0] === "refresh_access_token") return responder(res, 200, { access_token: token, expires_in: 5184000 });
+  // Login unificado (token EAA): a conta vem da lista de contas atribuídas, e o perfil é lido pelo id.
+  if (partes[0] === "me" && partes[1] === "assigned_instagram_accounts") return responder(res, 200, { data: token.startsWith("IGAA") ? [] : [{ id: "17841400000000001", username: "rugemtugem" }] });
+  if (partes[0] === "me" && !token.startsWith("IGAA")) return responder(res, 200, { client_business_id: "430000000000000" });
+  if (partes[0] === "17841400000000001" && !partes[1]) return responder(res, 200, { id: partes[0], username: "rugemtugem", followers_count: 480 + Math.floor(Date.now() / DIA) % 400, media_count: 64 });
+  if (partes[0] === "refresh_access_token" && !token.startsWith("IGAA")) return responder(res, 400, { error: { message: "Unsupported request - method type: get" } });
   if (partes[0] === "me") return responder(res, 200, { user_id: "17841400000000001", username: "rugemtugem", account_type: "BUSINESS", followers_count: 480 + Math.floor(Date.now() / DIA) % 400, media_count: 64 });
   // Métricas: token com "seminsights" imita o token gerado sem a permissão de insights.
   if (partes[1] === "insights") {

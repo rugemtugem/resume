@@ -52,7 +52,8 @@ export default async function InstagramPage() {
                         <div>
                             <p className="text-lg font-semibold">@{conta.username}</p>
                             <p className="text-sm text-[var(--text-secondary)]">
-                                Tipo: {conta.account_type || "não informado"}. Token válido por mais {diasDoToken} dias.
+                                Tipo: {conta.account_type || "não informado"}.{" "}
+                                {diasDoToken > 3650 ? "A validade deste token é a definida na configuração do app na Meta. Se ele vencer, a fila mostra o erro e basta gerar outro." : `Token válido por mais ${diasDoToken} dias.`}
                                 {cota ? ` Publicações nas últimas 24 horas: ${cota.usados} de ${cota.total}.` : ""}
                             </p>
                         </div>

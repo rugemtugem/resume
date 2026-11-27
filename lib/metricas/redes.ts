@@ -56,7 +56,7 @@ export async function capturarRedes(agora = new Date()): Promise<string> {
     const ig = tokenDaConta();
     if (ig) {
         try {
-            const perfil = await lerNumerosDoPerfil(ig.token);
+            const perfil = await lerNumerosDoPerfil(ig.ig_user_id, ig.token);
             gravar(hoje, "ig", "seguidores", perfil.seguidores);
             gravar(hoje, "ig", "publicacoes", perfil.publicacoes);
             const p = periodoDe(30, agora);
