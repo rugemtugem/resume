@@ -42,6 +42,7 @@ CREATE TABLE IF NOT EXISTS admin_meta (chave TEXT PRIMARY KEY, valor INTEGER NOT
 CREATE TABLE IF NOT EXISTS rede_dia (dia TEXT NOT NULL, rede TEXT NOT NULL, metrica TEXT NOT NULL, valor INTEGER NOT NULL, PRIMARY KEY (dia, rede, metrica));
 CREATE TABLE IF NOT EXISTS contato_tentativa (ip TEXT NOT NULL, em TEXT NOT NULL);
 CREATE INDEX IF NOT EXISTS ix_contato_tentativa ON contato_tentativa(ip, em);
+CREATE TABLE IF NOT EXISTS config (chave TEXT PRIMARY KEY, valor TEXT NOT NULL);
 CREATE TABLE IF NOT EXISTS story_clique (dia TEXT NOT NULL, slug TEXT NOT NULL, cliques INTEGER NOT NULL DEFAULT 0, PRIMARY KEY (dia, slug));
 `;
 

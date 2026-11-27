@@ -26,14 +26,18 @@ export function conferirSenha(senha: string, guardado: string): boolean {
 
 export const DURACAO_DA_SESSAO_MS = 8 * 3600e3;
 
-/** Cria o valor do cookie: validade + assinatura. */
-export function assinarSessao(segredo: string, agora = Date.now()): string {
-    const corpo = b64(Buffer.from(JSON.stringify({ exp: agora + DURACAO_DA_SESSAO_MS })));
+/**
+ * Cria o valor do cookie: validade + número da "época" + assinatura.
+ * A época é um contador guardado no servidor. Sair do painel soma um, e todo cookie emitido antes deixa de valer,
+ * mesmo que alguém tenha copiado o valor.
+ */
+export function assinarSessao(segredo: string, agora = Date.now(), epoca = 0): string {
+    const corpo = b64(Buffer.from(JSON.stringify({ exp: agora + DURACAO_DA_SESSAO_MS, v: epoca })));
     return `${corpo}.${b64(createHmac("sha256", segredo).update(corpo).digest())}`;
 }
 
-/** Diz se o cookie é válido e ainda não venceu. */
-export function sessaoValida(cookie: string | undefined, segredo: string, agora = Date.now()): boolean {
+/** Diz se o cookie é válido, ainda não venceu e é da época atual. */
+export function sessaoValida(cookie: string | undefined, segredo: string, agora = Date.now(), epoca = 0): boolean {
     if (!cookie || !segredo) return false;
     const [corpo, assinatura] = cookie.split(".");
     if (!corpo || !assinatura) return false;
@@ -41,8 +45,8 @@ export function sessaoValida(cookie: string | undefined, segredo: string, agora 
     const recebida = Buffer.from(assinatura, "base64url");
     if (recebida.length !== esperada.length || !timingSafeEqual(recebida, esperada)) return false;
     try {
-        const { exp } = JSON.parse(Buffer.from(corpo, "base64url").toString("utf8")) as { exp: number };
-        return typeof exp === "number" && exp > agora;
+        const { exp, v } = JSON.parse(Buffer.from(corpo, "base64url").toString("utf8")) as { exp: number; v?: number };
+        return typeof exp === "number" && exp > agora && (v ?? 0) === epoca;
     } catch {
         return false;
     }

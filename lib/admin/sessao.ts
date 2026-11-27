@@ -15,10 +15,26 @@ export function adminConfigurado(): boolean {
     return /^scrypt:[A-Za-z0-9_-]{22}:[A-Za-z0-9_-]{86}$/.test(hash) && Boolean(process.env.ADMIN_SESSAO_SEGREDO && process.env.ADMIN_SESSAO_SEGREDO.length >= 32);
 }
 
+/** Época atual das sessões. Sem banco vale zero, e o painel continua funcionando. */
+function epocaDaSessao(): number {
+    try {
+        const linha = banco()?.prepare("SELECT valor FROM config WHERE chave = 'sessao_epoca'").get() as { valor: string } | undefined;
+        return Number(linha?.valor ?? 0) || 0;
+    } catch {
+        return 0;
+    }
+}
+
+/**
+ * Opções do cookie: não é lido por script da página, só viaja em pedidos do próprio site,
+ * só por HTTPS em produção e só para os endereços do painel (o site público nunca o recebe).
+ */
+const OPCOES_DO_COOKIE = { httpOnly: true, sameSite: "strict" as const, secure: process.env.NODE_ENV === "production", path: "/admin" };
+
 export async function adminLogado(): Promise<boolean> {
     if (!adminConfigurado()) return false;
     const jar = await cookies();
-    return sessaoValida(jar.get(COOKIE)?.value, process.env.ADMIN_SESSAO_SEGREDO as string);
+    return sessaoValida(jar.get(COOKIE)?.value, process.env.ADMIN_SESSAO_SEGREDO as string, Date.now(), epocaDaSessao());
 }
 
 /** Usado em toda página e ação do painel: sem sessão válida, vai para o login. */
@@ -53,16 +69,19 @@ export async function entrar(senha: string): Promise<string | null> {
     }
 
     const jar = await cookies();
-    jar.set(COOKIE, assinarSessao(process.env.ADMIN_SESSAO_SEGREDO as string), {
-        httpOnly: true,
-        sameSite: "lax",
-        secure: process.env.NODE_ENV === "production",
-        path: "/",
-        maxAge: DURACAO_DA_SESSAO_MS / 1000,
-    });
+    jar.set(COOKIE, assinarSessao(process.env.ADMIN_SESSAO_SEGREDO as string, Date.now(), epocaDaSessao()), { ...OPCOES_DO_COOKIE, maxAge: DURACAO_DA_SESSAO_MS / 1000 });
     return null;
 }
 
+/** Sai do painel: apaga o cookie deste navegador e invalida qualquer cópia dele, em qualquer lugar. */
 export async function sair(): Promise<void> {
-    (await cookies()).delete(COOKIE);
+    try {
+        banco()
+            ?.prepare("INSERT INTO config (chave, valor) VALUES ('sessao_epoca', '1') ON CONFLICT(chave) DO UPDATE SET valor = CAST(CAST(valor AS INTEGER) + 1 AS TEXT)")
+            .run();
+    } catch {
+        // Sem banco não dá para invalidar as cópias; o cookie deste navegador é apagado do mesmo jeito.
+    }
+    const jar = await cookies();
+    jar.set(COOKIE, "", { ...OPCOES_DO_COOKIE, maxAge: 0 });
 }

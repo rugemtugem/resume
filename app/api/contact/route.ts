@@ -21,7 +21,24 @@ function escapar(valor: unknown): string {
         .replace(/"/g, '&quot;');
 }
 
-/** No máximo 5 mensagens por hora vindas do mesmo endereço. Sem banco, o formulário segue funcionando. */
+/** Tira quebras de linha e caracteres de controle. É o que impede alguém de "injetar" cabeçalhos ou comandos no e-mail. */
+const semControle = (texto: string) => texto.replace(/[\u0000-\u001f\u007f]+/g, ' ').trim();
+
+/** O pedido precisa vir do próprio site. Outro site não consegue usar o formulário pelo navegador de um visitante. */
+function vemDoProprioSite(request: Request): boolean {
+    const origem = request.headers.get('origin');
+    if (!origem) return true; // navegadores sempre mandam em POST; ferramentas de linha de comando não, e para elas valem os limites
+    try {
+        const pedido = new URL(origem).host;
+        const site = request.headers.get('x-forwarded-host') || request.headers.get('host') || '';
+        const oficial = new URL(process.env.SITE_URL || 'https://rugemtugem.dev').host;
+        return pedido === site || pedido === oficial || pedido === `www.${oficial}`;
+    } catch {
+        return false;
+    }
+}
+
+/** No máximo 5 mensagens por hora vindas do mesmo endereço e 40 por hora no total. Sem banco, o formulário segue funcionando. */
 function passouDoLimite(request: Request): boolean {
     try {
         const db = banco();
@@ -30,7 +47,8 @@ function passouDoLimite(request: Request): boolean {
         const desde = new Date(Date.now() - 3600e3).toISOString();
         db.prepare('DELETE FROM contato_tentativa WHERE em < ?').run(desde);
         const { n } = db.prepare('SELECT COUNT(*) AS n FROM contato_tentativa WHERE ip = ?').get(ip) as { n: number };
-        if (n >= 5) return true;
+        const { total } = db.prepare('SELECT COUNT(*) AS total FROM contato_tentativa').get() as { total: number };
+        if (n >= 5 || total >= 40) return true;
         db.prepare('INSERT INTO contato_tentativa (ip, em) VALUES (?, ?)').run(ip, new Date().toISOString());
         return false;
     } catch {
@@ -44,18 +62,32 @@ export async function POST(request: Request) {
         if (Number(request.headers.get('content-length') || 0) > 20_000) {
             return NextResponse.json({ success: false, message: 'Message too large' }, { status: 413 });
         }
+        if (!vemDoProprioSite(request)) {
+            return NextResponse.json({ success: false, message: 'Forbidden' }, { status: 403 });
+        }
         const body = await request.json();
-        const whatsapp = String(body.whatsapp ?? '').slice(0, 30);
-        const name = escapar(String(body.name ?? '').slice(0, 120));
+        if (typeof body !== 'object' || body === null) {
+            return NextResponse.json({ success: false, message: 'Missing required fields' }, { status: 400 });
+        }
+        // Campo-armadilha: fica escondido no formulário, então só robô preenche. A resposta é a de sucesso, para o robô não insistir.
+        if (String(body.site ?? '') !== '') {
+            return NextResponse.json({ success: true, message: 'Message sent successfully' });
+        }
+        const whatsapp = semControle(String(body.whatsapp ?? '')).slice(0, 30);
+        const nomeCru = semControle(String(body.name ?? '')).slice(0, 100);
+        const name = escapar(nomeCru);
         const emailCru = String(body.email ?? '').trim().slice(0, 254);
         const email = escapar(emailCru);
-        const message = escapar(String(body.message ?? '').slice(0, 5000));
+        const mensagemCrua = String(body.message ?? '').replace(/[\u0000-\u0008\u000b\u000c\u000e-\u001f\u007f]+/g, ' ').trim().slice(0, 2000);
+        const message = escapar(mensagemCrua);
         // Só as origens da lista entram: "constructor" e afins não são chaves dela.
         const chaveDaOrigem = String(body.origem);
         const origem = Object.hasOwn(ORIGENS, chaveDaOrigem) ? ORIGENS[chaveDaOrigem] : '';
 
         // Validate fields
-        if (!name || !message || !origem || !/^[^\s@<>"]+@[^\s@<>"]+\.[^\s@<>"]+$/.test(emailCru)) {
+        const emailValido = /^[A-Za-z0-9._%+-]{1,64}@[A-Za-z0-9.-]{1,180}\.[A-Za-z]{2,24}$/.test(emailCru);
+        const whatsappValido = whatsapp === '' || (/^[0-9+() .-]+$/.test(whatsapp) && whatsapp.replace(/\D/g, '').length >= 10 && whatsapp.replace(/\D/g, '').length <= 15);
+        if (nomeCru.length < 2 || mensagemCrua.length < 10 || !origem || !emailValido || !whatsappValido) {
             return NextResponse.json(
                 { success: false, message: 'Missing required fields' },
                 { status: 400 }
@@ -66,16 +98,21 @@ export async function POST(request: Request) {
         }
 
         // Configure SMTP transporter
+        const porta = Number(process.env.SMTP_PORT) || 587;
         const transporter = nodemailer.createTransport({
             host: process.env.SMTP_HOST || 'mail.rugemtugem.dev',
-            port: Number(process.env.SMTP_PORT) || 587,
-            secure: false,
+            port: porta,
+            // Porta 465 já começa cifrada. Nas outras, a conexão só segue se o servidor aceitar cifrar (sem isso alguém no caminho poderia tirar a cifra).
+            secure: porta === 465,
+            requireTLS: porta !== 465,
             auth: {
                 user: process.env.SMTP_USER || 'contato@rugemtugem.dev',
                 pass: process.env.SMTP_PASS || '',
             },
             tls: {
-                rejectUnauthorized: false,
+                // O servidor de e-mail usa hoje um certificado assinado por ele mesmo. Quando tiver um certificado de verdade,
+                // ligue a conferência com SMTP_VALIDAR_CERTIFICADO=sim.
+                rejectUnauthorized: process.env.SMTP_VALIDAR_CERTIFICADO === 'sim',
             },
         });
 
@@ -84,7 +121,7 @@ export async function POST(request: Request) {
             from: `"Site Rugemtugem" <${process.env.SMTP_USER || 'contato@rugemtugem.dev'}>`,
             to: 'contato@rugemtugem.dev',
             replyTo: emailCru,
-            subject: `Nova mensagem do site - ${String(body.name ?? '').replace(/[\r\n]+/g, ' ').slice(0, 80)}`,
+            subject: `Nova mensagem do site - ${nomeCru.slice(0, 80)}`,
             html: `
                 <div style="font-family: 'Segoe UI', Tahoma, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
                     <div style="background: linear-gradient(135deg, #992A2B, #ff6b6b); padding: 20px; border-radius: 12px 12px 0 0;">

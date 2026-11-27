@@ -44,6 +44,16 @@ test("Agenda: só aparece o que foi aprovado e já venceu", () => {
   assert.equal(visivelNaAgenda(undefined, agora), false, "sem linha na Agenda");
 });
 
+test("sessão: sair muda a época e todo cookie anterior deixa de valer", () => {
+  const segredo = "s".repeat(40);
+  const agora = Date.now();
+  const cookie = assinarSessao(segredo, agora, 3);
+  assert.equal(sessaoValida(cookie, segredo, agora, 3), true);
+  assert.equal(sessaoValida(cookie, segredo, agora, 4), false, "depois de sair");
+  assert.equal(sessaoValida(assinarSessao(segredo, agora), segredo, agora, 0), true, "sem banco a época é zero");
+  assert.equal(sessaoValida(assinarSessao(segredo, agora), segredo, agora, 1), false);
+});
+
 test("senha: hash cortado ou malformado nunca confere, nem com senha vazia", () => {
   const bom = hashSenha("uma-senha-bem-longa");
   const [tipo, sal] = bom.split(":");

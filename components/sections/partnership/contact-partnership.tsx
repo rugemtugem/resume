@@ -51,6 +51,8 @@ const formSchema = z.object({
     whatsapp: z.string().min(10, 'WhatsApp inválido').optional().or(z.literal('')),
     message: z.string().min(10, 'Mensagem muito curta').max(1000, 'Mensagem muito longa'),
     origem: z.enum(ORIGENS, { message: 'Escolha uma opção' }),
+    // Campo-armadilha contra robôs: fica escondido e tem de chegar vazio.
+    site: z.string().optional(),
 });
 
 type ContactFormData = z.infer<typeof formSchema>;
@@ -82,7 +84,7 @@ export function ContactPartnership() {
             const response = await fetch('/api/contact', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ ...data, to: personalInfo.email }),
+                body: JSON.stringify(data),
             });
 
             if (!response.ok) throw new Error('http');
@@ -257,6 +259,13 @@ export function ContactPartnership() {
                         <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-[var(--primary-color)]/5 to-transparent rounded-tr-3xl" />
                         
                         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 relative z-10">
+                            {/* Campo-armadilha: invisível para pessoas e para leitores de tela. Robô preenche, e o servidor descarta a mensagem. */}
+                            <div aria-hidden="true" style={{ position: 'absolute', left: '-10000px', width: 1, height: 1, overflow: 'hidden' }}>
+                                <label>
+                                    Site
+                                    <input type="text" tabIndex={-1} autoComplete="off" {...register('site')} />
+                                </label>
+                            </div>
                             <div className="grid sm:grid-cols-2 gap-6">
                                 <div>
                                     <label className="text-sm font-medium text-[var(--text-primary)] mb-2 flex items-center gap-2">
