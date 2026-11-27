@@ -3,10 +3,9 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   output: 'standalone',
   devIndicators: false,
+  poweredByHeader: false,
   // O SQLite tem um binário nativo: fica fora do empacotamento e vai junto no build standalone.
   serverExternalPackages: ["better-sqlite3", "sharp"],
-  // O painel envia as imagens do Instagram por formulário: até 10 imagens de 8 MB.
-  experimental: { serverActions: { bodySizeLimit: "90mb" } },
   // Os posts são lidos do disco em tempo de execução: a pasta precisa ir junto no build standalone.
   outputFileTracingIncludes: { "/blog": ["./content/blog/**/*"], "/blog/[slug]": ["./content/blog/**/*"], "/blog/rss.xml": ["./content/blog/**/*"], "/sitemap.xml": ["./content/blog/**/*"], "/blog/capa/[slug]": ["./content/blog/**/*", "./lib/social/fontes/*"], "/api/blog/view": ["./content/blog/**/*"], "/admin": ["./content/**/*"], "/": ["./content/blog/**/*"], "/api/cron/tique": ["./content/blog/**/*"], "/admin/instagram": ["./content/social/**/*"], "/admin/social/[slug]": ["./content/**/*", "./lib/social/fontes/*"], "/admin/social/[slug]/story": ["./content/social/**/*", "./lib/social/fontes/*"], "/s/[slug]": ["./content/**/*"], "/admin/social/[slug]/[n]": ["./content/social/**/*", "./lib/social/fontes/*"] },
   async headers() {
@@ -16,7 +15,15 @@ const nextConfig: NextConfig = {
       { key: "X-Frame-Options", value: "DENY" },
       { key: "Referrer-Policy", value: "same-origin" },
     ];
+    const site = [
+      { key: "X-Content-Type-Options", value: "nosniff" },
+      { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
+      { key: "X-Frame-Options", value: "SAMEORIGIN" },
+      { key: "Strict-Transport-Security", value: "max-age=31536000" },
+      { key: "Permissions-Policy", value: "camera=(), microphone=(), geolocation=()" },
+    ];
     return [
+      { source: "/:caminho*", headers: site },
       { source: "/admin", headers: painel },
       { source: "/admin/:caminho*", headers: painel },
     ];

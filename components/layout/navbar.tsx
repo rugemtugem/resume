@@ -98,10 +98,13 @@ export function Navbar() {
   const irPara = useCallback((href: string) => {
     const id = href.split("#")[1];
     const element = id ? document.getElementById(id) : null;
-    if (element) element.scrollIntoView({ behavior: 'smooth' });
-    else router.push(href);
+    // No celular o menu fecha com animação, e a mudança de altura cancelava a rolagem suave.
+    // Por isso o menu fecha primeiro e a rolagem começa depois que ele sumiu.
+    const menuAberto = isOpen;
     setIsOpen(false);
-  }, [router]);
+    if (element) window.setTimeout(() => element.scrollIntoView({ behavior: 'smooth' }), menuAberto ? 350 : 0);
+    else router.push(href);
+  }, [router, isOpen]);
 
   return (
     <motion.nav

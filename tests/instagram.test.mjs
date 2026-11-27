@@ -54,3 +54,8 @@ test("tipo de token: IGAA fala com o Instagram, EAA (login unificado) fala com o
   assert.throws(() => baseDaGraph({ NODE_ENV: "development" }, "facebook"), /API falsa/, "fora de produção o tipo novo também só fala com a API falsa");
   assert.equal(semToken("erro com EAAOzzzzzzzzzzzzzzzzzzzzzz no meio").includes("EAAOzzz"), false);
 });
+
+test("produção: variável apontando para outro servidor é ignorada, o token só vai para a Meta", () => {
+  assert.deepEqual(baseDaGraph({ NODE_ENV: "production", IG_GRAPH_BASE: "https://servidor-de-outra-pessoa.com" }, "facebook"), { base: "https://graph.facebook.com", falsa: false });
+  assert.deepEqual(baseDaGraph({ NODE_ENV: "production", IG_GRAPH_BASE: "http://host.docker.internal:4010" }, "instagram"), { base: "https://graph.instagram.com", falsa: false });
+});

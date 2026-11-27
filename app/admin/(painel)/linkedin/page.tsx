@@ -1,4 +1,5 @@
 import { horaAtual } from "@/lib/agenda";
+import { exigirAdmin } from "@/lib/admin/sessao";
 import { utcParaBrasilia } from "@/lib/admin/seguranca";
 import { dataPorExtenso } from "@/lib/blog";
 import { usandoLinkedinFalso } from "@/lib/linkedin/api";
@@ -22,7 +23,8 @@ const ROTULO: Record<string, { texto: string; cor: string }> = {
 const cartao = "rounded-2xl border border-[var(--border-color)] bg-[var(--bg-secondary)] p-5 md:p-6";
 const botaoSimples = "px-5 py-2.5 rounded-lg font-semibold border-2 border-[var(--border-color)] hover:border-[var(--primary-color)]";
 
-export default function LinkedinPage() {
+export default async function LinkedinPage() {
+    await exigirAdmin();
     const conta = contaDoLinkedin();
     const fila = filaDoLinkedin();
     const falsa = usandoLinkedinFalso();

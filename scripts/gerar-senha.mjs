@@ -17,7 +17,7 @@ const hash = ["scrypt", sal.toString("base64url"), scryptSync(senha, sal, 64).to
 const linhas = [
   "ADMIN_SENHA_HASH=" + hash,
   "ADMIN_SESSAO_SEGREDO=" + randomBytes(48).toString("base64url"),
-  "CRON_SECRET=" + (local ? "dev-local" : randomBytes(32).toString("base64url")),
+  "CRON_SECRET=" + (local ? "dev-local-segredo-do-agendador" : randomBytes(32).toString("base64url")),
 ];
 
 if (local) {

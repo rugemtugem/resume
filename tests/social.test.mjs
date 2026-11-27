@@ -118,3 +118,8 @@ test("o roteiro de exemplo e os roteiros de content/social estão prontos para a
     assert.deepEqual([...problemasDoRoteiro(r), ...problemasDaLegenda(r.legenda)], [], nome);
   }
 });
+
+test("link do story: duas barras no começo não viram endereço de outro site", () => {
+  assert.equal(destinoDoStory({ slug: "meu-post", link: "//exemplo", postNoAr: false }).startsWith("/?"), true);
+  assert.match(problemasDoRoteiro(lerRoteiro("tema: x\nlink: //exemplo\n## capa\ntitulo: A\n## cta\ntitulo: B\n## legenda\noi")).join(" "), /caminho do próprio site/);
+});

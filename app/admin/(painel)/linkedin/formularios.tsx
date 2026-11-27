@@ -51,7 +51,7 @@ export function FormularioDeTokenDoLinkedin() {
 export function FormularioDoLinkedin({ dataPadrao }: { dataPadrao: string }) {
     const { estado, enviando, formulario, aoEnviar } = useEnvio(acaoAgendarNoLinkedin, true);
     return (
-        <form ref={formulario} onSubmit={aoEnviar} className="space-y-5">
+        <form ref={formulario} onSubmit={aoEnviar} data-proporcao="livre" className="space-y-5">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                 <div>
                     <label htmlFor="li-titulo" className="block text-sm font-semibold mb-2">

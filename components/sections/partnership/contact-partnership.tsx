@@ -197,7 +197,7 @@ export function ContactPartnership() {
                         <p className="text-[var(--text-secondary)] mb-4">
                             {'Análise gratuita do seu desafio e roadmap de soluções.'}
                         </p>
-                        <a href={`https://wa.me/${personalInfo.phone.replace(/\D/g, '')}`} target="_blank" className="text-[var(--primary-color)] font-semibold hover:underline flex items-center gap-2">
+                        <a href={`https://wa.me/${personalInfo.phone.replace(/\D/g, '')}`} target="_blank" rel="noopener noreferrer" className="text-[var(--primary-color)] font-semibold hover:underline flex items-center gap-2">
                             {'Agendar agora'} <ArrowRight className="w-4 h-4" />
                         </a>
                     </motion.div>
@@ -239,7 +239,7 @@ export function ContactPartnership() {
                         <p className="text-[var(--text-secondary)] mb-4">
                             {'WhatsApp direto para tirar dúvidas ou explorar ideias.'}
                         </p>
-                        <a href={`https://wa.me/${personalInfo.phone.replace(/\D/g, '')}`} target="_blank" className="text-[var(--primary-color)] font-semibold hover:underline flex items-center gap-2">
+                        <a href={`https://wa.me/${personalInfo.phone.replace(/\D/g, '')}`} target="_blank" rel="noopener noreferrer" className="text-[var(--primary-color)] font-semibold hover:underline flex items-center gap-2">
                             {'Iniciar conversa'} <ArrowRight className="w-4 h-4" />
                         </a>
                     </motion.div>
@@ -360,7 +360,8 @@ export function ContactPartnership() {
                                 <a
                                     key={idx}
                                     href={info.href}
-                                    target="_blank"
+                                    target={info.href.startsWith("http") ? "_blank" : undefined}
+                                    rel="noopener noreferrer"
                                     className="flex items-center gap-4 p-4 rounded-2xl bg-[var(--bg-secondary)] border border-[var(--border-color)] hover:border-[var(--primary-color)] transition-all group"
                                 >
                                     <div className={`p-3 rounded-xl bg-gradient-to-br ${info.color} text-white group-hover:scale-110 transition-transform`}>

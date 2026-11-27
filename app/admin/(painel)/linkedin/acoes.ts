@@ -3,7 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { exigirAdmin } from "@/lib/admin/sessao";
 import { brasiliaParaUtc } from "@/lib/admin/seguranca";
-import { salvarImagem } from "@/lib/instagram/midia";
+import { caminhoDaMidia } from "@/lib/instagram/midia";
 import { agendarNoLinkedin, cancelarNoLinkedin, conectarLinkedin, desconectarLinkedin, tentarDeNovoNoLinkedin } from "@/lib/linkedin/fila";
 import { problemasDoTexto, semTokenDoLinkedin } from "@/lib/linkedin/regras";
 
@@ -35,18 +35,17 @@ export async function acaoAgendarNoLinkedin(_anterior: Retorno, dados: FormData)
     const titulo = String(dados.get("titulo") || "").trim().slice(0, 120);
     const texto = String(dados.get("texto") || "");
     const quando = brasiliaParaUtc(String(dados.get("quando") || ""));
-    const arquivos = dados.getAll("imagens").filter((a): a is File => a instanceof File && a.size > 0);
+    // As imagens já foram enviadas para /admin/midia. Aqui chegam só os nomes, e cada um precisa existir na pasta.
+    const nomes = dados.getAll("midias").map(String);
 
     const problemas = problemasDoTexto(texto);
     if (!titulo) problemas.push("Dê um título para achar a publicação na fila.");
     if (!quando) problemas.push("Escolha a data e a hora.");
-    if (arquivos.length > 20) problemas.push("O LinkedIn aceita no máximo 20 imagens por post.");
-    if (arquivos.some((a) => a.size > 8 * 1024 * 1024)) problemas.push("Cada imagem pode ter no máximo 8 MB.");
+    if (nomes.length > 20) problemas.push("O LinkedIn aceita no máximo 20 imagens por post.");
+    if (nomes.some((nome) => !caminhoDaMidia(nome))) problemas.push("Uma das imagens não chegou ao servidor. Escolha as imagens de novo.");
     if (problemas.length > 0) return { erro: problemas.join(" "), ok: null };
 
     try {
-        const nomes: string[] = [];
-        for (const arquivo of arquivos) nomes.push(await salvarImagem(Buffer.from(await arquivo.arrayBuffer()), `li-${titulo}`, true));
         agendarNoLinkedin({ titulo, texto: texto.trim(), midias: nomes, quandoUtc: quando as string });
         revalidatePath("/admin/linkedin");
         return { erro: null, ok: nomes.length > 0 ? `Post com ${nomes.length} ${nomes.length === 1 ? "imagem" : "imagens"} agendado.` : "Post de texto agendado." };

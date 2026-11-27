@@ -7,7 +7,7 @@ import { CASOS, detalhesDoCaso } from "@/data/casos";
 export const metadata = {
   title: "Casos de integração e soluções em IA | Rugemtugem",
   description:
-    "Pedido do WhatsApp no sistema de gestão, site ligado ao CRM, inscrições e certificados automáticos e diagnóstico com IA. Veja o problema e o que foi construído em cada caso.",
+    "Pedido do WhatsApp no sistema de gestão, site ligado ao CRM, inscrições e certificados automáticos e diagnóstico com IA. O problema e a entrega de cada caso.",
   alternates: { canonical: "/casos" },
 };
 

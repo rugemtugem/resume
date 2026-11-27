@@ -6,10 +6,13 @@ import { assinarSessao, conferirSenha, DURACAO_DA_SESSAO_MS, sessaoValida } from
 const COOKIE = "rt_admin";
 const JANELA_MS = 15 * 60e3;
 const MAX_TENTATIVAS = 5;
+const MAX_TENTATIVAS_NO_TOTAL = 30;
 
 /** O admin só existe se a senha e o segredo da sessão estiverem configurados. */
 export function adminConfigurado(): boolean {
-    return Boolean(process.env.ADMIN_SENHA_HASH && process.env.ADMIN_SESSAO_SEGREDO && process.env.ADMIN_SESSAO_SEGREDO.length >= 32);
+    const hash = process.env.ADMIN_SENHA_HASH || "";
+    // Formato exato do que o scripts/gerar-senha.mjs produz: sal de 16 bytes e resumo de 64 bytes.
+    return /^scrypt:[A-Za-z0-9_-]{22}:[A-Za-z0-9_-]{86}$/.test(hash) && Boolean(process.env.ADMIN_SESSAO_SEGREDO && process.env.ADMIN_SESSAO_SEGREDO.length >= 32);
 }
 
 export async function adminLogado(): Promise<boolean> {
@@ -25,7 +28,9 @@ export async function exigirAdmin(): Promise<void> {
 
 async function ipDoPedido(): Promise<string> {
     const h = await headers();
-    return (h.get("x-forwarded-for") || "").split(",")[0].trim() || h.get("x-real-ip") || "local";
+    // O último valor é o que o proxy da frente (Traefik) acrescentou. Os anteriores podem ter sido inventados por quem pediu.
+    const encaminhado = (h.get("x-forwarded-for") || "").split(",").pop()?.trim();
+    return (encaminhado || h.get("x-real-ip") || "local").slice(0, 64);
 }
 
 /** Tenta entrar. Devolve a mensagem de erro, ou null se deu certo. */
@@ -38,7 +43,9 @@ export async function entrar(senha: string): Promise<string | null> {
     const desde = new Date(Date.now() - JANELA_MS).toISOString();
     db.prepare("DELETE FROM login_tentativa WHERE em < ?").run(desde);
     const { n } = db.prepare("SELECT COUNT(*) AS n FROM login_tentativa WHERE ip = ? AND em >= ?").get(ip, desde) as { n: number };
-    if (n >= MAX_TENTATIVAS) return "Muitas tentativas. Espere 15 minutos e tente de novo.";
+    // Teto geral, para quem troca de endereço a cada tentativa.
+    const { total } = db.prepare("SELECT COUNT(*) AS total FROM login_tentativa WHERE em >= ?").get(desde) as { total: number };
+    if (n >= MAX_TENTATIVAS || total >= MAX_TENTATIVAS_NO_TOTAL) return "Muitas tentativas. Espere 15 minutos e tente de novo.";
 
     if (!conferirSenha(senha, process.env.ADMIN_SENHA_HASH as string)) {
         db.prepare("INSERT INTO login_tentativa (ip, em) VALUES (?, ?)").run(ip, new Date().toISOString());

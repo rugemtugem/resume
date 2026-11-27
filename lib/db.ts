@@ -40,6 +40,8 @@ CREATE TABLE IF NOT EXISTS blog_leitura_dia (dia TEXT NOT NULL, slug TEXT NOT NU
 CREATE TABLE IF NOT EXISTS cache_metricas (chave TEXT PRIMARY KEY, ate TEXT NOT NULL, json TEXT NOT NULL);
 CREATE TABLE IF NOT EXISTS admin_meta (chave TEXT PRIMARY KEY, valor INTEGER NOT NULL);
 CREATE TABLE IF NOT EXISTS rede_dia (dia TEXT NOT NULL, rede TEXT NOT NULL, metrica TEXT NOT NULL, valor INTEGER NOT NULL, PRIMARY KEY (dia, rede, metrica));
+CREATE TABLE IF NOT EXISTS contato_tentativa (ip TEXT NOT NULL, em TEXT NOT NULL);
+CREATE INDEX IF NOT EXISTS ix_contato_tentativa ON contato_tentativa(ip, em);
 CREATE TABLE IF NOT EXISTS story_clique (dia TEXT NOT NULL, slug TEXT NOT NULL, cliques INTEGER NOT NULL DEFAULT 0, PRIMARY KEY (dia, slug));
 `;
 
@@ -49,8 +51,8 @@ let conexao: Database.Database | null | undefined;
 export function banco(): Database.Database | null {
     if (conexao !== undefined) return conexao;
     try {
-        if (!existsSync(PASTA_DE_DADOS)) mkdirSync(PASTA_DE_DADOS, { recursive: true });
-        const db = new Database(join(PASTA_DE_DADOS, "rugemtugem.db"));
+        if (!existsSync(/* turbopackIgnore: true */ PASTA_DE_DADOS)) mkdirSync(/* turbopackIgnore: true */ PASTA_DE_DADOS, { recursive: true });
+        const db = new Database(join(/* turbopackIgnore: true */ PASTA_DE_DADOS, "rugemtugem.db"));
         db.pragma("journal_mode = WAL");
         db.exec(TABELAS);
         conexao = db;

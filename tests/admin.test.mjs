@@ -43,3 +43,13 @@ test("Agenda: só aparece o que foi aprovado e já venceu", () => {
   assert.equal(visivelNaAgenda({ status: "pendente", quando_utc: antes }, agora), false, "não aprovado");
   assert.equal(visivelNaAgenda(undefined, agora), false, "sem linha na Agenda");
 });
+
+test("senha: hash cortado ou malformado nunca confere, nem com senha vazia", () => {
+  const bom = hashSenha("uma-senha-bem-longa");
+  const [tipo, sal] = bom.split(":");
+  for (const ruim of [`${tipo}:${sal}:A`, `${tipo}:${sal}:`, `${tipo}:${sal}:!!!`, `${tipo}:A:${bom.split(":")[2]}`, "scrypt::", ""]) {
+    assert.equal(conferirSenha("qualquer", ruim), false, ruim.slice(0, 20));
+    assert.equal(conferirSenha("", ruim), false, "senha vazia com " + ruim.slice(0, 20));
+  }
+  assert.equal(conferirSenha("uma-senha-bem-longa", bom), true);
+});

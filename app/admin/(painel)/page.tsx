@@ -1,4 +1,5 @@
 import { agendaDoBlog, horaAtual, ultimoBatimento } from "@/lib/agenda";
+import { exigirAdmin } from "@/lib/admin/sessao";
 import { utcParaBrasilia } from "@/lib/admin/seguranca";
 import Link from "next/link";
 import { CATEGORIAS, dataPorExtenso, todosOsPosts } from "@/lib/blog";
@@ -24,7 +25,8 @@ const ROTULO: Record<string, { texto: string; cor: string }> = {
     publicado: { texto: "Publicado", cor: "bg-emerald-500/15 text-emerald-500" },
 };
 
-export default function AgendaPage() {
+export default async function AgendaPage() {
+    await exigirAdmin();
     const agenda = agendaDoBlog();
     const agora = horaAtual();
     const posts = todosOsPosts().sort((a, b) => b.publicadoEm.localeCompare(a.publicadoEm));

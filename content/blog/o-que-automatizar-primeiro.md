@@ -6,7 +6,7 @@
 > CAPA: eyebrow=Para empresas | destaque=automatizar primeiro | nota=Um roteiro para escolher por onde começar
 > Agendar: 2026-11-26 10:00
 
-**Resumo:** Quase toda empresa tem dez coisas que gostaria de automatizar e orçamento para uma. Este post traz o roteiro que eu uso no diagnóstico para escolher a primeira, e os sinais de que uma tarefa ainda não está pronta para isso.
+**Resumo:** Quase toda empresa tem uma lista de coisas que gostaria de automatizar e orçamento para começar por uma. Este post traz o roteiro que eu uso no diagnóstico para escolher a primeira, e os sinais de que uma tarefa ainda não está pronta para isso.
 
 ## Comece pelo dado que é digitado duas vezes
 
@@ -22,7 +22,7 @@ Esse tipo de tarefa é o melhor ponto de partida por um motivo prático: a regra
 
 **O que acontece quando alguém erra?** Se o erro vira produto trocado, cobrança errada ou cliente sem resposta, a tarefa sobe na lista.
 
-**A tarefa depende de uma pessoa só?** Quando só uma pessoa sabe fazer, a empresa para quando ela falta. Esse é um risco que não aparece em nenhuma planilha.
+**A tarefa depende de uma pessoa só?** Quando só uma pessoa sabe fazer, a empresa para quando ela falta.
 
 A tarefa que pontua alto nas três é a primeira. Normalmente ela é menos glamourosa do que o projeto que o dono tinha em mente, e é a que mais muda a rotina.
 
@@ -34,13 +34,13 @@ Nem tudo deve ser automatizado agora. Eu costumo recomendar esperar quando:
 - **Cada caso é tratado de um jeito.** Se a equipe não consegue descrever a regra, um sistema também não vai conseguir segui-la.
 - **O volume é pequeno.** Uma tarefa de cinco minutos por semana raramente justifica um projeto.
 
-Nesses casos o melhor investimento é escrever o processo em uma página e segui-lo por um mês. Muitas vezes isso já resolve metade do problema.
+Nesses casos o melhor investimento é escrever o processo em uma página e segui-lo por um mês. Muitas vezes isso já resolve boa parte do problema.
 
 ## Comece pequeno e veja funcionando
 
-Um primeiro projeto bom tem começo e fim claros: um dado, duas ferramentas, um resultado que dá para conferir. Eu trabalho com entregas semanais e demonstração, então o que não está certo aparece na primeira semana, e não no fim.
+Um primeiro projeto bom tem começo e fim claros: um dado, duas ferramentas, um resultado que dá para conferir. Eu trabalho com entregas semanais e demonstração, então o que não está certo aparece já na primeira semana.
 
-Nos [casos de clientes](/casos) dá para ver o tamanho desses primeiros projetos: um pedido que passou a entrar sozinho, um site ligado ao CRM, um evento com inscrição e certificado automáticos.
+Nos [casos de clientes](/casos) dá para ver exemplos do que passa a acontecer sozinho: um pedido que entra direto no sistema, um site ligado ao CRM, um evento com inscrição e certificado automáticos.
 
 ## O que levar para a conversa
 
@@ -60,8 +60,8 @@ Não. Você valida a entrega da semana e me diz se ela resolve o problema do neg
 
 ### Ferramenta pronta de automação não resolve?
 
-Resolve o caso simples, e vale tentar quando o processo é padrão. Ela costuma travar no primeiro detalhe que foge do comum e quebra quando uma das pontas muda sem avisar. Nessa hora entra o código sob medida.
+Resolve o caso simples, e vale tentar quando o processo é padrão. Ela costuma travar no primeiro detalhe que foge do comum e, quando falha, nem sempre alguém fica sabendo. Nessa hora entra o trabalho sob medida, com registro das falhas.
 
 ### E depois que o projeto termina?
 
-Há três caminhos: suporte quando precisar, uma mensalidade de evolução ou o treinamento do seu time para assumir. A escolha é sua e pode mudar com o tempo.
+Há três caminhos: suporte quando precisar, uma mensalidade de evolução ou o treinamento da sua equipe para assumir. A escolha é sua e pode mudar com o tempo.

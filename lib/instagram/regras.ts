@@ -69,5 +69,6 @@ export function baseDaGraph(env: { NODE_ENV?: string; IG_GRAPH_BASE?: string }, 
         if (!local) throw new Error("Fora de produção, IG_GRAPH_BASE precisa apontar para a API falsa em localhost.");
         return { base: configurada, falsa: true };
     }
-    return { base: configurada || (tipo === "facebook" ? "https://graph.facebook.com" : "https://graph.instagram.com"), falsa: local };
+    // Em produção, uma variável apontando para outro servidor é ignorada: o token nunca sai para um endereço que não seja o da Meta.
+    return { base: local ? configurada : tipo === "facebook" ? "https://graph.facebook.com" : "https://graph.instagram.com", falsa: local };
 }

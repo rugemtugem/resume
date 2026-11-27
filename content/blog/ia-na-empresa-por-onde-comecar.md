@@ -6,11 +6,11 @@
 > CAPA: eyebrow=Dicas de IA | destaque=por onde começar | nota=Uma tarefa, uma entrada, uma saída
 > Agendar: 2026-11-26 11:00
 
-**Resumo:** Assinar uma ferramenta de IA e liberar para a equipe raramente muda a rotina. O que muda é colocar a IA em um passo definido de um processo que já existe. Este post mostra como escolher esse passo e o que precisa estar em volta dele.
+**Resumo:** A IA muda a rotina quando ocupa um passo definido de um processo que já existe. Só assinar uma ferramenta e liberar para a equipe raramente tem esse efeito. Este post mostra como escolher esse passo e o que precisa estar em volta dele.
 
-## O chat aberto não entra no processo
+## A conversa solta não entra no processo
 
-Muita empresa começa assim: contrata uma ferramenta de conversa, avisa a equipe e espera o ganho aparecer. Algumas pessoas usam bastante, outras nunca abrem, e em três meses ninguém sabe dizer o que mudou.
+Muitas empresas começam assim: contratam uma ferramenta de conversa, avisam a equipe e esperam o ganho aparecer. Algumas pessoas usam bastante, outras nunca abrem, e depois de um tempo ninguém sabe dizer o que mudou.
 
 O motivo é que uma conversa solta fica fora do processo. Ninguém sabe o que a ferramenta recebeu, o que devolveu e o que foi feito com a resposta. Cada pessoa pergunta de um jeito e recebe um resultado diferente para o mesmo problema.
 
@@ -18,15 +18,15 @@ O motivo é que uma conversa solta fica fora do processo. Ninguém sabe o que a 
 
 A IA rende quando ocupa um passo bem delimitado. Uma boa tarefa candidata tem três características:
 
-- **Acontece muitas vezes.** Ler respostas de um formulário, resumir uma reunião, classificar pedidos de suporte.
+- **Acontece muitas vezes.** Ler respostas de um formulário ou classificar pedidos de suporte.
 - **Tem uma entrada que se repete.** Sempre o mesmo tipo de documento ou de conjunto de respostas.
-- **Tem uma saída com formato definido.** Um resumo em cinco tópicos, uma nota de prioridade, um plano com etapas.
+- **Tem uma saída com formato definido.** Um resumo em tópicos ou um plano com etapas.
 
 Se você consegue descrever a tarefa nessa forma, "entra isto, sai aquilo", ela é candidata. Se cada caso é diferente e a pessoa decide na hora, a tarefa ainda depende de julgamento humano, e a IA entra no máximo como apoio.
 
 ## O que precisa existir em volta
 
-A parte de IA costuma ser a menor do projeto. O que faz funcionar é o que fica em volta dela:
+A parte de IA costuma ser a menor do projeto. Em volta dela ficam quatro coisas que fazem o resto funcionar:
 
 **Um roteiro para a entrada.** A pessoa responde perguntas guiadas, e a IA recebe sempre as informações de que precisa. Isso evita a análise feita em cima de dados pela metade.
 
@@ -40,13 +40,13 @@ A parte de IA costuma ser a menor do projeto. O que faz funcionar é o que fica 
 
 Para o Prosperus Club eu construí um sistema de diagnóstico em quatro módulos, feito para mentores. A pessoa responde um roteiro guiado, a IA analisa as respostas e o sistema devolve um plano de ação. A equipe acompanha tudo por um painel administrativo.
 
-A IA faz um passo do caminho. O roteiro, o formato do plano e o painel são o que transforma esse passo em algo que a equipe usa todo dia. O caso está em [diagnóstico com IA para mentores](/casos/prosperus-club-diagnostico-mentoria).
+A IA faz um passo do caminho. O roteiro, o formato do plano e o painel são o que encaixa esse passo no trabalho da equipe. O caso está em [diagnóstico com IA para mentores](/casos/prosperus-club-diagnostico-mentoria).
 
 ## Como testar antes de investir
 
-Antes de qualquer sistema, faça o teste à mão por duas semanas. Pegue dez casos reais da tarefa escolhida, use uma ferramenta de IA comum com o mesmo pedido para todos e compare com o que a sua equipe faria.
+Antes de qualquer sistema, faça o teste à mão. Pegue dez casos reais da tarefa escolhida, use uma ferramenta de IA comum com o mesmo pedido para todos e compare com o que a sua equipe faria.
 
-Se o resultado for bom em oito de dez, vale construir. Se for bom em três, o problema está na tarefa ou nas informações que entram, e nenhum sistema vai consertar isso.
+A régua que eu uso: se o resultado for bom em oito dos dez casos, vale construir. Se for bom em três, o problema está na tarefa ou nas informações que entram, e nenhum sistema vai consertar isso.
 
 Quando o teste passa, o trabalho seguinte é o que eu descrevo em [soluções em IA para a operação](/servicos/ia-na-operacao).
 
@@ -58,7 +58,7 @@ Nos projetos que eu faço, ela tira da pessoa a parte repetitiva de uma tarefa. 
 
 ### Preciso treinar um modelo próprio?
 
-Quase nunca. Os modelos prontos resolvem a maior parte das tarefas de empresa. O trabalho está em dar a eles a informação certa e em encaixar o resultado no processo.
+Quase nunca. Os modelos prontos dão conta da maior parte das tarefas que aparecem nos projetos que eu faço. O trabalho está em dar a eles a informação certa e em encaixar o resultado no processo.
 
 ### É seguro colocar dados da empresa em uma ferramenta de IA?
 

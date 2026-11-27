@@ -205,7 +205,7 @@ export const translations = {
                     client: "Sales Prime",
                     industry: "EdTech",
                     challenge: "Publicar conteúdo e captar leads sem aumentar o custo da operação.",
-                    solution: "Arquitetura WordPress escalável com 5 sistemas integrados: Vagas, Blog, Hub de Integrações e LPs de alta conversão.",
+                    solution: "Arquitetura WordPress com 5 sistemas integrados: Vagas, Blog, Hub de Integrações e LPs de alta conversão.",
                     logo: "/images/projects/sales-prime-logo.png",
                     deliverables: [
                         { title: "Sistema de Vagas", desc: "Gestão e publicação automatizada", impact: "70% redução no tempo operacional" },
@@ -314,7 +314,8 @@ export const translations = {
                     rating: 5,
                     text: "Já sou cliente do Fábio há 12 anos, desde 2008 quando comecei na fotografia. Sempre solícito e fazendo mais do que é pedido. Ótimo profissional!",
                     reviewLink: "https://share.google/9qA08v8Yq",
-                    avatar: "/images/testimonials/henri.jpg"
+                    // Sem foto: o cartão mostra a inicial do nome.
+                    avatar: ""
                 },
                 {
                     author: "uelerson santos",
@@ -361,7 +362,7 @@ export const translations = {
                 },
                 {
                     iconName: "Code",
-                    title: "Stack Moderna e Escalável",
+                    title: "Stack Moderna",
                     description: "Next.js 16, React 19, TypeScript, IA aplicada - tecnologias de ponta"
                 }
             ]

@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { revalidatePath } from "next/cache";
-import { timingSafeEqual } from "node:crypto";
+import { createHash, timingSafeEqual } from "node:crypto";
 import { pegarTrava, publicarVencidos, registrarBatimento, soltarTrava } from "@/lib/agenda";
 import { banco } from "@/lib/db";
 import { manutencaoDiaria, publicarVencidosDoInstagram } from "@/lib/instagram/fila";
@@ -13,8 +13,9 @@ export const maxDuration = 300;
 function autorizado(request: Request): boolean {
     const segredo = process.env.CRON_SECRET || "";
     const recebido = (request.headers.get("authorization") || "").replace(/^Bearer\s+/i, "");
-    if (!segredo || recebido.length !== segredo.length) return false;
-    return timingSafeEqual(Buffer.from(recebido), Buffer.from(segredo));
+    if (segredo.length < 16 || !recebido) return false;
+    const resumo = (texto: string) => createHash("sha256").update(texto).digest();
+    return timingSafeEqual(resumo(recebido), resumo(segredo));
 }
 
 /** Diz se a rotina diária ainda não rodou hoje (dia de Brasília) e marca que rodou. */

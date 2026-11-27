@@ -19,7 +19,19 @@ export function baseDoLinkedin(env: { NODE_ENV?: string; LINKEDIN_API_BASE?: str
         if (!local) throw new Error("Fora de produção, LINKEDIN_API_BASE precisa apontar para a API falsa em localhost.");
         return { base: configurada, falsa: true };
     }
-    return { base: configurada || "https://api.linkedin.com", falsa: local };
+    // Em produção, uma variável apontando para outro servidor é ignorada: o token nunca sai para um endereço que não seja o do LinkedIn.
+    return { base: local ? configurada : "https://api.linkedin.com", falsa: local };
+}
+
+/** O endereço de envio de imagem vem na resposta da API. Só é aceito se for do próprio LinkedIn (ou local, no modo de teste). */
+export function enderecoDeEnvioAceito(endereco: string, falsa: boolean): boolean {
+    if (falsa) return /^http:\/\/(localhost|127\.0\.0\.1|host\.docker\.internal)[:/]/.test(endereco);
+    try {
+        const u = new URL(endereco);
+        return u.protocol === "https:" && /(^|\.)(linkedin\.com|licdn\.com)$/.test(u.hostname);
+    } catch {
+        return false;
+    }
 }
 
 /** Problemas do texto que impedem o agendamento. Lista vazia quer dizer que está tudo certo. */

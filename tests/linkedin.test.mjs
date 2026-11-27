@@ -50,3 +50,13 @@ test("roteiro: a seção linkedin é lida à parte da legenda", () => {
   assert.equal(r.slides.length, 2);
   assert.equal(lerRoteiro("tema: x\n## capa\ntitulo: A\n## legenda\noi").linkedin, "");
 });
+
+test("produção: outro servidor é ignorado, e a imagem só é enviada para endereço do LinkedIn", async () => {
+  const { enderecoDeEnvioAceito } = await import("../lib/linkedin/regras.ts");
+  assert.deepEqual(baseDoLinkedin({ NODE_ENV: "production", LINKEDIN_API_BASE: "https://servidor-de-outra-pessoa.com" }), { base: "https://api.linkedin.com", falsa: false });
+  assert.equal(enderecoDeEnvioAceito("https://www.linkedin.com/dms-uploads/abc", false), true);
+  assert.equal(enderecoDeEnvioAceito("https://media.licdn.com/upload/abc", false), true);
+  for (const ruim of ["http://www.linkedin.com/x", "https://linkedin.com.exemplo.com/x", "https://exemplo.com/linkedin.com", "https://falsolinkedin.com/x", "http://localhost:4010/x", "nada"]) assert.equal(enderecoDeEnvioAceito(ruim, false), false, ruim);
+  assert.equal(enderecoDeEnvioAceito("http://localhost:4010/linkedin/upload/1", true), true);
+  assert.equal(enderecoDeEnvioAceito("https://www.linkedin.com/x", true), false, "no modo de teste só vale a API falsa");
+});

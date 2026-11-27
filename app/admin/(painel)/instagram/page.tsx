@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { horaAtual } from "@/lib/agenda";
+import { exigirAdmin } from "@/lib/admin/sessao";
 import { utcParaBrasilia } from "@/lib/admin/seguranca";
 import { dataPorExtenso } from "@/lib/blog";
 import { contaConectada, cotaDaConta, filaDoInstagram } from "@/lib/instagram/fila";
@@ -23,6 +24,7 @@ const ROTULO: Record<string, { texto: string; cor: string }> = {
 const cartao = "rounded-2xl border border-[var(--border-color)] bg-[var(--bg-secondary)] p-5 md:p-6";
 
 export default async function InstagramPage() {
+    await exigirAdmin();
     const conta = contaConectada();
     const cota = conta ? await cotaDaConta() : null;
     const fila = filaDoInstagram();

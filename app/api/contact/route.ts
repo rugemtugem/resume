@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import nodemailer from 'nodemailer';
 import { contarLead } from '@/lib/blog-views';
+import { banco } from '@/lib/db';
 
 const ORIGENS: Record<string, string> = {
     instagram: 'Instagram',
@@ -20,21 +21,48 @@ function escapar(valor: unknown): string {
         .replace(/"/g, '&quot;');
 }
 
+/** No máximo 5 mensagens por hora vindas do mesmo endereço. Sem banco, o formulário segue funcionando. */
+function passouDoLimite(request: Request): boolean {
+    try {
+        const db = banco();
+        if (!db) return false;
+        const ip = ((request.headers.get('x-forwarded-for') || '').split(',').pop()?.trim() || request.headers.get('x-real-ip') || 'local').slice(0, 64);
+        const desde = new Date(Date.now() - 3600e3).toISOString();
+        db.prepare('DELETE FROM contato_tentativa WHERE em < ?').run(desde);
+        const { n } = db.prepare('SELECT COUNT(*) AS n FROM contato_tentativa WHERE ip = ?').get(ip) as { n: number };
+        if (n >= 5) return true;
+        db.prepare('INSERT INTO contato_tentativa (ip, em) VALUES (?, ?)').run(ip, new Date().toISOString());
+        return false;
+    } catch {
+        return false;
+    }
+}
+
 export async function POST(request: Request) {
     try {
+        // Uma mensagem de contato cabe com folga em 20 KB. Corpo maior é recusado antes de ser lido.
+        if (Number(request.headers.get('content-length') || 0) > 20_000) {
+            return NextResponse.json({ success: false, message: 'Message too large' }, { status: 413 });
+        }
         const body = await request.json();
-        const { whatsapp } = body;
-        const name = escapar(body.name);
-        const email = escapar(body.email);
-        const message = escapar(body.message);
-        const origem = ORIGENS[String(body.origem)] ?? '';
+        const whatsapp = String(body.whatsapp ?? '').slice(0, 30);
+        const name = escapar(String(body.name ?? '').slice(0, 120));
+        const emailCru = String(body.email ?? '').trim().slice(0, 254);
+        const email = escapar(emailCru);
+        const message = escapar(String(body.message ?? '').slice(0, 5000));
+        // Só as origens da lista entram: "constructor" e afins não são chaves dela.
+        const chaveDaOrigem = String(body.origem);
+        const origem = Object.hasOwn(ORIGENS, chaveDaOrigem) ? ORIGENS[chaveDaOrigem] : '';
 
         // Validate fields
-        if (!name || !email || !message || !origem) {
+        if (!name || !message || !origem || !/^[^\s@<>"]+@[^\s@<>"]+\.[^\s@<>"]+$/.test(emailCru)) {
             return NextResponse.json(
                 { success: false, message: 'Missing required fields' },
                 { status: 400 }
             );
+        }
+        if (passouDoLimite(request)) {
+            return NextResponse.json({ success: false, message: 'Too many messages. Try again later.' }, { status: 429 });
         }
 
         // Configure SMTP transporter
@@ -55,8 +83,8 @@ export async function POST(request: Request) {
         await transporter.sendMail({
             from: `"Site Rugemtugem" <${process.env.SMTP_USER || 'contato@rugemtugem.dev'}>`,
             to: 'contato@rugemtugem.dev',
-            replyTo: String(body.email),
-            subject: `Nova mensagem do site - ${String(body.name ?? '').slice(0, 80)}`,
+            replyTo: emailCru,
+            subject: `Nova mensagem do site - ${String(body.name ?? '').replace(/[\r\n]+/g, ' ').slice(0, 80)}`,
             html: `
                 <div style="font-family: 'Segoe UI', Tahoma, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
                     <div style="background: linear-gradient(135deg, #992A2B, #ff6b6b); padding: 20px; border-radius: 12px 12px 0 0;">
@@ -79,7 +107,7 @@ export async function POST(request: Request) {
         });
 
         // O e-mail saiu: soma o pedido ao painel de métricas (só a contagem e o canal marcado).
-        contarLead(String(body.origem));
+        contarLead(chaveDaOrigem);
 
         return NextResponse.json({
             success: true,
@@ -89,7 +117,8 @@ export async function POST(request: Request) {
         const errorMessage = error instanceof Error ? error.message : 'Unknown error';
         console.error('Error sending email:', errorMessage);
         return NextResponse.json(
-            { success: false, message: `Error sending message: ${errorMessage}` },
+            // O detalhe do erro fica só no registro do servidor: ele traz endereço e resposta do servidor de e-mail.
+            { success: false, message: 'Error sending message' },
             { status: 500 }
         );
     }

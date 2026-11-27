@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { exigirAdmin } from "@/lib/admin/sessao";
 import { notFound } from "next/navigation";
 import { agendaDoBlog, horaAtual } from "@/lib/agenda";
 import { brasiliaParaUtc, utcParaBrasilia } from "@/lib/admin/seguranca";
@@ -21,6 +22,7 @@ const cartao = "rounded-2xl border border-[var(--border-color)] bg-[var(--bg-sec
 const NOME_DO_TIPO: Record<string, string> = { capa: "Capa", pontos: "Pontos", numero: "Número", duo: "Antes e depois", cta: "Convite" };
 
 export default async function RoteiroPage({ params }: { params: Promise<{ slug: string }> }) {
+    await exigirAdmin();
     const { slug } = await params;
     const arquivo = roteiroPorSlug(slug);
     if (!arquivo) notFound();

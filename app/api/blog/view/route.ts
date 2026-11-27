@@ -5,6 +5,7 @@ import { contarLeitura } from "@/lib/blog-views";
 /** Conta uma leitura do post. Só aceita slug de post publicado. */
 export async function POST(request: Request) {
     let slug = "";
+    if (Number(request.headers.get("content-length") || 0) > 2000) return NextResponse.json({ ok: false }, { status: 413 });
     try {
         slug = String((await request.json()).slug || "");
     } catch {

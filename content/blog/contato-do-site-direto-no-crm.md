@@ -2,7 +2,7 @@
 
 > Categoria: Empresas · slug: contato-do-site-direto-no-crm
 > SEO: O contato do site some antes de virar conversa
-> DESC: O formulário do site manda um e-mail e alguém copia o contato para o CRM. Veja por que contato se perde nesse caminho e como fazer ele chegar sozinho.
+> DESC: O formulário do site manda um e-mail e alguém copia o contato para o CRM. Veja onde o contato se perde nesse caminho e como ele passa a chegar sozinho.
 > CAPA: eyebrow=Para empresas | destaque=some antes de virar conversa | nota=Integração de site com CRM e pagamento
 > Agendar: 2026-11-26 09:30
 
@@ -10,9 +10,9 @@
 
 ## O caminho que o contato faz hoje
 
-Na maioria dos sites, o formulário faz uma coisa só: manda um e-mail. Daí em diante tudo depende de uma pessoa. Ela precisa ver o e-mail, abrir o CRM, criar o contato, colar os dados e avisar o vendedor.
+Em muitos sites, o formulário faz uma coisa só: manda um e-mail. Daí em diante tudo depende de uma pessoa. Ela precisa ver o e-mail, abrir o CRM, criar o contato, colar os dados e avisar o vendedor.
 
-Cada passo desses pode falhar sem ninguém perceber. O e-mail cai no spam. A pessoa que copiava saiu de férias. O contato chegou na sexta à noite e só foi visto na segunda, quando o interessado já tinha fechado com outra empresa.
+Cada passo desses pode falhar sem ninguém perceber. O e-mail cai no spam. A pessoa que copia sai de férias. O contato chega na sexta à noite e só é visto na segunda, quando o interessado já fechou com outra empresa.
 
 ## Três perdas que ninguém mede
 
@@ -28,15 +28,15 @@ O formulário passa a gravar o contato no CRM no momento do envio, já com a ori
 
 Quando a empresa também vende pelo site, o meio de pagamento entra no mesmo caminho. O vendedor abre o contato e vê se a pessoa só pediu informação, se começou uma compra ou se já pagou.
 
-O ponto técnico que mais importa é ter um lugar só por onde tudo passa. Sem isso, cada formulário e cada página ganha uma ligação própria, e em um ano ninguém sabe mais o que está ligado em quê.
+O ponto técnico que mais importa é ter um lugar só por onde tudo passa. Sem isso, cada formulário e cada página ganha uma ligação própria, e depois de um tempo ninguém sabe mais o que está ligado a quê.
 
 ## Como ficou na Sales Prime
 
-Para a Sales Prime eu construí o site em WordPress, com área de vagas, blog e páginas de captação, e liguei tudo a HubSpot, Pagar.me e Guru por meio de um hub de integrações. O contato entra pelo site e segue para o CRM e para o pagamento pelo mesmo caminho.
+Para a Sales Prime eu construí o site em WordPress, com área de vagas, blog e páginas de captação, e liguei tudo a HubSpot, Pagar.me e Guru por meio de um hub de integrações, que é esse lugar só por onde tudo passa. O contato entra pelo site e segue para o CRM e para o pagamento pelo mesmo caminho.
 
 O caso está em [site ligado ao CRM e ao pagamento](/casos/sales-prime-site-crm-pagamento).
 
-## Um teste de cinco minutos no seu site
+## Um teste simples no seu site
 
 Preencha o formulário do seu próprio site, com um e-mail seu, em um horário fora do expediente. Depois confira:
 
@@ -58,4 +58,4 @@ Sim. O WordPress aceita esse tipo de ligação, com plugin pronto nos casos simp
 
 ### O que acontece com os contatos se o CRM sair do ar?
 
-O contato precisa ficar guardado do lado do site e ser enviado de novo quando o CRM voltar. Esse cuidado faz parte do trabalho, e é o tipo de coisa que eu mostro funcionando antes da entrega.
+O contato precisa ficar guardado do lado do site, para não se perder enquanto o CRM estiver fora. Esse cuidado faz parte do trabalho, e é o tipo de coisa que eu mostro funcionando antes da entrega.

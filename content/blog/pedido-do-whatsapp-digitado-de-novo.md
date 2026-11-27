@@ -7,7 +7,7 @@
 > Agendar: 2026-11-26 09:00
 > Destaque: sim
 
-**Resumo:** Em muita empresa o pedido é fechado na conversa e depois copiado à mão para o sistema de gestão. Esse segundo passo custa tempo, gera erro e deixa o pedido parado. Dá para ligar as duas ferramentas, e este post mostra como pensar nisso antes de contratar qualquer coisa.
+**Resumo:** Em muitas empresas o pedido é fechado na conversa e depois copiado à mão para o sistema de gestão. Esse segundo passo custa tempo, gera erro e deixa o pedido parado. Dá para ligar as duas ferramentas, e este post mostra como pensar nisso antes de contratar qualquer coisa.
 
 ## A cena que se repete
 
@@ -17,23 +17,23 @@ Enquanto são poucos pedidos por dia, ninguém reclama. Quando o volume cresce, 
 
 ## Onde o erro nasce
 
-O erro quase nunca está na venda. Ele aparece na cópia. Quem digita troca um produto parecido, erra a quantidade ou cola o endereço do cliente anterior. O cliente só descobre quando a caixa chega.
+O erro costuma aparecer na cópia, depois que a venda já está certa. Quem digita troca um produto parecido, erra a quantidade ou cola o endereço do cliente anterior. O cliente só descobre quando a caixa chega.
 
-Cada pedido redigitado é uma segunda chance de errar algo que já estava certo na conversa. E a pessoa que faz esse trabalho costuma ser a mesma que atende, então quanto mais a empresa vende, mais pressa ela tem e mais erra.
+Cada pedido redigitado é uma segunda chance de errar algo que já estava certo na conversa. E a pessoa que faz esse trabalho costuma ser a mesma que atende, então quanto mais a empresa vende, mais pressa essa pessoa tem e mais ela erra.
 
 ## O que muda quando as duas ferramentas conversam
 
-A ferramenta de atendimento no WhatsApp e o sistema de gestão guardam o mesmo pedido. A integração faz uma avisar a outra na hora em que algo acontece.
+A ferramenta de atendimento no WhatsApp e o sistema de gestão guardam o mesmo pedido. A integração faz um lado avisar o outro na hora em que algo acontece.
 
 - O pedido fechado na conversa é criado no sistema na hora, com os mesmos dados.
 - O que muda de um lado aparece do outro, como o status do pedido ou o estoque.
 - O pedido que falhar por algum motivo fica registrado em uma lista, para alguém conferir.
 
-O terceiro item é o que separa uma integração séria de um improviso. Toda integração falha de vez em quando, porque um dos lados sai do ar ou o cadastro vem incompleto. O que importa é a falha aparecer para alguém, em vez de o pedido sumir em silêncio.
+O terceiro item é o que eu considero obrigatório. Toda integração falha de vez em quando, porque um dos lados sai do ar ou o cadastro vem incompleto. O que importa é a falha aparecer para alguém, em vez de o pedido sumir em silêncio.
 
 ## Como eu fiz isso na S&S Comércio
 
-Na S&S Comércio, os pedidos fechados no WhatsApp eram digitados de novo no sistema de vendas. Eu liguei a Suri, que é a ferramenta de atendimento deles, ao Bling, que é o sistema de gestão. O pedido passou a entrar sozinho, e a atualização vale nos dois sentidos.
+Na S&S Comércio, os pedidos fechados no WhatsApp eram digitados de novo no sistema de gestão. Eu liguei a Suri, que é a ferramenta de atendimento deles, ao Bling, que é esse sistema. O pedido passou a entrar sozinho, e a atualização vale nos dois sentidos.
 
 O caso completo, com o que foi entregue, está em [pedido do WhatsApp direto no Bling](/casos/ss-comercio-whatsapp-bling).
 
@@ -43,7 +43,7 @@ O caso completo, com o que foi entregue, está em [pedido do WhatsApp direto no 
 2. **Quais dados são copiados à mão?** Liste os campos. Normalmente são menos do que parece.
 3. **O que acontece hoje quando alguém erra?** A resposta mostra quanto esse retrabalho custa de verdade para a sua operação.
 
-Com essas três respostas, uma conversa de meia hora já diz se a integração vale a pena no seu caso. O serviço está descrito em [integração de WhatsApp com sistema de gestão](/servicos/integracao-whatsapp-erp).
+Com essas três respostas, o diagnóstico gratuito de 30 minutos já diz se a integração vale a pena no seu caso. O serviço está descrito em [integração de WhatsApp com sistema de gestão](/servicos/integracao-whatsapp-erp).
 
 ## Perguntas frequentes
 
@@ -53,8 +53,8 @@ Na maioria dos casos, não. A integração liga as ferramentas que a empresa já
 
 ### Funciona com qualquer ferramenta de WhatsApp?
 
-Depende de a ferramenta permitir que outro sistema leia e grave dados nela. As ferramentas de atendimento voltadas para empresas costumam permitir. O WhatsApp comum do celular, sozinho, não permite.
+Depende de a ferramenta permitir que outro sistema leia e grave dados nela. As ferramentas de atendimento voltadas para empresas costumam permitir. O aplicativo do WhatsApp no celular, inclusive o WhatsApp Business, sozinho, não permite.
 
 ### E se a integração parar de funcionar?
 
-Ela precisa avisar. Por isso a lista de pedidos que falharam faz parte da entrega: alguém da equipe confere e lança aquele pedido, e eu corrijo a causa.
+Ela precisa deixar a falha à vista. Por isso a lista de pedidos que falharam faz parte da entrega: alguém da equipe confere e lança aquele pedido, e a causa é corrigida dentro do suporte combinado.

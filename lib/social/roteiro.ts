@@ -144,7 +144,7 @@ export function palavrasDoTitulo(titulo: string): { texto: string; destaque: boo
 }
 
 /** Caminho interno aceito como destino de link: nunca um endereço de fora. */
-export const CAMINHO_DO_SITE = /^\/[a-z0-9/-]{0,120}$/;
+export const CAMINHO_DO_SITE = /^\/(?!\/)[a-z0-9/-]{0,120}$/;
 
 const semColchetes = (texto: string) => texto.replace(/[[\]]/g, "");
 

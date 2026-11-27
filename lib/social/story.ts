@@ -3,7 +3,7 @@
  * pelo celular e o adesivo aponta para /s/<slug>, que conta o clique e leva para a página certa.
  */
 
-const CAMINHO = /^\/[a-z0-9/-]{0,120}$/;
+const CAMINHO = /^\/(?!\/)[a-z0-9/-]{0,120}$/;
 const SLUG = /^[a-z0-9-]{1,80}$/;
 
 /** Pré-visualizações do Instagram e robôs em geral não contam como clique. */

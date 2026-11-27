@@ -1,4 +1,4 @@
-import { VERSAO_DA_API, baseDoLinkedin, semTokenDoLinkedin, textoParaLinkedin } from "@/lib/linkedin/regras";
+import { VERSAO_DA_API, baseDoLinkedin, enderecoDeEnvioAceito, semTokenDoLinkedin, textoParaLinkedin } from "@/lib/linkedin/regras";
 import { dataDoLinkedin, entidadeDoLinkedin } from "@/lib/metricas/regras";
 
 /**
@@ -54,7 +54,7 @@ async function enviarImagem(token: string, dono: string, bytes: Buffer): Promise
     const destino = r.value?.uploadUrl;
     const imagem = r.value?.image;
     if (!destino || !imagem) throw new ErroDoLinkedin("O LinkedIn não devolveu o endereço para enviar a imagem.");
-    if (falsa && !/^http:\/\/(localhost|127\.0\.0\.1)[:/]/.test(destino)) throw new ErroDoLinkedin("Em modo de teste a imagem só pode ir para a API falsa.");
+    if (!enderecoDeEnvioAceito(destino, falsa)) throw new ErroDoLinkedin("O LinkedIn devolveu um endereço de envio que não é dele. A imagem não foi enviada.");
     await pedir(token, destino, { method: "PUT", headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/octet-stream" }, body: new Uint8Array(bytes) });
     return imagem;
 }

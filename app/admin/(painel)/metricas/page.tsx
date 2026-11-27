@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { exigirAdmin } from "@/lib/admin/sessao";
 import { usandoGoogleFalso } from "@/lib/metricas/google";
 import { metasFixas, montarPainel } from "@/lib/metricas/painel";
 import type { Indicador } from "@/lib/metricas/painel";
@@ -172,6 +173,7 @@ function Barras({ itens }: { itens: { nome: string; valor: number }[] }) {
 }
 
 export default async function MetricasPage({ searchParams }: { searchParams: Promise<{ dias?: string }> }) {
+    await exigirAdmin();
     const pedido = Number((await searchParams).dias);
     const dias = (PERIODOS as readonly number[]).includes(pedido) ? pedido : 30;
     const painel = await montarPainel(dias);

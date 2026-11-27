@@ -18,6 +18,8 @@ export function conferirSenha(senha: string, guardado: string): boolean {
     const [tipo, sal, hash] = guardado.split(":");
     if (tipo !== "scrypt" || !sal || !hash) return false;
     const esperado = Buffer.from(hash, "base64url");
+    // Um hash cortado (variável colada pela metade) viraria um resumo vazio, e resumo vazio "confere" com qualquer senha.
+    if (esperado.length !== 64 || Buffer.from(sal, "base64url").length < 16) return false;
     const obtido = scryptSync(senha, Buffer.from(sal, "base64url"), esperado.length);
     return obtido.length === esperado.length && timingSafeEqual(obtido, esperado);
 }

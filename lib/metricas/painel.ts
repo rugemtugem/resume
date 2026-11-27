@@ -125,7 +125,7 @@ export async function montarPainel(dias: number, agora = new Date()): Promise<Pa
     ];
 
     const origens = ((banco()?.prepare("SELECT origem, SUM(total) AS total FROM lead_dia WHERE dia BETWEEN ? AND ? GROUP BY origem ORDER BY total DESC").all(p.inicio, p.fim) as { origem: string; total: number }[] | undefined) ?? []).map((o) => ({
-        origem: ORIGENS[o.origem] ?? o.origem,
+        origem: Object.hasOwn(ORIGENS, o.origem) ? ORIGENS[o.origem] : "Outro",
         total: o.total,
     }));
 
