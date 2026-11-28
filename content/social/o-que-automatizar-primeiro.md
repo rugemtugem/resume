@@ -60,3 +60,31 @@ E nem tudo deve ser automatizado agora. Quando o processo muda toda semana ou ca
 O roteiro completo: {link}
 
 #automacao #processos #gestao
+
+## reels
+eyebrow: Automação
+nota: O roteiro completo está no blog. O link está na bio.
+
+### pergunta 4
+O que {automatizar primeiro} na sua empresa?
+
+### titulo 5
+Comece pelo dado que a equipe {digita duas vezes}
+sub: A regra já existe. É só ensinar as ferramentas.
+
+### passos 6.5
+titulo: Três perguntas
+- Quantas vezes por semana acontece?
+- O que acontece quando alguém erra?
+- Depende de uma pessoa só?
+
+### lista 5.5
+titulo: Ainda não é hora quando
+- O processo muda toda semana
+- Cada caso é tratado de um jeito
+- O volume é pequeno
+
+### encerramento 4.5
+texto: Eu ajudo a escolher a primeira
+url: rugemtugem.dev
+aviso: Diagnóstico gratuito de 30 minutos.

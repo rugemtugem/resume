@@ -1,5 +1,5 @@
 import { banco } from "@/lib/db";
-import { ErroDoInstagram, lerConta, lerCota, publicarCarrossel, publicarImagem, renovarToken } from "@/lib/instagram/graph";
+import { ErroDoInstagram, lerConta, lerCota, publicarCarrossel, publicarImagem, publicarReels, renovarToken } from "@/lib/instagram/graph";
 import { enderecoDaMidia, limparOrfas } from "@/lib/instagram/midia";
 import { VALIDADE_DESCONHECIDA, semToken, tipoDoToken } from "@/lib/instagram/regras";
 import { midiasEmUsoNoLinkedin } from "@/lib/linkedin/fila";
@@ -110,6 +110,17 @@ export function cancelarCarrosseisDoSlug(slug: string): number {
     return banco()?.prepare("UPDATE ig_post SET status = 'cancelado' WHERE slug = ? AND tipo = 'carrossel' AND status IN ('agendado', 'erro')").run(slug).changes ?? 0;
 }
 
+/** Reels de um roteiro, do mais recente para o mais antigo. */
+export function reelsDoSlug(slug: string): PostDaFila[] {
+    const linhas = (banco()?.prepare(`SELECT ${COLUNAS} FROM ig_post WHERE slug = ? AND tipo = 'reels' AND status <> 'cancelado' ORDER BY id DESC`).all(slug) as LinhaBruta[] | undefined) ?? [];
+    return linhas.map(ler);
+}
+
+/** Tira da fila os Reels do roteiro que ainda não saíram. Usado ao agendar de novo com outro vídeo. */
+export function cancelarReelsDoSlug(slug: string): number {
+    return banco()?.prepare("UPDATE ig_post SET status = 'cancelado' WHERE slug = ? AND tipo = 'reels' AND status IN ('agendado', 'erro')").run(slug).changes ?? 0;
+}
+
 /** Recoloca na fila um post que deu erro, para sair no próximo tique. */
 export function tentarDeNovo(id: number): void {
     banco()?.prepare("UPDATE ig_post SET status = 'agendado', tentativas = 0, erro = NULL, reservado_em = NULL WHERE id = ? AND status = 'erro'").run(id);
@@ -136,7 +147,12 @@ export async function publicarVencidosDoInstagram(agora = new Date()): Promise<{
         if (reservado.changes !== 1) continue;
         try {
             const urls = post.midias.map(enderecoDaMidia);
-            const resultado = post.tipo === "carrossel" ? await publicarCarrossel(conta.ig_user_id, conta.token, urls, post.legenda) : await publicarImagem(conta.ig_user_id, conta.token, urls[0], post.legenda);
+            const resultado =
+                post.tipo === "reels"
+                    ? await publicarReels(conta.ig_user_id, conta.token, urls[0], urls[1], post.legenda)
+                    : post.tipo === "carrossel"
+                      ? await publicarCarrossel(conta.ig_user_id, conta.token, urls, post.legenda)
+                      : await publicarImagem(conta.ig_user_id, conta.token, urls[0], post.legenda);
             db.prepare("UPDATE ig_post SET status = 'publicado', media_id = ?, permalink = ?, publicado_em = ?, erro = NULL WHERE id = ?").run(resultado.media_id, resultado.permalink, new Date().toISOString(), post.id);
             publicados++;
         } catch (e) {

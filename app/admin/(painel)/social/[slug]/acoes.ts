@@ -6,8 +6,8 @@ import { brasiliaParaUtc } from "@/lib/admin/seguranca";
 import { agendaDoBlog, aprovarPost } from "@/lib/agenda";
 import { visivelNaAgenda } from "@/lib/admin/seguranca";
 import { todosOsPosts } from "@/lib/blog";
-import { agendarPost, cancelarCarrosseisDoSlug } from "@/lib/instagram/fila";
-import { salvarImagem } from "@/lib/instagram/midia";
+import { agendarPost, cancelarCarrosseisDoSlug, cancelarReelsDoSlug } from "@/lib/instagram/fila";
+import { caminhoDaMidia, salvarImagem } from "@/lib/instagram/midia";
 import { agendarNoLinkedin, cancelarLinkedinDoSlug } from "@/lib/linkedin/fila";
 import { comLink } from "@/lib/linkedin/regras";
 import { roteiroPorSlug } from "@/lib/social";
@@ -60,6 +60,32 @@ export async function acaoAprovarTudo(_anterior: Retorno, dados: FormData): Prom
         for (const caminho of ["/", "/blog", `/blog/${slug}`, "/blog/rss.xml", "/sitemap.xml", "/admin", "/admin/instagram", "/admin/linkedin", `/admin/social/${slug}`]) revalidatePath(caminho);
         const partes = [post && !postNoAr ? "Post do blog aprovado." : "", `Carrossel de ${nomes.length} slides agendado.`, trocados > 0 ? "O carrossel que estava na fila foi trocado por este." : "", paraLinkedin ? "Post do LinkedIn agendado." : "", trocadosNoLinkedin > 0 ? "O post do LinkedIn que estava na fila foi trocado por este." : ""];
         return { erro: null, ok: partes.filter(Boolean).join(" ") };
+    } catch (e) {
+        return { erro: e instanceof Error ? e.message : "Não foi possível agendar.", ok: null };
+    }
+}
+
+/**
+ * Agenda o Reels do roteiro. O vídeo e a capa foram gerados no navegador e já estão na pasta de mídias
+ * (enviados por /admin/midia); aqui chegam só os nomes. A legenda é a mesma do carrossel.
+ */
+export async function acaoAgendarReels(_anterior: Retorno, dados: FormData): Promise<Retorno> {
+    await exigirAdmin();
+    const slug = String(dados.get("slug") || "");
+    const quando = brasiliaParaUtc(String(dados.get("quando") || ""));
+    const video = String(dados.get("video") || "");
+    const capa = String(dados.get("capa") || "");
+    const arquivo = roteiroPorSlug(slug);
+    if (!arquivo || !arquivo.roteiro.reels) return { erro: "Este roteiro não tem a seção do Reels.", ok: null };
+    if (!quando) return { erro: "Escolha a data e a hora.", ok: null };
+    if (arquivo.problemas.length > 0) return { erro: `Corrija o arquivo antes de agendar: ${arquivo.problemas.join(" ")}`, ok: null };
+    if (!video.endsWith(".mp4") || !caminhoDaMidia(video) || !capa.endsWith(".jpg") || !caminhoDaMidia(capa)) return { erro: "O vídeo ou a capa não chegaram ao servidor. Gere o vídeo de novo.", ok: null };
+
+    try {
+        const trocados = cancelarReelsDoSlug(slug);
+        agendarPost({ tipo: "reels", titulo: `${arquivo.roteiro.tema} (Reels)`, slug, midias: [video, capa], legenda: arquivo.roteiro.legenda, quandoUtc: quando });
+        for (const caminho of ["/admin/instagram", `/admin/social/${slug}`]) revalidatePath(caminho);
+        return { erro: null, ok: `Reels agendado.${trocados > 0 ? " O Reels que estava na fila foi trocado por este." : ""}` };
     } catch (e) {
         return { erro: e instanceof Error ? e.message : "Não foi possível agendar.", ok: null };
     }

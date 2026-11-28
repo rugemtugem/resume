@@ -58,3 +58,31 @@ Quando o site entrega direto, o contato é gravado no CRM no momento do envio, j
 Escrevi sobre as três perdas que ninguém mede e sobre como ficou na Sales Prime: {link}
 
 #crm #vendas #integracao
+
+## reels
+eyebrow: Site e CRM
+nota: O post completo está no blog. O link está na bio.
+
+### pergunta 4
+O contato do seu site {some antes de virar conversa}?
+
+### passos 6.5
+titulo: O caminho de hoje
+- O formulário manda um e-mail
+- Alguém precisa ver e abrir o CRM
+- E copiar os dados à mão
+
+### lista 5.5
+titulo: Três perdas que ninguém mede
+- O contato que não chega
+- O contato que chega tarde
+- O contato sem origem
+
+### titulo 5
+Faça o teste: preencha o seu formulário {fora do expediente}
+sub: Em quanto tempo alguém da empresa viu?
+
+### encerramento 4.5
+texto: O site pode gravar direto no CRM
+url: rugemtugem.dev
+aviso: Diagnóstico gratuito. O link está na bio.

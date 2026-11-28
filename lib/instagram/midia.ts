@@ -1,4 +1,4 @@
-import { existsSync, mkdirSync, readdirSync, statSync, unlinkSync } from "node:fs";
+import { existsSync, mkdirSync, readdirSync, statSync, unlinkSync, writeFileSync } from "node:fs";
 import { randomBytes } from "node:crypto";
 import { join } from "node:path";
 import sharp from "sharp";
@@ -27,6 +27,20 @@ export async function salvarImagem(dados: Buffer, prefixo: string, qualquerPropo
     const limpo = prefixo.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "").slice(0, 40) || "midia";
     const nome = `${limpo}-${randomBytes(5).toString("hex")}.jpg`;
     await imagem.flatten({ background: "#ffffff" }).jpeg({ quality: 90 }).toFile(join(PASTA_DE_MIDIA, nome));
+    return nome;
+}
+
+/** Tamanho máximo do vídeo de um Reels gerado pelo painel (um minuto em 1080 x 1920 fica bem abaixo disso). */
+export const MAXIMO_DO_VIDEO = 60 * 1024 * 1024;
+
+/** Guarda o MP4 gerado no navegador. Confere o tamanho e se o arquivo tem mesmo cara de MP4. */
+export function salvarVideo(dados: Buffer, prefixo: string): string {
+    if (!existsSync(PASTA_DE_MIDIA)) mkdirSync(PASTA_DE_MIDIA, { recursive: true });
+    if (dados.length < 1000 || dados.length > MAXIMO_DO_VIDEO) throw new Error("O vídeo está vazio ou passa de 60 MB.");
+    if (dados.subarray(4, 8).toString("latin1") !== "ftyp") throw new Error("O arquivo enviado não é um vídeo MP4.");
+    const limpo = prefixo.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "").slice(0, 40) || "reels";
+    const nome = `${limpo}-${randomBytes(5).toString("hex")}.mp4`;
+    writeFileSync(join(PASTA_DE_MIDIA, nome), dados);
     return nome;
 }
 

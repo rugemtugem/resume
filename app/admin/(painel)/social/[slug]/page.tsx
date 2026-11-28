@@ -4,7 +4,13 @@ import { notFound } from "next/navigation";
 import { agendaDoBlog, horaAtual } from "@/lib/agenda";
 import { brasiliaParaUtc, utcParaBrasilia, visivelNaAgenda } from "@/lib/admin/seguranca";
 import { dataPorExtenso, todosOsPosts } from "@/lib/blog";
-import { carrosseisDoSlug, contaConectada } from "@/lib/instagram/fila";
+import { existsSync } from "node:fs";
+import { join } from "node:path";
+import { PASTA_DE_DADOS } from "@/lib/db";
+import { carrosseisDoSlug, contaConectada, reelsDoSlug } from "@/lib/instagram/fila";
+import { TRILHAS } from "@/lib/reels/motor.js";
+import { duracaoDoReels } from "@/lib/reels/regras";
+import { Reels } from "./reels";
 import { contaDoLinkedin, linkedinDoSlug } from "@/lib/linkedin/fila";
 import { comLink } from "@/lib/linkedin/regras";
 import { postsPublicados } from "@/lib/blog";
@@ -45,6 +51,11 @@ export default async function RoteiroPage({ params }: { params: Promise<{ slug: 
     const sugerida = pendente?.quando_utc ?? (postNoAr ? (doRoteiro && Date.parse(doRoteiro) > horaAtual() ? doRoteiro : amanha) : (linhaDoBlog?.quando_utc ?? doRoteiro ?? post?.publicadoEm ?? amanha));
     const rotulo = post && !postNoAr ? "Aprovar post e agendar carrossel" : "Agendar carrossel";
     const bloqueado = problemas.length > 0 || Boolean(post?.rascunho);
+    // Só entram na lista as músicas que existem na pasta de dados. "Sem música" está sempre disponível.
+    const trilhas = TRILHAS.filter((t) => t.id === "" || existsSync(join(PASTA_DE_DADOS, "trilhas", `${t.id}.mp3`)));
+    const trilhasOrdenadas = [...trilhas.filter((t) => t.id !== ""), ...trilhas.filter((t) => t.id === "")];
+    const reelsNaFila = reelsDoSlug(slug).find((p) => p.status === "agendado" || p.status === "erro");
+    const reelsPublicado = reelsDoSlug(slug).find((p) => p.status === "publicado");
     const link = linkDoStory(slug);
     const cliques = cliquesDoStory(slug);
     const destino = destinoDoStory({ slug, link: roteiro.link, postNoAr: postsPublicados().some((p) => p.slug === slug) }).split("?")[0];
@@ -127,6 +138,24 @@ export default async function RoteiroPage({ params }: { params: Promise<{ slug: 
                         </li>
                     ))}
                 </ol>
+            </section>
+
+            <section className={cartao} aria-labelledby="titulo-reels">
+                <h2 id="titulo-reels" className="text-xl font-bold mb-2">
+                    Reels
+                </h2>
+                {roteiro.reels ? (
+                    <>
+                        <p className="text-sm text-[var(--text-secondary)] mb-5">
+                            Vídeo de {duracaoDoReels(roteiro.reels).toLocaleString("pt-BR")} segundos com o texto do roteiro animado, sem câmera. Sai com a mesma legenda do carrossel.
+                            {reelsNaFila ? ` Já existe um Reels deste roteiro na fila para ${horaDeBrasilia(reelsNaFila.quando_utc)}; agendar de novo troca por este.` : ""}
+                            {reelsPublicado ? " Um Reels deste roteiro já foi publicado." : ""}
+                        </p>
+                        <Reels slug={slug} texto={roteiro.reels} categoria={roteiro.categoria} trilhas={trilhasOrdenadas} dataPadrao={utcParaBrasilia(new Date(Date.parse(sugerida) + 3 * 3600e3).toISOString())} bloqueado={problemas.length > 0} />
+                    </>
+                ) : (
+                    <p className="text-sm text-[var(--text-secondary)]">Este roteiro não tem a seção reels. Para ter vídeo, acrescente a seção no arquivo.</p>
+                )}
             </section>
 
             {roteiro.slides.length > 0 && (

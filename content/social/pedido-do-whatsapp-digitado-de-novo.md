@@ -56,3 +56,31 @@ Antes de contratar qualquer coisa, vale responder três perguntas:
 Escrevi o caminho completo, com o caso da S&S Comércio: {link}
 
 #integracao #automacao #pme
+
+## reels
+eyebrow: Integração
+nota: O passo a passo está no blog. O link está na bio.
+
+### pergunta 4
+O pedido chega no WhatsApp e alguém {digita tudo de novo}?
+
+### lista 5.5
+titulo: Onde o erro aparece
+- Produto parecido trocado
+- Quantidade errada
+- Endereço do cliente anterior
+
+### titulo 4.5
+Cada pedido redigitado é uma {segunda chance de errar}
+sub: O que já estava certo na conversa.
+
+### passos 6.5
+titulo: Com a integração
+- O pedido entra sozinho | Criado no sistema na hora
+- Os dois lados se atualizam | Status e estoque
+- A falha fica à vista | Em uma lista para conferir
+
+### encerramento 4.5
+texto: Diagnóstico gratuito de 30 minutos
+url: rugemtugem.dev
+aviso: O link está na bio.

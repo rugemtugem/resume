@@ -35,6 +35,9 @@
  *   ## legenda
  *   Texto da legenda, com as hashtags no fim.
  *
+ *   ## reels
+ *   Cenas do vídeo (opcional). O formato está em lib/reels/regras.ts.
+ *
  *   ## linkedin
  *   Texto do post do LinkedIn (opcional). {link} vira o endereço da página, já marcado para a medição.
  *
@@ -68,6 +71,8 @@ export interface Roteiro {
     legenda: string;
     /** Texto do post do LinkedIn, ou vazio se o roteiro não vai para lá. */
     linkedin: string;
+    /** Bloco do Reels, como está no arquivo (as cenas são lidas pelo motor em lib/reels). Vazio se não houver. */
+    reels: string;
 }
 
 const CAMPOS_DO_SLIDE = ["titulo", "nota", "valor", "fonte", "antes", "depois", "botao"] as const;
@@ -78,9 +83,9 @@ function slideVazio(tipo: string): Slide {
 }
 
 export function lerRoteiro(md: string): Roteiro {
-    const roteiro: Roteiro = { tema: "", categoria: "", agendar: "", link: "", slides: [], legenda: "", linkedin: "" };
-    const blocos: Record<"legenda" | "linkedin", string[]> = { legenda: [], linkedin: [] };
-    let bloco: "legenda" | "linkedin" | null = null;
+    const roteiro: Roteiro = { tema: "", categoria: "", agendar: "", link: "", slides: [], legenda: "", linkedin: "", reels: "" };
+    const blocos: Record<"legenda" | "linkedin" | "reels", string[]> = { legenda: [], linkedin: [], reels: [] };
+    let bloco: "legenda" | "linkedin" | "reels" | null = null;
     let atual: Slide | null = null;
     let noCabecalho = true;
 
@@ -90,7 +95,7 @@ export function lerRoteiro(md: string): Roteiro {
         if (secao) {
             noCabecalho = false;
             const nome = secao[1].toLowerCase();
-            bloco = nome === "legenda" || nome === "linkedin" ? nome : null;
+            bloco = nome === "legenda" || nome === "linkedin" || nome === "reels" ? nome : null;
             atual = bloco ? null : slideVazio(nome);
             if (atual) roteiro.slides.push(atual);
             continue;
@@ -114,6 +119,7 @@ export function lerRoteiro(md: string): Roteiro {
     }
     roteiro.legenda = blocos.legenda.join("\n").trim();
     roteiro.linkedin = blocos.linkedin.join("\n").trim();
+    roteiro.reels = blocos.reels.join("\n").trim();
     return roteiro;
 }
 

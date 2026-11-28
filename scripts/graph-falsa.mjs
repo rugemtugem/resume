@@ -236,6 +236,17 @@ createServer(async (req, res) => {
     const id = String(++contador);
     let erro = null;
     if (params.get("image_url")) erro = await conferirImagem(params.get("image_url"));
+    if (params.get("media_type") === "REELS") {
+      try {
+        const v = await fetch(params.get("video_url"));
+        const bytes = new Uint8Array(await v.arrayBuffer());
+        if (!v.ok) erro = `resposta ${v.status} ao baixar o vídeo`;
+        else if (v.headers.get("content-type") !== "video/mp4" || String.fromCharCode(...bytes.subarray(4, 8)) !== "ftyp") erro = "o arquivo não é um MP4";
+        else if (bytes.length < 20000) erro = "vídeo curto demais";
+        else erro = await conferirImagem(params.get("cover_url"));
+        registrar(`  Reels: vídeo de ${bytes.length} bytes`);
+      } catch (e) { erro = `não consegui baixar o vídeo: ${e.message}`; }
+    }
     if (params.get("media_type") === "CAROUSEL") {
       const filhos = (params.get("children") || "").split(",");
       if (filhos.length < 2 || filhos.some((f) => !containers.has(f))) erro = "carrossel com filho desconhecido";

@@ -69,3 +69,32 @@ Antes de construir qualquer sistema, dá para testar à mão: dez casos reais, o
 Escrevi o caminho completo, com um exemplo real: {link}
 
 #inteligenciaartificial #processos #gestao
+
+## reels
+eyebrow: IA na empresa
+nota: O caminho completo está no blog. O link está na bio.
+
+### pergunta 4
+IA na empresa: {por onde começar}?
+
+### titulo 5
+A conversa solta {não entra no processo}
+sub: Cada pessoa pergunta de um jeito e recebe um resultado.
+
+### passos 6.5
+titulo: A tarefa candidata
+- Acontece muitas vezes
+- A entrada se repete
+- A saída tem formato definido
+
+### lista 6
+titulo: O que fica em volta da IA
+- Um roteiro para a entrada
+- Um formato fixo para a saída
+- Um painel para acompanhar
+- Uma pessoa que confere
+
+### encerramento 4.5
+texto: Vamos achar a primeira tarefa
+url: rugemtugem.dev
+aviso: Diagnóstico gratuito de 30 minutos.

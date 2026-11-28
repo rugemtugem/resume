@@ -132,6 +132,17 @@ export async function publicarCarrossel(igUserId: string, token: string, urls: s
     return { media_id: m, permalink: await lerPermalink(m, token) };
 }
 
+/**
+ * Reels: a Meta baixa o MP4 e a capa pelos endereços públicos, processa o vídeo (leva mais que imagem) e só então publica.
+ * share_to_feed faz o Reels aparecer também na grade do perfil.
+ */
+export async function publicarReels(igUserId: string, token: string, videoUrl: string, capaUrl: string, legenda: string): Promise<Publicado> {
+    const c = await criarContainer(igUserId, token, { media_type: "REELS", video_url: videoUrl, cover_url: capaUrl, caption: legenda, share_to_feed: "true" });
+    await aguardar(c, token, 300);
+    const m = await publicarContainer(igUserId, token, c);
+    return { media_id: m, permalink: await lerPermalink(m, token) };
+}
+
 /** Renova o token de longa duração (vale 60 dias). Só existe para o token do login do Instagram (IGAA). */
 export async function renovarToken(token: string): Promise<{ token: string; segundos: number }> {
     const r = await pedir("GET", `${enderecos(token).raiz}/refresh_access_token`, token, { grant_type: "ig_refresh_token" });

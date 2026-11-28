@@ -68,3 +68,31 @@ E duas coisas continuam sendo trabalho de quem pede: conferir os fatos com a fon
 O exemplo completo de antes e depois: {link}
 
 #inteligenciaartificial #produtividade
+
+## reels
+eyebrow: Escrita com IA
+nota: O exemplo de antes e depois está no blog. O link está na bio.
+
+### pergunta 4
+O texto da IA saiu {com cara de panfleto}?
+
+### titulo 4.5
+Quase sempre o problema está {no pedido}
+sub: A IA completa o que falta com o caso mais comum.
+
+### passos 7
+titulo: Diga no pedido
+- Quem vai ler
+- O que essa pessoa já sabe
+- O que você quer que ela faça
+- Os fatos, o formato e o tom
+
+### lista 5.5
+titulo: Continua sendo trabalho seu
+- Conferir datas, valores e nomes
+- Decidir o que dizer
+
+### encerramento 4.5
+texto: IA na rotina da sua empresa
+url: rugemtugem.dev
+aviso: O link está na bio.

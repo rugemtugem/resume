@@ -65,3 +65,33 @@ E uma pergunta que cabe na cabeça de toda a equipe: eu mandaria este texto por 
 Um aviso: eu não sou advogado. Isto é o cuidado prático de quem constrói sistemas. A lista completa: {link}
 
 #inteligenciaartificial #privacidade #lgpd
+
+## reels
+eyebrow: IA e privacidade
+nota: A lista completa está no blog. O link está na bio.
+
+### titulo 4.5
+O que {não colar} em uma ferramenta de IA
+sub: Colar é enviar para o servidor de outra empresa.
+
+### lista 6
+titulo: O que eu não colo
+- Senhas e códigos de acesso
+- Dados pessoais de clientes
+- Documentos com sigilo
+- Números que não são públicos
+
+### passos 7
+titulo: Três hábitos
+- Tire o que identifica | Use "Cliente A" e "valor X"
+- Descreva em vez de colar
+- Use o plano da empresa | Um acesso por pessoa
+
+### pergunta 5
+Eu mandaria este texto para {um desconhecido de fora}?
+sub: Na dúvida, tire o que identifica.
+
+### encerramento 4.5
+texto: IA dentro de um sistema da empresa
+url: rugemtugem.dev
+aviso: O link está na bio.

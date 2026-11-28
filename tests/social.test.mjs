@@ -123,3 +123,31 @@ test("link do story: duas barras no começo não viram endereço de outro site",
   assert.equal(destinoDoStory({ slug: "meu-post", link: "//exemplo", postNoAr: false }).startsWith("/?"), true);
   assert.match(problemasDoRoteiro(lerRoteiro("tema: x\nlink: //exemplo\n## capa\ntitulo: A\n## cta\ntitulo: B\n## legenda\noi")).join(" "), /caminho do próprio site/);
 });
+
+test("Reels: lê o bloco do roteiro e aponta cada problema", async () => {
+  const { problemasDoReels, duracaoDoReels } = await import("../lib/reels/regras.ts");
+  const bom = "eyebrow: Teste\n### pergunta 4\nO pedido chega e alguém {digita de novo}?\n### lista 5\ntitulo: Onde erra\n- Um\n- Dois\n### encerramento 4\ntexto: Diagnóstico gratuito\nurl: rugemtugem.dev";
+  assert.deepEqual(problemasDoReels(bom), []);
+  assert.equal(duracaoDoReels(bom), 13);
+  assert.equal(lerRoteiro(BOM + "\n## reels\n" + bom + "\n").reels, bom);
+  assert.equal(lerRoteiro(BOM + "\n## reels\n" + bom + "\n").slides.length, 5, "as cenas do Reels não viram slides");
+  const com = (de, para) => problemasDoReels(bom.replace(de, para)).join(" ");
+  assert.match(com("### pergunta 4", "### pergunta 1"), /2,5 e 12 segundos/);
+  assert.match(com("### pergunta 4", "### lista 4\ntitulo: x\n- a"), /abrir pelo assunto/);
+  assert.match(com("### encerramento 4", "### titulo 4"), /última cena precisa ser o encerramento/);
+  assert.match(com("url: rugemtugem.dev", ""), /url:/);
+  assert.match(com("### lista 5", "### grafico 5"), /tipo "grafico" não existe/);
+  assert.match(com("- Um\n- Dois", "- 1\n- 2\n- 3\n- 4\n- 5"), /1 a 4 itens/);
+  assert.match(com("### lista 5\ntitulo: Onde erra\n- Um\n- Dois", "### numero 5\nrotulo: Testes\nvalor: 7.170"), /precisa de fonte/);
+  assert.match(com("Onde erra", "Onde " + String.fromCharCode(0x2014) + " erra"), /travessão/);
+  assert.match(problemasDoReels("### pergunta 4\nOi?\n### encerramento 3\ntexto: x\nurl: y").join(" "), /3 a 10 cenas/);
+});
+
+test("os roteiros de content/social têm Reels válido", async () => {
+  const { problemasDoReels } = await import("../lib/reels/regras.ts");
+  const pasta = new URL("../content/social/", import.meta.url).pathname;
+  for (const nome of readdirSync(pasta).filter((n) => /^[a-z0-9-]+\.md$/.test(n))) {
+    const r = lerRoteiro(readFileSync(join(pasta, nome), "utf8"));
+    if (r.reels) assert.deepEqual(problemasDoReels(r.reels), [], nome);
+  }
+});

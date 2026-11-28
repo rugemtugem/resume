@@ -115,15 +115,18 @@ export default async function InstagramPage() {
                             <li key={post.id} className={cartao}>
                                 <div className="flex flex-col lg:flex-row lg:items-center gap-5">
                                     <div className="flex gap-2 shrink-0">
-                                        {post.midias.slice(0, 3).map((nome) => (
-                                            // eslint-disable-next-line @next/next/no-img-element -- mídia da pasta de dados, servida por /m
-                                            <img key={nome} src={`/m/${nome}`} alt="" width={72} height={90} className="w-[72px] h-[90px] object-cover rounded-lg border border-[var(--border-color)]" />
-                                        ))}
+                                        {post.midias
+                                            .filter((nome) => !nome.endsWith(".mp4"))
+                                            .slice(0, 3)
+                                            .map((nome) => (
+                                                // eslint-disable-next-line @next/next/no-img-element -- mídia da pasta de dados, servida por /m
+                                                <img key={nome} src={`/m/${nome}`} alt="" width={72} height={post.tipo === "reels" ? 128 : 90} className={`w-[72px] ${post.tipo === "reels" ? "h-[128px]" : "h-[90px]"} object-cover rounded-lg border border-[var(--border-color)]`} />
+                                            ))}
                                     </div>
                                     <div className="flex-1 min-w-0">
                                         <div className="flex flex-wrap items-center gap-2 mb-2">
                                             <span className={`px-3 py-1 rounded-full text-xs font-semibold ${ROTULO[post.status]?.cor ?? ""}`}>{ROTULO[post.status]?.texto ?? post.status}</span>
-                                            <span className="text-xs text-[var(--text-secondary)]">{post.tipo === "carrossel" ? `Carrossel de ${post.midias.length} imagens` : "Imagem"}</span>
+                                            <span className="text-xs text-[var(--text-secondary)]">{post.tipo === "reels" ? "Reels" : post.tipo === "carrossel" ? `Carrossel de ${post.midias.length} imagens` : "Imagem"}</span>
                                         </div>
                                         <h3 className="text-lg font-bold leading-snug">{post.titulo}</h3>
                                         <p className="text-sm text-[var(--text-secondary)] mt-1">

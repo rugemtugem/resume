@@ -12,7 +12,7 @@ export const TIPOS_DE_MIDIA: Record<string, string> = {
     mp4: "video/mp4",
 };
 
-export type TipoDePost = "imagem" | "carrossel";
+export type TipoDePost = "imagem" | "carrossel" | "reels";
 
 /** Travessão longo e médio, escritos pelo código para este arquivo não conter o próprio caractere. */
 const TRAVESSOES = [String.fromCharCode(0x2014), String.fromCharCode(0x2013)];
@@ -33,6 +33,8 @@ export function problemasDaLegenda(legenda: string): string[] {
 /** Quantidade de imagens aceita por tipo de post. */
 export function problemasDasMidias(tipo: TipoDePost, quantidade: number): string[] {
     if (tipo === "imagem" && quantidade !== 1) return ["Post de imagem precisa de exatamente 1 imagem."];
+    // Reels: o vídeo e, depois dele, a imagem de capa.
+    if (tipo === "reels" && quantidade !== 2) return ["O Reels precisa do vídeo e da imagem de capa."];
     if (tipo === "carrossel" && (quantidade < 2 || quantidade > 10)) return [`Carrossel precisa de 2 a 10 imagens (vieram ${quantidade}).`];
     return [];
 }
