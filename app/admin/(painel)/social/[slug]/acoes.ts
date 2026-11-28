@@ -1,16 +1,18 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
+import sharp from "sharp";
 import { exigirAdmin } from "@/lib/admin/sessao";
 import { brasiliaParaUtc } from "@/lib/admin/seguranca";
 import { agendaDoBlog, aprovarPost } from "@/lib/agenda";
 import { visivelNaAgenda } from "@/lib/admin/seguranca";
 import { todosOsPosts } from "@/lib/blog";
 import { agendarPost, cancelarCarrosseisDoSlug, cancelarReelsDoSlug } from "@/lib/instagram/fila";
-import { caminhoDaMidia, salvarImagem } from "@/lib/instagram/midia";
+import { caminhoDaMidia, salvarDocumento, salvarImagem } from "@/lib/instagram/midia";
 import { agendarNoLinkedin, cancelarLinkedinDoSlug } from "@/lib/linkedin/fila";
 import { comLink } from "@/lib/linkedin/regras";
 import { roteiroPorSlug } from "@/lib/social";
+import { pdfDeImagens } from "@/lib/social/pdf";
 import { imagemDoSlide } from "@/lib/social/slide";
 
 export interface Retorno {
@@ -20,7 +22,8 @@ export interface Retorno {
 
 /**
  * Aprovação única: aprova o post do blog (se o roteiro tiver um) e agenda o carrossel no mesmo horário.
- * Se o roteiro tiver texto para o LinkedIn e a caixa estiver marcada, agenda também o post de lá, com os mesmos slides.
+ * Se o roteiro tiver texto para o LinkedIn e a caixa estiver marcada, agenda também o post de lá, com os cards do
+ * LinkedIn em um documento (PDF), que a rede mostra como carrossel.
  * O agendador publica o blog antes do Instagram no mesmo ciclo, então o post já está no ar quando o carrossel sai.
  */
 export async function acaoAprovarTudo(_anterior: Retorno, dados: FormData): Promise<Retorno> {
@@ -54,7 +57,14 @@ export async function acaoAprovarTudo(_anterior: Retorno, dados: FormData): Prom
             const site = process.env.SITE_URL || "https://rugemtugem.dev";
             const caminho = arquivo.roteiro.link || (post ? `/blog/${slug}` : "/");
             trocadosNoLinkedin = cancelarLinkedinDoSlug(slug);
-            agendarNoLinkedin({ titulo: arquivo.roteiro.tema, slug, texto: comLink(arquivo.roteiro.linkedin, site, caminho, slug), midias: nomes, quandoUtc: quando });
+            // O LinkedIn recebe cards próprios, juntos em um PDF: ele mostra como carrossel, uma página inteira por vez.
+            const paginas = [];
+            for (let i = 0; i < arquivo.roteiro.slides.length; i++) {
+                const png = Buffer.from(await imagemDoSlide(arquivo.roteiro, i, "linkedin").arrayBuffer());
+                paginas.push({ jpeg: await sharp(png).flatten({ background: "#1a202c" }).jpeg({ quality: 90, progressive: false }).toBuffer(), largura: 1080, altura: 1350 });
+            }
+            const documento = salvarDocumento(pdfDeImagens(paginas, arquivo.roteiro.tema), `${slug.slice(0, 30)}-linkedin`);
+            agendarNoLinkedin({ titulo: arquivo.roteiro.tema, slug, texto: comLink(arquivo.roteiro.linkedin, site, caminho, slug), midias: [documento], quandoUtc: quando });
         }
 
         for (const caminho of ["/", "/blog", `/blog/${slug}`, "/blog/rss.xml", "/sitemap.xml", "/admin", "/admin/instagram", "/admin/linkedin", `/admin/social/${slug}`]) revalidatePath(caminho);

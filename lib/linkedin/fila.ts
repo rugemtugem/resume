@@ -133,12 +133,15 @@ export async function publicarVencidosDoLinkedin(agora = new Date()): Promise<{ 
         if (reservado.changes !== 1) continue;
         try {
             if (Date.parse(conta.expira_em) <= agora.getTime()) throw new ErroDoLinkedin("O token do LinkedIn venceu. Gere outro e conecte a conta de novo.");
-            const imagens = post.midias.map((nome, i) => {
+            const ehDocumento = post.midias.length === 1 && post.midias[0].endsWith(".pdf");
+            const caminhoDoDocumento = ehDocumento ? caminhoDaMidia(post.midias[0]) : null;
+            if (ehDocumento && !caminhoDoDocumento) throw new ErroDoLinkedin("O documento do carrossel não está mais na pasta de mídias.");
+            const imagens = (ehDocumento ? [] : post.midias).map((nome, i) => {
                 const caminho = caminhoDaMidia(nome);
                 if (!caminho) throw new ErroDoLinkedin(`A imagem ${i + 1} não está mais na pasta de mídias.`);
                 return { bytes: readFileSync(caminho), descricao: `${post.titulo}, imagem ${i + 1} de ${post.midias.length}` };
             });
-            const urn = await publicarNoLinkedin(conta.token, conta.pessoa_urn, post.texto, imagens);
+            const urn = await publicarNoLinkedin(conta.token, conta.pessoa_urn, post.texto, imagens, caminhoDoDocumento ? { bytes: readFileSync(caminhoDoDocumento), titulo: post.titulo } : undefined);
             db.prepare("UPDATE li_post SET status = 'publicado', post_urn = ?, publicado_em = ?, erro = NULL WHERE id = ?").run(urn, new Date().toISOString(), post.id);
             publicados++;
         } catch (e) {

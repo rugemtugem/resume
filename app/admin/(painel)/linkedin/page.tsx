@@ -136,7 +136,7 @@ export default async function LinkedinPage({ searchParams }: { searchParams: Pro
                         {fila.map((post) => (
                             <li key={post.id} className={cartao}>
                                 <div className="flex flex-col lg:flex-row lg:items-center gap-5">
-                                    {post.midias.length > 0 && (
+                                    {post.midias.filter((nome) => !nome.endsWith(".pdf")).length > 0 && (
                                         <div className="flex gap-2 shrink-0">
                                             {post.midias.slice(0, 3).map((nome) => (
                                                 // eslint-disable-next-line @next/next/no-img-element -- mídia da pasta de dados, servida por /m
@@ -147,7 +147,7 @@ export default async function LinkedinPage({ searchParams }: { searchParams: Pro
                                     <div className="flex-1 min-w-0">
                                         <div className="flex flex-wrap items-center gap-2 mb-2">
                                             <span className={`px-3 py-1 rounded-full text-xs font-semibold ${ROTULO[post.status]?.cor ?? ""}`}>{ROTULO[post.status]?.texto ?? post.status}</span>
-                                            <span className="text-xs text-[var(--text-secondary)]">{post.midias.length === 0 ? "Só texto" : post.midias.length === 1 ? "1 imagem" : `${post.midias.length} imagens`}</span>
+                                            <span className="text-xs text-[var(--text-secondary)]">{post.midias.length === 0 ? "Só texto" : post.midias[0].endsWith(".pdf") ? "Carrossel em documento (PDF)" : post.midias.length === 1 ? "1 imagem" : `${post.midias.length} imagens`}</span>
                                         </div>
                                         <h3 className="text-lg font-bold leading-snug">{post.titulo}</h3>
                                         <p className="text-sm text-[var(--text-secondary)] mt-1 line-clamp-2 break-words">{post.texto}</p>

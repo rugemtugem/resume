@@ -165,9 +165,25 @@ async function linkedin(req, res, url) {
     return responder(res, 200, { value: { uploadUrlExpiresAt: Date.now() + 3600e3, uploadUrl: `http://${req.headers.host}/linkedin/upload/${encodeURIComponent(id)}`, image: id } });
   }
 
+  if (caminho === "/rest/documents" && req.method === "POST") {
+    const dono = JSON.parse(corpo.toString() || "{}").initializeUploadRequest?.owner;
+    if (dono !== "urn:li:person:FALSO12345") return responder(res, 403, { message: "Accessing this document resource is forbidden. Please check your permissions for this resource" });
+    const id = `urn:li:document:FALSO${++contador}`;
+    imagensDoLinkedin.set(id, { enviada: false, documento: true });
+    return responder(res, 200, { value: { uploadUrlExpiresAt: Date.now() + 3600e3, uploadUrl: `http://${req.headers.host}/linkedin/upload/${encodeURIComponent(id)}`, document: id } });
+  }
+
   if (caminho.startsWith("/upload/") && req.method === "PUT") {
     const imagem = imagensDoLinkedin.get(decodeURIComponent(caminho.slice(8)));
     if (!imagem) return responder(res, 404, { message: "Upload desconhecido" });
+    if (imagem.documento) {
+      const paginas = (corpo.toString("latin1").match(/\/Type \/Page\b/g) || []).length;
+      if (corpo.subarray(0, 5).toString("latin1") !== "%PDF-" || paginas < 1 || paginas > 300) return responder(res, 400, { message: "O arquivo enviado não é um PDF de 1 a 300 páginas" });
+      imagem.enviada = true;
+      registrar(`  documento recebido: ${corpo.length} bytes, ${paginas} páginas`);
+      res.writeHead(201);
+      return res.end();
+    }
     if (corpo.length < 1000 || corpo[0] !== 0xff || corpo[1] !== 0xd8) return responder(res, 400, { message: "O arquivo enviado não é um JPEG" });
     imagem.enviada = true;
     registrar(`  imagem recebida: ${corpo.length} bytes`);
@@ -185,6 +201,7 @@ async function linkedin(req, res, url) {
     const ids = post.content?.multiImage ? post.content.multiImage.images.map((i) => i.id) : post.content?.media ? [post.content.media.id] : [];
     if (post.content?.multiImage && (ids.length < 2 || ids.length > 20)) return responder(res, 422, { message: "multiImage precisa de 2 a 20 imagens" });
     if (ids.some((id) => !imagensDoLinkedin.get(id)?.enviada)) return responder(res, 422, { message: "Imagem ainda não enviada" });
+    if (ids.some((id) => id.startsWith("urn:li:document:")) && !post.content?.media?.title) return responder(res, 422, { message: "document precisa de title" });
     const id = `urn:li:share:FALSO${++contador}`;
     registrar(`  LinkedIn publicado ${id} com ${ids.length} imagens: ${post.commentary.slice(0, 80)}`);
     res.writeHead(201, { "x-restli-id": id, "Content-Type": "application/json" });

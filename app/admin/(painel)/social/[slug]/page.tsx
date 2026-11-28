@@ -212,8 +212,8 @@ export default async function RoteiroPage({ params }: { params: Promise<{ slug: 
                 {textoDoLinkedin ? (
                     <>
                         <p className="text-sm text-[var(--text-secondary)] mb-4">
-                            Sai no seu perfil como um post de texto com os {roteiro.slides.length} slides do carrossel anexados como imagens, na mesma ordem. Com imagem anexada, o LinkedIn não monta o cartão do link: o endereço aparece
-                            dentro do texto.
+                            Sai no seu perfil como um post com documento: {roteiro.slides.length} cards próprios do LinkedIn, que a rede mostra como carrossel, uma página inteira por vez. O endereço do post do blog aparece dentro do
+                            texto.
                         </p>
                         <div className="max-w-xl rounded-xl border border-[var(--border-color)] bg-[var(--bg-primary)] overflow-hidden" role="group" aria-label="Prévia do post do LinkedIn">
                             <div className="flex items-center gap-3 p-4 pb-3">
@@ -228,21 +228,23 @@ export default async function RoteiroPage({ params }: { params: Promise<{ slug: 
                                 <span>{textoDoLinkedin.slice(0, cortaNoVerMais(textoDoLinkedin))}</span>
                                 {cortaNoVerMais(textoDoLinkedin) < textoDoLinkedin.length && <span className="text-[var(--text-secondary)]">{textoDoLinkedin.slice(cortaNoVerMais(textoDoLinkedin))}</span>}
                             </p>
-                            <div className="mt-3 grid grid-cols-6 gap-0.5 bg-[var(--border-color)]">
-                                {roteiro.slides.slice(0, 5).map((slide, i) => (
-                                    <div key={i} className={`relative ${i < 2 ? "col-span-3" : "col-span-2"}`}>
-                                        {/* eslint-disable-next-line @next/next/no-img-element */}
-                                        <img src={`/admin/social/${slug}/${i + 1}`} alt={`Imagem ${i + 1} do post: ${slide.titulo.replace(/[[\]]/g, "")}`} width={1080} height={1350} loading="lazy" className="w-full h-auto block" />
-                                        {i === 4 && roteiro.slides.length > 5 && (
-                                            <span className="absolute inset-0 flex items-center justify-center bg-black/60 text-white text-2xl font-bold">+{roteiro.slides.length - 5}</span>
-                                        )}
-                                    </div>
-                                ))}
+                            <div className="mt-3 border-y border-[var(--border-color)] bg-[var(--bg-secondary)]">
+                                <p className="px-4 py-2 text-xs font-semibold">
+                                    {roteiro.tema} · {roteiro.slides.length} páginas
+                                </p>
+                                <ol className="flex gap-2 overflow-x-auto px-4 pb-4 snap-x" aria-label="Páginas do documento">
+                                    {roteiro.slides.map((slide, i) => (
+                                        <li key={i} className="shrink-0 w-[78%] snap-start">
+                                            {/* eslint-disable-next-line @next/next/no-img-element */}
+                                            <img src={`/admin/social/${slug}/${i + 1}?rede=linkedin`} alt={`Página ${i + 1}: ${slide.titulo.replace(/[[\]]/g, "")}`} width={1080} height={1350} loading="lazy" className="w-full h-auto block rounded-lg border border-[var(--border-color)]" />
+                                        </li>
+                                    ))}
+                                </ol>
                             </div>
                             <p className="px-4 py-3 text-xs text-[var(--text-secondary)]">Gostei · Comentar · Compartilhar</p>
                         </div>
                         <ul className="text-xs text-[var(--text-secondary)] mt-3 space-y-1">
-                            <li>Prévia aproximada: a grade de imagens muda um pouco entre o aplicativo e o computador. Quem toca em uma imagem passa por todas, em tamanho cheio.</li>
+                            <li>Os cards do LinkedIn têm o mesmo conteúdo dos slides do Instagram, sem o “arraste para o lado” e sem o “link na bio”. Role a faixa para ver todas as páginas.</li>
                             <li>O trecho em cor normal é o que aparece no feed antes do “ver mais”. O resto, em cinza, só aparece para quem abre o post.</li>
                             <li>{textoDoLinkedin.length} de 3.000 caracteres.</li>
                         </ul>

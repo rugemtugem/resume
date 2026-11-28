@@ -44,6 +44,16 @@ export function salvarVideo(dados: Buffer, prefixo: string): string {
     return nome;
 }
 
+/** Guarda o PDF do carrossel do LinkedIn (um post de documento). */
+export function salvarDocumento(dados: Buffer, prefixo: string): string {
+    if (!existsSync(PASTA_DE_MIDIA)) mkdirSync(PASTA_DE_MIDIA, { recursive: true });
+    if (dados.subarray(0, 5).toString("latin1") !== "%PDF-") throw new Error("O arquivo gerado não é um PDF.");
+    const limpo = prefixo.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "").slice(0, 40) || "documento";
+    const nome = `${limpo}-${randomBytes(5).toString("hex")}.pdf`;
+    writeFileSync(join(PASTA_DE_MIDIA, nome), dados);
+    return nome;
+}
+
 export function caminhoDaMidia(nome: string): string | null {
     if (!NOME_DE_MIDIA.test(nome)) return null;
     const caminho = join(PASTA_DE_MIDIA, nome);

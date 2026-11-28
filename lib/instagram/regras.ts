@@ -4,12 +4,13 @@
  */
 
 /** Nome de mídia aceito na pasta pública: letras minúsculas, números e hífen, com extensão conhecida. */
-export const NOME_DE_MIDIA = /^[a-z0-9-]{1,80}\.(jpg|png|mp4)$/;
+export const NOME_DE_MIDIA = /^[a-z0-9-]{1,80}\.(jpg|png|mp4|pdf)$/;
 
 export const TIPOS_DE_MIDIA: Record<string, string> = {
     jpg: "image/jpeg",
     png: "image/png",
     mp4: "video/mp4",
+    pdf: "application/pdf",
 };
 
 export type TipoDePost = "imagem" | "carrossel" | "reels";

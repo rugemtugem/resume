@@ -50,7 +50,10 @@ function Titulo({ texto, tamanho }: { texto: string; tamanho: number }) {
 
 const tamanhoDoTitulo = (texto: string, grande: number) => (texto.length > 80 ? grande * 0.72 : texto.length > 50 ? grande * 0.85 : grande);
 
-function Corpo({ slide }: { slide: Slide }) {
+/** Rede para a qual o slide é desenhado. Muda só o que fala do próprio aplicativo: onde está o link e como passar a página. */
+export type Rede = "instagram" | "linkedin";
+
+function Corpo({ slide, rede = "instagram" }: { slide: Slide; rede?: Rede }) {
     if (slide.tipo === "capa") {
         return (
             <div style={{ display: "flex", flexDirection: "column" }}>
@@ -111,7 +114,7 @@ function Corpo({ slide }: { slide: Slide }) {
             <div style={{ display: "flex", marginTop: 56 }}>
                 <div style={{ display: "flex", padding: "30px 48px", borderRadius: 999, background: COR.laranja, fontSize: 46, fontWeight: 800 }}>{slide.botao || "Diagnóstico gratuito"}</div>
             </div>
-            <div style={{ display: "flex", marginTop: 28, fontSize: 40, color: COR.suave }}>O link está na bio.</div>
+            <div style={{ display: "flex", marginTop: 28, fontSize: 40, color: COR.suave }}>{rede === "linkedin" ? "O link está no texto do post." : "O link está na bio."}</div>
         </div>
     );
 }
@@ -149,7 +152,7 @@ export function imagemDoStory(roteiro: Roteiro): ImageResponse {
 }
 
 /** Desenha um slide do carrossel. O índice começa em zero. */
-export function imagemDoSlide(roteiro: Roteiro, indice: number): ImageResponse {
+export function imagemDoSlide(roteiro: Roteiro, indice: number, rede: Rede = "instagram"): ImageResponse {
     const slide = roteiro.slides[indice];
     const total = roteiro.slides.length;
     const ultimo = indice === total - 1;
@@ -174,11 +177,11 @@ export function imagemDoSlide(roteiro: Roteiro, indice: number): ImageResponse {
                     </div>
                 </div>
 
-                <Corpo slide={slide} />
+                <Corpo slide={slide} rede={rede} />
 
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", fontSize: 34 }}>
                     <span style={{ fontWeight: 800 }}>rugemtugem.dev</span>
-                    <span style={{ color: COR.suave }}>{ultimo ? "Fábio Rugemtugem" : "Arraste para o lado"}</span>
+                    <span style={{ color: COR.suave }}>{ultimo ? "Fábio Rugemtugem" : rede === "linkedin" ? "Continua na próxima página" : "Arraste para o lado"}</span>
                 </div>
             </div>
         ),

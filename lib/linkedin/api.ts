@@ -59,8 +59,32 @@ async function enviarImagem(token: string, dono: string, bytes: Buffer): Promise
     return imagem;
 }
 
-/** Publica no perfil: só texto, texto com uma imagem ou texto com várias (de 2 a 20). Devolve o identificador do post. */
-export async function publicarNoLinkedin(token: string, autor: string, texto: string, imagens: { bytes: Buffer; descricao: string }[]): Promise<string> {
+/** Envia um documento (PDF) e devolve o identificador dele. É o que o LinkedIn mostra como carrossel, página por página. */
+async function enviarDocumento(token: string, dono: string, bytes: Buffer): Promise<string> {
+    const { base: raiz, falsa } = base();
+    const r = (await (
+        await pedir(token, `${raiz}/rest/documents?action=initializeUpload`, { method: "POST", headers: cabecalhos(token), body: JSON.stringify({ initializeUploadRequest: { owner: dono } }) })
+    ).json()) as { value?: { uploadUrl?: string; document?: string } };
+    const destino = r.value?.uploadUrl;
+    const documento = r.value?.document;
+    if (!destino || !documento) throw new ErroDoLinkedin("O LinkedIn não devolveu o endereço para enviar o documento.");
+    if (!enderecoDeEnvioAceito(destino, falsa)) throw new ErroDoLinkedin("O LinkedIn devolveu um endereço de envio que não é dele. O documento não foi enviado.");
+    await pedir(token, destino, { method: "PUT", headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/octet-stream" }, body: new Uint8Array(bytes) });
+    return documento;
+}
+
+/**
+ * Publica no perfil: só texto, texto com uma imagem, texto com várias (de 2 a 20) ou texto com um documento
+ * (o carrossel em PDF). Devolve o identificador do post.
+ */
+export async function publicarNoLinkedin(
+    token: string,
+    autor: string,
+    texto: string,
+    imagens: { bytes: Buffer; descricao: string }[],
+    documento?: { bytes: Buffer; titulo: string },
+): Promise<string> {
+    if (documento && imagens.length > 0) throw new ErroDoLinkedin("Um post do LinkedIn leva imagens ou um documento, não os dois.");
     if (imagens.length > 20) throw new ErroDoLinkedin("O LinkedIn aceita no máximo 20 imagens por post.");
     const enviadas: { id: string; altText: string }[] = [];
     for (const imagem of imagens) enviadas.push({ id: await enviarImagem(token, autor, imagem.bytes), altText: imagem.descricao.slice(0, 120) });
@@ -75,6 +99,7 @@ export async function publicarNoLinkedin(token: string, autor: string, texto: st
     };
     if (enviadas.length === 1) corpo.content = { media: enviadas[0] };
     if (enviadas.length > 1) corpo.content = { multiImage: { images: enviadas } };
+    if (documento) corpo.content = { media: { title: documento.titulo.slice(0, 100), id: await enviarDocumento(token, autor, documento.bytes) } };
 
     const resposta = await pedir(token, `${base().base}/rest/posts`, { method: "POST", headers: cabecalhos(token), body: JSON.stringify(corpo) });
     const id = resposta.headers.get("x-restli-id");
