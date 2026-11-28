@@ -27,6 +27,17 @@ function horaDeBrasilia(iso: string): string {
 const cartao = "rounded-2xl border border-[var(--border-color)] bg-[var(--bg-secondary)] p-5 md:p-6";
 const NOME_DO_TIPO: Record<string, string> = { capa: "Capa", pontos: "Pontos", numero: "Número", duo: "Antes e depois", cta: "Convite" };
 
+/** Onde o feed do LinkedIn corta o texto: cerca de três linhas, ou 210 caracteres, o que vier primeiro. */
+function cortaNoVerMais(texto: string): number {
+    const linhas = texto.split("\n");
+    let fim = 0;
+    for (let i = 0; i < Math.min(3, linhas.length); i++) fim += linhas[i].length + 1;
+    const corte = Math.min(texto.length, Math.max(0, fim - 1), 210);
+    if (corte >= texto.length || /\s/.test(texto[corte])) return corte;
+    const espaco = texto.lastIndexOf(" ", corte);
+    return espaco > 0 ? espaco : corte;
+}
+
 export default async function RoteiroPage({ params }: { params: Promise<{ slug: string }> }) {
     await exigirAdmin();
     const { slug } = await params;
@@ -200,9 +211,41 @@ export default async function RoteiroPage({ params }: { params: Promise<{ slug: 
                 </h2>
                 {textoDoLinkedin ? (
                     <>
-                        <p className="text-sm text-[var(--text-secondary)] mb-3">Sai no seu perfil com os {roteiro.slides.length} slides do carrossel como imagens.</p>
-                        <p className="whitespace-pre-wrap break-words text-sm leading-relaxed">{textoDoLinkedin}</p>
-                        <p className="text-xs text-[var(--text-secondary)] mt-3">{textoDoLinkedin.length} de 3.000 caracteres.</p>
+                        <p className="text-sm text-[var(--text-secondary)] mb-4">
+                            Sai no seu perfil como um post de texto com os {roteiro.slides.length} slides do carrossel anexados como imagens, na mesma ordem. Com imagem anexada, o LinkedIn não monta o cartão do link: o endereço aparece
+                            dentro do texto.
+                        </p>
+                        <div className="max-w-xl rounded-xl border border-[var(--border-color)] bg-[var(--bg-primary)] overflow-hidden" role="group" aria-label="Prévia do post do LinkedIn">
+                            <div className="flex items-center gap-3 p-4 pb-3">
+                                {/* eslint-disable-next-line @next/next/no-img-element */}
+                                <img src="/images/logo-nova.png" alt="" width={48} height={48} className="w-12 h-12 rounded-full object-contain bg-white border border-[var(--border-color)] p-1" />
+                                <div className="min-w-0">
+                                    <p className="font-semibold text-sm truncate">{contaLi?.nome || "Fábio Rugemtugem"}</p>
+                                    <p className="text-xs text-[var(--text-secondary)]">Agora · visível para todos</p>
+                                </div>
+                            </div>
+                            <p className="px-4 whitespace-pre-wrap break-words text-sm leading-relaxed">
+                                <span>{textoDoLinkedin.slice(0, cortaNoVerMais(textoDoLinkedin))}</span>
+                                {cortaNoVerMais(textoDoLinkedin) < textoDoLinkedin.length && <span className="text-[var(--text-secondary)]">{textoDoLinkedin.slice(cortaNoVerMais(textoDoLinkedin))}</span>}
+                            </p>
+                            <div className="mt-3 grid grid-cols-6 gap-0.5 bg-[var(--border-color)]">
+                                {roteiro.slides.slice(0, 5).map((slide, i) => (
+                                    <div key={i} className={`relative ${i < 2 ? "col-span-3" : "col-span-2"}`}>
+                                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                                        <img src={`/admin/social/${slug}/${i + 1}`} alt={`Imagem ${i + 1} do post: ${slide.titulo.replace(/[[\]]/g, "")}`} width={1080} height={1350} loading="lazy" className="w-full h-auto block" />
+                                        {i === 4 && roteiro.slides.length > 5 && (
+                                            <span className="absolute inset-0 flex items-center justify-center bg-black/60 text-white text-2xl font-bold">+{roteiro.slides.length - 5}</span>
+                                        )}
+                                    </div>
+                                ))}
+                            </div>
+                            <p className="px-4 py-3 text-xs text-[var(--text-secondary)]">Gostei · Comentar · Compartilhar</p>
+                        </div>
+                        <ul className="text-xs text-[var(--text-secondary)] mt-3 space-y-1">
+                            <li>Prévia aproximada: a grade de imagens muda um pouco entre o aplicativo e o computador. Quem toca em uma imagem passa por todas, em tamanho cheio.</li>
+                            <li>O trecho em cor normal é o que aparece no feed antes do “ver mais”. O resto, em cinza, só aparece para quem abre o post.</li>
+                            <li>{textoDoLinkedin.length} de 3.000 caracteres.</li>
+                        </ul>
                     </>
                 ) : (
                     <p className="text-sm text-[var(--text-secondary)]">Este roteiro não tem a seção linkedin, então não vai para o LinkedIn. Para ir, acrescente a seção no arquivo.</p>
