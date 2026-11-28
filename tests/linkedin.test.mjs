@@ -1,7 +1,12 @@
 // Regras do LinkedIn: trava da API, formato do texto, validação, link com a origem e token fora das mensagens.
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { baseDoLinkedin, comLink, enderecoDoPost, problemasDoTexto, semTokenDoLinkedin, textoParaLinkedin } from "../lib/linkedin/regras.ts";
+import { baseDoLinkedin, comLink, enderecoDoPost, problemasDoTexto, quebrasLimpas, semTokenDoLinkedin, textoParaLinkedin } from "../lib/linkedin/regras.ts";
+
+test("LinkedIn: a quebra de linha do formulário não vira espaço dobrado", () => {
+  assert.equal(quebrasLimpas("Um.\r\n\r\nDois.\r\n1. item  \r\n2. item\n\n\n\nFim.\n"), "Um.\n\nDois.\n1. item\n2. item\n\nFim.");
+  assert.equal(textoParaLinkedin("Um.\r\n\r\nDois."), "Um.\n\nDois.");
+});
 import { lerRoteiro } from "../lib/social/roteiro.ts";
 
 test("trava: fora de produção a API só pode ser a falsa, em localhost", () => {

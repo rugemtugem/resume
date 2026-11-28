@@ -55,12 +55,25 @@ export function problemasDoTexto(texto: string): string[] {
 }
 
 /**
+ * Deixa só a quebra de linha simples. O formulário do navegador manda cada quebra como "\r\n", e o LinkedIn
+ * mostra as duas: o parágrafo saía com o dobro de espaço. Também corta espaço no fim da linha e limita a
+ * uma linha em branco entre parágrafos.
+ */
+export function quebrasLimpas(texto: string): string {
+    return texto
+        .replace(/\r\n?/g, "\n")
+        .replace(/[ \t]+\n/g, "\n")
+        .replace(/\n{3,}/g, "\n\n")
+        .trim();
+}
+
+/**
  * Converte o texto para o formato que a API exige: os caracteres reservados ganham barra invertida
  * e cada hashtag vira o elemento de hashtag. Sem isso a API corta o texto no primeiro parêntese.
  */
 export function textoParaLinkedin(texto: string): string {
     const escapar = (t: string) => t.replace(/[\\|{}@[\]()<>#*_~]/g, (c) => `\\${c}`);
-    return texto
+    return quebrasLimpas(texto)
         .split(/(#[\p{L}\p{N}_]+)/u)
         .map((parte) => (/^#[\p{L}\p{N}_]+$/u.test(parte) ? `{hashtag|\\#|${escapar(parte.slice(1))}}` : escapar(parte)))
         .join("");

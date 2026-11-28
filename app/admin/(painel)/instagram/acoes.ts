@@ -33,7 +33,8 @@ export async function acaoDesconectar(): Promise<void> {
 export async function acaoAgendar(_anterior: Retorno, dados: FormData): Promise<Retorno> {
     await exigirAdmin();
     const titulo = String(dados.get("titulo") || "").trim().slice(0, 120);
-    const legenda = String(dados.get("legenda") || "");
+    // O formulário manda cada quebra de linha como "\r\n"; fica só a quebra simples, para a legenda não sair com espaço dobrado.
+    const legenda = String(dados.get("legenda") || "").replace(/\r\n?/g, "\n");
     const quando = brasiliaParaUtc(String(dados.get("quando") || ""));
     // As imagens já foram enviadas para /admin/midia. Aqui chegam só os nomes, e cada um precisa existir na pasta.
     const nomes = dados.getAll("midias").map(String);

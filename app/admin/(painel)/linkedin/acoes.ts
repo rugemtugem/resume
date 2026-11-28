@@ -8,7 +8,7 @@ import { brasiliaParaUtc } from "@/lib/admin/seguranca";
 import { caminhoDaMidia, salvarDocumento } from "@/lib/instagram/midia";
 import { pdfDeImagens } from "@/lib/social/pdf";
 import { agendarNoLinkedin, cancelarNoLinkedin, conectarLinkedin, desconectarLinkedin, tentarDeNovoNoLinkedin } from "@/lib/linkedin/fila";
-import { problemasDoTexto, semTokenDoLinkedin } from "@/lib/linkedin/regras";
+import { problemasDoTexto, quebrasLimpas, semTokenDoLinkedin } from "@/lib/linkedin/regras";
 
 export interface Retorno {
     erro: string | null;
@@ -36,7 +36,7 @@ export async function acaoDesconectarLinkedin(): Promise<void> {
 export async function acaoAgendarNoLinkedin(_anterior: Retorno, dados: FormData): Promise<Retorno> {
     await exigirAdmin();
     const titulo = String(dados.get("titulo") || "").trim().slice(0, 120);
-    const texto = String(dados.get("texto") || "");
+    const texto = quebrasLimpas(String(dados.get("texto") || ""));
     const quando = brasiliaParaUtc(String(dados.get("quando") || ""));
     // As imagens já foram enviadas para /admin/midia. Aqui chegam só os nomes, e cada um precisa existir na pasta.
     const nomes = dados.getAll("midias").map(String);
