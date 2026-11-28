@@ -3,7 +3,8 @@
 import { revalidatePath } from "next/cache";
 import { exigirAdmin } from "@/lib/admin/sessao";
 import { brasiliaParaUtc } from "@/lib/admin/seguranca";
-import { aprovarPost } from "@/lib/agenda";
+import { agendaDoBlog, aprovarPost } from "@/lib/agenda";
+import { visivelNaAgenda } from "@/lib/admin/seguranca";
 import { todosOsPosts } from "@/lib/blog";
 import { agendarPost, cancelarCarrosseisDoSlug } from "@/lib/instagram/fila";
 import { salvarImagem } from "@/lib/instagram/midia";
@@ -43,7 +44,9 @@ export async function acaoAprovarTudo(_anterior: Retorno, dados: FormData): Prom
         }
         const trocados = cancelarCarrosseisDoSlug(slug);
         agendarPost({ tipo: "carrossel", titulo: arquivo.roteiro.tema, slug, midias: nomes, legenda: arquivo.roteiro.legenda, quandoUtc: quando });
-        if (post) aprovarPost(post.slug, post.titulo, quando);
+        // Post que já está no ar não é tocado: mudar a data dele para o horário do carrossel o tiraria do blog até lá.
+        const postNoAr = visivelNaAgenda(agendaDoBlog()[slug]);
+        if (post && !postNoAr) aprovarPost(post.slug, post.titulo, quando);
 
         const paraLinkedin = Boolean(arquivo.roteiro.linkedin) && dados.get("linkedin") === "sim";
         let trocadosNoLinkedin = 0;
@@ -55,7 +58,7 @@ export async function acaoAprovarTudo(_anterior: Retorno, dados: FormData): Prom
         }
 
         for (const caminho of ["/", "/blog", `/blog/${slug}`, "/blog/rss.xml", "/sitemap.xml", "/admin", "/admin/instagram", "/admin/linkedin", `/admin/social/${slug}`]) revalidatePath(caminho);
-        const partes = [post ? "Post do blog aprovado." : "", `Carrossel de ${nomes.length} slides agendado.`, trocados > 0 ? "O carrossel que estava na fila foi trocado por este." : "", paraLinkedin ? "Post do LinkedIn agendado." : "", trocadosNoLinkedin > 0 ? "O post do LinkedIn que estava na fila foi trocado por este." : ""];
+        const partes = [post && !postNoAr ? "Post do blog aprovado." : "", `Carrossel de ${nomes.length} slides agendado.`, trocados > 0 ? "O carrossel que estava na fila foi trocado por este." : "", paraLinkedin ? "Post do LinkedIn agendado." : "", trocadosNoLinkedin > 0 ? "O post do LinkedIn que estava na fila foi trocado por este." : ""];
         return { erro: null, ok: partes.filter(Boolean).join(" ") };
     } catch (e) {
         return { erro: e instanceof Error ? e.message : "Não foi possível agendar.", ok: null };

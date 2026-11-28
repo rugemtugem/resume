@@ -6,6 +6,7 @@ import { banco } from "@/lib/db";
 import { manutencaoDiaria, publicarVencidosDoInstagram } from "@/lib/instagram/fila";
 import { publicarVencidosDoLinkedin } from "@/lib/linkedin/fila";
 import { capturarRedes } from "@/lib/metricas/redes";
+import { renovarLinkedinSePreciso } from "@/lib/linkedin/oauth";
 
 export const dynamic = "force-dynamic";
 export const maxDuration = 300;
@@ -62,6 +63,8 @@ export async function POST(request: Request) {
             if (manutencao) partes.push(manutencao);
             const redes = await capturarRedes();
             if (redes) partes.push(redes);
+            const renovacao = await renovarLinkedinSePreciso();
+            if (renovacao) partes.push(renovacao);
         }
 
         registrarBatimento(partes.length > 0 ? partes.join(" ") : "Nada para publicar.");

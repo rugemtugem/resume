@@ -23,6 +23,15 @@ export function baseDoLinkedin(env: { NODE_ENV?: string; LINKEDIN_API_BASE?: str
     return { base: local ? configurada : "https://api.linkedin.com", falsa: local };
 }
 
+/**
+ * Endereços da autorização (OAuth). Em produção são sempre os oficiais; no modo de teste, os da API falsa.
+ * O Client Secret só é enviado para o endereço de token devolvido aqui.
+ */
+export function enderecosDoOauth(env: { NODE_ENV?: string }, api: { base: string; falsa: boolean }): { autorizacao: string; token: string } {
+    if (api.falsa) return { autorizacao: `${api.base}/oauth/v2/authorization`, token: `${api.base}/oauth/v2/accessToken` };
+    return { autorizacao: "https://www.linkedin.com/oauth/v2/authorization", token: "https://www.linkedin.com/oauth/v2/accessToken" };
+}
+
 /** O endereço de envio de imagem vem na resposta da API. Só é aceito se for do próprio LinkedIn (ou local, no modo de teste). */
 export function enderecoDeEnvioAceito(endereco: string, falsa: boolean): boolean {
     if (falsa) return /^http:\/\/(localhost|127\.0\.0\.1|host\.docker\.internal)[:/]/.test(endereco);

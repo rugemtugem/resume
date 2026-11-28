@@ -112,6 +112,26 @@ async function linkedin(req, res, url) {
   const corpo = Buffer.concat(pedacos);
   registrar(`LINKEDIN ${req.method} ${caminho} ${corpo.length} bytes`);
 
+  // Autorização (OAuth): a tela de permissão devolve na hora um código, e a troca entrega o token.
+  // Client ID com "comrefresh" imita o app para o qual o LinkedIn entrega também o token de renovação.
+  if (caminho === "/oauth/v2/authorization") {
+    const destino = new URL(url.searchParams.get("redirect_uri"));
+    if (url.searchParams.get("client_id") === "recusar00000") destino.searchParams.set("error", "user_cancelled_authorize");
+    else destino.searchParams.set("code", "CODIGO-FALSO-" + (++contador));
+    destino.searchParams.set("state", url.searchParams.get("state") || "");
+    res.writeHead(302, { Location: destino.toString() });
+    return res.end();
+  }
+  if (caminho === "/oauth/v2/accessToken" && req.method === "POST") {
+    const f = new URLSearchParams(corpo.toString());
+    if (!f.get("client_id") || f.get("client_secret") !== "segredo-falso-do-linkedin") return responder(res, 401, { error: "invalid_client", error_description: "Client authentication failed" });
+    const tipo = f.get("grant_type");
+    if (tipo === "authorization_code" && !String(f.get("code")).startsWith("CODIGO-FALSO-")) return responder(res, 400, { error: "invalid_request", error_description: "Unable to retrieve access token: authorization code not found" });
+    if (tipo === "refresh_token" && f.get("refresh_token") !== "RENOVACAO-FALSA") return responder(res, 400, { error: "invalid_grant", error_description: "The provided refresh token is invalid" });
+    const comRenovacao = f.get("client_id").includes("comrefresh") || tipo === "refresh_token";
+    return responder(res, 200, { access_token: "AQX-token-oauth-de-teste-" + (++contador) + "-0123456789", expires_in: 5184000, scope: "openid,profile,w_member_social", ...(comRenovacao ? { refresh_token: "RENOVACAO-FALSA", refresh_token_expires_in: 31536000 } : {}) });
+  }
+
   if (!token) return responder(res, 401, { message: "Empty oauth2 access token" });
   if (token.includes("recusar")) return responder(res, 401, { message: "The token used in the request has been revoked by the user" });
   if (req.headers["linkedin-version"] && !/^\d{6}$/.test(req.headers["linkedin-version"])) return responder(res, 426, { message: "Requested version is not active" });

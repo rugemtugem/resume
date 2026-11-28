@@ -46,16 +46,26 @@ export async function conectarLinkedin(token: string): Promise<ContaDoLinkedin> 
     const limpo = token.trim();
     if (limpo.length < 20) throw new ErroDoLinkedin("O token colado está incompleto.");
     const perfil = await lerPerfil(limpo);
-    const agora = new Date();
+    // Token colado à mão não vem com token de renovação: o que estiver guardado de uma conexão anterior deixa de valer.
+    db.prepare("DELETE FROM config WHERE chave IN ('li_refresh_token', 'li_refresh_expira_em')").run();
+    guardarContaDoLinkedin(perfil, limpo, new Date(Date.now() + VALIDADE_MS));
+    return contaDoLinkedin() as ContaDoLinkedin;
+}
+
+/** Grava (ou atualiza) a conta. Nome vazio mantém o nome que já estava guardado, como na renovação do token. */
+export function guardarContaDoLinkedin(perfil: { urn: string; nome: string }, token: string, expiraEm: Date): void {
+    const db = banco();
+    if (!db) throw new Error("Banco indisponível");
     db.prepare(
         `INSERT INTO li_conta (apelido, pessoa_urn, nome, token, expira_em, atualizado_em) VALUES (?, ?, ?, ?, ?, ?)
-         ON CONFLICT(apelido) DO UPDATE SET pessoa_urn = excluded.pessoa_urn, nome = excluded.nome, token = excluded.token, expira_em = excluded.expira_em, atualizado_em = excluded.atualizado_em`,
-    ).run(APELIDO, perfil.urn, perfil.nome, limpo, new Date(agora.getTime() + VALIDADE_MS).toISOString(), agora.toISOString());
-    return contaDoLinkedin() as ContaDoLinkedin;
+         ON CONFLICT(apelido) DO UPDATE SET pessoa_urn = excluded.pessoa_urn, nome = CASE WHEN excluded.nome = '' THEN li_conta.nome ELSE excluded.nome END,
+           token = excluded.token, expira_em = excluded.expira_em, atualizado_em = excluded.atualizado_em`,
+    ).run(APELIDO, perfil.urn, perfil.nome, token, expiraEm.toISOString(), new Date().toISOString());
 }
 
 export function desconectarLinkedin(): void {
     banco()?.prepare("DELETE FROM li_conta WHERE apelido = ?").run(APELIDO);
+    banco()?.prepare("DELETE FROM config WHERE chave IN ('li_refresh_token', 'li_refresh_expira_em')").run();
 }
 
 interface LinhaBruta extends Omit<PostDoLinkedin, "midias"> {

@@ -2,7 +2,7 @@ import Link from "next/link";
 import { exigirAdmin } from "@/lib/admin/sessao";
 import { notFound } from "next/navigation";
 import { agendaDoBlog, horaAtual } from "@/lib/agenda";
-import { brasiliaParaUtc, utcParaBrasilia } from "@/lib/admin/seguranca";
+import { brasiliaParaUtc, utcParaBrasilia, visivelNaAgenda } from "@/lib/admin/seguranca";
 import { dataPorExtenso, todosOsPosts } from "@/lib/blog";
 import { carrosseisDoSlug, contaConectada } from "@/lib/instagram/fila";
 import { contaDoLinkedin, linkedinDoSlug } from "@/lib/linkedin/fila";
@@ -38,8 +38,12 @@ export default async function RoteiroPage({ params }: { params: Promise<{ slug: 
     const liPendente = linkedinDoSlug(slug).find((p) => p.status === "agendado" || p.status === "erro");
     const textoDoLinkedin = roteiro.linkedin ? comLink(roteiro.linkedin, process.env.SITE_URL || "https://rugemtugem.dev", roteiro.link || (post ? `/blog/${slug}` : "/"), slug) : "";
 
-    const sugerida = pendente?.quando_utc ?? linhaDoBlog?.quando_utc ?? (roteiro.agendar ? brasiliaParaUtc(roteiro.agendar) : null) ?? post?.publicadoEm ?? new Date(horaAtual() + 24 * 3600e3).toISOString();
-    const rotulo = post ? "Aprovar post e agendar carrossel" : "Agendar carrossel";
+    // Com o post já no ar, a data sugerida nunca é a do post (ela já passou e o carrossel sairia na hora): é amanhã.
+    const postNoAr = visivelNaAgenda(linhaDoBlog, horaAtual());
+    const amanha = new Date(horaAtual() + 24 * 3600e3).toISOString();
+    const doRoteiro = roteiro.agendar ? brasiliaParaUtc(roteiro.agendar) : null;
+    const sugerida = pendente?.quando_utc ?? (postNoAr ? (doRoteiro && Date.parse(doRoteiro) > horaAtual() ? doRoteiro : amanha) : (linhaDoBlog?.quando_utc ?? doRoteiro ?? post?.publicadoEm ?? amanha));
+    const rotulo = post && !postNoAr ? "Aprovar post e agendar carrossel" : "Agendar carrossel";
     const bloqueado = problemas.length > 0 || Boolean(post?.rascunho);
     const link = linkDoStory(slug);
     const cliques = cliquesDoStory(slug);
@@ -76,7 +80,7 @@ export default async function RoteiroPage({ params }: { params: Promise<{ slug: 
                     Aprovar
                 </h2>
                 <p className="text-sm text-[var(--text-secondary)] mb-5">
-                    {post ? "Um clique aprova o post do blog e agenda o carrossel no mesmo horário. O post entra no ar antes de o carrossel sair." : "O carrossel sai no horário escolhido."}{" "}
+                    {post && !postNoAr ? "Um clique aprova o post do blog e agenda o carrossel no mesmo horário. O post entra no ar antes de o carrossel sair." : postNoAr ? "O post do blog já está no ar e não é alterado. O carrossel sai no horário escolhido." : "O carrossel sai no horário escolhido."}{" "}
                     As imagens são gravadas como aparecem abaixo.
                 </p>
                 <ul className="text-sm space-y-1 mb-5">
@@ -84,7 +88,8 @@ export default async function RoteiroPage({ params }: { params: Promise<{ slug: 
                     {!conta && <li className="text-amber-500">Nenhuma conta do Instagram conectada. Dá para agendar, mas nada sai enquanto a conta não for conectada.</li>}
                     {roteiro.linkedin && !contaLi && <li className="text-amber-500">Nenhuma conta do LinkedIn conectada. Dá para agendar, mas nada sai enquanto a conta não for conectada.</li>}
                     {liPendente && <li>Já existe um post do LinkedIn deste roteiro na fila para {horaDeBrasilia(liPendente.quando_utc)}. Aprovar de novo troca por este.</li>}
-                    {linhaDoBlog && <li>Post do blog já aprovado para {horaDeBrasilia(linhaDoBlog.quando_utc)}.</li>}
+                    {linhaDoBlog && !postNoAr && <li>Post do blog já aprovado para {horaDeBrasilia(linhaDoBlog.quando_utc)}.</li>}
+                    {postNoAr && linhaDoBlog && <li className="text-emerald-500">Post do blog no ar desde {horaDeBrasilia(linhaDoBlog.quando_utc)}.</li>}
                     {pendente && (
                         <li>
                             Já existe um carrossel deste roteiro na fila para {horaDeBrasilia(pendente.quando_utc)}

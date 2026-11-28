@@ -43,6 +43,18 @@ test("token nunca aparece em mensagem, e o endereço do post sai do identificado
   assert.equal(enderecoDoPost("urn:li:share:123"), "https://www.linkedin.com/feed/update/urn:li:share:123/");
 });
 
+test("autorização: em produção só os endereços oficiais do LinkedIn; no teste, só a API falsa", async () => {
+  const { enderecosDoOauth } = await import("../lib/linkedin/regras.ts");
+  assert.deepEqual(enderecosDoOauth({ NODE_ENV: "production" }, baseDoLinkedin({ NODE_ENV: "production", LINKEDIN_API_BASE: "https://servidor-de-outra-pessoa.com" })), {
+    autorizacao: "https://www.linkedin.com/oauth/v2/authorization",
+    token: "https://www.linkedin.com/oauth/v2/accessToken",
+  });
+  assert.deepEqual(enderecosDoOauth({ NODE_ENV: "development" }, baseDoLinkedin({ NODE_ENV: "development", LINKEDIN_API_BASE: "http://localhost:4010/linkedin" })), {
+    autorizacao: "http://localhost:4010/linkedin/oauth/v2/authorization",
+    token: "http://localhost:4010/linkedin/oauth/v2/accessToken",
+  });
+});
+
 test("roteiro: a seção linkedin é lida à parte da legenda", () => {
   const r = lerRoteiro("tema: x\n## capa\ntitulo: A\n## cta\ntitulo: B\n## legenda\nLegenda aqui.\n## linkedin\nTexto do LinkedIn.\n\nLeia: {link}\n");
   assert.equal(r.legenda, "Legenda aqui.");

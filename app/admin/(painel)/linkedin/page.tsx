@@ -4,6 +4,7 @@ import { utcParaBrasilia } from "@/lib/admin/seguranca";
 import { dataPorExtenso } from "@/lib/blog";
 import { usandoLinkedinFalso } from "@/lib/linkedin/api";
 import { contaDoLinkedin, filaDoLinkedin } from "@/lib/linkedin/fila";
+import { enderecoDeRetorno, oauthConfigurado, renovaSozinho } from "@/lib/linkedin/oauth";
 import { enderecoDoPost } from "@/lib/linkedin/regras";
 import { acaoCancelarNoLinkedin, acaoDesconectarLinkedin, acaoTentarDeNovoNoLinkedin } from "./acoes";
 import { FormularioDeTokenDoLinkedin, FormularioDoLinkedin } from "./formularios";
@@ -20,11 +21,23 @@ const ROTULO: Record<string, { texto: string; cor: string }> = {
     erro: { texto: "Erro", cor: "bg-red-500/15 text-red-500" },
 };
 
+/** Mensagens fixas da volta da autorização. O texto nunca vem do endereço, só a chave. */
+const RESULTADOS: Record<string, string> = {
+    conectado: "ok:Perfil conectado pelo LinkedIn.",
+    renova: "ok:Perfil conectado. O LinkedIn entregou a renovação automática: o agendador cuida do token daqui em diante.",
+    recusado: "erro:A permissão foi recusada na tela do LinkedIn.",
+    pedido: "erro:O pedido não saiu deste painel ou passou de 10 minutos. Clique em conectar de novo.",
+    falhou: "erro:O LinkedIn não entregou o token. Confira o Client ID, o Client Secret e o endereço de retorno cadastrado no app.",
+};
+
 const cartao = "rounded-2xl border border-[var(--border-color)] bg-[var(--bg-secondary)] p-5 md:p-6";
 const botaoSimples = "px-5 py-2.5 rounded-lg font-semibold border-2 border-[var(--border-color)] hover:border-[var(--primary-color)]";
 
-export default async function LinkedinPage() {
+export default async function LinkedinPage({ searchParams }: { searchParams: Promise<{ r?: string }> }) {
     await exigirAdmin();
+    const resultado = RESULTADOS[(await searchParams).r || ""] || "";
+    const comOauth = oauthConfigurado();
+    const automatico = renovaSozinho();
     const conta = contaDoLinkedin();
     const fila = filaDoLinkedin();
     const falsa = usandoLinkedinFalso();
@@ -53,17 +66,57 @@ export default async function LinkedinPage() {
                             <p className="text-lg font-semibold">{conta.nome}</p>
                             <p className={`text-sm ${dias <= 10 ? "text-amber-500" : "text-[var(--text-secondary)]"}`}>
                                 {dias > 0 ? `Token válido por mais ${dias} dias.` : "O token venceu."}{" "}
-                                {dias <= 10 ? "O LinkedIn não renova sozinho: gere outro token, desconecte e conecte de novo." : "Ele não se renova sozinho: perto do fim, esta tela avisa."}
+                                {automatico
+                                    ? "O agendador renova sozinho antes de vencer."
+                                    : comOauth
+                                      ? dias <= 10
+                                          ? "Clique em Renovar agora: é um clique e a permissão no LinkedIn."
+                                          : "Para renovar, basta clicar em Renovar agora. Esta tela avisa quando faltarem 10 dias."
+                                      : dias <= 10
+                                        ? "Gere outro token, desconecte e conecte de novo."
+                                        : "Ele não se renova sozinho: perto do fim, esta tela avisa."}
                             </p>
                         </div>
-                        <form action={acaoDesconectarLinkedin}>
-                            <button type="submit" className={botaoSimples}>
-                                Desconectar
-                            </button>
-                        </form>
+                        <div className="flex flex-wrap gap-3">
+                            {comOauth && (
+                                <a href="/admin/linkedin/conectar" className={botaoSimples}>
+                                    Renovar agora
+                                </a>
+                            )}
+                            <form action={acaoDesconectarLinkedin}>
+                                <button type="submit" className={botaoSimples}>
+                                    Desconectar
+                                </button>
+                            </form>
+                        </div>
                     </div>
                 ) : (
-                    <FormularioDeTokenDoLinkedin />
+                    <div className="space-y-6">
+                        {comOauth && (
+                            <div>
+                                <a href="/admin/linkedin/conectar" className="inline-block px-5 py-3 rounded-xl font-semibold text-white bg-gradient-to-r from-[var(--primary-color)] to-[var(--secondary-color)]">
+                                    Conectar pelo LinkedIn
+                                </a>
+                                <p className="text-xs text-[var(--text-secondary)] mt-2">Abre a tela de permissão do LinkedIn e volta para cá com o perfil conectado.</p>
+                            </div>
+                        )}
+                        <details open={!comOauth}>
+                            <summary className="text-sm font-semibold cursor-pointer">{comOauth ? "Ou cole um token gerado à mão" : "Colar o token de acesso"}</summary>
+                            <div className="mt-4">
+                                <FormularioDeTokenDoLinkedin />
+                            </div>
+                        </details>
+                        {!comOauth && (
+                            <p className="text-xs text-[var(--text-secondary)]">
+                                Para conectar e renovar com um clique, configure no servidor as variáveis LINKEDIN_CLIENT_ID e LINKEDIN_CLIENT_SECRET e cadastre no app do LinkedIn o endereço de retorno {enderecoDeRetorno()}
+                            </p>
+                        )}
+                    </div>
+                )}
+                {resultado && (
+                    <p role="status" className={`text-sm mt-4 ${resultado.startsWith("ok:") ? "text-emerald-500" : "text-red-500"}`}>
+                        {resultado.replace(/^(ok|erro):/, "")}
+                    </p>
                 )}
             </section>
 

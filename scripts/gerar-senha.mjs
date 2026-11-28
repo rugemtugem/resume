@@ -29,6 +29,8 @@ if (local) {
     "IG_GRAPH_BASE=http://localhost:4010",
     "# LinkedIn: a mesma API falsa atende em /linkedin.",
     "LINKEDIN_API_BASE=http://localhost:4010/linkedin",
+    "LINKEDIN_CLIENT_ID=appdeteste0comrefresh",
+    "LINKEDIN_CLIENT_SECRET=segredo-falso-do-linkedin",
     "# Métricas: API falsa do Google em /google, com uma conta de serviço de mentira.",
     "GOOGLE_API_BASE=http://localhost:4010/google",
     "GOOGLE_CHAVE=./.dados/google-falso.json",
@@ -39,7 +41,7 @@ if (local) {
   const { privateKey } = generateKeyPairSync("rsa", { modulusLength: 2048 });
   writeFileSync(".dados/google-falso.json", JSON.stringify({ client_email: "falso@localhost.iam.gserviceaccount.com", private_key: privateKey.export({ type: "pkcs8", format: "pem" }) }, null, 2));
   writeFileSync(".env.local", cabecalho.concat(linhas).join("\n") + "\n");
-  console.log("Arquivo .env.local gravado com", linhas.length + 8, "variáveis.");
+  console.log("Arquivo .env.local gravado com", linhas.length + 10, "variáveis.");
 } else {
   console.log(linhas.join("\n"));
 }
