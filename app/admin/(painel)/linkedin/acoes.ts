@@ -1,9 +1,12 @@
 "use server";
 
+import { readFileSync } from "node:fs";
 import { revalidatePath } from "next/cache";
+import sharp from "sharp";
 import { exigirAdmin } from "@/lib/admin/sessao";
 import { brasiliaParaUtc } from "@/lib/admin/seguranca";
-import { caminhoDaMidia } from "@/lib/instagram/midia";
+import { caminhoDaMidia, salvarDocumento } from "@/lib/instagram/midia";
+import { pdfDeImagens } from "@/lib/social/pdf";
 import { agendarNoLinkedin, cancelarNoLinkedin, conectarLinkedin, desconectarLinkedin, tentarDeNovoNoLinkedin } from "@/lib/linkedin/fila";
 import { problemasDoTexto, semTokenDoLinkedin } from "@/lib/linkedin/regras";
 
@@ -46,6 +49,19 @@ export async function acaoAgendarNoLinkedin(_anterior: Retorno, dados: FormData)
     if (problemas.length > 0) return { erro: problemas.join(" "), ok: null };
 
     try {
+        // Com duas ou mais imagens e a caixa marcada, elas viram um documento: o LinkedIn mostra como carrossel, sem cortar.
+        if (nomes.length >= 2 && dados.get("documento") === "sim") {
+            const paginas = [];
+            for (const nome of nomes) {
+                const bruto = readFileSync(caminhoDaMidia(nome) as string);
+                const meta = await sharp(bruto).metadata();
+                paginas.push({ jpeg: await sharp(bruto).flatten({ background: "#ffffff" }).jpeg({ quality: 90, progressive: false }).toBuffer(), largura: meta.width as number, altura: meta.height as number });
+            }
+            const documento = salvarDocumento(pdfDeImagens(paginas, titulo), `${titulo}-linkedin`.slice(0, 40));
+            agendarNoLinkedin({ titulo, texto: texto.trim(), midias: [documento], quandoUtc: quando as string });
+            revalidatePath("/admin/linkedin");
+            return { erro: null, ok: `Carrossel de ${nomes.length} páginas agendado.` };
+        }
         agendarNoLinkedin({ titulo, texto: texto.trim(), midias: nomes, quandoUtc: quando as string });
         revalidatePath("/admin/linkedin");
         return { erro: null, ok: nomes.length > 0 ? `Post com ${nomes.length} ${nomes.length === 1 ? "imagem" : "imagens"} agendado.` : "Post de texto agendado." };

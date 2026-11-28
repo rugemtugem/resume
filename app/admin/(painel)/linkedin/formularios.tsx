@@ -78,6 +78,10 @@ export function FormularioDoLinkedin({ dataPadrao }: { dataPadrao: string }) {
                 </label>
                 <input id="li-imagens" name="imagens" type="file" accept="image/jpeg,image/png" multiple className={campo} />
                 <p className="text-xs text-[var(--text-secondary)] mt-2">Sem imagem sai só o texto. Até 20 imagens, na ordem dos nomes dos arquivos.</p>
+                <label className="flex items-center gap-3 text-sm mt-3">
+                    <input type="checkbox" name="documento" value="sim" defaultChecked className="w-5 h-5 accent-[var(--primary-color)]" />
+                    Com duas ou mais imagens, publicar como carrossel (documento), sem cortar
+                </label>
             </div>
             <Aviso estado={estado} />
             <button type="submit" disabled={enviando} className={botao}>
