@@ -5,7 +5,8 @@ import { usePathname } from "next/navigation";
 
 // A tela do roteiro (/admin/social/...) é aberta a partir do Instagram, então marca o Instagram.
 const ITENS: { href: string; nome: string; tambem?: string }[] = [
-    { href: "/admin", nome: "Agenda do blog" },
+    { href: "/admin", nome: "Início" },
+    { href: "/admin/agenda", nome: "Agenda do blog" },
     { href: "/admin/instagram", nome: "Instagram", tambem: "/admin/social" },
     { href: "/admin/linkedin", nome: "LinkedIn" },
     { href: "/admin/metricas", nome: "Métricas" },

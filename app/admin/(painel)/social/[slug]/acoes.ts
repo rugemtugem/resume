@@ -67,7 +67,7 @@ export async function acaoAprovarTudo(_anterior: Retorno, dados: FormData): Prom
             agendarNoLinkedin({ titulo: arquivo.roteiro.tema, slug, texto: comLink(arquivo.roteiro.linkedin, site, caminho, slug), midias: [documento], quandoUtc: quando });
         }
 
-        for (const caminho of ["/", "/blog", `/blog/${slug}`, "/blog/rss.xml", "/sitemap.xml", "/admin", "/admin/instagram", "/admin/linkedin", `/admin/social/${slug}`]) revalidatePath(caminho);
+        for (const caminho of ["/", "/blog", `/blog/${slug}`, "/blog/rss.xml", "/sitemap.xml", "/admin", "/admin/agenda", "/admin/instagram", "/admin/linkedin", `/admin/social/${slug}`]) revalidatePath(caminho);
         const partes = [post && !postNoAr ? "Post do blog aprovado." : "", `Carrossel de ${nomes.length} slides agendado.`, trocados > 0 ? "O carrossel que estava na fila foi trocado por este." : "", paraLinkedin ? "Post do LinkedIn agendado." : "", trocadosNoLinkedin > 0 ? "O post do LinkedIn que estava na fila foi trocado por este." : ""];
         return { erro: null, ok: partes.filter(Boolean).join(" ") };
     } catch (e) {

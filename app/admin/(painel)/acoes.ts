@@ -8,7 +8,7 @@ import { aprovarPost, desaprovarPost } from "@/lib/agenda";
 import { todosOsPosts } from "@/lib/blog";
 
 function atualizarPaginas(slug: string) {
-    for (const caminho of ["/", "/blog", `/blog/${slug}`, "/blog/rss.xml", "/sitemap.xml", "/admin"]) revalidatePath(caminho);
+    for (const caminho of ["/", "/blog", `/blog/${slug}`, "/blog/rss.xml", "/sitemap.xml", "/admin", "/admin/agenda"]) revalidatePath(caminho);
 }
 
 export async function acaoAprovar(dados: FormData): Promise<void> {
