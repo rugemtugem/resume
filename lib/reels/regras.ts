@@ -66,7 +66,8 @@ export function problemasDoReels(texto: string): string[] {
         if (["pergunta", "titulo", "alerta", "manchete", "encerramento"].includes(c.tipo) && !c.texto) problemas.push(`${n}: falta o texto.`);
         if (["lista", "passos"].includes(c.tipo)) {
             const quantos = c.itens?.length ?? 0;
-            if (quantos < 1 || quantos > 4) problemas.push(`${n}: use de 1 a 4 itens (tem ${quantos}). Com mais que isso o texto não cabe na tela.`);
+            const maximo = c.tipo === "lista" ? 5 : 4;
+            if (quantos < 1 || quantos > maximo) problemas.push(`${n}: use de 1 a ${maximo} itens (tem ${quantos}). Com mais que isso o texto não cabe na tela.`);
         }
         if (c.tipo === "lista" && !c.titulo) problemas.push(`${n}: falta o título.`);
         if (c.tipo === "numero" && (!c.rotulo || !c.valor)) problemas.push(`${n}: preencha "rotulo:" e "valor:".`);

@@ -54,7 +54,7 @@ A pergunta que abre o vídeo, com {trecho em laranja}?
 
 ### lista 5.5
 titulo: Título da cena
-- Até quatro itens curtos
+- Até cinco itens curtos
 
 ### passos 6.5
 titulo: Título da cena
@@ -74,6 +74,8 @@ aviso: O link está na bio.
 
 - De 2 a 10 slides. O primeiro é a `capa` e o último é o `cta`.
 - Tipos de slide: `capa`, `pontos` (de 1 a 4 linhas), `duo`, `numero` e `cta`.
+- Lista com mais de 4 itens: divida em dois slides `pontos` e, no segundo, ponha `inicio: 5` (ou o número em que a
+  contagem continua). Se o título promete cinco itens, os slides precisam mostrar os cinco.
 - Colchetes no título marcam o trecho em laranja.
 - Todo slide `numero` precisa da linha `fonte:`.
 - Nenhum travessão, em nenhum texto.

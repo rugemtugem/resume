@@ -137,7 +137,9 @@ test("Reels: lê o bloco do roteiro e aponta cada problema", async () => {
   assert.match(com("### encerramento 4", "### titulo 4"), /última cena precisa ser o encerramento/);
   assert.match(com("url: rugemtugem.dev", ""), /url:/);
   assert.match(com("### lista 5", "### grafico 5"), /tipo "grafico" não existe/);
-  assert.match(com("- Um\n- Dois", "- 1\n- 2\n- 3\n- 4\n- 5"), /1 a 4 itens/);
+  assert.match(com("- Um\n- Dois", "- 1\n- 2\n- 3\n- 4\n- 5\n- 6"), /1 a 5 itens/);
+  assert.equal(lerRoteiro(BOM.replace("titulo: Onde o tempo some", "titulo: Onde o tempo some\ninicio: 4")).slides[1].inicio, "4");
+  assert.match(problemasDoRoteiro(lerRoteiro(BOM.replace("titulo: Onde o tempo some", "titulo: Onde o tempo some\ninicio: dez"))).join(" "), /inicio:/);
   assert.match(com("### lista 5\ntitulo: Onde erra\n- Um\n- Dois", "### numero 5\nrotulo: Testes\nvalor: 7.170"), /precisa de fonte/);
   assert.match(com("Onde erra", "Onde " + String.fromCharCode(0x2014) + " erra"), /travessão/);
   assert.match(problemasDoReels("### pergunta 4\nOi?\n### encerramento 3\ntexto: x\nurl: y").join(" "), /3 a 10 cenas/);

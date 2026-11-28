@@ -66,7 +66,7 @@ function Corpo({ slide }: { slide: Slide }) {
                 <div style={{ display: "flex", flexDirection: "column", marginTop: 48 }}>
                     {slide.linhas.map((linha, i) => (
                         <div key={i} style={{ display: "flex", alignItems: "center", marginBottom: 22, padding: "28px 32px", borderRadius: 28, border: `2px solid ${COR.linha}`, background: COR.painel }}>
-                            <div style={{ display: "flex", alignItems: "center", justifyContent: "center", width: 68, height: 68, borderRadius: 68, marginRight: 28, background: COR.vinho, fontSize: 36, fontWeight: 800, flexShrink: 0 }}>{i + 1}</div>
+                            <div style={{ display: "flex", alignItems: "center", justifyContent: "center", width: 68, height: 68, borderRadius: 68, marginRight: 28, background: COR.vinho, fontSize: 36, fontWeight: 800, flexShrink: 0 }}>{(Number(slide.inicio) || 1) + i}</div>
                             <div style={{ display: "flex", flex: 1, fontSize: 42, lineHeight: 1.25 }}>{linha}</div>
                         </div>
                     ))}

@@ -17,6 +17,7 @@
  *   titulo: Onde o tempo some
  *   - Primeira linha
  *   - Segunda linha
+ *   (a linha "inicio: 4" faz a numeração começar em 4, para continuar a lista do slide anterior)
  *
  *   ## numero
  *   valor: 7.170
@@ -57,6 +58,8 @@ export interface Slide {
     antes: string;
     depois: string;
     botao: string;
+    /** Número do primeiro item de um slide de pontos, quando ele continua a lista do slide anterior. Vazio = 1. */
+    inicio: string;
     linhas: string[];
 }
 
@@ -75,11 +78,11 @@ export interface Roteiro {
     reels: string;
 }
 
-const CAMPOS_DO_SLIDE = ["titulo", "nota", "valor", "fonte", "antes", "depois", "botao"] as const;
+const CAMPOS_DO_SLIDE = ["titulo", "nota", "valor", "fonte", "antes", "depois", "botao", "inicio"] as const;
 const TRAVESSOES = [String.fromCharCode(0x2014), String.fromCharCode(0x2013)];
 
 function slideVazio(tipo: string): Slide {
-    return { tipo, titulo: "", nota: "", valor: "", fonte: "", antes: "", depois: "", botao: "", linhas: [] };
+    return { tipo, titulo: "", nota: "", valor: "", fonte: "", antes: "", depois: "", botao: "", inicio: "", linhas: [] };
 }
 
 export function lerRoteiro(md: string): Roteiro {
@@ -176,6 +179,7 @@ export function problemasDoRoteiro(roteiro: Roteiro): string[] {
         if (!titulo) problemas.push(`${n}: falta o título.`);
         if (titulo.length > 110) problemas.push(`${n}: título com ${titulo.length} caracteres. O limite é 110.`);
         if (slide.nota.length > 140) problemas.push(`${n}: nota com ${slide.nota.length} caracteres. O limite é 140.`);
+        if (slide.inicio && !/^[1-9]$/.test(slide.inicio)) problemas.push(`${n}: a linha "inicio:" precisa ser um número de 1 a 9.`);
         if (slide.tipo === "pontos") {
             if (slide.linhas.length < 1 || slide.linhas.length > 4) problemas.push(`${n}: use de 1 a 4 linhas (tem ${slide.linhas.length}).`);
             slide.linhas.forEach((l) => {

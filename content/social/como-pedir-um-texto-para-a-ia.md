@@ -6,16 +6,16 @@ titulo: O texto da IA saiu [com cara de panfleto]?
 nota: Quase sempre o problema está no pedido. Cinco informações mudam a resposta.
 
 ## pontos
-titulo: Diga [para quem] é o texto
+titulo: As cinco informações: [para quem é]
 - Quem vai ler
 - O que essa pessoa já sabe do assunto
 - O que você quer que ela faça depois de ler
 
 ## pontos
-titulo: Entregue o que [só você sabe]
+titulo: As cinco informações: [o que só você sabe]
+inicio: 4
 - Os fatos: datas, endereços, nomes, prazos e condições
-- O formato: tamanho, com lista ou sem lista
-- O tom: por você ou por senhor, direto ou formal
+- O formato e o tom: tamanho, com ou sem lista, por você ou por senhor
 
 ## duo
 titulo: Um exemplo de [antes e depois]
@@ -80,12 +80,13 @@ O texto da IA saiu {com cara de panfleto}?
 Quase sempre o problema está {no pedido}
 sub: A IA completa o que falta com o caso mais comum.
 
-### passos 7
-titulo: Diga no pedido
+### lista 7.5
+titulo: As cinco informações do pedido
 - Quem vai ler
 - O que essa pessoa já sabe
 - O que você quer que ela faça
-- Os fatos, o formato e o tom
+- Os fatos: datas, nomes, prazos
+- O formato e o tom
 
 ### lista 5.5
 titulo: Continua sendo trabalho seu
