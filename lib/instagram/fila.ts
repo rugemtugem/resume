@@ -81,7 +81,7 @@ const COLUNAS = "id, tipo, titulo, slug, midias, legenda, quando_utc, status, te
 const ler = (l: LinhaBruta): PostDaFila => ({ ...l, midias: JSON.parse(l.midias) as string[] });
 
 export function filaDoInstagram(): PostDaFila[] {
-    const linhas = (banco()?.prepare(`SELECT ${COLUNAS} FROM ig_post WHERE status <> 'cancelado' ORDER BY quando_utc DESC LIMIT 100`).all() as LinhaBruta[] | undefined) ?? [];
+    const linhas = (banco()?.prepare(`SELECT ${COLUNAS} FROM ig_post WHERE status <> 'cancelado' ORDER BY quando_utc DESC LIMIT 500`).all() as LinhaBruta[] | undefined) ?? [];
     return linhas.map(ler);
 }
 

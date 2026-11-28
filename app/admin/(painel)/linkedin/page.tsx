@@ -1,3 +1,6 @@
+import { ControlesDaLista, Paginacao, SemResultado } from "../lista";
+import { filtrarEPaginar, lerPedido } from "@/lib/admin/lista";
+import type { Parametros } from "@/lib/admin/lista";
 import { horaAtual } from "@/lib/agenda";
 import { exigirAdmin } from "@/lib/admin/sessao";
 import { utcParaBrasilia } from "@/lib/admin/seguranca";
@@ -33,13 +36,17 @@ const RESULTADOS: Record<string, string> = {
 const cartao = "rounded-2xl border border-[var(--border-color)] bg-[var(--bg-secondary)] p-5 md:p-6";
 const botaoSimples = "px-5 py-2.5 rounded-lg font-semibold border-2 border-[var(--border-color)] hover:border-[var(--primary-color)]";
 
-export default async function LinkedinPage({ searchParams }: { searchParams: Promise<{ r?: string }> }) {
+export default async function LinkedinPage({ searchParams }: { searchParams: Promise<Parametros> }) {
     await exigirAdmin();
-    const resultado = RESULTADOS[(await searchParams).r || ""] || "";
+    const parametros = await searchParams;
+    const resultado = RESULTADOS[String(parametros.r || "")] || "";
     const comOauth = oauthConfigurado();
     const automatico = renovaSozinho();
     const conta = contaDoLinkedin();
     const fila = filaDoLinkedin();
+    const pedidoFila = lerPedido(parametros, "f");
+    const resFila = filtrarEPaginar(fila, pedidoFila, { texto: (p) => `${p.titulo} ${p.texto}`, grupo: (p) => p.status, porPagina: 10 });
+    const listaFila = { base: "/admin/linkedin", prefixo: "f", parametros, ancora: "fila" };
     const falsa = usandoLinkedinFalso();
     const agora = horaAtual();
     const amanha = utcParaBrasilia(new Date(agora + 24 * 3600e3).toISOString());
@@ -127,13 +134,16 @@ export default async function LinkedinPage({ searchParams }: { searchParams: Pro
                 </section>
             )}
 
-            <section>
+            <section id="fila" className="scroll-mt-24">
                 <h2 className="text-xl font-bold mb-4">Fila</h2>
                 {fila.length === 0 ? (
                     <p className="text-[var(--text-secondary)]">Nenhum post na fila.</p>
                 ) : (
+                    <>
+                    <ControlesDaLista {...listaFila} pedido={pedidoFila} resultado={resFila} oQue="posts" rotuloDaBusca="Buscar na fila por título ou texto" filtros={[["agendado", "Agendados"], ["publicando", "Publicando"], ["publicado", "Publicados"], ["erro", "Com erro"]]} />
+                    {resFila.itens.length === 0 && <SemResultado {...listaFila} pedido={pedidoFila} />}
                     <ul className="space-y-4">
-                        {fila.map((post) => (
+                        {resFila.itens.map((post) => (
                             <li key={post.id} className={cartao}>
                                 <div className="flex flex-col lg:flex-row lg:items-center gap-5">
                                     {post.midias.filter((nome) => !nome.endsWith(".pdf")).length > 0 && (
@@ -184,6 +194,8 @@ export default async function LinkedinPage({ searchParams }: { searchParams: Pro
                             </li>
                         ))}
                     </ul>
+                    <Paginacao {...listaFila} resultado={resFila} oQue="posts" />
+                    </>
                 )}
             </section>
         </div>

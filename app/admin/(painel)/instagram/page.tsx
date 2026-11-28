@@ -6,7 +6,10 @@ import { dataPorExtenso } from "@/lib/blog";
 import { contaConectada, cotaDaConta, filaDoInstagram } from "@/lib/instagram/fila";
 import { usandoApiFalsa } from "@/lib/instagram/graph";
 import { roteirosSociais } from "@/lib/social";
+import { filtrarEPaginar, lerPedido } from "@/lib/admin/lista";
+import type { Parametros } from "@/lib/admin/lista";
 import { acaoCancelar, acaoDesconectar, acaoTentarDeNovo } from "./acoes";
+import { ControlesDaLista, Paginacao, SemResultado } from "../lista";
 import { FormularioDeAgendamento, FormularioDeToken } from "./formularios";
 
 function horaDeBrasilia(iso: string): string {
@@ -23,7 +26,9 @@ const ROTULO: Record<string, { texto: string; cor: string }> = {
 
 const cartao = "rounded-2xl border border-[var(--border-color)] bg-[var(--bg-secondary)] p-5 md:p-6";
 
-export default async function InstagramPage() {
+const NOME_DO_TIPO: Record<string, string> = { imagem: "imagem", carrossel: "carrossel", reels: "reels" };
+
+export default async function InstagramPage({ searchParams }: { searchParams: Promise<Parametros> }) {
     await exigirAdmin();
     const conta = contaConectada();
     const cota = conta ? await cotaDaConta() : null;
@@ -32,6 +37,15 @@ export default async function InstagramPage() {
     const roteiros = roteirosSociais();
     const agora = horaAtual();
     const amanha = utcParaBrasilia(new Date(agora + 24 * 3600e3).toISOString());
+    const parametros = await searchParams;
+    // Situação de cada roteiro: pendência no arquivo, o estado do carrossel na fila ou ainda sem aprovação.
+    const situacaoDoRoteiro = (r: (typeof roteiros)[number]) => (r.problemas.length > 0 ? "pendencia" : (fila.find((p) => p.slug === r.slug && p.tipo === "carrossel")?.status ?? "aprovar"));
+    const pedidoRoteiros = lerPedido(parametros, "r");
+    const resRoteiros = filtrarEPaginar(roteiros, pedidoRoteiros, { texto: (r) => `${r.roteiro.tema} ${r.slug} ${r.roteiro.categoria}`, grupo: situacaoDoRoteiro, porPagina: 8 });
+    const listaRoteiros = { base: "/admin/instagram", prefixo: "r", parametros, ancora: "roteiros" };
+    const pedidoFila = lerPedido(parametros, "f");
+    const resFila = filtrarEPaginar(fila, pedidoFila, { texto: (p) => `${p.titulo} ${p.legenda} ${NOME_DO_TIPO[p.tipo] ?? p.tipo}`, grupo: (p) => p.status, porPagina: 10 });
+    const listaFila = { base: "/admin/instagram", prefixo: "f", parametros, ancora: "fila" };
     const diasDoToken = conta ? Math.round((Date.parse(conta.expira_em) - agora) / 86400e3) : 0;
 
     return (
@@ -70,14 +84,17 @@ export default async function InstagramPage() {
                 )}
             </section>
 
-            <section className={cartao}>
+            <section className={`${cartao} scroll-mt-24`} id="roteiros">
                 <h2 className="text-xl font-bold mb-2">Carrosséis prontos</h2>
                 <p className="text-sm text-[var(--text-secondary)] mb-4">Roteiros da pasta content/social. Abra para ver os slides e aprovar.</p>
                 {roteiros.length === 0 ? (
                     <p className="text-sm text-[var(--text-secondary)]">Nenhum roteiro na pasta.</p>
                 ) : (
+                    <>
+                    <ControlesDaLista {...listaRoteiros} pedido={pedidoRoteiros} resultado={resRoteiros} oQue="roteiros" rotuloDaBusca="Buscar roteiro por tema" filtros={[["aprovar", "Aguardando aprovação"], ["agendado", "Agendados"], ["publicado", "Publicados"], ["erro", "Com erro"], ["pendencia", "Com pendência"]]} />
+                    {resRoteiros.itens.length === 0 && <SemResultado {...listaRoteiros} pedido={pedidoRoteiros} />}
                     <ul className="divide-y divide-[var(--border-color)]">
-                        {roteiros.map(({ slug, roteiro, problemas }) => {
+                        {resRoteiros.itens.map(({ slug, roteiro, problemas }) => {
                             const daFila = fila.find((p) => p.slug === slug && p.tipo === "carrossel");
                             const estado = problemas.length > 0 ? "Com pendência no arquivo" : daFila ? (ROTULO[daFila.status]?.texto ?? daFila.status) : "Aguardando aprovação";
                             return (
@@ -95,6 +112,8 @@ export default async function InstagramPage() {
                             );
                         })}
                     </ul>
+                    <Paginacao {...listaRoteiros} resultado={resRoteiros} oQue="roteiros" />
+                    </>
                 )}
             </section>
 
@@ -105,13 +124,16 @@ export default async function InstagramPage() {
                 </section>
             )}
 
-            <section>
+            <section id="fila" className="scroll-mt-24">
                 <h2 className="text-xl font-bold mb-4">Fila</h2>
                 {fila.length === 0 ? (
                     <p className="text-[var(--text-secondary)]">Nenhuma publicação na fila.</p>
                 ) : (
+                    <>
+                    <ControlesDaLista {...listaFila} pedido={pedidoFila} resultado={resFila} oQue="publicações" rotuloDaBusca="Buscar na fila por título ou legenda" filtros={[["agendado", "Agendadas"], ["publicando", "Publicando"], ["publicado", "Publicadas"], ["erro", "Com erro"]]} />
+                    {resFila.itens.length === 0 && <SemResultado {...listaFila} pedido={pedidoFila} />}
                     <ul className="space-y-4">
-                        {fila.map((post) => (
+                        {resFila.itens.map((post) => (
                             <li key={post.id} className={cartao}>
                                 <div className="flex flex-col lg:flex-row lg:items-center gap-5">
                                     <div className="flex gap-2 shrink-0">
@@ -162,6 +184,8 @@ export default async function InstagramPage() {
                             </li>
                         ))}
                     </ul>
+                    <Paginacao {...listaFila} resultado={resFila} oQue="publicações" />
+                    </>
                 )}
             </section>
         </div>

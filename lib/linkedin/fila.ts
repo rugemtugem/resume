@@ -76,7 +76,7 @@ const COLUNAS = "id, titulo, slug, texto, midias, quando_utc, status, tentativas
 const ler = (l: LinhaBruta): PostDoLinkedin => ({ ...l, midias: JSON.parse(l.midias) as string[] });
 
 export function filaDoLinkedin(): PostDoLinkedin[] {
-    const linhas = (banco()?.prepare(`SELECT ${COLUNAS} FROM li_post WHERE status <> 'cancelado' ORDER BY quando_utc DESC LIMIT 100`).all() as LinhaBruta[] | undefined) ?? [];
+    const linhas = (banco()?.prepare(`SELECT ${COLUNAS} FROM li_post WHERE status <> 'cancelado' ORDER BY quando_utc DESC LIMIT 500`).all() as LinhaBruta[] | undefined) ?? [];
     return linhas.map(ler);
 }
 

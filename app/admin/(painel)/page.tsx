@@ -4,7 +4,10 @@ import { utcParaBrasilia } from "@/lib/admin/seguranca";
 import Link from "next/link";
 import { CATEGORIAS, dataPorExtenso, todosOsPosts } from "@/lib/blog";
 import { roteirosSociais } from "@/lib/social";
+import { filtrarEPaginar, lerPedido } from "@/lib/admin/lista";
+import type { Parametros } from "@/lib/admin/lista";
 import { acaoAprovar, acaoDesaprovar } from "./acoes";
+import { ControlesDaLista, Paginacao, SemResultado } from "./lista";
 
 function horaDeBrasilia(iso: string): string {
     const d = new Date(Date.parse(iso) - 3 * 3600e3);
@@ -25,13 +28,22 @@ const ROTULO: Record<string, { texto: string; cor: string }> = {
     publicado: { texto: "Publicado", cor: "bg-emerald-500/15 text-emerald-500" },
 };
 
-export default async function AgendaPage() {
+export default async function AgendaPage({ searchParams }: { searchParams: Promise<Parametros> }) {
     await exigirAdmin();
     const agenda = agendaDoBlog();
     const agora = horaAtual();
     const posts = todosOsPosts().sort((a, b) => b.publicadoEm.localeCompare(a.publicadoEm));
     const batimento = batimentoTexto();
     const comCarrossel = new Map(roteirosSociais().map((r) => [r.slug, r.roteiro.slides.length]));
+    const estadoDe = (post: (typeof posts)[number]) => {
+        const linha = agenda[post.slug];
+        const aprovado = linha && (linha.status === "aprovado" || linha.status === "publicado");
+        return post.rascunho ? "rascunho" : aprovado && Date.parse(linha.quando_utc) <= agora ? "publicado" : aprovado ? "agendado" : "pendente";
+    };
+    const parametros = await searchParams;
+    const pedido = lerPedido(parametros, "a");
+    const resultado = filtrarEPaginar(posts, pedido, { texto: (p) => `${p.titulo} ${p.slug} ${CATEGORIAS[p.categoria].nome} ${p.descricao} ${p.resumo}`, grupo: estadoDe, porPagina: 10 });
+    const lista = { base: "/admin", prefixo: "a", parametros, ancora: "posts" };
 
     return (
         <div>
@@ -48,8 +60,11 @@ export default async function AgendaPage() {
             {posts.length === 0 ? (
                 <p className="text-[var(--text-secondary)]">Nenhum post na pasta content/blog.</p>
             ) : (
+                <section id="posts" className="scroll-mt-24" aria-label="Posts do blog">
+                    <ControlesDaLista {...lista} pedido={pedido} resultado={resultado} oQue="posts" rotuloDaBusca="Buscar por título, assunto ou categoria" filtros={[["pendente", "Aguardando aprovação"], ["agendado", "Agendados"], ["publicado", "Publicados"], ["rascunho", "Rascunhos"]]} />
+                    {resultado.itens.length === 0 && <SemResultado {...lista} pedido={pedido} />}
                 <ul className="space-y-4">
-                    {posts.map((post) => {
+                    {resultado.itens.map((post) => {
                         const linha = agenda[post.slug];
                         const aprovado = linha && (linha.status === "aprovado" || linha.status === "publicado");
                         const noAr = aprovado && Date.parse(linha.quando_utc) <= agora;
@@ -117,6 +132,8 @@ export default async function AgendaPage() {
                         );
                     })}
                 </ul>
+                    <Paginacao {...lista} resultado={resultado} oQue="posts" />
+                </section>
             )}
         </div>
     );
