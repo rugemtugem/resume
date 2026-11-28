@@ -44,6 +44,7 @@ export function Navbar() {
   ] : [
     { id: "servicos", name: "Serviços", href: "/servicos" },
     { id: "casos", name: "Casos", href: "/casos" },
+    { id: "projetos", name: "Projetos", href: "/projetos" },
     { id: "blog", name: "Blog", href: "/blog" },
     { id: "sobre", name: t.nav.about, href: `${base}#about` },
     { id: "contato", name: t.nav.contact, href: `${base}#contact` },
