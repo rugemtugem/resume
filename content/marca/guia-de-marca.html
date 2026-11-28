@@ -1,0 +1,595 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Rugemtugem · Guia de marca</title>
+<style>
+@font-face { font-family: "Inter"; font-weight: 400; src: url("assets/inter-latin-400-normal.woff") format("woff"); font-display: swap; }
+@font-face { font-family: "Inter"; font-weight: 600; src: url("assets/inter-latin-600-normal.woff") format("woff"); font-display: swap; }
+@font-face { font-family: "Inter"; font-weight: 800; src: url("assets/inter-latin-800-normal.woff") format("woff"); font-display: swap; }
+
+:root {
+  /* Marca */
+  --vinho: #992A2B;
+  --laranja: #EE6936;
+  --vinho-claro: #ff6b6b;
+  --laranja-claro: #ff8a5b;
+  --ambar: #ffc94d;
+  /* Neutros */
+  --tinta: #2d3748;
+  --tinta-suave: #4a5568;
+  --papel: #ffffff;
+  --papel-2: #f7fafc;
+  --linha-clara: #e2e8f0;
+  --noite: #1a202c;
+  --painel: #2d3748;
+  --linha-escura: #4a5568;
+  --nevoa: #f7fafc;
+  --nevoa-suave: #cbd5e0;
+
+  /* Papéis do guia (tema claro) */
+  --fundo: var(--papel);
+  --fundo-2: var(--papel-2);
+  --texto: var(--tinta);
+  --texto-suave: var(--tinta-suave);
+  --borda: var(--linha-clara);
+  --destaque: var(--vinho);
+  --raio: 16px;
+}
+:root:not([data-tema="claro"]) { color-scheme: light dark; }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-tema="claro"]) { --fundo: #1a202c; --fundo-2: #2d3748; --texto: #f7fafc; --texto-suave: #cbd5e0; --borda: #4a5568; --destaque: #ff8a5b; }
+}
+:root[data-tema="escuro"] { --fundo: #1a202c; --fundo-2: #2d3748; --texto: #f7fafc; --texto-suave: #cbd5e0; --borda: #4a5568; --destaque: #ff8a5b; }
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+body { margin: 0; background: var(--fundo); color: var(--texto); font: 400 17px/1.6 "Inter", system-ui, -apple-system, sans-serif; -webkit-font-smoothing: antialiased; }
+a { color: var(--destaque); }
+code, pre, .mono { font-family: "Fira Code", ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .86em; }
+h1, h2, h3 { font-weight: 800; letter-spacing: -0.02em; line-height: 1.12; text-wrap: balance; margin: 0; }
+p { margin: 0 0 1em; max-width: 68ch; }
+ul { padding-left: 1.2em; margin: 0 0 1em; max-width: 68ch; }
+li { margin-bottom: .35em; }
+
+.pagina { display: grid; grid-template-columns: 240px minmax(0, 1fr); min-height: 100vh; }
+.indice { position: sticky; top: 0; align-self: start; height: 100vh; overflow: auto; padding: 28px 20px; border-right: 1px solid var(--borda); background: var(--fundo-2); }
+.indice img { width: 44px; height: auto; display: block; margin-bottom: 14px; }
+.indice strong { display: block; font-weight: 800; font-size: 18px; letter-spacing: -0.02em; }
+.indice small { color: var(--texto-suave); display: block; margin-bottom: 20px; }
+.indice a { display: block; padding: 7px 10px; border-radius: 8px; color: var(--texto); text-decoration: none; font-size: 15px; }
+.indice a:hover, .indice a:focus-visible { background: var(--fundo); outline: none; box-shadow: inset 3px 0 0 var(--laranja); }
+.tema { margin-top: 20px; display: flex; gap: 6px; }
+.tema button { flex: 1; font: 600 13px "Inter", sans-serif; padding: 8px 6px; border-radius: 8px; border: 1px solid var(--borda); background: var(--fundo); color: var(--texto); cursor: pointer; }
+.tema button:focus-visible { outline: 2px solid var(--laranja); outline-offset: 2px; }
+
+main { padding: 0 clamp(16px, 4vw, 56px) 80px; min-width: 0; }
+section { padding: 64px 0 8px; border-bottom: 1px solid var(--borda); }
+section:last-of-type { border-bottom: 0; }
+.rotulo { display: inline-block; font-weight: 600; font-size: 14px; color: var(--texto-suave); margin-bottom: 10px; }
+h2 { font-size: clamp(28px, 4vw, 40px); margin-bottom: 18px; }
+h3 { font-size: 21px; margin: 32px 0 12px; }
+.intro { font-size: 20px; color: var(--texto-suave); }
+
+/* Capa */
+.capa { position: relative; overflow: hidden; margin: 0 calc(-1 * clamp(16px, 4vw, 56px)); padding: 72px clamp(16px, 4vw, 56px) 64px; background: var(--noite); color: var(--nevoa); border-bottom: 0; }
+.capa::before, .capa::after { content: ""; position: absolute; border-radius: 50%; filter: blur(90px); pointer-events: none; }
+.capa::before { width: 520px; height: 520px; top: -200px; right: -140px; background: var(--vinho); opacity: .45; }
+.capa::after { width: 460px; height: 460px; bottom: -240px; left: -120px; background: var(--laranja); opacity: .22; }
+.capa > * { position: relative; z-index: 1; }
+.capa img { width: 84px; background: #fff; border-radius: 20px; padding: 12px; }
+.capa h1 { font-size: clamp(40px, 7vw, 76px); margin: 28px 0 16px; letter-spacing: -0.03em; }
+.capa h1 span { color: var(--laranja-claro); }
+.capa p { font-size: 21px; color: var(--nevoa-suave); max-width: 56ch; }
+.selo { display: inline-flex; padding: 6px 16px; border-radius: 999px; border: 1px solid var(--linha-escura); background: var(--painel); color: var(--nevoa); font-weight: 600; font-size: 14px; }
+
+.grade { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); margin: 18px 0 24px; }
+.cartao { border: 1px solid var(--borda); border-radius: var(--raio); padding: 20px; background: var(--fundo-2); }
+.cartao h4 { margin: 0 0 6px; font-size: 17px; font-weight: 800; letter-spacing: -0.01em; }
+.cartao p { font-size: 15.5px; margin: 0; color: var(--texto-suave); }
+.cartao.sim { border-left: 4px solid #2f855a; }
+.cartao.nao { border-left: 4px solid var(--vinho); }
+.proposta { border: 1px dashed var(--laranja); border-radius: var(--raio); padding: 14px 18px; margin: 0 0 20px; font-size: 15.5px; max-width: 68ch; }
+
+table { width: 100%; border-collapse: collapse; font-size: 15.5px; margin: 12px 0 24px; }
+.rolavel { overflow-x: auto; }
+th, td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--borda); vertical-align: top; }
+th { font-weight: 600; color: var(--texto-suave); font-size: 14px; white-space: nowrap; }
+td .mono { white-space: nowrap; }
+
+/* Cores */
+.amostras { display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); margin: 16px 0 24px; }
+.amostra { border: 1px solid var(--borda); border-radius: var(--raio); overflow: hidden; background: var(--fundo-2); }
+.amostra i { display: block; height: 92px; }
+.amostra div { padding: 12px 14px; font-size: 14.5px; }
+.amostra b { display: block; font-weight: 800; }
+.amostra span { color: var(--texto-suave); display: block; }
+.par { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 16px 18px; border-radius: 12px; font-weight: 600; margin-bottom: 8px; font-size: 16px; }
+.par small { font-weight: 400; opacity: .9; white-space: nowrap; }
+.proporcao { display: flex; height: 46px; border-radius: 12px; overflow: hidden; border: 1px solid var(--borda); margin: 12px 0 8px; max-width: 760px; }
+
+/* Tipografia */
+.tipo { border: 1px solid var(--borda); border-radius: var(--raio); padding: 22px; margin-bottom: 14px; background: var(--fundo-2); }
+.tipo small { display: block; color: var(--texto-suave); margin-bottom: 8px; font-size: 14px; }
+
+/* Componentes */
+.palco { background: var(--noite); color: var(--nevoa); border-radius: var(--raio); padding: 28px; display: flex; flex-wrap: wrap; gap: 18px; align-items: center; margin: 12px 0 8px; }
+.palco.claro { background: #fff; color: var(--tinta); border: 1px solid var(--borda); }
+.botao { display: inline-flex; padding: 14px 26px; border-radius: 999px; background: var(--laranja); color: #fff; font-weight: 800; font-size: 19px; text-decoration: none; }
+.botao.vinho { background: var(--vinho); font-size: 16px; }
+.botao.vazado { background: transparent; color: var(--vinho); border: 2px solid var(--vinho); font-size: 16px; }
+.passo { display: flex; align-items: center; gap: 14px; padding: 14px 16px; border-radius: 14px; border: 1px solid var(--linha-escura); background: var(--painel); min-width: 240px; }
+.passo b { display: grid; place-items: center; width: 34px; height: 34px; border-radius: 50%; background: var(--vinho); font-weight: 800; flex-shrink: 0; }
+.numero { font-weight: 800; font-size: 56px; letter-spacing: -0.04em; color: var(--laranja-claro); line-height: 1; }
+.fonte { border-top: 1px solid var(--linha-escura); margin-top: 10px; padding-top: 8px; color: var(--nevoa-suave); font-size: 14px; }
+
+/* Aplicações */
+.pecas { display: flex; flex-wrap: wrap; gap: 22px; align-items: flex-end; margin: 16px 0 12px; }
+.peca { position: relative; overflow: hidden; background: var(--noite); color: var(--nevoa); border-radius: 14px; padding: 16px; display: flex; flex-direction: column; justify-content: space-between; flex-shrink: 0; }
+.peca::before { content: ""; position: absolute; width: 70%; aspect-ratio: 1; top: -22%; right: -22%; border-radius: 50%; background: var(--vinho); opacity: .42; filter: blur(34px); }
+.peca::after { content: ""; position: absolute; width: 62%; aspect-ratio: 1; bottom: -26%; left: -20%; border-radius: 50%; background: var(--laranja); opacity: .22; filter: blur(34px); }
+.peca > * { position: relative; z-index: 1; }
+.peca .topo { display: flex; justify-content: space-between; align-items: center; font-size: 9px; font-weight: 600; }
+.peca .topo span:first-child { padding: 3px 8px; border-radius: 99px; border: 1px solid var(--linha-escura); background: var(--painel); }
+.peca h5 { margin: 0; font-size: 19px; font-weight: 800; line-height: 1.1; letter-spacing: -0.02em; }
+.peca h5 em { font-style: normal; color: var(--laranja-claro); }
+.peca .pe { font-size: 9px; color: var(--nevoa-suave); }
+.legenda-peca { font-size: 14px; color: var(--texto-suave); margin-top: 8px; max-width: 220px; }
+.zona { position: absolute; left: 0; right: 0; border: 1px dashed rgba(255,255,255,.35); font-size: 8px; color: rgba(255,255,255,.6); display: grid; place-items: center; z-index: 2 !important; }
+
+.logos { display: flex; flex-wrap: wrap; gap: 16px; margin: 16px 0; }
+.logos figure { margin: 0; border-radius: var(--raio); padding: 26px; width: 190px; text-align: center; border: 1px solid var(--borda); }
+.logos img { width: 84px; height: auto; }
+.logos figcaption { font-size: 13.5px; margin-top: 12px; }
+
+pre { background: var(--noite); color: var(--nevoa); padding: 18px 20px; border-radius: var(--raio); overflow-x: auto; line-height: 1.55; margin: 12px 0 24px; }
+.lista-checagem li { list-style: none; position: relative; padding-left: 30px; }
+.lista-checagem { padding-left: 0; }
+.lista-checagem li::before { content: ""; position: absolute; left: 0; top: 4px; width: 18px; height: 18px; border: 2px solid var(--laranja); border-radius: 5px; }
+footer { padding: 32px 0; color: var(--texto-suave); font-size: 14.5px; }
+
+@media (max-width: 860px) {
+  .pagina { grid-template-columns: minmax(0, 1fr); }
+  .indice { position: static; height: auto; border-right: 0; border-bottom: 1px solid var(--borda); display: flex; flex-wrap: wrap; gap: 4px; align-items: center; padding: 14px 16px; }
+  .indice img, .indice small { display: none; }
+  .indice strong { width: 100%; margin-bottom: 6px; }
+  .indice a { padding: 6px 10px; font-size: 14px; }
+  .tema { margin: 6px 0 0; width: 100%; }
+  section { padding-top: 44px; }
+}
+@media print { .indice { display: none; } .pagina { display: block; } section { break-inside: avoid-page; } }
+</style>
+</head>
+<body>
+<div class="pagina">
+
+<nav class="indice" aria-label="Seções do guia">
+  <img src="assets/logo-nova.png" alt="">
+  <strong>Rugemtugem</strong>
+  <small>Guia de marca · versão 1 · 28/11/2026</small>
+  <a href="#essencia">1. Essência</a>
+  <a href="#arquetipo">2. Arquétipo</a>
+  <a href="#voz">3. Tom de voz</a>
+  <a href="#logo">4. Logo</a>
+  <a href="#cores">5. Cores</a>
+  <a href="#fontes">6. Fontes</a>
+  <a href="#componentes">7. Componentes</a>
+  <a href="#aplicacoes">8. Aplicações</a>
+  <a href="#som">9. Som e movimento</a>
+  <a href="#tokens">10. Tokens para copiar</a>
+  <a href="#checagem">11. Antes de publicar</a>
+  <div class="tema" role="group" aria-label="Tema do guia">
+    <button type="button" data-tema="claro">Claro</button>
+    <button type="button" data-tema="escuro">Escuro</button>
+    <button type="button" data-tema="">Sistema</button>
+  </div>
+</nav>
+
+<main>
+
+<section class="capa">
+  <img src="assets/logo-nova.png" alt="Logo da Rugemtugem: letra R dobrada em vinho e laranja dentro de um hexágono laranja">
+  <h1>Explica, constrói e <span>mostra a fonte</span>.</h1>
+  <p>Guia de marca da Rugemtugem: arquétipo, tom de voz, cores, fontes, componentes e aplicações. Vale para o site rugemtugem.dev, o blog, o Instagram, o LinkedIn e qualquer peça nova.</p>
+  <span class="selo">Para empresas</span> <span class="selo">Dicas de IA</span>
+</section>
+
+<section id="essencia">
+  <span class="rotulo">1. Essência</span>
+  <h2>O que a marca é</h2>
+  <p class="intro">A Rugemtugem faz desenvolvimento de sistemas, automação, integração entre sistemas, soluções em IA e gestão de projetos para empresas. Quem atende é uma pessoa: Fábio Rugemtugem.</p>
+  <div class="grade">
+    <div class="cartao"><h4>Para quem</h4><p>Dono ou gestor de empresa que perde tempo com trabalho manual: pedido digitado de novo, contato do site que não chega no CRM, planilha que ninguém confia.</p></div>
+    <div class="cartao"><h4>Segundo público</h4><p>Quem quer usar IA no trabalho e não sabe por onde começar. Recebe dica prática, sem promessa.</p></div>
+    <div class="cartao"><h4>Porta de entrada</h4><p>Diagnóstico gratuito de 30 minutos. É a única chamada para ação da marca.</p></div>
+    <div class="cartao"><h4>Assunto de toda peça</h4><p>O caminho de um processo ou de um projeto dentro da empresa: onde nasce, quem toca nele, onde trava e como fica depois.</p></div>
+  </div>
+  <h3>O que a marca faz</h3>
+  <div class="rolavel"><table>
+    <tr><th>Frente</th><th>Em palavras do cliente</th></tr>
+    <tr><td><b>Desenvolvimento</b></td><td>Site, sistema ou aplicativo feito sob medida, do zero ou a partir do que já existe</td></tr>
+    <tr><td><b>Automação</b></td><td>A tarefa repetida passa a acontecer sozinha, com regra clara</td></tr>
+    <tr><td><b>Integração entre sistemas</b></td><td>O que entra em um sistema chega no outro sem ninguém digitar de novo</td></tr>
+    <tr><td><b>Soluções em IA</b></td><td>IA aplicada a uma tarefa da empresa, com conferência humana onde ela erra</td></tr>
+    <tr><td><b>Gestão de projetos</b></td><td>Escopo, prazo e entrega combinados e acompanhados, com alguém respondendo pelo andamento</td></tr>
+  </table></div>
+  <p>Nas peças, cite a frente que resolve o problema daquela peça. A lista inteira só aparece no site e em apresentação.</p>
+  <h3>Nomes</h3>
+  <div class="rolavel"><table>
+    <tr><th>Uso</th><th>Escreva</th><th>Nunca</th></tr>
+    <tr><td>Empresa</td><td><b>Rugemtugem</b></td><td>RugemTugem, Rugem Tugem, RUGEMTUGEM em texto corrido</td></tr>
+    <tr><td>Pessoa</td><td><b>Fábio Rugemtugem</b></td><td>Fábio Soares; o apelido antigo, em qualquer peça, bio ou hashtag</td></tr>
+    <tr><td>Endereço</td><td><b>rugemtugem.dev</b></td><td>com www, com https em peça visual</td></tr>
+    <tr><td>Linhas de conteúdo</td><td><b>Para empresas</b> e <b>Dicas de IA</b></td><td>criar uma terceira linha sem decidir antes</td></tr>
+  </table></div>
+</section>
+
+<section id="arquetipo">
+  <span class="rotulo">2. Arquétipo</span>
+  <h2>Sábio que constrói</h2>
+  <div class="proposta"><b>Proposta para aprovar.</b> O arquétipo foi tirado do que o site e os seis posts já fazem. Se a leitura estiver errada, este é o capítulo para mudar primeiro, porque os outros derivam dele.</div>
+  <p class="intro">Principal: <b>Sábio</b>. Apoio: <b>Criador</b>. O Sábio entende o problema e explica com clareza. O Criador entrega a coisa funcionando.</p>
+  <div class="grade">
+    <div class="cartao sim"><h4>Sábio (70%)</h4><p>Pergunta antes de responder. Explica o processo em palavras da operação. Mostra de onde veio cada número. Admite o que não sabe e o que deu errado.</p></div>
+    <div class="cartao sim"><h4>Criador (30%)</h4><p>Mostra o que foi construído: tela, fluxo, código quando ajuda. Fala de entrega com data e conduz o projeto até o fim. Gosta do detalhe bem feito.</p></div>
+    <div class="cartao nao"><h4>Fora: Mago</h4><p>IA como mágica, "transforme sua empresa", resultado sem esforço. A marca explica o mecanismo, então a mágica contradiz a marca.</p></div>
+    <div class="cartao nao"><h4>Fora: Herói e Fora da lei</h4><p>"Domine", "destrua a concorrência", "o segredo que ninguém conta". Tom de urgência e de guerra afasta o gestor que quer segurança.</p></div>
+  </div>
+  <h3>Como o arquétipo aparece</h3>
+  <div class="rolavel"><table>
+    <tr><th>Situação</th><th>O Sábio que constrói faz</th><th>Não faz</th></tr>
+    <tr><td>Abrir um post</td><td>Parte de uma cena concreta da operação ou de uma pergunta</td><td>Abre com elogio próprio ou com tendência de mercado</td></tr>
+    <tr><td>Usar número</td><td>Dá o número, o período e a fonte</td><td>Usa número redondo para impressionar</td></tr>
+    <tr><td>Falar de IA</td><td>Diz o que ela faz bem, onde erra e o que não colar nela</td><td>Promete substituir equipe ou garantir resultado</td></tr>
+    <tr><td>Falar de cliente</td><td>Descreve o problema e o que foi construído, como está em /casos</td><td>Atribui faturamento ou resultado do cliente ao trabalho</td></tr>
+    <tr><td>Fechar</td><td>Convida para o diagnóstico de 30 minutos</td><td>Cria escassez, contagem regressiva ou pressão</td></tr>
+  </table></div>
+  <h3>Personalidade em cinco palavras</h3>
+  <p><span class="selo" style="background:transparent;color:inherit;border-color:var(--borda)">Claro</span> <span class="selo" style="background:transparent;color:inherit;border-color:var(--borda)">Preciso</span> <span class="selo" style="background:transparent;color:inherit;border-color:var(--borda)">Calmo</span> <span class="selo" style="background:transparent;color:inherit;border-color:var(--borda)">Prático</span> <span class="selo" style="background:transparent;color:inherit;border-color:var(--borda)">Honesto</span></p>
+</section>
+
+<section id="voz">
+  <span class="rotulo">3. Tom de voz</span>
+  <h2>Como a marca fala</h2>
+  <p class="intro">Primeira pessoa do singular, frase curta, palavra da operação. A voz é a mesma em todo canal. O que muda é o tamanho.</p>
+  <div class="rolavel"><table>
+    <tr><th>Atributo</th><th>Significa</th><th>Não significa</th><th>Exemplo</th></tr>
+    <tr><td><b>Direta</b></td><td>Diz o que faz, para quem e em quanto tempo</td><td>Seca, apressada ou com jargão</td><td>"Agende um diagnóstico gratuito de 30 minutos."</td></tr>
+    <tr><td><b>Com fonte</b></td><td>Todo número vem com de onde saiu</td><td>Número grande para impressionar</td><td>"Fonte: painel do sistema, novembro de 2026."</td></tr>
+    <tr><td><b>Humana</b></td><td>Uma pessoa só, que admite o que não sabe</td><td>Intimidade forçada, gíria, autoelogio</td><td>"Minha abordagem é simples: entender o seu problema antes de escrever uma linha de código."</td></tr>
+    <tr><td><b>Do lado da operação</b></td><td>Fala do pedido, do contato e da planilha</td><td>Simplificar a ponto de errar</td><td>"O pedido chega no WhatsApp e alguém digita tudo de novo."</td></tr>
+  </table></div>
+
+  <h3>Tom por canal</h3>
+  <div class="rolavel"><table>
+    <tr><th>Canal</th><th>Tom</th><th>Formato</th></tr>
+    <tr><td>Site</td><td>Objetivo. O visitante quer saber o que você faz e se já fez algo parecido</td><td>Título com o serviço, prova em /casos, um botão</td></tr>
+    <tr><td>Blog</td><td>Professor paciente. Explica com cena real e termina nas perguntas frequentes</td><td>Um assunto por seção, resumo no topo</td></tr>
+    <tr><td>Instagram (carrossel e Reels)</td><td>Uma ideia por peça, abre pela pergunta ou pela cena</td><td>Frases de até duas linhas por slide ou cena</td></tr>
+    <tr><td>Story</td><td>Uma frase e o link</td><td>Texto da capa do roteiro</td></tr>
+    <tr><td>LinkedIn</td><td>Conversa entre gestores. Um pouco mais de contexto, mesma franqueza</td><td>Parágrafos curtos, link do post no fim, poucas hashtags</td></tr>
+    <tr><td>Diagnóstico e proposta</td><td>De igual para igual, uma pergunta por vez, escopo e datas exatos</td><td>Sem pressão e sem preço em peça pública</td></tr>
+    <tr><td>Erro ou atraso</td><td>Diz o que aconteceu, o que já foi feito e quando resolve</td><td>Sem desculpa longa</td></tr>
+  </table></div>
+
+  <h3>Diga assim</h3>
+  <div class="grade">
+    <div class="cartao sim"><h4>Sim</h4><p>"O contato do site cai direto no CRM, com o nome de quem atende."</p></div>
+    <div class="cartao nao"><h4>Não</h4><p>"Potencialize sua operação com integrações inteligentes."</p></div>
+    <div class="cartao sim"><h4>Sim</h4><p>"Comece pela tarefa que se repete toda semana e tem regra clara."</p></div>
+    <div class="cartao nao"><h4>Não</h4><p>"Automação não é sobre tecnologia, é sobre pessoas."</p></div>
+    <div class="cartao sim"><h4>Sim</h4><p>"A IA erra conta e inventa referência. Confira antes de enviar."</p></div>
+    <div class="cartao nao"><h4>Não</h4><p>"A IA vai revolucionar o seu negócio em 30 dias."</p></div>
+  </div>
+
+  <h3>Regras de texto</h3>
+  <ul>
+    <li><b>Zero travessão.</b> Use vírgula, ponto ou dois-pontos.</li>
+    <li><b>Nada no molde "não é X, é Y".</b> Diga direto o que é.</li>
+    <li><b>Palavras fora:</b> "parceiro estratégico", "escalar", "potencializar", "revolucionar", "disruptivo". "Soluções" só em "soluções em IA".</li>
+    <li><b>Todo número com fonte.</b> Sem fonte, sem número. Vale também para "metade", "dez coisas", "em três meses".</li>
+    <li><b>Nenhum preço</b>, faixa ou média em peça pública.</li>
+    <li><b>Cliente:</b> só o que está em /casos. Nada de resultado do cliente atribuído ao trabalho.</li>
+    <li><b>Ferramenta de terceiro e lei:</b> afirme só o que é certo, com cautela.</li>
+    <li><b>Sem emoji como marcador</b> e sem pergunta de confirmação no fim ("Concorda?").</li>
+    <li><b>Reels sem câmera:</b> só texto animado.</li>
+  </ul>
+  <h3>Glossário para o cliente</h3>
+  <div class="rolavel"><table>
+    <tr><th>Termo técnico</th><th>Como dizer</th></tr>
+    <tr><td>Webhook</td><td>Aviso automático que um sistema manda para o outro quando algo acontece</td></tr>
+    <tr><td>Integração bidirecional</td><td>O que muda de um lado atualiza o outro, nos dois sentidos</td></tr>
+    <tr><td>ERP</td><td>Sistema de gestão</td></tr>
+    <tr><td>CRM</td><td>Sistema onde ficam os contatos e as vendas em andamento</td></tr>
+    <tr><td>Prompt</td><td>O pedido que você escreve para a IA</td></tr>
+  </table></div>
+</section>
+
+<section id="logo">
+  <span class="rotulo">4. Logo</span>
+  <h2>O R dobrado no hexágono</h2>
+  <p>O símbolo é uma letra R feita de uma fita dobrada, em vinho e laranja, dentro de um hexágono de contorno laranja. A dobra é a ideia da marca em desenho: um caminho que muda de direção e continua inteiro.</p>
+  <div class="logos">
+    <figure style="background:#fff;color:#2d3748"><img src="assets/logo-nova.png" alt="Logo em fundo branco"><figcaption>Fundo branco: uso principal</figcaption></figure>
+    <figure style="background:#f7fafc;color:#2d3748"><img src="assets/logo-nova.png" alt="Logo em fundo cinza claro"><figcaption>Fundo claro: permitido</figcaption></figure>
+    <figure style="background:#1a202c;color:#f7fafc"><img src="assets/logo-nova.png" alt="Logo em fundo escuro" style="background:#fff;border-radius:18px;padding:10px"><figcaption>Fundo escuro: dentro de uma placa branca arredondada</figcaption></figure>
+  </div>
+  <ul>
+    <li><b>Arquivo:</b> <code>site/public/images/logo-nova.png</code> (561 × 648 px). Cópia em <code>marca/assets/</code>. O interior do hexágono é branco opaco.</li>
+    <li><b>Área de proteção:</b> a largura da haste do R em volta do hexágono inteiro, sem texto nem borda dentro.</li>
+    <li><b>Tamanho mínimo:</b> 32 px de altura na tela. Abaixo disso use o favicon (<code>favicon.png</code>).</li>
+    <li><b>Com o nome:</b> símbolo à esquerda e "Rugemtugem" em Inter 800, na cor do texto. Distância igual a meia largura do símbolo.</li>
+    <li><b>Em vídeo:</b> o logo só aparece no encerramento, pequeno. A abertura é o assunto.</li>
+  </ul>
+  <div class="grade">
+    <div class="cartao nao"><h4>Não faça</h4><p>Trocar as cores, girar, achatar, aplicar sombra ou contorno extra.</p></div>
+    <div class="cartao nao"><h4>Não faça</h4><p>Colocar direto sobre vinho, laranja ou foto: o hexágono some. Use a placa branca.</p></div>
+    <div class="cartao nao"><h4>Não faça</h4><p>Usar o broche ou a foto de perfil no lugar do logo em peça da empresa.</p></div>
+  </div>
+</section>
+
+<section id="cores">
+  <span class="rotulo">5. Cores</span>
+  <h2>Vinho, laranja e noite</h2>
+  <p class="intro">Duas cores de marca e uma escala de cinza azulado. O vinho dá peso, o laranja chama a ação. As peças de rede social usam fundo escuro; o site funciona em claro e escuro.</p>
+
+  <h3>Marca</h3>
+  <div class="amostras">
+    <div class="amostra"><i style="background:#992A2B"></i><div><b>Vinho</b><span class="mono">#992A2B</span><span>Cor principal no claro. Títulos de destaque, links, selo "Para empresas", número do passo.</span></div></div>
+    <div class="amostra"><i style="background:#EE6936"></i><div><b>Laranja</b><span class="mono">#EE6936</span><span>Ação. Botão do diagnóstico, selo "Dicas de IA", contorno do logo.</span></div></div>
+    <div class="amostra"><i style="background:#ff8a5b"></i><div><b>Laranja claro</b><span class="mono">#ff8a5b</span><span>Destaque de texto sobre fundo escuro: o trecho em laranja dos títulos, números grandes.</span></div></div>
+    <div class="amostra"><i style="background:#ff6b6b"></i><div><b>Vinho claro</b><span class="mono">#ff6b6b</span><span>Substitui o vinho no tema escuro do site (links e destaques).</span></div></div>
+    <div class="amostra"><i style="background:#ffc94d"></i><div><b>Âmbar</b><span class="mono">#ffc94d</span><span>Só no selo da cena de alerta do Reels. Fora disso não entra.</span></div></div>
+  </div>
+
+  <h3>Neutros</h3>
+  <div class="amostras">
+    <div class="amostra"><i style="background:#1a202c"></i><div><b>Noite</b><span class="mono">#1a202c</span><span>Fundo das peças e do tema escuro.</span></div></div>
+    <div class="amostra"><i style="background:#2d3748"></i><div><b>Painel / Tinta</b><span class="mono">#2d3748</span><span>Cartão sobre a noite. No claro é a cor do texto.</span></div></div>
+    <div class="amostra"><i style="background:#4a5568"></i><div><b>Linha escura / Tinta suave</b><span class="mono">#4a5568</span><span>Borda no escuro. No claro é o texto de apoio.</span></div></div>
+    <div class="amostra"><i style="background:#cbd5e0"></i><div><b>Névoa suave</b><span class="mono">#cbd5e0</span><span>Texto de apoio sobre a noite.</span></div></div>
+    <div class="amostra"><i style="background:#e2e8f0"></i><div><b>Linha clara</b><span class="mono">#e2e8f0</span><span>Borda de 1 px no claro.</span></div></div>
+    <div class="amostra"><i style="background:#f7fafc"></i><div><b>Névoa</b><span class="mono">#f7fafc</span><span>Texto sobre a noite. Fundo secundário no claro.</span></div></div>
+    <div class="amostra"><i style="background:#ffffff"></i><div><b>Papel</b><span class="mono">#ffffff</span><span>Fundo do site no claro.</span></div></div>
+  </div>
+
+  <h3>Proporção numa peça</h3>
+  <div class="proporcao" role="img" aria-label="Proporção: 70% neutro escuro, 20% texto claro, 10% cores da marca">
+    <span style="flex:70;background:#1a202c"></span><span style="flex:20;background:#f7fafc"></span><span style="flex:6;background:#EE6936"></span><span style="flex:4;background:#992A2B"></span>
+  </div>
+  <p>Cerca de 70% fundo, 20% texto, 10% cor de marca. Um trecho em laranja por título. Se tudo está em destaque, nada está.</p>
+
+  <h3>Pares de texto e fundo (contraste medido)</h3>
+  <div style="max-width:760px">
+    <div class="par" style="background:#fff;color:#2d3748;border:1px solid var(--borda)">Tinta sobre papel <small>11,99 : 1 · AAA</small></div>
+    <div class="par" style="background:#fff;color:#4a5568;border:1px solid var(--borda)">Tinta suave sobre papel <small>7,53 : 1 · AAA</small></div>
+    <div class="par" style="background:#fff;color:#992A2B;border:1px solid var(--borda)">Vinho sobre papel <small>7,72 : 1 · AAA</small></div>
+    <div class="par" style="background:#992A2B;color:#fff">Branco sobre vinho <small>7,72 : 1 · AAA</small></div>
+    <div class="par" style="background:#1a202c;color:#f7fafc">Névoa sobre noite <small>15,57 : 1 · AAA</small></div>
+    <div class="par" style="background:#1a202c;color:#cbd5e0">Névoa suave sobre noite <small>AAA</small></div>
+    <div class="par" style="background:#1a202c;color:#ff8a5b">Laranja claro sobre noite <small>7,02 : 1 · AAA</small></div>
+    <div class="par" style="background:#2d3748;color:#ff8a5b">Laranja claro sobre painel <small>5,16 : 1 · AA</small></div>
+    <div class="par" style="background:#1a202c;color:#ff6b6b">Vinho claro sobre noite <small>5,88 : 1 · AA</small></div>
+    <div class="par" style="background:#EE6936;color:#fff;font-size:22px;font-weight:800">Branco sobre laranja <small>3,13 : 1 · só texto grande</small></div>
+    <div class="par" style="background:#EE6936;color:#1a202c">Noite sobre laranja <small>5,21 : 1 · AA</small></div>
+  </div>
+  <div class="grade">
+    <div class="cartao nao"><h4>Proibido: laranja como texto no claro</h4><p>Laranja <span class="mono">#EE6936</span> sobre branco dá 3,13 : 1. Texto corrido em laranja no claro não passa. Use vinho.</p></div>
+    <div class="cartao nao"><h4>Proibido: vinho como texto no escuro</h4><p>Vinho sobre noite dá 2,11 : 1. No escuro o vinho só entra como fundo de selo, círculo do passo ou brilho.</p></div>
+    <div class="cartao sim"><h4>Botão laranja</h4><p>Texto branco só em peso 800 e a partir de 19 px (24 px em peça). Para texto pequeno sobre laranja, use a cor noite.</p></div>
+    <div class="cartao sim"><h4>Brilho de fundo</h4><p>Nas peças, dois círculos borrados: vinho a 40% no canto de cima à direita, laranja a 22% embaixo à esquerda. É luz de fundo. Não vira degradê em faixa nem preenche botão.</p></div>
+  </div>
+  <p>O site ainda usa o degradê vinho para laranja em alguns botões e bordas. Ele fica restrito ao site. Em peça nova, cor chapada.</p>
+</section>
+
+<section id="fontes">
+  <span class="rotulo">6. Fontes</span>
+  <h2>Inter em três pesos</h2>
+  <p class="intro">Uma família para tudo: site, miniatura, carrossel, story e Reels. A hierarquia vem do peso e do tamanho.</p>
+  <div class="tipo"><small>Inter 800 · títulos, números grandes, botão · entrelinha 1,1 · espaçamento -0,02em</small><div style="font-weight:800;font-size:clamp(30px,5vw,52px);line-height:1.1;letter-spacing:-0.02em">O pedido chega no WhatsApp e alguém <span style="color:var(--destaque)">digita tudo de novo</span>?</div></div>
+  <div class="tipo"><small>Inter 600 · selos, rótulos, subtítulos, destaque dentro do texto</small><div style="font-weight:600;font-size:24px">Onde o erro aparece: produto trocado, quantidade errada, pedido esquecido.</div></div>
+  <div class="tipo"><small>Inter 400 · texto corrido · entrelinha 1,6 · linha de até 68 caracteres</small><div style="font-size:18px;max-width:68ch">Antes de contratar qualquer ferramenta, escreva em uma folha onde o pedido nasce e onde ele precisa chegar. O que estiver entre os dois pontos é o que dá para automatizar.</div></div>
+  <div class="tipo"><small>Fira Code · código e nomes técnicos. Reserva: ui-monospace, Menlo</small><div class="mono" style="font-size:17px">POST /api/contato → CRM · 200 OK</div></div>
+  <div class="rolavel"><table>
+    <tr><th>Onde</th><th>Título</th><th>Texto</th><th>Mínimo</th></tr>
+    <tr><td>Site e blog</td><td>31 a 49 px, peso 800</td><td>17 a 19 px, peso 400</td><td>14 px em rótulo</td></tr>
+    <tr><td>Carrossel 1080 × 1350</td><td>64 a 104 px, peso 800 (encolhe em título longo)</td><td>42 a 46 px</td><td>34 px (linha da fonte)</td></tr>
+    <tr><td>Story e Reels 1080 × 1920</td><td>até 112 px, peso 800</td><td>44 a 52 px</td><td>52 px no Reels, 34 px no story</td></tr>
+    <tr><td>Miniatura 1200 × 630</td><td>54 a 76 px, peso 800</td><td>26 a 34 px</td><td>22 px</td></tr>
+  </table></div>
+  <ul>
+    <li>Sem itálico e sem sublinhado decorativo. Maiúsculas só no rótulo curto de assunto do Reels (duas ou três palavras).</li>
+    <li>Um trecho em laranja por título. No roteiro: colchetes no carrossel, chaves no Reels.</li>
+    <li>Reserva quando a Inter não carrega: <code>system-ui, -apple-system, sans-serif</code>.</li>
+    <li>Arquivos: <code>site/public/fontes/inter-latin-{400,600,800}-normal.woff</code>.</li>
+  </ul>
+</section>
+
+<section id="componentes">
+  <span class="rotulo">7. Componentes</span>
+  <h2>Peças que se repetem</h2>
+  <h3>Botões</h3>
+  <div class="palco claro">
+    <a class="botao" href="#componentes">Diagnóstico gratuito</a>
+    <a class="botao vinho" href="#componentes">Ver os casos</a>
+    <a class="botao vazado" href="#componentes">Ler o post</a>
+  </div>
+  <p>O laranja é do diagnóstico e de mais nada. Por tela, um botão laranja. O vinho serve à ação secundária e o vazado ao que é só navegação. Cantos em pílula (raio 999).</p>
+
+  <h3>Selo, passo e número</h3>
+  <div class="palco">
+    <span class="selo">Para empresas</span>
+    <span class="selo" style="background:#992A2B;border-color:#992A2B">Para empresas</span>
+    <span class="selo" style="background:#EE6936;border-color:#EE6936;color:#fff;font-weight:800">Dicas de IA</span>
+    <div class="passo"><b>1</b><span>Para quem é o texto</span></div>
+    <div><div class="numero">5 s</div><div class="fonte">Fonte: painel do sistema, nov/2026</div></div>
+  </div>
+  <ul>
+    <li><b>Selo:</b> pílula com a linha de conteúdo. Neutro no carrossel e no story; no Reels, vinho para "Para empresas" e laranja para "Dicas de IA".</li>
+    <li><b>Passo:</b> cartão painel com círculo vinho numerado. De 1 a 4 linhas por slide; no Reels a lista vai até 5 itens.</li>
+    <li><b>Número:</b> valor grande em laranja claro e, embaixo, a linha "Fonte:". Sem a fonte o painel não aprova.</li>
+    <li><b>Antes e depois:</b> dois cartões. "Antes" com borda laranja claro, "depois" com borda vinho claro.</li>
+  </ul>
+
+  <h3>Medidas</h3>
+  <div class="rolavel"><table>
+    <tr><th>Item</th><th>Site</th><th>Peça de 1080 px</th></tr>
+    <tr><td>Raio do cartão</td><td>16 px</td><td>28 a 32 px</td></tr>
+    <tr><td>Raio de botão e selo</td><td>999 (pílula)</td><td>999 (pílula)</td></tr>
+    <tr><td>Borda</td><td>1 px</td><td>2 px (3 px no antes e depois)</td></tr>
+    <tr><td>Margem interna da peça</td><td>16 px no celular</td><td>72 px</td></tr>
+    <tr><td>Espaçamento</td><td>múltiplos de 4: 8, 12, 16, 24, 32, 48, 64</td><td>múltiplos de 4: 28, 36, 44, 72</td></tr>
+    <tr><td>Sombra</td><td>leve, só em cartão que flutua</td><td>nenhuma</td></tr>
+  </table></div>
+  <div class="grade">
+    <div class="cartao nao"><h4>Evite</h4><p>Foto de banco de imagem, mockup de notebook, ícone em emoji, robô e cérebro azul para falar de IA.</p></div>
+    <div class="cartao sim"><h4>Prefira</h4><p>Tela real do sistema, diagrama simples do processo (caixas e setas, o passo manual em laranja), texto grande.</p></div>
+  </div>
+</section>
+
+<section id="aplicacoes">
+  <span class="rotulo">8. Aplicações</span>
+  <h2>Cada peça no seu tamanho</h2>
+  <p>Nenhuma peça é desenhada à mão. O site gera tudo a partir do texto do roteiro, já nestas medidas. Este capítulo serve para conferir e para quem precisar fazer algo fora do painel.</p>
+  <div class="pecas">
+    <div>
+      <div class="peca" style="width:270px;height:142px">
+        <div class="topo"><span>Para empresas</span><span>rugemtugem.dev</span></div>
+        <h5 style="font-size:17px">Pedido do WhatsApp <em>digitado de novo</em></h5>
+        <div class="pe">Frase curta do rodapé</div>
+      </div>
+      <div class="legenda-peca"><b>Miniatura do blog</b><br>1200 × 630 · margem 48</div>
+    </div>
+    <div>
+      <div class="peca" style="width:176px;height:220px">
+        <div class="topo"><span>Dicas de IA</span><span>1 / 6</span></div>
+        <h5>Como pedir um texto e receber <em>algo útil</em>?</h5>
+        <div class="pe">rugemtugem.dev · arraste</div>
+      </div>
+      <div class="legenda-peca"><b>Carrossel</b><br>1080 × 1350 · margem 72</div>
+    </div>
+    <div>
+      <div class="peca" style="width:146px;height:260px">
+        <div class="zona" style="top:0;height:34px">livre: 250</div>
+        <div class="topo" style="margin-top:36px"><span>Dicas de IA</span><span>rugemtugem.dev</span></div>
+        <h5 style="font-size:16px">O que <em>não colar</em> na IA</h5>
+        <div class="pe" style="margin-bottom:48px">Toque no link para ver</div>
+        <div class="zona" style="bottom:0;height:46px">adesivo de link: 340</div>
+      </div>
+      <div class="legenda-peca"><b>Story</b><br>1080 × 1920 · uma frase e o link</div>
+    </div>
+    <div>
+      <div class="peca" style="width:146px;height:260px">
+        <div class="zona" style="top:0;height:30px">livre: 220</div>
+        <div class="topo" style="margin-top:32px"><span style="background:#992A2B;border-color:#992A2B">Para empresas</span><span></span></div>
+        <h5 style="font-size:16px">O que <em>automatizar primeiro</em>?</h5>
+        <div class="pe" style="margin-bottom:58px">&nbsp;</div>
+        <div class="zona" style="bottom:0;height:57px">legenda e botões: 420</div>
+      </div>
+      <div class="legenda-peca"><b>Reels</b><br>1080 × 1920 · laterais 60 · 8 a 60 s</div>
+    </div>
+  </div>
+  <div class="rolavel"><table>
+    <tr><th>Peça</th><th>Tamanho</th><th>Regras</th></tr>
+    <tr><td>Miniatura do blog</td><td>1200 × 630</td><td>Selo da linha, título com um trecho em laranja, nota no rodapé. Serve também de imagem de compartilhamento.</td></tr>
+    <tr><td>Carrossel</td><td>1080 × 1350</td><td>De 2 a 10 slides. Abre na capa (pergunta ou cena), fecha no convite ao diagnóstico. Barra de progresso no topo. Uma ideia por slide.</td></tr>
+    <tr><td>Story</td><td>1080 × 1920</td><td>Texto da capa. Topo livre de 250 px e rodapé de 340 px para o adesivo de link.</td></tr>
+    <tr><td>Reels</td><td>1080 × 1920</td><td>Só texto animado, de 3 a 10 cenas, cada uma de 2,5 a 12 s. Abre pelo assunto e fecha com o endereço. Texto mínimo de 52 px. Logo só no encerramento.</td></tr>
+    <tr><td>LinkedIn</td><td>mesmos slides do carrossel</td><td>Texto próprio, com o link do post no fim. Assina como Fábio Rugemtugem.</td></tr>
+    <tr><td>Foto de perfil</td><td>quadrada</td><td>Logo sobre branco, com folga para o corte circular. Igual em todas as redes.</td></tr>
+    <tr><td>Site</td><td>claro e escuro</td><td>Fundo papel ou noite, um botão laranja por tela, texto alinhado à esquerda.</td></tr>
+    <tr><td>Proposta e documento</td><td>A4</td><td>Papel branco, tinta, títulos em vinho, logo no topo à esquerda. Laranja só em um destaque por página.</td></tr>
+  </table></div>
+</section>
+
+<section id="som">
+  <span class="rotulo">9. Som e movimento</span>
+  <h2>Calmo, sem batida de festa</h2>
+  <p class="intro">A música fica atrás do texto. Ela dá ritmo de leitura e some no fim. Nada de house de verão, pop tropical ou trilha épica.</p>
+  <div class="rolavel"><table>
+    <tr><th>Trilha</th><th>Caráter</th><th>Combina com</th></tr>
+    <tr><td><b>Digital Clouds</b> · Alejandro Magaña</td><td>Eletrônica calma</td><td>Dicas de IA em geral</td></tr>
+    <tr><td><b>Curiosity</b> · Diego Nava</td><td>Leve e curiosa</td><td>Vídeo que abre com pergunta, passo a passo</td></tr>
+    <tr><td><b>Close Up</b> · Michael Ramir C.</td><td>Sóbria, corporativa</td><td>Para empresas: processo, integração, CRM</td></tr>
+    <tr><td><b>Infinity</b> · Arulo</td><td>Calma e espaçosa</td><td>Alerta e cuidado com dados</td></tr>
+    <tr><td><b>Lo-Fi 04</b> · Lily J</td><td>Batida lo-fi</td><td>Bastidor e dica rápida</td></tr>
+  </table></div>
+  <ul>
+    <li>Todas do Mixkit, licença gratuita para vídeo em rede social, sem atribuição. Detalhes em <code>site/.dados/trilhas/LICENCAS.txt</code>.</li>
+    <li>Volume abaixo do que parece certo: o vídeo é para ser lido. Fim com fade.</li>
+    <li><b>Movimento:</b> entrada curta (cerca de meio segundo), itens de lista um depois do outro, nenhum efeito de tremor, zoom rápido ou transição chamativa.</li>
+    <li>No site, respeite <code>prefers-reduced-motion</code>.</li>
+  </ul>
+</section>
+
+<section id="tokens">
+  <span class="rotulo">10. Tokens para copiar</span>
+  <h2>CSS pronto</h2>
+<pre><code>:root {
+  --primary-color: #992A2B;    /* vinho */
+  --secondary-color: #EE6936;  /* laranja: só ação */
+  --accent-color: #ff6b6b;
+  --text-primary: #2d3748;
+  --text-secondary: #4a5568;
+  --bg-primary: #ffffff;
+  --bg-secondary: #f7fafc;
+  --border-color: #e2e8f0;
+}
+.dark {
+  --primary-color: #ff6b6b;
+  --secondary-color: #ffa94d;
+  --text-primary: #f7fafc;
+  --text-secondary: #e2e8f0;
+  --bg-primary: #1a202c;
+  --bg-secondary: #2d3748;
+  --border-color: #4a5568;
+}
+/* Peças de rede social (sempre escuras) */
+fundo #1a202c · painel #2d3748 · linha #4a5568
+texto #f7fafc · apoio #cbd5e0
+vinho #992A2B · laranja #EE6936 · destaque de texto #ff8a5b
+font-family: "Inter", system-ui, -apple-system, sans-serif;  /* 400, 600, 800 */
+font-family: "Fira Code", ui-monospace, Menlo, monospace;    /* código */</code></pre>
+  <p>Onde isso mora no código: <code>site/app/globals.css</code> (site), <code>site/lib/social/slide.tsx</code> (carrossel, story), <code>site/app/blog/capa/[slug]/route.tsx</code> (miniatura) e <code>site/lib/reels/motor.js</code> (Reels). Se mudar uma cor, mude nos quatro e neste guia.</p>
+</section>
+
+<section id="checagem">
+  <span class="rotulo">11. Antes de publicar</span>
+  <h2>Onze conferências</h2>
+  <ul class="lista-checagem">
+    <li>A peça fala de um assunto só e abre por ele.</li>
+    <li>Dá para entender sem conhecer a Rugemtugem.</li>
+    <li>Todo número tem fonte. Não há preço.</li>
+    <li>Nenhum travessão e nenhuma frase "não é X, é Y".</li>
+    <li>Empresa é Rugemtugem, pessoa é Fábio Rugemtugem.</li>
+    <li>Nada promete resultado nem atribui resultado de cliente.</li>
+    <li>Um trecho em laranja por título e um botão laranja por tela.</li>
+    <li>Texto em Inter, nos pesos 400, 600 ou 800, acima do tamanho mínimo.</li>
+    <li>Nada importante dentro das zonas livres do story e do Reels.</li>
+    <li>O convite final é o diagnóstico gratuito de 30 minutos.</li>
+    <li>O Fábio viu em localhost e aprovou.</li>
+  </ul>
+</section>
+
+<footer>Rugemtugem · guia de marca, versão 1, 28/11/2026. Arquivo local de referência: <code>rugemtugem/marca/guia-de-marca.html</code>. A skill que aplica este guia fica em <code>rugemtugem/marca/skill/rugemtugem-marca/</code>.</footer>
+
+</main>
+</div>
+<script>
+(function () {
+  var raiz = document.documentElement;
+  try { var salvo = localStorage.getItem("rt-guia-tema"); if (salvo) raiz.setAttribute("data-tema", salvo); } catch (e) {}
+  document.querySelectorAll(".tema button").forEach(function (b) {
+    b.addEventListener("click", function () {
+      var t = b.getAttribute("data-tema");
+      if (t) raiz.setAttribute("data-tema", t); else raiz.removeAttribute("data-tema");
+      try { if (t) localStorage.setItem("rt-guia-tema", t); else localStorage.removeItem("rt-guia-tema"); } catch (e) {}
+    });
+  });
+})();
+</script>
+</body>
+</html>
