@@ -15,7 +15,7 @@ export async function GET() {
     } catch {
         return new Response("Não encontrado", { status: 404 });
     }
-    html = html.replaceAll("assets/inter-latin-", "/fontes/inter-latin-").replaceAll("assets/logo-nova.png", "/images/logo-nova.png");
+    html = html.replaceAll("assets/inter-latin-", "/fontes/inter-latin-").replaceAll("assets/logo-nova.png", "/images/logo-nova.png").replaceAll("assets/capa-", "/images/marca/capa-");
     return new Response(html, {
         headers: { "Content-Type": "text/html; charset=utf-8", "X-Robots-Tag": "noindex, nofollow, noarchive", "Cache-Control": "private, no-store" },
     });
